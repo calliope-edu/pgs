@@ -1,0 +1,23 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" = "Mit dem Lautsprecher kannst du Töne wiedergeben lassen. Das Mikrofon kann als Sensor die Lautstärke in der Umgebung messen. Melodien bestehen aus mehreren Tönen. Spiele den ersten ab.
+
+![…](trenner_small)
+
+**Ziel:** Du gibst den Ton an.
+Lass dir einen Ton aus der Tonleiter wiedergeben.
+Benutze dafür den Notennamen.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `miniSound` um den Ton zu ändern.
+2. Nutze die anderen Möglichkeiten in der Vorschlag-Leiste, um einen Ton auszuwählen.
+3. Tippe auf `Meinen Code ausführen`.
+
+![...](idee)
+
+**Idee:** Schließ dich in einem Team zusammen und komponiere eine Melodie.
+
+![sound.on](sound.png)
+";

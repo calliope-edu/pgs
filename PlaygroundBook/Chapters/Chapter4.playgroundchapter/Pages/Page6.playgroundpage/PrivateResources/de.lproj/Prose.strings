@@ -1,0 +1,28 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="In diesem Projekt arbeitest du mit dem Temperatursensor. Der Temperatursensor misst die Umgebungstemperatur.
+
+![...](trenner_small)
+
+**Ziel:** Bau dir dein eigenes Thermometer. Du entscheidest, ab wann es sich warm anfühlt und ab wann kalt.
+
+**So funktioniert's:** In der Funktion `forever` wird die gemessene Temperatur in die Variable **temperature** geschrieben. Jetzt wird nacheinander geprüft, ob eine der beiden Bedingungen zutrifft. Treffen beide Bedingungen nicht zu, werden die Befehle aus dem `else` Abschnitt ausgeführt.
+
+![light](chapter_4_5)
+
+1. Definiere  einen Wert, ab wann du es als kalt empfindest.
+2. Wähle dann eine passende Farbe für die RGB-LED aus der Vorlagen-Leiste aus.
+3. Jetzt wähle ein passendes Symbol für die kalten Temperaturen.
+4. Führe die vorherigen drei Schritte  für die nächste Stufe durch.
+5. Als letztes bestimmst du, was angezeigt werden soll, wenn die Temperatur über beiden Werten liegt.
+2. Tippe auf `Meinen Code ausführen`.
+
+* callout(Tipp):
+Die niedrigste Temperatur muss als erstes abgefragt werden.
+
+![...](idee)
+
+**Idee:** Du bestimmst, in welcher Umgebung du dein Thermometer benötigst. Wann ist es für dich richtig heiß oder richtig kalt?
+";
+

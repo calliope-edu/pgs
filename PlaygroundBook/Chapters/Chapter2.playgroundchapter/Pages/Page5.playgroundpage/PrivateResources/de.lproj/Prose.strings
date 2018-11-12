@@ -1,0 +1,24 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Mit dem kombinierten Lage- und Bewegungssensor mit Kompass kannst du feststellen, ob der Calliope mini bewegt wird, in welche Richtung er gehalten wird und wie er gedreht ist. Du kannst aber auch feststellen, ob der Calliope mini geschüttelt wird.
+
+![...](trenner_small)
+
+**Ziel:** Wird der Calliope mini geschüttelt, erscheint das Wort `shake` auf der LED-Anzeige.
+
+![onShake](chapter_2_shake)
+
+Durch die Funktion `onShake` wird der Lagesensor angesprochen. Frage das Ereignis ab, indem du einen Text auf der LED-Anzeige erscheinen lässt.
+
+* callout(Tipp):
+Der Befehl zwischen den geschweiften Klammern wird ausgeführt, sobald der Calliope mini geschüttelt wird.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `string`, um einen individuellen Text einzugeben.
+2. Nutze die Tastatur und gib einen Text ein.
+3. Tippe auf `Meinen Code ausführen`.
+
+";
+

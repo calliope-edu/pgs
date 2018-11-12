@@ -1,0 +1,48 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="It's time to play the piano! Each touch pin is assigned a tone and a color. When the touch pin is touched, the respective sound is played and the corresponding color is displayed. D I S C O!
+
+![...](trenner_small)
+
+**Goal:** Assign a tone and a color to each touch pin and off you go!
+
+In the `forever` function, three parameters are assigned to each touch pin: 
+the pin number, a note and a color. 
+- parameter `pin`: number
+- parameter `note`: miniSound
+- parameter `color`: miniColor
+
+The function `note` is called again and again in sequence. This function checks whether the respective touch pin is touched or not.
+
+![pianio](chapter_4_2)
+
+Take a closer look at the two functions:
+
+function `forever`
+  - Calling the `note` function, passes the parameters for Touch Pin 0.
+  - The `note` function checks whether `pin 0` is touched - `io.pin(pin).isPressed`.
+  - Now there are two possibilities: 
+	  - Condition is fulfilled = TRUE
+	  - Condition is not fulfilled = FALSE
+  - If the condition is `FALSE`, the `note` function is exited and the next call from the `forever` function is started - `pin 1`.
+  - If the condition is `TRUE` , the RGB LED is turned on and the tone is played.
+  As long as Touch `pin 0` is touched, the RGB LED lights up and the note is played. Only when `pin 0` is no longer touched, the next command is read and the sound and RGB LED are turned off.
+Then the `note` function is exited and the next call from the `forever` function is started - pin 1, pin 2, pin 3.
+- This is repeated infinitely often.
+
+Read the lines of code and try to understand each command.ie Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+Settings in the `forever` function.
+Assign a color and a note to each touch pin.
+
+1. Tap `miniSound` to select a note from the suggestion bar. 
+2. Press `miniColor` to select a color from the suggestion bar.
+3. Perform these steps for all touch pins
+4. Tap Run My Code.
+
+* callout(Tip):
+**Attention!**  You must touch the minus pin (-) with the other hand at the same time to close the circuit.
+
+";
+

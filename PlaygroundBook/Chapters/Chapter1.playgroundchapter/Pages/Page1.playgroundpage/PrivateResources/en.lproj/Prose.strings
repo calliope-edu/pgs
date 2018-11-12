@@ -1,0 +1,49 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs001" ="**Before you start:** To control your Calliope mini via this playground, it needs the latest firmware, which you can find on the [Calliope Website](https://calliope.cc/en/ble) or in the [Calliope App](https://itunes.apple.com/us/app/calliope-mini/id1309545545?mt=8).
+
+1. Press the **reset button** to restart the Calliope mini.
+
+![chapter_1_intro](chapter_1_pairing_a)
+
+2. As soon as the **1** appears use the **button B** to switch through the menu until the **5** is shown.
+
+![chapter_1_intro](chapter_1_intro_a)
+
+3. If the 5 is shown on the display, **shake** the Calliope mini.
+
+![chapter_1_intro](chapter_1_pairing_d)
+
+4. After shaking the Calliope mini, the individual **id pattern** appears.
+
+![chapter_1_intro](chapter_1_pairing_c)
+
+5. Connect your Calliope mini to the Swift Playground by **selecting** the pattern in the app. All you have to do is press the button at the top right and select the matching pattern.
+
+![chapter_1_intro](chapter_1_intro_b)
+
+![devider](trenner)
+
+**Your first code** - Use the LED display to show images, animations and texts on the **5x5 LED grid** of red LEDs. The LEDs can transmit light and measure light.
+
+![...](trenner_small)
+
+**Goal:** Let the letters dance.\
+Enter your name to run it on the LED display.
+
+Read the line of code and try to understand each command.
+
+1. Tap `String` to enter an individual text.
+2. Use the keyboard and enter your name.
+3. Tap Run My Code.
+
+* callout(Tip):
+Strings are always enclosed in quotation marks.
+
+![display.show.string](display_string)
+
+![...](idee)
+
+**Idea:** If you attach a hinge to your Calliope mini, you can easily program a door sign and hang it on your door handle - `Please don't disturb! I'm coding.`
+";

@@ -1,0 +1,32 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Play a round of rock, paper, scissors with your friend. 
+
+![...](trenner_small)
+
+**Goal:** Display the possible symbols one after the other on the LED display. Set the pause so that you have enough time to decide.
+Press button A to stop the display.
+
+![game](chapter_4_1_image)
+
+* callout(Tip):
+Set the rules of the game together.
+e.g.
+- Scissors beats paper
+- Stone beats scissors
+- Paper beats the stone
+
+Read the lines of code and try to understand each command.
+
+1. Set the tempo for the animation. Use the numeric keys to define the pause between symbols.
+2. Use the suggestion bar to select three different images.
+3. Tap Run My Code.
+
+Don't forget to set the rules!
+
+![...](idee)
+
+**Idea:** Think about what the winner gets or the loser has to do - let's go!
+";
+

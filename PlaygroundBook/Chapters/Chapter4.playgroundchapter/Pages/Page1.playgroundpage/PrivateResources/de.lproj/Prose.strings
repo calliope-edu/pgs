@@ -1,0 +1,28 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Jetzt wird der Lagesensor kombiniert mit der Ausgabe einer zufälligen Zahl und einem Ton.
+
+![...](trenner_small)
+
+**Ziel:** Programmiere einen Würfel mit Ton.
+Wenn der Calliope mini geschüttelt wird, wird per Zufall einen Zahl auf der LED-Anzeige dargestellt und eine Note abgespielt.
+
+![dice](chapter_4_proj_1)
+
+Durch die Funktion `onShake`, wird der Lagesensor angesprochen. Sobald der Calliope mini geschüttelt wird, wird in die Variable **r** ein zufällige Zahl aus dem von dir definierten Zahlenbereich geschrieben, die ausgewählte Note abgespielt und der Zahlenwert aus der Variable r wird auf der LED-Anzeige ausgegeben.
+
+* callout(Tipp):
+Beachte, dass die 0 mitgezählt wird! 
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Nutze den Zahlen-Block, um den Zahlenbereich zu definieren.
+2. Definieren einen Ton, indem du eine Note aus der Vorlagen-Leiste auswählst.
+3. Tippe auf `Meinen Code ausführen`.
+
+**Idee:** Nutze den Würfel und baue deinen eigenen Parcours. Vorher musst du mit deinen Freunden, die einzelnen Übungen und Spielregeln festlegen.
+Z.B. `1` bedeutet 3x im Kreis drehen, `2` bedeutet 2 Liegestütz machen und so weiter. Denkt euch etwas lustiges aus!
+
+";
+

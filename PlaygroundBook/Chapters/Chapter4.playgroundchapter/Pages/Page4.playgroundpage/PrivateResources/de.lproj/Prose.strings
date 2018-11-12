@@ -1,0 +1,30 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="In diesem Projekt arbeitest du mit dem Mikrofon. Du nutzt das Mikrofon als Lautstärkesensor, indem es die Umgebungslautstärke misst.
+
+![...](trenner_small)
+
+**Ziel:** Akustikschalter\
+Die RGB-LED lässt sich durch Klatschen ein und aus schalten! Klatsch mal in die Hände.
+
+**Das steckt dahinter:** Die Variable `threshold` heißt auf deutsch Schwellenwert und speichert den definierten Schwellenwert. Der Schwellenwert beschreibt die bestimmte Grenze des Umgebungsgeräuschs, bei der die RGB-LED an- bzw. aus geschaltet werden soll. Dieser Wert wird mit dem Umgebungsgeräusch verglichen. Ist der gemessene Wert identisch oder sogar größer, wechselt die RGB-LED ihren Zustand.
+  - Ist sie aus, geht sie an.
+
+![light](chapter_4_3)
+
+  - Ist sie an, geht sie aus.  
+
+![light](chapter_4_4_b)
+
+Ist der gemessene Wert kleiner, passiert gar nichts.
+
+1. Passe den Schwellenwert als erstes deiner Umgebung an. Probiere aus, welche Werte gut funktionieren. Starte mit einer 2.
+2. Tippe auf `color` um aus der Vorschlag-Leiste eine Farbe auszuwählen.
+3. Tippe auf `Meinen Code ausführen`.
+
+![...](idee)
+
+**Idee:** Bau dir eine richtigen Schalter und nutze Gummiband und den Calliope mini Karton.
+";
+

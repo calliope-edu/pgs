@@ -1,0 +1,25 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Ein dauerhaftes Ereignis sorgt dafür, dass alle Befehle immer wieder ausgeführt werden. Die Funktion `Forever` (dauerhaft) wird immer wieder von oben nach unten wiederholt.
+
+![…](trenner_small)
+
+**Ziel:** Lass die RGB-LED in einer Farbe aufleuchten und stelle den Pausenwert individuell ein. Schalte danach die RGB-LED wieder aus und warte einen Moment, bis sie wieder angeschaltet werden soll. Diese Aktionen wird unendlich oft ausgeführt. Es entsteht ein ständiges Blinken.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `miniColor`, um die Farbe einzustellen.
+2. Nutze die anderen Farben in der Vorschlag-Leiste, um die Farbe zu ändern.
+3. Passe die Pausendauer individuell an.
+4. Schalte die RGB-LED aus.
+5. Passe die Pausendauer individuell an. Bis die Funktion wiederholt werden soll. 
+6. Tippe auf `Meinen Code ausführen`.
+
+![The real head of the household?](chapter_3_forever)
+
+![...](idee)
+
+**Idee:** Du kannst einen Blinker programmieren. Bestimme die Frequenz und die Farbe in der deine RGB-LED blinken soll.
+
+";

@@ -1,0 +1,27 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"commands.ifelse" ="Conditions are queried and are often linked to branches. If a condition is fulfilled, the assigned statements are executed. Otherwise they are ignored and other statements are executed.
+
+![…](trenner_small)
+
+**Goal:** Shake your Calliope mini and get a random number. If a `6` is rolled, run a winning text over the LED display. For all other numbers choose a different text.
+
+When the Calliope mini is shaken, a number from the defined number range is randomly `r` output on the LED display.
+
+![…](chapter_3_condition)
+
+Read the lines of code and try to understand each command.
+
+1. Use the number block to define the number range.
+2. Use the number block to define the number you want the condition to be true.
+3. Tap `String` to enter the individual text.
+4. Tap Run My Code.
+
+Don't forget to shake it :)
+
+![...](idee)
+
+**Idea:** Magic Oracle
+Why don't you try building a magic oracle? Define two answers, ask a question that can be answered `yes` or `no` and shake the Calliope mini.
+";

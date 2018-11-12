@@ -1,0 +1,18 @@
+/* Localizable Strings */
+
+"result.upload.failed" = "Programm konnte nicht übertragen werden.";
+"result.upload.missing" = "Das Programm konnte nicht übertragen werden. Calliope mini nicht gefunden.";
+"result.upload.success" = "Das Programm wurde erfolgreich übertragen.";
+
+"alert.notconnected.title" = "Dein Calliope mini ist nicht verbunden.";
+"alert.notconnected.button" = "Hmmm, OK";
+"ble.name.unknown" = "Unbekannt";
+
+"page.hint1" = "Tip 1";
+"page.hint2" = "Tip 2";
+"page.hint3" = "Tip 3";
+"page.solution" = "Die Lösung.";
+"page.success" = "### Super gemacht! \nSo lösen das ProgrammiererInnen. (@next).";
+
+"page.hint.time" = "Die Pause ist zu klein";
+"page.solution.time" = "Der Wert sollte über 100 sein.";

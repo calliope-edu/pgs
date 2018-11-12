@@ -1,0 +1,19 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Buttons A and B are inputs through which Calliope mini executes the programmed commands. Buttons A and B work like the keys on your keyboard. 
+
+![...](trenner_small)
+
+**Goal:** With the `onButtonA` function, you can query that **button A** is released directly. Confirm the key event by displaying an arrow to the left on the LED display. The command between the braces is executed as soon as button A is released. 
+
+![ ButtonA](chapter_2_A)
+
+**Functions** bundle statements. They can be called from different places in a program. The instructions of the `onButtonA` function are executed one after the other after pressing button A. The content of the function is always in braces {}.
+
+Read the lines of code and try to understand each command.
+
+1. Tap `miniImage` to change the image.
+2. Select the `arrowLeft` from the suggestion bar to change the image.
+3. Tap Run My Code.
+";

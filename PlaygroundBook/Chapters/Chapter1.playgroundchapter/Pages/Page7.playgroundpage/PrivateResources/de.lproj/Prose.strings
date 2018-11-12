@@ -1,0 +1,26 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" = "Du hast jetzt unterschiedlichste Ausgabemöglichkeiten kennengelernt. Jetzt kannst du sie miteinander kombinieren.
+
+![…](trenner_small)
+
+**Ziel:** Individualisiere deinen Calliope mini. 
+Spiele deine Medlodie kombiniert mit deinen Lieblingsfarben, gib ihm einen Namen und setze ein Zeichen.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `miniSound` um den ersten Ton zu bestimmen..
+2. Tippe auf `miniColor` um die erste Farbe zu bestimmen
+3. Führe diese Schritte ebenfalls für die beiden weiteren Töne und Farben aus.
+4. Tippe auf `string` und nutze die Tastatur, um einen Namen einzugeben.
+5. Tippe auf `miniImage` und wähle dein Zeichen aus der Vorschlag-Leiste aus.
+3. Tippe auf `Meinen Code ausführen`.
+
+![...](idee)
+
+**Idee:** Bilde ein Team und erstelle eine kleine Präsentation.
+
+![Output.combination](chapter_1_combi)
+";
+

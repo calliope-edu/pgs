@@ -1,0 +1,19 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="You have already got to know the A button. Now it's the B button!
+
+![...](trenner_small)
+
+**Goal:** When button B is released, a right arrow appears on the LED display.
+
+Using the `onButtonB` function, you can query releasing **button B**. Confirm the key event by displaying an arrow to the right on the LED display. 
+
+![ ButtonB](chapter_2_B)
+
+Read the lines of code and try to understand each command.
+
+1. Tap `miniImage` to select an image.
+2. Select the `arrowRight` arrow from the suggestion bar to change the image.
+3. Tap Run My Code.
+";

@@ -1,0 +1,28 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="In this project you work with the temperature sensor. The temperature sensor measures the ambient temperature..
+
+![...](trenner_small)
+
+**Goal:** Build your own thermometer. You decide when it feels warm and when it feels cold.
+
+**This is how it works:** In the `forever` function, the measured **temperature** is written to the temperature variable. Now the system checks one after the other whether one of the two conditions are TRUE. If both conditions are not fulfilled, the commands from the `else` section are executed.
+
+![light](chapter_4_5)
+
+1. Define a value from when you feel it is cold.
+2. Then select a suitable color for the RGB LED from the suggestion bar.
+3. Now choose a suitable symbol for the cold temperatur
+4. Perform the previous three steps for the next temperature level.
+5. Finally, you determine what should be displayed if the temperature is above both values.
+2. Tap Run My Code.
+
+* callout(Tip):
+The lowest temperature must be queried first.
+
+![...](idee)
+
+**Idea:** You decide in which environment you need your thermometer. When is it really hot or really cold for you?
+";
+

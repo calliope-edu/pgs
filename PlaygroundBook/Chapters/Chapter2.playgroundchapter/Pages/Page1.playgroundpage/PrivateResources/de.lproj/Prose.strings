@@ -1,0 +1,19 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Die Tasten A und B sind Eingaben, durch die der Calliope mini die jeweiligen programmierten Befehle ausführt. Die Tasten A und B funktionieren wie die Tasten auf deiner Tastatur. 
+
+![...](trenner_small)
+
+**Ziel:** Durch die  Funktion `onButtonA` kannst du das Drücken der **Taste A** abfragen. Bestätige das Tastenereignis, indem du einen Pfeil nach links auf der LED-Anzeige erscheinen lässt. Der Befehl zwischen den geschweiften Klammern, wird ausgeführt, sobald die Taste A gedrückt wurde.
+
+![ ButtonA](chapter_2_A)
+
+**Funktionen** bündeln Anweisungen. Sie können von unterschiedlichen Stellen eines Programms aufgerufen werden. Die Anweisungen der Funktion `onButtonA` werden hintereinander nach dem Drücken der Taste A ausgeführt. Der Inhalt der Funktion steht immer in geschweiften Klammern {}.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `miniImage` um das Bild zu ändern.
+2. Wähle den `arrow_left` Pfeil aus der  Vorschlag-Leiste, um das Bild zu ändern.
+3. Tippe auf `Meinen Code ausführen`.
+";

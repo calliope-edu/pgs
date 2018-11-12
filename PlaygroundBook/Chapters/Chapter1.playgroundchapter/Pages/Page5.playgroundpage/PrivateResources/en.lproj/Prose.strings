@@ -1,0 +1,22 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" = "The RGB LED can light up in various colors. The different colors are mixed from **red, green** and **blue**.
+
+![rbg.on](rgb.png)
+
+![…](trenner_small)
+
+**Goal:** Which colour could stand for `good mood` and which for `boredom`?
+Choose a color and let the RGB LED light up.
+
+1. Tap `miniColor` to change the color.
+2. Use the other options in the suggestion bar to select a color.
+3. Tap Run My Code.
+
+![...](idee)
+
+**Idea:** Think about the meaning of the different colors. For example, green often means `OK` or `correct`.
+
+![rbg.on](rgb2.png)
+";

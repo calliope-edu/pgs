@@ -1,0 +1,28 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="A number is randomly selected from a range of numbers you specify. Note, however, that the 0 is counted!
+
+![…](trenner_small)
+
+**Goal:** Program a randomly generated dice.\
+
+The variable `r` stands for random.
+When the Calliope mini is shaken, a number from a defined number range is randomly displayed on the LED display.
+
+![chapter_3](chapter_3_random)
+
+Read the lines of code and try to understand each command.
+
+1. Use the number block to define the number range.
+2. Tap Run My Code.
+
+Don't forget to shake it :)
+
+![...](idee)
+
+**Idea:** Use the dice and build your own course. Beforehand you and your friends have to determine the individual exercises and rules of the game.
+For example, 1 means 10 jumps on one leg, 2 means 5 squats and so on. 
+Think of something funny or athletically!
+
+";

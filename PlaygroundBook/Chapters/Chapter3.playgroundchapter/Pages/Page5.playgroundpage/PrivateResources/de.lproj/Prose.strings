@@ -1,0 +1,22 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Eine Variable ist ein Platzhalter für eine Zahl, eine Zeichenkette, eine Farbe oder ein Bild. Das bedeutet, dass die Variable nicht während des gesamten Programms den gleichen Wert besitzen muss. Das Programm hat so die Möglichkeit einen Wert abzulegen und wieder aufzunehmen.
+
+![…](trenner_small)
+
+**Ziel:** Lass deinen Namen und dein Alter über die LED-Anzeige laufen.
+
+Variablen brauchen Namen, damit sie angesprochen werden können. Du kannst sie dir wie eine beschriftete Kiste vorstellen, in die immer etwas anderes gelegt werden kann. Über das Aufrufen des Variablen-Namen bekommst du deren Inhalt angezeigt.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Die erste Variable heißt `name` und verlangt den Datentyp `string`. Hier ist der richtige Ort für deinen Namen.
+	Tippe auf `string` und gib über die Tastatur deinen Namen ein.
+2. Die zweite Variable heißt `age` und verlangt den Datentyp `number`. Hier ist der richtige Ort für dein Alter
+	Tippe auf `number` und gib über dein Alter ein.
+3. Tippe auf `Meinen Code ausführen`.
+
+![The real head of the household?](chapter_3_variable)
+
+";

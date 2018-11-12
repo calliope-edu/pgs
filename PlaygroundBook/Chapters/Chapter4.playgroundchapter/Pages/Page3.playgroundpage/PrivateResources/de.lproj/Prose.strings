@@ -1,0 +1,51 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Jetzt wird Klavier gespielt! Jedem Touch-Pin werden ein Ton und eine Farbe zugeordnet. Wird der Touch-Pin berührt, wird der jeweilige Ton abgespielt und die dazugehörige Farbe angezeigt. D I S C O!
+
+![...](trenner_small)
+
+**Ziel:** Weise jedem Touch-Pin einen Ton und eine Farbe zu und los geht’s!
+
+In der Funktion `forever` werden jedem Touch-Pin jeweils drei Parameter zugeordnet, die Pin-Nummer, eine Note und eine Farbe.
+
+  - Parameter `pin`: Pin-Nummer
+  - Parameter `note`: Note
+  - Parameter `color`: Farbe
+
+Der Reihe nach wird immer wieder die Funktion `note` aufgerufen. In der Funktion `note` wird geprüft, ob der jeweilige Touch-Pin berührt wird oder nicht.
+
+![pianio](chapter_4_2)
+
+Schau dir die beiden Funktionen genauer an:
+Funktion `forever`
+  - Aufruf Funktion `note` übergibt die Parameter für den Touch-Pin 0.
+
+  - Funktion `note` überprüft die **Bedingung**, ob Pin 0 berührt wird.
+`io.pin(pin).isPressed`
+  - Jetzt gibt es zwei Möglichkeiten: 
+	  - Bedingung ist erfüllt  = TRUE
+	  - Bedingung ist nicht erfüllt  = FALSE
+  - Ist die Bedingung nicht erfüllt, wird die Funktion `note` verlassen und der Nächste Aufruf aus der Funktion `forever` wird gestartet - Pin 1.
+  - Ist die Bedingung erfüllt, wird die RGB-Led angemacht und die Note abgespielt.
+  - Solange der Touch-Pin 0 berührt ist, leuchtet die RGB LED und die Note wird abgespielt.
+  - Erst, wenn der Pin 0 nicht mehr berührt wird, wird der nächte Befehl gelesen und der Ton und die RGB-Led werden ausgemacht.
+  - Danach wird die Funktion `note` verlassen und der Nächste Aufruf aus der Funktion `forever` wird gestartet - Pin 1, Pin 2, Pin 3.
+
+Das wird unendlich oft wiederholt.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+Einstellungen in der Funktion `forever`.
+Weise jedem Touch-Pin eine Farbe und eine Note zu.
+
+1. Tippe auf `miniSound`, um aus der Vorschlag-Leiste eine Note auszuwählen.
+2. Tippe auf `miniColor`, um aus der Vorschlag-Leiste eine Farbe auszuwählen.
+3. Führe diese Schritte für alle Touch-Pins durch.
+4. Tippe auf `Meinen Code ausführen`.
+
+* callout(Tipp):
+**Achtung!** Du musst hierbei gleichzeitig mit der anderen Hand den Minus-Pin (–) berühren, damit der Stromkreis geschlossen ist.
+
+";
+

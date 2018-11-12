@@ -1,0 +1,26 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" =" In this project you work with the light sensor. The light sensor measures the ambient light intensity.
+
+![...](trenner_small)
+
+**Goal:** The Light Theremin turns light into music.
+The tones are controlled by the brightness measured by the light sensor. When it gets dark, the tones get deeper. When it gets light, the tones become brighter.
+Just give it a try!
+
+* callout(Tip):
+**Attention!** The small LEDs on the LED display not only light up, they also measure ambient light. So you can simply cover it with your hand and influence the measured light intensity. 
+
+**This is how it works:** In the `forever` function, the ambient light intensity is constantly measured and the calculated value is written to the `frequency` variable. This value determines the sound that is played.
+
+![sound](chapter_4_4)
+
+1. Use the numeric keypad to define the audio frequency.
+2. Tap Run My Code.
+
+![...](idee)
+
+**Idea:** Why don't you try and figure out how to reproduce sounds? Maybe you can even compose a light melody?
+";
+

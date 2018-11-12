@@ -1,0 +1,19 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Die Start-Funktion wird aufgerufen, sobald der Calliope mini gestartet wird. Die Start-Funktion beinhaltet alle Befehle, die einmalig beim Start deiner Anwendung ausgeführt werden sollen. Die Anweisungen, die in der Start-Funktion stehen, werden nacheinander ausgeführt - allerdings ganz schnell.
+
+![…](trenner_small)
+
+**Ziel:** Der Befehl `display.show(text: )` lässt das Wort `Hallo` über die LED-Anzeige laufen.
+
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `string` um einen beliebigen Text Anzeigen zu lassen.
+2. Nutze die Tastatur und gib einen Text ein.
+4. Tippe auf `Meinen Code ausführen`.
+
+![The real head of the household?](chapter_3_play@1x)
+
+";

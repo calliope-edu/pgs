@@ -1,0 +1,18 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="You have now been intruduced to the different input options. You can combine them with the different output options.
+
+![...](trenner_small)
+
+**Goal:** Now you can code your own intro for Calliope mini. Explain the different input and output options!
+
+You can make the RGB Led light up in different colors and display individual symbols. 
+
+Read the lines of code and try to understand each command.
+
+1. Combine a color with an individual symbol for each key event.  
+2. Shake your Calliope mini and make a sound.
+3. Tap Run My Code.
+
+";

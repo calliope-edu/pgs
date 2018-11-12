@@ -1,0 +1,25 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="In diesem Projekt arbeitest du mit dem Lichtsensor. Der Lichtsensor misst die Umgebungslichtstärke. Die kleinen LEDs der LED-Anzeige leuchten nicht nur, sondern sie messen auch das Umgebungslicht.
+
+![...](trenner_small)
+
+**Ziel:** Durch die Helligkeit, die der Lichtsensor misst, werden die Töne gesteuert. Wird es dunkel, werden die Töne tiefer. Wird es hell, werden die Töne heller.
+Probiere es einfach mal aus!
+
+* callout(Tipp):
+**Achtung!** Die kleinen LED der LED-Anzeige leuchten nicht nur, sondern sie messen auch das Umgebungslicht. Du kannst die LEDs also ganz einfach mit deiner Hand abdecken und so die gemessene Lichtstärke beeinflussen.
+
+**So funktioniert's:** In der Funktion `forever` wird ständig die Umgebungslichtstärke gemessen und der errechnete Wert in die Variable `frequency` geschrieben. Dieser Wert bestimmt den Ton, der abgespielt wird.
+
+![sound](chapter_4_4)
+
+1. Nutze den Zahlen-Block, um die Tonfrequenz zu definieren.
+2. Tippe auf `Meinen Code ausführen`.
+
+![...](idee)
+
+**Idee:** Versuch doch mal herauszufinden, wie du Töne reproduzieren kannst. Vielleicht schaffst du es ja sogar eine Lichtmelodie zu komponieren?
+";
+

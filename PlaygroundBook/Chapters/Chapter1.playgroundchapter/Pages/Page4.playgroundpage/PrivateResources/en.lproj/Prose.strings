@@ -1,0 +1,23 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" = "In the code you can recognize the 5x5 grid.
+Each 1 stands for a lit LED. Each 0 stands for a switched off LED.
+
+![...](trenner_small)
+
+**Goal:** A grid of ones and zeros - Use the 5x5 grid and display your own picture on the LED display. 
+
+![display.show.grid](display_grid)
+
+Read the lines of code and try to understand each command.
+
+1. Make a sketch of your symbol on paper or in notes on the iPad.
+2. Tap on a **1** and use the numeric keypad to switch the LED **on (1)** or **off (0)**. 
+3. Tap Run My Code.
+
+![...](idee)
+
+**Idea:** Which symbols can you display with 25 LEDs?
+Create your own emoji set.
+";

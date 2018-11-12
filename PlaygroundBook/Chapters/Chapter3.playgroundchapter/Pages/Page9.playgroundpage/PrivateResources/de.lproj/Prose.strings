@@ -1,0 +1,37 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Für das Farben-Merkspiel musst du viele Eingaben, Ausgaben und Steuerungsbefehle kombinieren.
+
+![…](trenner_small)
+
+**Ziel:** Belege jeden Touch-Pin mit einer Farbe. Der Calliope mini spielt drei der Farben in einer zufälligen Reihenfolge ab. Hast du sie dir gemerkt?
+
+Jetzt bist du dran. Berühre die Touch-Pins, um die drei Farben in der richtigen Reihenfolge anzuzeigen.
+Ist die Reihenfolge richtig, wirst du belohnt. Hast du dich vertan, versuche es in der nächsten Runde erneut.
+
+Drücke den Button A, um die Runde zu starten.
+Merke dir die Reihenfolge der angezeigten Farben.
+Berühre die Touch Pins in der richtigen Reihenfolge.
+
+![The real head of the household?](chapter_3_combi_a)
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Weise jedem Touch-Pin eine Farbe zu, indem du in der showColor Funktion vier unterschiedliche Farben wählst.
+2. Nutze die Vorlagen-Leiste, um eine Farbe auszuwählen.
+3. Bestimme ein Symbol für richtig.
+4. Nutze die Vorlagen-Leiste, um ein passendes Symbol auszuwählen.
+5. Bestimme ein Symbol für falsch.
+6. Nutze die Vorlagen-Leiste um ein passendes Symbol auszuwählen.
+7. Tippe auf `Meinen Code ausführen`.
+
+* callout(Tipp):
+Achtung! Du musst gleichzeitig mit der anderen Hand den Minus-Pin (–) berühren, damit der Stromkreis geschlossen ist.
+
+
+![...](idee)
+
+**Idee:** Du kannst farbige Knetbälle mit den Touch Pins verbinden. So ist es leichter, sich die Farbverteilung zu merken.
+
+";

@@ -1,0 +1,19 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Die Tasten A und B hast du bereits kennengelernt. Eine weitere Option ist es, beide Tasten **gleichzeitig** zu drücken. Das ist die dritte Eingabemöglichkeit der beiden Tasten.
+
+![...](trenner_small)
+
+**Ziel:** Werden die Tasten A  und B gleichzeitig gedrückt,  erscheint ein Pfeil nach links und rechts auf der LED-Anzeige.
+
+Die Funktion `onButtonAB`, beschreibt das Tastenereignis, wenn beide Tasten gleichzeitig gedrückt werden. Bestätige das Tastenereignis, indem du einen Pfeil nach links und rechts auf der LED-Anzeige erscheinen lässt.
+
+![ ButtonAB](chapter_2_AB)
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `miniImage` um das Bild zu ändern.
+2. Wähle den `arrow_left_right` Pfeil aus der  Vorschlag-Leiste, um das Bild zu ändern.
+3. Tippe auf `Meinen Code ausführen`.
+";

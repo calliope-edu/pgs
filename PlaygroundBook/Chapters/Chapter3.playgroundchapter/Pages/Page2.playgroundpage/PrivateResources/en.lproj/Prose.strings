@@ -1,0 +1,19 @@
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="The `sleep()` statement pauses your Calliope mini for a moment. Pauses stop the execution at the point where they were set.
+
+![…](trenner_small)
+
+**Goal:** Make your heart blink with the help of pauses.
+You can set the duration.
+
+Read the lines of code and try to understand each command.
+
+1. Press `number` to set the duration of the pause. 
+2. Use the numeric keypad to change the pause value.
+3. Tap Run My Code
+
+* callout(Tip):
+The unit of the pause is specified in ms, ms stands for milliseconds. 1,000 milliseconds is one second.
+
+![chapter_3](chapter_3_sleep@1x)
+
+";

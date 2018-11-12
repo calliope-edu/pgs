@@ -1,0 +1,18 @@
+/* Localizable Strings */
+
+"result.upload.failed" = "Program upload failed.";
+"result.upload.missing" = "Program upload failed. Calliope mini is missing.";
+"result.upload.success" = "Program uploaded.";
+
+"alert.notconnected.title" = "Your Calliope mini is not connected.";
+"alert.notconnected.button" = "Hmmm, OK";
+"ble.name.unknown" = "Unknown";
+
+"page.hint1" = "Hint 1";
+"page.hint2" = "Hint 2";
+"page.hint3" = "Hint 3";
+"page.solution" = "The Solution.";
+"page.success" = "### Well done! \nThe way you’re solving problems here is exactly what coders do. (@next).";
+
+"page.hint.time" = "The delay is too short";
+"page.solution.time" = "The value should exceed 100.";

@@ -1,0 +1,49 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs001" ="Um deinen Calliope mini über diesen Playground steuern zu können, benötigt er die neueste Firmware, diese findest du auf der [Calliope Webseite](https://calliope.cc/ble) oder in der [Calliope mini App](https://itunes.apple.com/us/app/calliope-mini/id1309545545?mt=8).
+
+Drücke die **reset Taste** um den Calliope mini neu zu starten.
+
+![chapter_1_intro](chapter_1_pairing_a)
+
+Sobald die **1** erscheint nutze den **Button B** um durch das Menü zu schalten bis die **5** erscheint.
+
+![chapter_1_intro](chapter_1_intro_a)
+
+Wird die 5 auf dem Display angezeigt, schüttel den Calliope mini.
+
+![chapter_1_intro](chapter_1_pairing_d)
+
+Nachdem der Calliope mini geschüttelt wurde, erscheint das individuelle Muster.
+
+![chapter_1_intro](chapter_1_pairing_c)
+
+Deinen Calliope mini verbindest du mit dem Swift Playground, indem du das angezeigte Muster in der App auswählst. Dazu brauchst du nur auf den roten Button rechts oben drücken und das passende Muster auszuwählen.
+
+![hapter_1_intro](chapter_1_intro_b)
+
+![...](trenner)
+
+Nutze die LED-Anzeige um Bilder, Animationen und Texte auf dem 5x5-LED-Raster aus roten Leuchtdioden anzeigen lassen. Die LEDs können Licht senden und Licht messen.
+
+![...](trenner_small)
+
+**Ziel:** Lass die Buchstaben tanzen.\
+Gib deinen Namen ein, um ihn über die LED-Anzeige laufen zu lassen.
+
+Lies dir die Zeile Code durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `String` um einen individuellen Text einzugeben.
+2. Nutze die Tastatur und gib deinen Namen ein.
+3. Tippe auf `Meinen Code ausführen`.
+
+* callout(Tipp):
+Zeichenketten stehen immer in Anführungszeichen.
+
+![display.show.string](display_string)
+
+![...](idee)
+
+**Idee:** Wenn du ein Band an deinen Calliope mini befestigst, kannst du ganz einfach ein Türschild programmieren und an deinen Türgriff hängen - `3 x Klopfen` oder `Bitte nicht stören! Ich code gerade.`
+";

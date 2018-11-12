@@ -1,0 +1,27 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Now the motion sensor is combined with the output of a random number and a sound.
+
+![...](trenner_small)
+
+**Goal:** Code a dice with sound. When the Calliope mini is shaken, a number from your defined number range is randomly displayed on the LED display and a tone is played.
+
+![dice](chapter_4_proj_1)
+
+The `onShake` function is used to address the motion sensor. As soon as the Calliope mini is shaken, a random number from the number range you have defined is written into the variable `r`, the selected note is played and the number value from the variable `r` is displayed on the LED.
+
+Note that the `0` is counted!
+
+Read the lines of code and try to understand each command.
+
+1. Use the number block to define the number range.
+2. Define a tone by selecting a note from the suggestion bar.
+3. Tap Run My Code.
+
+**Idea:** Use the dice and build your own obstacle course. Beforehand you and your friends have to determine the individual exercises and rules of the game.
+E.g. `1` means turning 3 times in a circle, `2` means doing some push-ups and so on. 
+Make something funny up!
+
+";
+

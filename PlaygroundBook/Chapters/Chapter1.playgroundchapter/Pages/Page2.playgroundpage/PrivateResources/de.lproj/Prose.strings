@@ -1,0 +1,18 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs001" = "In der Programmierung gibt es unterschiedliche Datentypen. Z.B. Zeichenketten (engslisch: strings) und Zahlen (englisch: numbers). Hier geht es um Zahlen.
+
+![...](trenner_small)
+
+**Ziel:** Lass dir eine Zahl anzeigen z.B. wie alt du  bist oder einfach eine ganz große Zahl. Du kannst natürlich auch Zahlen als Ziffern anzeigen, aber wenn du mit der Zahl rechnen möchtest, benötigst du den Datentyp Zahl, also `number`.
+
+Lies dir die Zeile Code durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `number` um eine andere Zahl einzugeben.
+2. Nutze die Zahleneingabe um die Zahl zu ändern.
+3. Tippe auf `Meinen Code ausführen`.
+
+![display.show.number](display_number)
+
+";

@@ -1,0 +1,25 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" = "You have learned about a variety of output options. Now you can combine them.
+
+![…](trenner_small)
+
+**Goal:** Customize your Calliope mini.\ 
+Play your melody combined with your favorite colors, give it a name and set a sign.
+
+Read the lines of code and try to understand each command.
+
+1. Tap `miniSound` to select the first tone.
+2. Tap `miniColor` to select the first color.
+3. Repeat these steps for the other two tones and colors.
+4. Tap `string` and use the keyboard to enter a name.
+5. Tap `miniImage` and select a symbol from the suggestion bar.
+3. Tap Run My Code.
+
+![...](idee)
+
+**Idea:** Build a team and create a small presentation.
+
+![Output.combination](chapter_1_combi)
+";

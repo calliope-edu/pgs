@@ -1,0 +1,29 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="The rounded corners of the Calliope mini are labeled **-, +, 0, 1, 2 and 3**. 
+If you touch the corner labeled **-** with one finger and one of the corners labeled with numbers with another finger, the Calliope mini lets a low electric current flow through your body. Since your body conducts electricity, the Calliope mini recognizes the closed circuit.
+
+By touching pins **0, 1, 2, or 3**, you can also make input for Calliope mini to execute commands. 
+
+* callout(Tip):
+Make sure to touch the minus pin (-) with the other hand at the same time.
+
+
+![...](trenner_small)
+
+**Goal:** Get to know the touch pins.\
+The number of the touched pin is shown on the LED display.
+
+![The real head of the household?](chapter_2_pins)
+
+The `onPin` function describes the touch pin event when a pin is touched. 
+The parameter pin:UInt returns the number of the pin touched. The value of the parameter is shown on the LED display.
+
+Read the lines of code and try to understand each command.
+
+1. Tap `miniColor` to change the color.
+2. Use the other options in the suggestion bar to select a color.
+3. Tap Run My Code.
+
+";

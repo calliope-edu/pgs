@@ -1,0 +1,34 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Spiele mit deinem Gegenüber eine Runde **Schere, Stein, Papier**. 
+
+![...](trenner_small)
+
+**Ziel:** Lass dir die möglichen Symbole hintereinander auf der LED-Anzeige darstellen. Bestimme die Pause so, dass du genug Zeit hast zu entscheiden.
+Drücke den Button A um die Anzeige  anzuhalten.
+
+![game](chapter_4_1_image)
+
+* callout(Tipp):
+Legt gemeinsam die Spielregeln fest. 
+Z.B.
+  - Schere schlägt Papier
+  - Stein schlägt Schere
+  - Papier schlägt den Stein
+  
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Bestimme das Animations-Tempo. Nutzen den Zahlenblock, um die Pause zwischen den Symbolen zu definieren.
+2. Nutze die Vorlagen-Leiste, um drei verschiedene Symbole zu wählen.
+3. Tippe auf `Meinen Code ausführen`.
+
+Spielregeln festlegen nicht vergessen!
+
+![...](idee)
+
+**Idee:** Überlegt euch, was der Gewinner bekommt oder der Verlierer machen muss - los geht’s!
+
+";
+

@@ -1,0 +1,27 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Schleifen ermöglichen eine Wiederholung von Anweisungen. Manche Schleifen laufen für immer - Endlosschleife. Manche durchlaufen eine bestimmte Anzahl an Wiederholungen. Andere werden solange ausgeführt, bis eine bestimmte Bedingung erfüllt ist. Du kannst das so entscheiden, wie es für dein Programm sinnvoll ist.
+
+![…](trenner_small)
+
+**Ziel:** Programmiere einen Timer!
+
+Bei deinem Timer kannst du die Anfangszahl und die Endzahl selber festlegen. Den Rest erledigt die Wiederholungsschleife.
+In der for-Schleife wird in die Variable `i` die jeweilige Zahl der Wiederholung eingesetzt. Angezeigt wird bei jeder Wiederholung der aktuelle Wert `i` auf der LED-Anzeige.
+Mit der Einstellung sleep bestimmst du das Tempo.
+Wie viel Zeit soll zwischen den Wiederholungen liegen?
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Nutze den Zahlenblock, um die Anfangszahl auf 0 zu setzen.
+2. Danach gib über den Zahlenblock die Anzahl der Wiederholungen an.
+3. Definiere das Tempo, indem du in der Anweisung sleep einen individuellen Wert über den Zahlenblock eingibst.
+3. Tippe auf `Meinen Code ausführen`.
+
+* callout(Tipp):
+Du musst nicht bei 0 anfangen. Du kannst bei einer beliebigen Zahl anfangen.
+
+![The real head of the household?](chapter_3_loops)
+
+";

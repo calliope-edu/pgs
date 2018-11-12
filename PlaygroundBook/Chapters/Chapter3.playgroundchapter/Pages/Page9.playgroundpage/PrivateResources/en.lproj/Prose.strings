@@ -1,0 +1,35 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="For the color memory game you have to combine many inputs, outputs and control commands.
+
+![…](trenner_small)
+
+**Goal:** In you Swift code you assign a color to each touch pin. The Calliope mini plays three of the colors in a random order. Do you remember them?
+
+Now it's your turn. Touch the touch pins to display the three colors in the correct order. If the order is correct, you will be rewarded. If you're wrong, try again in the next round.
+
+Press button A to start the round.
+Remember the order of the colors displayed.
+Touch the touch pins in the correct order.
+
+
+![chapter_3](chapter_3_combi_a)
+
+Read the lines of code and try to understand each command.
+
+1. Assign a color to each touch pin by selecting four different colors in the showColor function.
+2. Use the suggestion bar to select a color.
+3. Define a symbol for `correct`.
+4. Use the suggestion bar to select an image.
+5. Define a symbol for `wrong`.
+6. Use the suggestion bar to select an image.
+7. Tap Run My Code.
+
+* callout(Tip):
+Attention! You must touch the minus pin (-) with the other hand at the same time to close the circuit.
+
+![...](idee)
+
+**Idea:** ou can connect colored dough balls with the touch pins. This makes it easier to remember the color distribution.
+
+";

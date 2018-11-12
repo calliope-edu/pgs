@@ -1,0 +1,29 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"commands.ifelse" ="Bedingungen werden abgefragt und sind oft mit Verzweigungen verbunden. Wird eine Bedingung erfüllt, werden die zugeordneten Anweisungen ausgeführt. Ansonsten werden sie ignoriert und andere Anweisungen werden ausgeführt.
+
+![…](trenner_small)
+
+**Ziel:** Schüttle deinen Calliope mini und lass eine zufällige Zahl die Ausgabe bestimmen. Wird die Bedingung erfüllt, lass einen Gewinner-Text über die LED-Anzeige laufen. Für alle anderen Zahlen wähle einen anderen Text.
+
+Wenn der Calliope mini geschüttelt wird, wird per Zufall (r) eine Zahl aus dem definierten Zahlenbereich auf der LED-Anzeige ausgegeben.
+
+![…](chapter_3_condition)
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Nutze den Zahlen-Block, um den Zahlenbereich zu definieren.
+2. Nutze den Zahlen-Block, um den Wert eunzugeben, bei dem die Bedingung erfüllt sein soll.
+3. Tippe auf `string`, um die beiden Texte einzugeben.
+4. Tippe auf `Meinen Code ausführen`.
+
+Schütteln nicht vergessen :)
+
+![...](idee)
+
+**Idee:** Mache ein Schokoladen-Wettessen.
+Definiere den Zahlenbereich mit 6 und würfelt der Reihe nach. Bei jeder 6 darf gegessen werden! Du kannst den Calliope mini als kleine Schokolade verkleiden.
+Probier doch mal ein Orakel zu programmieren. 
+
+";

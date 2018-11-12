@@ -1,0 +1,23 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Die Anweisung `sleep()` lässt deinen Calliope mini für einen Moment pausieren. Pausen
+halten die Ausführung an der Stelle an, an der sie gesetzt wurden.
+
+![…](trenner_small)
+
+**Ziel:** Lass dein Herz mit Hilfe von Pausen blinken.
+Du kannst die Dauer bestimmen.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `number`, um die Dauer der Pause zu verändern. Die Einheit der Pause wird in ms angegeben.
+2. Nutze den Nummernblock, um den Pausenwert zu ändern.
+4. Tippe auf `Meinen Code ausführen`.
+
+* callout(Tipp):
+MS steht für Millisekunden. 1000 Millisekunden sind eine Sekunde.
+
+![chapter_3](chapter_3_sleep@1x)
+
+";

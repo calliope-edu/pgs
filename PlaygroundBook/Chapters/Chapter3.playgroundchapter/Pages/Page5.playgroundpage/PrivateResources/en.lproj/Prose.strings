@@ -1,0 +1,21 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="A variable is a placeholder for a number, string, color or image. This means that the variable does not have to have the same value throughout the entire program. This gives the program the option of storing and resuming a value.
+
+![…](trenner_small)
+
+**Goal:** Show your name and age on the LED display.
+
+Variables need names to be addressed. You can imagine it as a labeled box in which something else can always be placed. Calling the variable Name displays its contents.
+
+Read the lines of code and try to understand each command.
+
+1. The first variable is called `name` and requires the data type `string`. This is the right place for your name.
+2. Tap `string` to enter your name using the keyboard.
+3. The second variable is called `age` and requires the data type `number`. Here is the right place for your age.
+4. Tap Run My Code.
+
+![chapter_3](chapter_3_variable)
+
+";

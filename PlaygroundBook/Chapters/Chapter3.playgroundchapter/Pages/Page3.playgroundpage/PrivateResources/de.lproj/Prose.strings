@@ -1,0 +1,21 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Mit der Anweisung `display.clear()` schaltest du alle 25 LEDs gleichzeitig aus.
+
+![…](trenner_small)
+
+**Ziel:** Zeige ein Herz an und bestimme, wie lange das Herz sichtbar sein soll. Dann lösche die LED-Anzeige mit `display.clear()`.
+
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `miniImage`, um das Bild zu ändern.
+2. Nutze die andern Möglichkeiten in der Vorschlag-Leiste, um das Bild zu ändern.
+3. Passe die Pausendauer individuell an.
+4. Löschen dann die gesamte LED-Anzeige.
+5. Tippe auf `Meinen Code ausführen`.
+
+![The real head of the household?](chapter_3_clear)
+
+";

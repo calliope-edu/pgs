@@ -1,0 +1,32 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="In this project you work with the microphone. You use the microphone as a volume sensor by measuring the ambient volume.
+
+![...](trenner_small)
+
+**Goal:** Acoustic switch\
+The RGB LED can be switched on and off by clapping! Clap your hands.
+
+**This is how it works** The variable `threshold` stores the defined threshold value. The threshold value describes the certain limit of ambient noise at which the RGB LED is to be switched on or off. This value is compared with the ambient noise. If the measured value is identical or even greater, the RGB LED changes its state. 
+
+  - If it's out, it will turns on. 
+
+![light](chapter_4_3)
+
+  - If it's on, it will turns off. 
+
+![light](chapter_4_4_b)
+
+If the measured value is smaller, nothing happens.
+
+1. At first adjust the threshold to your environment. Try out which values work well. Start with a `2`.
+2. Tap `miniColor` to select a color from the suggestion bar.
+3. Tap Run My Code.
+
+![...](idee)
+
+**Idea:** Build a real switch using rubber band and the Calliope mini box
+";
+

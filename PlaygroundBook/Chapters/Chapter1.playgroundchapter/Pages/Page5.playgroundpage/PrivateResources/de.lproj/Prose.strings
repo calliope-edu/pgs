@@ -1,0 +1,22 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" = "Die RGB-LED kann in verschiedensten Farben leuchten. Die unterschiedlichen Farben werden aus **rot, grün** und **blau** gemischt.
+
+![rbg.on](rgb.png)
+
+![…](trenner_small)
+
+**Ziel:** Welche Farbe könnte für `gute Laune` stehen und welche für `Langeweile`?
+Such dir eine Farbe aus und lass die RGB LED aufleuchten.
+
+1. Tippe auf `miniColor` um die Farbe zu ändern.
+2. Nutze die anderen Möglichkeiten in der Vorschlag-Leiste, um eine Farbe auszuwählen.
+3. Tippe auf `Meinen Code ausführen`.
+
+![...](idee)
+
+**Idee:** Überlege, für welche Bedeutung die unterschiedlichen Farben stehen. Z.B. grün steht oft für `OK` oder `richtig`.
+
+![rbg.on](rgb2.png)
+";

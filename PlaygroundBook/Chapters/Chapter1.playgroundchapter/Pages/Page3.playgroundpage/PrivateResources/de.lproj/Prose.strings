@@ -1,0 +1,21 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.IssuingCommands003" ="Viele Dinge kannst du auch mit Bildern oder Zeichen sagen.
+
+![...](trenner_small)
+
+**Ziel:** Sag es in Bildern\
+Nutze das 5x5 Raster und zeige ein Bild auf der LED-Anzeige an.
+
+Du kannst unterschiedliche Symbole auf deinem Calliope mini anzeigen lassen. In der Vorschauleiste der Tastatur kannst du sehen, welche dir zur Auswahl stehen.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tippe auf `miniImage` um das Bild zu ändern.
+2. Nutze die andern Möglichkeiten in der Vorschlag-Leiste um das Bild zu ändern.
+3. Tippe auf `Meinen Code ausführen`.
+
+![display.show.image](display_image)
+";
+

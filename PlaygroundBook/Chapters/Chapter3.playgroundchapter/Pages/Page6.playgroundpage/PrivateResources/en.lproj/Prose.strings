@@ -1,0 +1,27 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Loops allow statements to be repeated. Some loops run forever - endless loop. Some go through a certain number of repetitions. Others are executed until a certain condition is fulfilled. You can decide how it makes sense for your program.
+
+![…](trenner_small)
+
+**Goal:** Program a timer!
+
+With your timer you can set the start number and the end number yourself. The rest is done in the loop.
+In the for loop, the respective number of repetitions is inserted in the variable `i`. The current value `i` is displayed on the LED display each time it is repeated.
+With the sleep setting you set the tempo.
+How much time should there be between the repetitions?
+
+Read the lines of code and try to understand each command.
+
+1. Use the number block to set the starting number to 0.
+2. Enter the number of repetitions using the numeric keypad.
+3. Define the tempo by entering an individual value in the sleep statement using the numeric keypad.
+4. Tap Run My Code.
+
+* callout(Tip):
+You can build your own timer - for example for brushing your teeth. 
+
+![The real head of the household?](chapter_3_loops)
+
+";

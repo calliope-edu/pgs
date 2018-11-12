@@ -1,0 +1,27 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Per Zufall wird eine Zahl aus einem von dir bestimmten Zahlenbereich ausgewählt. Beachte aber, dass die 0 mitgezählt wird!
+
+![…](trenner_small)
+
+**Ziel:** Programmiere einen zufallgesteuerten Würfel.
+
+Die Variable `r` steht für random. Random ist das englische Wort für Zufall.
+Wenn der Calliope mini geschüttelt wird, wird per Zufall eine Zahl aus einem definierten Zahlenbereich auf der LED-Anzeige dargestellt.
+
+![The real head of the household?](chapter_3_random)
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Nutze den Zahlen-Block, um den Zahlenbereich zu definieren.
+2. Tippe auf `Meinen Code ausführen`.
+
+Schütteln nicht vergessen :)
+
+![...](idee)
+
+**Idee:** Nutze den Würfel und baue deinen eigenen Parcours. Vorher musst du mit deinen Freunden die einzelnen Übungen und Spielregeln festlegen.
+Z.B. 1 bedeutet 10x auf einem Bein hüpfen, 2 bedeutet 5 Kniebeugen machen und so weiter. Denkt euch etwas Lustiges aus!
+
+";

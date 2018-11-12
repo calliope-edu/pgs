@@ -1,0 +1,18 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs001" = "There are different data types in programming. For example, strings and numbers. This is about numbers.
+
+![...](trenner_small)
+
+**Goal:** Display a number e.g. how old you are or just a big number. Of course, you can also display numbers as digits, but if you want to calculate with the number, you need the data type `number`.
+
+Read the line of code and try to understand each command.
+
+1. Tap `number` to enter another number.
+2. Use the numeric input to change the number.
+3. Tap Run My Code.
+
+![display.show.number](display_number)
+
+";

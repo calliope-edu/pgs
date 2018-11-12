@@ -1,0 +1,23 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" = "Im Code erkennst du das 5x5 Raster wieder.
+Jede 1 steht für eine leuchtende LED. Jede 0 steht für eine ausgeschaltete LED.
+
+![...](trenner_small)
+
+**Ziel:** Ein Raster aus Einsen und Nullen\
+Nutze das 5x5 Raster und zeige dein eigenes Bild auf der LED-Anzeige an. 
+
+![display.show.grid](display_grid)
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Fertige  eine Skizze deines Symbols auf Papier oder in Notizen auf dem iPad an.
+2. Tippe auf eine **1** und nutze den Zahlenblock um die LED **an (1)** oder **aus (0)** zu schalten. 
+3. Tippe auf `Meinen Code ausführen`.
+
+![...](idee)
+
+**Idee:** Welche Symbole kannst du mit 25 LEDs abbilden? Erstelle dein eigenes Emoji Set.
+";

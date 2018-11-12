@@ -1,0 +1,18 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Du hast jetzt die unterschiedlichen Eingabemöglichkeiten kennengelernt. Jetzt kannst du sie mit den unterschiedlichen Ausgabemöglichkeiten kombinieren.
+
+![...](trenner_small)
+
+**Ziel:** Jetzt kannst du dein eigenes Intro für den Calliope mini programmieren. Erkläre die unterschiedlichen Eingabe- und Ausgabemöglichkeiten!
+
+Du kannst die RGB-LED in unterschiedlichen Farben leuchten lassen und eigene Symbole anzeigen lassen.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Kombiniere bei jedem `Tastenereignis` eine `Farbe` mit einem individuellen Symbol. 
+2. `Schüttle` deinen Calliope mini und lass einen `Ton` abspielen.
+4. Tippe auf `Meinen Code ausführen`.
+
+";

@@ -1,0 +1,25 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Inputs.IssuingCommands" ="Die abgerundeten Ecken des Calliope mini sind mit **-, +, 0, 1, 2** und **3** beschriftet. Wenn du mit einem Finger die mit - beschriftete Ecke berührst und mit einem anderen Finger eine der mit Zahlen beschriftet Ecken, lässt der Calliope mini einen niedrigen elektrischen Strom durch deinen Körper fließen. Da dein Körper Strom leitet, erkennt der Calliope mini den geschlossenen Stromkreis.
+Mit dem Berühren der Pins 0, 1, 2, oder 3 kannst du ebenfalls Eingaben machen, damit der Calliope mini Befehle ausführt. 
+
+* callout(Tipp):
+Du musst hierbei gleichzeitig mit der anderen Hand den Minus-Pin (–) berühren.
+
+![...](trenner_small)
+
+**Ziel:** Lerne die Touch-Pins kennen\
+Die Nummer des berührten Pins wird dir auf der LED-Anzeige wiedergegeben.
+
+![The real head of the household?](chapter_2_pins)
+
+Die  Funktion `onPin`, beschreibt das Touch-Pin-Ereignis, wenn ein Pin berührt wird. Der Parameter pin:UInt gibt die Nummer des berührten Pins wieder. Der Wert des Parameters wird auf der LED-Anzeige angezeigt.
+
+Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
+
+1. Tap `miniColor` to change the color.
+2. Use the other options in the suggestion bar to select a color.
+3. Tap Run My Code.
+
+";
