@@ -83,16 +83,16 @@ public class DashBoardViewController: ViewController_Base {
             if state == DevicesConnectionState.notify {
                 if let type = DashboardItemType(rawValue:UInt16(array[1])) {
                     let value:UInt8 = array[3]
-
-                    //TODO: apply temperature conversion to "value" (which is the value read from the calliope) in case the DashboardItemType is Thermometer
-                    //TODO: check if temperature dashboard item graphic is suitable for Fahrenheit unit. Otherwise we need to make a new drawing.
-
                     //LogNotify.log("notify_type: \(type)")
                     //LogNotify.log("notify: \(type.rawValue) : \(value)")
                     if(type == DashboardItemType.ButtonAB)
                     {
                         NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonA, "value":value])
                         NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonB, "value":value])
+                    }
+                    else if type == DashboardItemType.Thermometer {
+                        let localizedValue = UInt8( ValueLocalizer.current.localizeTemperature(unlocalized: Double(value)) )
+                        NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":localizedValue])
                     }
                     else
                     {

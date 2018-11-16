@@ -64,4 +64,9 @@ class ValueLocalizer: NSObject {
         let localizedMeasurement = Measurement(value: localized, unit: localTemperatureUnit)
         return localizedMeasurement.converted(to: calliopeTemperatureUnit).value
     }
+
+    public func localizedTemperatureString(unlocalizedValue: Double) -> String {
+        let unlocalizedMeasurement = Measurement(value: unlocalizedValue, unit: calliopeTemperatureUnit)
+        return measurementFormatter.string(from: unlocalizedMeasurement)
+    }
 }
