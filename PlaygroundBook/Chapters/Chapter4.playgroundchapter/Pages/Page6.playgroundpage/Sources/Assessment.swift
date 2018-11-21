@@ -45,8 +45,8 @@ public func assessment() -> AssessmentBlock {
         }
 
         //convert units
-        let temp_cold_converted = ValueLocalizer.current.delocalizeTemperature(temp_cold)
-        let temp_noraml_converted = ValueLocalizer.current.delocalizeTemperature(temp_normal)
+		let temp_cold_converted = ValueLocalizer.current.delocalizeTemperature(localized: Double(temp_cold))
+		let temp_normal_converted = ValueLocalizer.current.delocalizeTemperature(localized: Double(temp_normal))
 
         let p = BookProgramProjectThermometer()
         p.temp_cold = Int16(temp_cold_converted)

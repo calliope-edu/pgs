@@ -7,9 +7,9 @@
 
 import UIKit
 
-class ValueLocalizer: NSObject {
+public class ValueLocalizer: NSObject {
 
-    static let current = ValueLocalizer()
+    public static let current = ValueLocalizer()
 
     private let locale = NSLocale.current
     private let measurementFormatter = MeasurementFormatter()
@@ -46,6 +46,7 @@ class ValueLocalizer: NSObject {
         }
     }
 
+	//MARK: methods to convert values to and from currently set unit
 
     /// Converts from the temperature unit of the calliope to the user´s unit
     ///
