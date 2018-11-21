@@ -117,7 +117,7 @@ public class DashBoardViewController: ViewController_Base {
             let logger = UITextView()
             logger.isEditable = false
             logger.tag = 666
-            logger.contentInset = UIEdgeInsetsMake(10, 10, 10, 10)
+			logger.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             logger.textColor = .green
             logger.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
             logger.font = UIFont.systemFont(ofSize: 14)

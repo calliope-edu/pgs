@@ -45,7 +45,7 @@ class Dashboard_SoundAnimation: UIView_DashboardItemAnimation, CAAnimationDelega
     func setUpAnimation(in layer: CALayer, size: CGSize, color: UIColor, duration:CFTimeInterval) {
         let beginTime = CACurrentMediaTime()
 //        let timingFunction = CAMediaTimingFunction(controlPoints: 0.65, -0.23, 0.28, 1.27)
-        let timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+		let timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
         let startScale:CGFloat = 0.4
         let startLineWidth:CGFloat = 2.0
     

@@ -10,7 +10,7 @@ class Dashboard_ShakeAnimation: UIView_DashboardItemAnimation, CAAnimationDelega
         
         let duration = 0.5
         let translation = CAKeyframeAnimation(keyPath: "transform.translation.x");
-        translation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+		translation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
         translation.values = [-5, 5, -5, 5, -3, 3, -2, 2, 0]
         
         /*

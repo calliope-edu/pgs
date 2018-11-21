@@ -10,14 +10,14 @@
 	<string>4.0</string>
 	<key>ContentVersion</key>
 	<string>1.0</string>
-	<key>Name</key>
-	<string>Name</string>
 	<key>ContentIdentifier</key>
 	<string>io.github.calliope-edu.playground.mini</string>
 	<key>DeploymentTarget</key>
 	<string>ios11.0</string>
 	<key>DevelopmentRegion</key>
 	<string>en</string>
+	<key>Name</key>
+	<string>PlaygroundBookName</string>
 	<key>Chapters</key>
 	<array>
 		<string>Chapter1.playgroundchapter</string>

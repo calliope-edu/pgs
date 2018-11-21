@@ -33,7 +33,7 @@ final class ActivityView: UIView {
         _pathLayer.lineWidth = 1.4
         _pathLayer.fillColor = UIColor.clear.cgColor
         _pathLayer.strokeColor = UIColor.white.cgColor
-        _pathLayer.lineCap = "round"
+		_pathLayer.lineCap = CAShapeLayerLineCap(rawValue: "round")
         layer.addSublayer(_pathLayer)
         backgroundColor = .clear
     }
@@ -94,13 +94,13 @@ final class ActivityView: UIView {
         
         let strokeEndAnimation = CABasicAnimation(keyPath: "strokeEnd")
         strokeEndAnimation.duration = strokeEndDuration
-        strokeEndAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		strokeEndAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         strokeEndAnimation.fromValue = 0.0
         strokeEndAnimation.toValue = 1.0
         
         let strokeStartAnimation = CABasicAnimation(keyPath: "strokeStart")
         strokeStartAnimation.duration = strokeStartDuration
-        strokeStartAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		strokeStartAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         strokeStartAnimation.fromValue = 0.0
         strokeStartAnimation.toValue = 1.0
         strokeStartAnimation.beginTime = beginTime
@@ -110,7 +110,7 @@ final class ActivityView: UIView {
         groupAnimation.duration = strokeStartDuration + beginTime
         groupAnimation.repeatCount = .infinity
         groupAnimation.isRemovedOnCompletion = false
-        groupAnimation.fillMode = kCAFillModeForwards
+		groupAnimation.fillMode = CAMediaTimingFillMode.forwards
         
         me._pathLayer.path = me.circlePath().cgPath
         me._pathLayer.add(groupAnimation, forKey: "animation")

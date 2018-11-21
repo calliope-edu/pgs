@@ -5,7 +5,7 @@ public class ActionButton: UIButton
     public typealias ActionBlock = (()-> Void)
     fileprivate var _block:ActionBlock?
     
-    public func addAction(_ action: @escaping ActionBlock, controlEvent: UIControlEvents)
+	public func addAction(_ action: @escaping ActionBlock, controlEvent: UIControl.Event)
     {
         _block = action
         self.addTarget(self, action: #selector(ActionButton.callActionBlock(_:)), for: controlEvent)
@@ -36,7 +36,7 @@ public class ActionButton: UIButton
         }
     }
     
-    public func setImageSmooth(_ image: UIImage?, for state: UIControlState) {
+	public func setImageSmooth(_ image: UIImage?, for state: UIControl.State) {
         UIView.animate(withDuration: 0.6) {
             self.imageView?.alpha = 0.0
             self.setImage(image, for: state)
@@ -44,7 +44,7 @@ public class ActionButton: UIButton
         }
     }
     
-    public func setTitleSmooth(_ title: String?, for state: UIControlState) {
+	public func setTitleSmooth(_ title: String?, for state: UIControl.State) {
         UIView.animate(withDuration: 0.6) {
             self.titleLabel?.alpha = 0.0
             self.setTitle(title, for: state)

@@ -204,7 +204,7 @@ public class DevicesConnectionView: UIView, PlaygroundLiveViewSafeAreaContainer 
         _tableView.dataSource = self
         _tableView.separatorStyle = .none
         // _tableView.layoutMargins = .zero
-        _tableView.contentInset = UIEdgeInsetsMake(2.0, 0, 2.0, 0)
+		_tableView.contentInset = UIEdgeInsets(top: 2.0, left: 0, bottom: 2.0, right: 0)
         _tableView.separatorInset = .zero
         _tableView.estimatedRowHeight = _height
         //_tableView.rowHeight = UITableViewAutomaticDimension

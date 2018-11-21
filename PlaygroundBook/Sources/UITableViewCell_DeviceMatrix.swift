@@ -33,7 +33,7 @@ class UITableViewCell_DeviceMatrix: UITableViewCell {
         return nil
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String!){
+	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String!){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.selectionStyle = .none
@@ -95,7 +95,7 @@ class UITableViewCell_DeviceMatrix: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.frame = UIEdgeInsetsInsetRect(contentView.frame, UIEdgeInsetsMake(5, 7, 5, 7))
+		contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 5, left: 7, bottom: 5, right: 7))
     }
     
 
