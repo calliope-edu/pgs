@@ -78,7 +78,7 @@ class Dashboard_RGBAnimation: UIView_DashboardItemAnimation, CAAnimationDelegate
         // Animation
         let animation = CAAnimationGroup()
         animation.animations = [scaleAnimation, opacityAnimaton]
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         animation.duration = duration
         animation.repeatCount = 0
         animation.isRemovedOnCompletion = false

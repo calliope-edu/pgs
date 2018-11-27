@@ -30,7 +30,7 @@ final class Swoosh: UIView {
         _pathLayer.lineWidth = _inset * 1.2
         _pathLayer.fillColor = UIColor.clear.cgColor
         _pathLayer.strokeColor = UIColor(white: 1.0, alpha: 0.6).cgColor
-        _pathLayer.lineCap = "round"
+		_pathLayer.lineCap = CAShapeLayerLineCap(rawValue: "round")
         layer.addSublayer(_pathLayer)
         backgroundColor = .clear
     }
@@ -92,13 +92,13 @@ final class Swoosh: UIView {
         
         let strokeEndAnimation = CABasicAnimation(keyPath: "strokeEnd")
         strokeEndAnimation.duration = strokeEndDuration
-        strokeEndAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		strokeEndAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         strokeEndAnimation.fromValue = 0.0
         strokeEndAnimation.toValue = 1.0
         
         let strokeStartAnimation = CABasicAnimation(keyPath: "strokeStart")
         strokeStartAnimation.duration = strokeStartDuration
-        strokeStartAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+		strokeStartAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         strokeStartAnimation.fromValue = 0.0
         strokeStartAnimation.toValue = 1.0
         strokeStartAnimation.beginTime = beginTime
@@ -118,7 +118,7 @@ final class Swoosh: UIView {
         groupAnimation.duration = strokeStartDuration + beginTime
         groupAnimation.repeatCount = .infinity
         groupAnimation.isRemovedOnCompletion = false
-        groupAnimation.fillMode = kCAFillModeForwards
+		groupAnimation.fillMode = CAMediaTimingFillMode.forwards
         
         me._pathLayer.path = me.circlePath().cgPath
         me._pathLayer.add(groupAnimation, forKey: "animation")

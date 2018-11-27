@@ -110,7 +110,7 @@ public class UIStackView_Dashboard: UIStackView {
 
 //MARK: - layout sub-stacks axis
 extension UIStackView_Dashboard {
-    override public var axis: UILayoutConstraintAxis {
+	override public var axis: NSLayoutConstraint.Axis {
         didSet {
             switch axis {
             case .horizontal:
@@ -159,7 +159,7 @@ extension UIStackView_Dashboard {
 
 //MARK: - helper
 extension UIStackView_Dashboard {
-    func stackview(_ axis: UILayoutConstraintAxis) -> UIStackView {
+	func stackview(_ axis: NSLayoutConstraint.Axis) -> UIStackView {
         let _stack = UIStackView(frame: self.bounds)
         _stack.axis = axis
         _stack.distribution = .fillEqually
@@ -172,7 +172,7 @@ extension UIStackView_Dashboard {
         return _stack
     }
     
-    func axis(from: UIView) -> UILayoutConstraintAxis {
+	func axis(from: UIView) -> NSLayoutConstraint.Axis {
         return (from.bounds.size.width > from.bounds.size.height) ? .horizontal : .vertical
     }
     

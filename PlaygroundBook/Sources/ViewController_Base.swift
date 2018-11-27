@@ -37,10 +37,10 @@ public class ViewController_Base: UIViewController, PlaygroundLiveViewSafeAreaCo
         let observer_logNotify = nc.observe(name:LogNotify.logNotifyName, object: nil, queue: .main, using: notificationLogNotify)
         observerTockens.append(observer_logNotify)
         
-        let observer_enterBackground = nc.observe(name:.UIApplicationDidEnterBackground, object: nil, queue: .main, using: appDidEnterBackground)
+		let observer_enterBackground = nc.observe(name:UIApplication.didEnterBackgroundNotification, object: nil, queue: .main, using: appDidEnterBackground)
         observerTockens.append(observer_enterBackground)
         
-        let observer_willForeground = nc.observe(name:.UIApplicationWillEnterForeground, object: nil, queue: .main, using: appWillEnterForeground)
+		let observer_willForeground = nc.observe(name:UIApplication.willEnterForegroundNotification, object: nil, queue: .main, using: appWillEnterForeground)
         observerTockens.append(observer_willForeground)
         
         if Debug.catchAll {

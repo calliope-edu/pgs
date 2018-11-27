@@ -90,6 +90,10 @@ public class DashBoardViewController: ViewController_Base {
                         NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonA, "value":value])
                         NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonB, "value":value])
                     }
+                    else if type == DashboardItemType.Thermometer {
+                        let localizedValue = UInt8( ValueLocalizer.current.localizeTemperature(unlocalized: Double(value)) )
+                        NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":localizedValue])
+                    }
                     else
                     {
                         NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":value])
@@ -117,7 +121,7 @@ public class DashBoardViewController: ViewController_Base {
             let logger = UITextView()
             logger.isEditable = false
             logger.tag = 666
-            logger.contentInset = UIEdgeInsetsMake(10, 10, 10, 10)
+			logger.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             logger.textColor = .green
             logger.backgroundColor = UIColor(white: 0.0, alpha: 0.6)
             logger.font = UIFont.systemFont(ofSize: 14)

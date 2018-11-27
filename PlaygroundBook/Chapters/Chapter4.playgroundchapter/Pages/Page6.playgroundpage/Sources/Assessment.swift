@@ -11,7 +11,7 @@ let solution = "page.solution".localized
 
 public func assessment() -> AssessmentBlock {
      return { values in
-        
+
         guard let temp_cold = UInt16(values[0]) else {
             return (.fail(hints: hints, solution: solution), nil)
         }
@@ -44,9 +44,13 @@ public func assessment() -> AssessmentBlock {
             return (.fail(hints: hints, solution: solution), nil)
         }
 
+        //convert units
+		let temp_cold_converted = ValueLocalizer.current.delocalizeTemperature(localized: Double(temp_cold))
+		let temp_normal_converted = ValueLocalizer.current.delocalizeTemperature(localized: Double(temp_normal))
+
         let p = BookProgramProjectThermometer()
-        p.temp_cold = Int16(temp_cold)
-        p.temp_normal = Int16(temp_normal)
+        p.temp_cold = Int16(temp_cold_converted)
+        p.temp_normal = Int16(temp_normal_converted)
         p.color_cold = color_cold.color
         p.color_normal = color_normal.color
         p.color_hot = color_hot.color
