@@ -279,7 +279,7 @@ public class DevicesConnectionView: UIView, PlaygroundLiveViewSafeAreaContainer 
                     let ble_name = discovery.name ?? "ble.name.unknown".localized
                     return DeviceTuple(uuid: uuid, name: ble_name)
                 })
-            
+
             // add connected-device if missing or move to 0
             if let lastDevice = lastDevice {
                 if let index = data.index(where: { $0.uuid == lastDevice.uuid }) {
@@ -335,6 +335,10 @@ public class DevicesConnectionView: UIView, PlaygroundLiveViewSafeAreaContainer 
         device.onDisconnect = { [weak self] _ in
             LogNotify.log("disconnected \(device)")
             self?.state = .disconnected
+			//TODO: this is not the best place to nil out the device.
+			if let assignedDevice = self?.device, assignedDevice.uuid == device.uuid {
+				self?.device = nil
+			}
         }
         
         device.onNotify = { [weak self] (_, data) in
