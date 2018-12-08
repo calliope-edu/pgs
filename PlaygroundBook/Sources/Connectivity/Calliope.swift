@@ -45,8 +45,6 @@ public final class Calliope {
     public var onNotify: ((Calliope, Data) -> Void)?
 
     private var peripheral: Peripheral?
-    private var serviceUpload: Service?
-    private var characteristicUpload: Characteristic?
 
     init(uuid: UUID) {
         self.uuid = uuid
