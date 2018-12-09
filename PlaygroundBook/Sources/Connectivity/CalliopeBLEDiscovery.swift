@@ -19,23 +19,7 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 
 	public var state : CalliopeDiscoveryState = .initialized {
 		didSet {
-			updateBlock() //TODO: send specific messages according to state transition
-			switch (oldValue, state) {
-			case (_, .initialized):
-				//TODO: notify the listener that our discoveries are gone (might be due to bluetooth off)
-				return
-			case (_, .discoveryStarted):
-				//TODO: notify the listener that we are waiting for bluetooth to be on
-				return
-			case (_, .discovering):
-				//TODO: notify listener that discovery is actually starting now (bluetooth is on)
-				return
-			case (_, .discovered):
-				//TODO: notify listener that some discovery has been made or some device vanished
-				return
-			default:
-				return
-			}
+			updateBlock()
 		}
 	}
 
@@ -87,6 +71,9 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 	// MARK: connection
 
 	public func connectToCalliope(_ calliope: CalliopeBLEDevice) {
+		//do not connect twice
+		guard calliope.state == .discovered else { return }
+		calliope.state = .connecting
 		self.centralManager.connect(calliope.peripheral, options: nil)
 	}
 

@@ -52,31 +52,23 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	public enum CalliopeBLEDeviceState {
 		case discovered //discovered and ready to connect, not connected yet
+		case connecting //trying to connect
 		case connected //connected, but services and characteristics have not (yet) been found
+		case evaluateMode //connected, looking for services and characteristics
 		case playgroundReady //all required services and characteristics have been found, calliope ready to be programmed
+		case notPlaygroundReady //required services and characteristics not available, put into right mode
 	}
 
 	public var state : CalliopeBLEDeviceState = .discovered {
 		didSet {
 			updateBlock() //TODO: send specific messages according to state transition
-			switch (oldValue, state) {
-			case (.discovered, .connected):
-				//TODO: notify listeners that calliope will now evaluate whether it is playground ready
-				// we do not know if the calliope is in the correct mode until we have discovered the appropriate services
-				peripheral.discoverServices(Array(CalliopeBLEDevice.requiredServicesUUIDs))
-			case (.connected, .playgroundReady):
-				//TODO: notify listeners that calliope is now ready to be programmed
-				return
-			case (.connected, .connected):
-				//TODO: notify listeners that calliope is not in correct mode, required services were not discovered
-				return
-			case (_, .discovered):
-				//TODO: notify listeners that device returned to or remained in discovered state
+			if state == .discovered {
+				//services get invalidated, undiscovered characteristics are thus restored (need to re-discover)
 				servicesWithUndiscoveredCharacteristics = CalliopeBLEDevice.requiredServicesUUIDs
-				return
-			default:
-				//TODO: log warning about illegal state transition
-				return
+			} else if state == .connected {
+				//immediately continue with service discovery
+				state = .evaluateMode
+				peripheral.discoverServices(Array(CalliopeBLEDevice.requiredServicesUUIDs))
 			}
 		}
 	}
@@ -97,7 +89,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
 		guard error == nil else {
 			//TODO: log failure cause
-			state = .connected
+			state = .notPlaygroundReady
 			return
 		}
 
@@ -113,7 +105,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 				}
 			}
 		} else {
-			state = .connected
+			state = .notPlaygroundReady
 		}
 	}
 
@@ -129,7 +121,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		if uuidSet.isSuperset(of: requiredCharacteristicsUUIDs) {
 			_ = servicesWithUndiscoveredCharacteristics.remove(object: service.uuid)
 		} else {
-			state = .connected
+			state = .notPlaygroundReady
 		}
 
 		if servicesWithUndiscoveredCharacteristics.isEmpty {

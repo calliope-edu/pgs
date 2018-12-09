@@ -10,10 +10,9 @@ import XCTest
 
 class CalliopeBLEDiscoveryTest: XCTestCase {
 
-	var discoveryExpectation = XCTestExpectation()
-	var connectionExpectation = XCTestExpectation()
-	let discoverer = CalliopeBLEDiscovery()
-	var calliope : CalliopeBLEDevice? = nil
+	public let discoveryExpectation = XCTestExpectation()
+	public let connectionExpectation = XCTestExpectation()
+	public let discoverer = CalliopeBLEDiscovery()
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -24,38 +23,37 @@ class CalliopeBLEDiscoveryTest: XCTestCase {
     }
 
 	func testStartCalliopeDiscovery() {
-		discoverer.updateBlock = fulfillDiscovery
-		discoverer.startCalliopeDiscovery()
+		discover() {
+			self.discoveryExpectation.fulfill()
+		}
 		wait(for: [discoveryExpectation], timeout: TimeInterval(30))
 	}
 
-	func fulfillDiscovery() {
-		if discoverer.state == .discovered && !discoverer.discoveredCalliopes.isEmpty {
-			discoveryExpectation.fulfill()
+	func testConnectToCalliope() {
+		discover {
+			self.connect(self.discoverer.discoveredCalliopes.first!.value) {
+				self.connectionExpectation.fulfill()
+			}
 		}
-	}
-
-    func testConnectToCalliope() {
-		discoverer.updateBlock = updateDiscovery
-		discoverer.startCalliopeDiscovery()
 		wait(for: [connectionExpectation], timeout: TimeInterval(30))
 	}
 
-	func updateDiscovery() {
-		print(discoverer.state)
-		if discoverer.state == .discovered {
-			if let discoveredCalliope = discoverer.discoveredCalliopes.first?.value, calliope == nil {
-				discoveredCalliope.updateBlock = updateConnection
-				calliope = discoveredCalliope
-				discoverer.connectToCalliope(discoveredCalliope)
+	func discover(fulfilled: @escaping () -> ()) {
+		discoverer.updateBlock = {
+			if self.discoverer.state == .discovered && !self.discoverer.discoveredCalliopes.isEmpty {
+				fulfilled()
 			}
 		}
+		discoverer.startCalliopeDiscovery()
 	}
 
-	func updateConnection() {
-		if let calliope = calliope, calliope.state == .connected {
-			connectionExpectation.fulfill()
+	func connect(_ calliope: CalliopeBLEDevice, fulfilled: @escaping () -> ()) {
+		calliope.updateBlock = {
+			if calliope.state == .connected {
+				fulfilled()
+			}
 		}
+		discoverer.connectToCalliope(calliope)
 	}
 
     /*func testPerformanceExample() {

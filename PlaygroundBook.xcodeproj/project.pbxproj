@@ -14,6 +14,7 @@
 		2FEC8C6221A1ACCF004C27B8 /* BookSourcesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEC8C6121A1ACCF004C27B8 /* BookSourcesTests.swift */; };
 		2FEC8C6421A1ACCF004C27B8 /* libBook_Sources.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF2F9AB2054BBF300191409 /* libBook_Sources.a */; };
 		2FEC8C6B21A1AD57004C27B8 /* ValueLocalizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEC8C6A21A1AD57004C27B8 /* ValueLocalizerTests.swift */; };
+		2FF83D9521BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF83D9421BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift */; };
 		5E086DD32051E3A3004D8D25 /* Manifest.plist in Copy Book Contents */ = {isa = PBXBuildFile; fileRef = 5E086DCF2051DF0F004D8D25 /* Manifest.plist */; };
 		5EA2E3C02056F35A00416A35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA2E3BF2056F35A00416A35 /* AppDelegate.swift */; };
 		5EA2E3CA2056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5EA2E3C82056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard */; };
@@ -210,6 +211,7 @@
 		2FEC8C6121A1ACCF004C27B8 /* BookSourcesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSourcesTests.swift; sourceTree = "<group>"; };
 		2FEC8C6321A1ACCF004C27B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2FEC8C6A21A1AD57004C27B8 /* ValueLocalizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueLocalizerTests.swift; sourceTree = "<group>"; };
+		2FF83D9421BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDeviceTest.swift; sourceTree = "<group>"; };
 		5E086DC02051C5A7004D8D25 /* CalliopePlaybook.playgroundbook */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalliopePlaybook.playgroundbook; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E086DC72051DD03004D8D25 /* BookOverridingBuildSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BookOverridingBuildSettings.xcconfig; sourceTree = "<group>"; };
 		5E086DCF2051DF0F004D8D25 /* Manifest.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Manifest.plist; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				2FEC8C6321A1ACCF004C27B8 /* Info.plist */,
 				2FEC8C6A21A1AD57004C27B8 /* ValueLocalizerTests.swift */,
 				2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */,
+				2FF83D9421BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift */,
 			);
 			path = BookSourcesTests;
 			sourceTree = "<group>";
@@ -878,6 +881,7 @@
 			files = (
 				2FEC8C6221A1ACCF004C27B8 /* BookSourcesTests.swift in Sources */,
 				2FEC8C6B21A1AD57004C27B8 /* ValueLocalizerTests.swift in Sources */,
+				2FF83D9521BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift in Sources */,
 				2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
