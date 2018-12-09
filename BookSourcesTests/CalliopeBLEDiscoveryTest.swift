@@ -10,7 +10,10 @@ import XCTest
 
 class CalliopeBLEDiscoveryTest: XCTestCase {
 
+	var discoveryExpectation = XCTestExpectation()
+	var connectionExpectation = XCTestExpectation()
 	let discoverer = CalliopeBLEDiscovery()
+	var calliope : CalliopeBLEDevice? = nil
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -20,11 +23,39 @@ class CalliopeBLEDiscoveryTest: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testBLE() {
-		sleep(10)
+	func testStartCalliopeDiscovery() {
+		discoverer.updateBlock = fulfillDiscovery
 		discoverer.startCalliopeDiscovery()
-		let expectation = XCTestExpectation()
-		wait(for: [expectation], timeout: TimeInterval(30))
+		wait(for: [discoveryExpectation], timeout: TimeInterval(30))
+	}
+
+	func fulfillDiscovery() {
+		if discoverer.state == .discovered && !discoverer.discoveredCalliopes.isEmpty {
+			discoveryExpectation.fulfill()
+		}
+	}
+
+    func testConnectToCalliope() {
+		discoverer.updateBlock = updateDiscovery
+		discoverer.startCalliopeDiscovery()
+		wait(for: [connectionExpectation], timeout: TimeInterval(30))
+	}
+
+	func updateDiscovery() {
+		print(discoverer.state)
+		if discoverer.state == .discovered {
+			if let discoveredCalliope = discoverer.discoveredCalliopes.first?.value, calliope == nil {
+				discoveredCalliope.updateBlock = updateConnection
+				calliope = discoveredCalliope
+				discoverer.connectToCalliope(discoveredCalliope)
+			}
+		}
+	}
+
+	func updateConnection() {
+		if let calliope = calliope, calliope.state == .connected {
+			connectionExpectation.fulfill()
+		}
 	}
 
     /*func testPerformanceExample() {

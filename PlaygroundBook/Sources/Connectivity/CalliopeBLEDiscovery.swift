@@ -19,6 +19,7 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 
 	public var state : CalliopeDiscoveryState = .initialized {
 		didSet {
+			updateBlock() //TODO: send specific messages according to state transition
 			switch (oldValue, state) {
 			case (_, .initialized):
 				//TODO: notify the listener that our discoveries are gone (might be due to bluetooth off)
@@ -38,6 +39,8 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		}
 	}
 
+	public var updateBlock: () -> () = {}
+
 	public var discoveredCalliopes : [String : CalliopeBLEDevice] = [:]
 
 	private let centralManager = CBCentralManager()
@@ -52,8 +55,12 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 	public func startCalliopeDiscovery() {
 		//start scan only if central manger already connected to bluetooth system service (=poweredOn)
 		//alternatively, this is invoked after the state of the central mananger changed to poweredOn.
-		if centralManager.state == .poweredOn && !centralManager.isScanning {
+		if state != .discoveryStarted {
 			state = .discoveryStarted
+		}
+
+		if centralManager.state == .poweredOn && !centralManager.isScanning {
+			state = .discovering
 			centralManager.scanForPeripherals(withServices: nil, options: nil)
 			//stop the search after some time. The user can invoke it again later.
 			DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 20.0) {
@@ -64,15 +71,15 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 				}
 			}
 		}
-		//remember that the user started scan
-		state = .discoveryStarted
 	}
 
 	public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
 		//TODO: This currently only considers calliopes, so it is not compatible to the microbit
 		if let name = peripheral.name?.lowercased(), name.contains("calliope") {
 			//we found a calliope device (or one that pretends to be a calliope at least)
-			discoveredCalliopes.updateValue(CalliopeBLEDevice(peripheral: peripheral), forKey: name)
+			discoveredCalliopes.updateValue(CalliopeBLEDevice(peripheral: peripheral),
+											forKey: Matrix.full2Friendly(fullName: name) ?? "")
+			state = .discovered
 		}
 		//TODO: how do we recognize that some devices have vanished from our view?
 	}
@@ -88,16 +95,20 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 	}
 
 	public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+		//TODO: remove calliope from list of discoveries / check if it is still available
 		changeCalliopeState(of: peripheral, to: .discovered)
 	}
 
 	public func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+		//TODO: remove calliope from discovered list depending on error
 		changeCalliopeState(of: peripheral, to: .discovered)
 	}
 
 	public func changeCalliopeState(of peripheral: CBPeripheral, to state: CalliopeBLEDevice.CalliopeBLEDeviceState) {
 		//the guards cannot happen if we connect only to discovered named calliopes
-		guard let name = peripheral.name, let calliope = discoveredCalliopes[name] else {
+		guard let name = peripheral.name,
+			let parsed = Matrix.full2Friendly(fullName: name),
+			let calliope = discoveredCalliopes[parsed] else {
 			//TODO: log that we encountered unexpected behavior
 			return
 		}

@@ -58,6 +58,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	public var state : CalliopeBLEDeviceState = .discovered {
 		didSet {
+			updateBlock() //TODO: send specific messages according to state transition
 			switch (oldValue, state) {
 			case (.discovered, .connected):
 				//TODO: notify listeners that calliope will now evaluate whether it is playground ready
@@ -79,6 +80,8 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			}
 		}
 	}
+
+	public var updateBlock: () -> () = {}
 
 	public let peripheral : CBPeripheral
 	public var servicesWithUndiscoveredCharacteristics = CalliopeBLEDevice.requiredServicesUUIDs
@@ -135,84 +138,117 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 
+	//MARK: reading and writing characteristics synchronously
+	public var timeoutRead: DispatchTimeInterval = DispatchTimeInterval.milliseconds(2000)
+	public var timeoutWrite: DispatchTimeInterval = DispatchTimeInterval.milliseconds(2000)
+
+	//to synchronize reads and writes
+	let writeSignal = DispatchGroup()
+	var writeError : Error? = nil
+
+	public func write(_ data: Data, for characteristic: CBCharacteristic) -> Error? {
+
+		writeSignal.enter()
+		peripheral.writeValue(data, for: characteristic, type: .withResponse)
+
+		//TODO: this timeout could lead to unexpected results, if we submit multiple programs to be transferred and one times out
+		/*
+		let timeout = DispatchTime.now() + timeoutWrite
+		if writeSignal.wait(timeout: timeout) == .timedOut {
+			ERR("write timed out")
+			//TODO: maybe use own error type
+			writeError = CBError(.connectionTimeout)
+		}
+		*/
+
+		writeSignal.wait()
+
+		let error = writeError
+
+		//prepare for next write
+		writeError = nil
+
+		return error
+	}
+
+	public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+		//set potential error and move on
+		writeError = error
+		writeSignal.leave()
+	}
+
+
 	// MARK: Uploading programs
 
-	private func partition(data: Data, size: Int, _ block: @escaping (Data) throws -> Void) throws {
-		try data.withUnsafeBytes { (u8Ptr: UnsafePointer<UInt8>) in
+	public func upload(program: ProgramBuildResult) throws {
+
+		guard state == .playgroundReady else { throw "Not ready to receive programs yet" }
+
+		//code of the program
+		let code : [UInt8] = program.code
+		//methods of the program
+		let methods : [UInt16] = program.methods
+
+		let programServiceUUID = CalliopeBLEDevice.CalliopeService.program.uuid
+		let programCharacteristicUUID = CalliopeBLEDevice.CalliopeCharacteristic.program.uuid
+		//never crashes because we made sure we are ready for the playground, i.e. we have all required services
+		let service = peripheral.services!.filter { $0.uuid ==  programServiceUUID }.first!
+		let programCharacteristic = service.characteristics!.filter { $0.uuid == programCharacteristicUUID }.first!
+
+		// transfer code in parts
+
+		//offset of current program part
+		var address = 0
+		//queue for uploading program
+		var chunkedProgram = partition(data: Data(bytes: code), size: 16) //TODO: what is the size variable for?
+
+
+		while (!chunkedProgram.isEmpty) {
+			//transfer part of program and wait for response
+			let part = chunkedProgram.removeFirst()
+			let len = part.count
+			var packet = Data(bytes: [
+				len.hi(), len.lo(),
+				address.hi(), address.lo(),
+				])
+			packet.append(part)
+
+			LOG(String(format: "packet address:%.4x len:%.4x", address, len))
+
+			let error = write(packet, for: programCharacteristic)
+			guard error == nil else { throw error! }
+
+			address += len
+		}
+
+		// transfer end packet
+		//TODO: hash should probably be a hash of the program, but is always 0
+		let hash_is = UInt16(0)
+		var packet = Data(bytes: [
+			0x00, 0x00, // len = 0
+			hash_is.hi(), hash_is.lo(),
+			])
+		for method in methods {
+			packet.append(method.hi())
+			packet.append(method.lo())
+		}
+		let error = write(packet, for: programCharacteristic)
+		guard error == nil else { throw error! }
+	}
+
+	private func partition(data: Data, size: Int) -> [Data] {
+		return data.withUnsafeBytes { (u8Ptr: UnsafePointer<UInt8>) in
+			var chunked : [Data] = []
 			let mutRawPointer = UnsafeMutableRawPointer(mutating: u8Ptr)
 			let totalSize = data.count
 			var chunkOffset = 0
 			while chunkOffset < totalSize {
 				let chunkSize = chunkOffset + size > totalSize ? totalSize - chunkOffset : size
 				let chunkData = Data(bytesNoCopy: mutRawPointer + chunkOffset, count: chunkSize, deallocator: Data.Deallocator.none)
-				try block(chunkData)
+				chunked.append(chunkData)
 				chunkOffset += chunkSize
 			}
+			return chunked
 		}
 	}
-
-
-	/* TODO: adapt this function to new code
-	public func upload(program: ProgramBuildResult) throws {
-	let code = program.code
-	let methods = program.methods
-
-	guard state == .playgroundReady else { throw "Not ready to receive programs yet" }
-
-	let mtu = 16
-
-	let programServiceUUID = CalliopeBLEDevice.CalliopeService.program.uuid
-	let programCharacteristicUUID = CalliopeBLEDevice.CalliopeCharacteristic.program.uuid
-	//never crashes because we made sure we are ready for the playground, i.e. we have all required services
-	let service = peripheral.services?.filter { $0.uuid ==  programServiceUUID }.first!
-	let characteristic = service?.characteristics?.filter { $0.uuid == programCharacteristicUUID }.first!
-
-	//        let service_debug = peripheral.find(service: Calliope.uuid_service_debug)
-	//        let characteristic_debug = service_debug.find(characteristic: Calliope.uuid_characteristic_debug)
-
-	//		let status = try characteristic.read()
-
-	//		if debug {
-	//			LOG("status before \(status.hexEncodedString())")
-	//		}
-
-	// TODO: check version and size
-
-	// transfer code in parts
-	var address: Int = 0
-	try partition(data: Data(bytes: code), size: mtu) { part in
-	let len = part.count
-	var packet = Data(bytes: [
-	len.hi(), len.lo(),
-	address.hi(), address.lo(),
-	])
-	packet.append(part)
-
-	LOG(String(format: "packet address:%.4x len:%.4x", address, len))
-
-	try characteristic_link.write(data: packet)
-	address += len
-	}
-
-	//		if debug {
-	//			LOG("status stage1 \(try characteristic_link.read().hexEncodedString())")
-	//		}
-
-	// transfer end packet
-	let hash_is = hash(bytes: code)
-	var packet = Data(bytes: [
-	0x00, 0x00, // len = 0
-	hash_is.hi(), hash_is.lo(),
-	])
-	for method in methods {
-	packet.append(method.hi())
-	packet.append(method.lo())
-	}
-	try characteristic_link.write(data: packet)
-
-	//		if debug {
-	//			LOG("status stage2 \(try characteristic_link.read().hexEncodedString())")
-	//			//try dump(characteristic_debug)
-	//		}
-	}*/
 }
