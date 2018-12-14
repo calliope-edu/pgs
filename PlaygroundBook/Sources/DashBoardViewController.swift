@@ -75,8 +75,8 @@ public class DashBoardViewController: ViewController_Base {
             case Noise = 0x009
             case Brightness = 0x00a
         */
-            
-        let connectionView = DevicesConnectionView({ (state, data) in
+
+        /*let connectionView = DevicesConnectionView({ (state, data) in
             let array = [UInt8](data)
             //LogNotify.log("notify array: \(array)")
             
@@ -116,6 +116,18 @@ public class DashBoardViewController: ViewController_Base {
         ])
 
         self.connectionView = connectionView
+		*/
+
+		let matrixViewController = MatrixConnectionViewController()
+		matrixViewController.willMove(toParent: self)
+		self.addChild(matrixViewController)
+		let matrixView = matrixViewController.view!
+		matrixView.translatesAutoresizingMaskIntoConstraints = false
+		self.view.addSubview(matrixView)
+		NSLayoutConstraint.activate([
+			matrixView.topAnchor.constraint(equalTo: liveViewSafeAreaGuide.topAnchor, constant: top_const),
+			matrixView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -top_const)])
+		matrixViewController.didMove(toParent: self)
 
         if Debug.debugView {
             let logger = UITextView()

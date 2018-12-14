@@ -10,6 +10,24 @@
 		2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */; };
 		2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */; };
 		2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */; };
+		2FBBEB9D21C459FF0082284C /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BACB20A0652C009646CC /* bg.png */; };
+		2FBBEB9E21C459FF0082284C /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BAC720A0652C009646CC /* check.png */; };
+		2FBBEB9F21C459FF0082284C /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BAC920A0652C009646CC /* check@2x.png */; };
+		2FBBEBA021C459FF0082284C /* check@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BAC820A0652C009646CC /* check@3x.png */; };
+		2FBBEBA121C459FF0082284C /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BAD020A0652C009646CC /* heart.png */; };
+		2FBBEBA221C459FF0082284C /* heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BAD320A0652D009646CC /* heart@2x.png */; };
+		2FBBEBA321C459FF0082284C /* heart@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BAC620A0652C009646CC /* heart@3x.png */; };
+		2FBBEBA421C459FF0082284C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BACA20A0652C009646CC /* icon.png */; };
+		2FBBEBA521C459FF0082284C /* mini.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BACF20A0652C009646CC /* mini.png */; };
+		2FBBEBA621C459FF0082284C /* mini@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BACC20A0652C009646CC /* mini@2x.png */; };
+		2FBBEBA721C459FF0082284C /* mini@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BACE20A0652C009646CC /* mini@3x.png */; };
+		2FBBEBA821C459FF0082284C /* reload.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BACD20A0652C009646CC /* reload.png */; };
+		2FBBEBA921C459FF0082284C /* reload@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BAD120A0652C009646CC /* reload@2x.png */; };
+		2FBBEBAA21C459FF0082284C /* reload@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BAD220A0652C009646CC /* reload@3x.png */; };
+		2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133C21C3E25F00500EC1 /* MatrixView.swift */; };
+		2FDC68D421C46395001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FCB133A21C3DC8300500EC1 /* MatrixConnectionViewController.xib */; };
+		2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */; };
+		2FDC68D621C463DC001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FCB133A21C3DC8300500EC1 /* MatrixConnectionViewController.xib */; };
 		2FE507B0219D925B008686F4 /* ValueLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE507AF219D925B008686F4 /* ValueLocalizer.swift */; };
 		2FEC8C6221A1ACCF004C27B8 /* BookSourcesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEC8C6121A1ACCF004C27B8 /* BookSourcesTests.swift */; };
 		2FEC8C6421A1ACCF004C27B8 /* libBook_Sources.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF2F9AB2054BBF300191409 /* libBook_Sources.a */; };
@@ -206,6 +224,10 @@
 		2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscovery.swift; sourceTree = "<group>"; };
 		2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscoveryTest.swift; sourceTree = "<group>"; };
 		2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDevice.swift; sourceTree = "<group>"; };
+		2FBBEBB121C460D20082284C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixConnectionViewController.swift; sourceTree = "<group>"; };
+		2FCB133A21C3DC8300500EC1 /* MatrixConnectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatrixConnectionViewController.xib; sourceTree = "<group>"; };
+		2FCB133C21C3E25F00500EC1 /* MatrixView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixView.swift; sourceTree = "<group>"; };
 		2FE507AF219D925B008686F4 /* ValueLocalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueLocalizer.swift; sourceTree = "<group>"; };
 		2FEC8C5F21A1ACCF004C27B8 /* BookSourcesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BookSourcesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FEC8C6121A1ACCF004C27B8 /* BookSourcesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSourcesTests.swift; sourceTree = "<group>"; };
@@ -348,6 +370,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2FBBEBB021C460D20082284C /* Book_Sources_resources */ = {
+			isa = PBXGroup;
+			children = (
+				2FBBEBB121C460D20082284C /* Info.plist */,
+			);
+			path = Book_Sources_resources;
+			sourceTree = "<group>";
+		};
 		2FEC8C6021A1ACCF004C27B8 /* BookSourcesTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,6 +447,7 @@
 				5E1004BD208E7F6E00BCFE70 /* LICENSE */,
 				5EA2E3D52056F83400416A35 /* Supporting Content */,
 				2FEC8C6021A1ACCF004C27B8 /* BookSourcesTests */,
+				2FBBEBB021C460D20082284C /* Book_Sources_resources */,
 				5E086DA4204F706E004D8D25 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -471,6 +502,7 @@
 		5EF2F9792054B64800191409 /* PrivateResources */ = {
 			isa = PBXGroup;
 			children = (
+				2FCB133A21C3DC8300500EC1 /* MatrixConnectionViewController.xib */,
 				9DFC63B9214F9DAA002FCB75 /* localizations */,
 				8855BACB20A0652C009646CC /* bg.png */,
 				8855BAC720A0652C009646CC /* check.png */,
@@ -646,6 +678,8 @@
 				8855BA5020A06491009646CC /* Calliope.swift */,
 				2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */,
 				2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */,
+				2FCB133C21C3E25F00500EC1 /* MatrixView.swift */,
+				2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */,
 			);
 			path = Connectivity;
 			sourceTree = "<group>";
@@ -827,6 +861,7 @@
 				9DFC63AC214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				9DFC63AE214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 				9DFC63B2214F9CFC002FCB75 /* Localizable.strings in Resources */,
+				2FDC68D421C46395001163D3 /* MatrixConnectionViewController.xib in Resources */,
 				8855BADF20A0652D009646CC /* reload@2x.png in Resources */,
 				8855BADB20A0652D009646CC /* reload.png in Resources */,
 				8855BADA20A0652D009646CC /* mini@2x.png in Resources */,
@@ -845,10 +880,25 @@
 			files = (
 				9DFC63B7214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 				9DFC63AB214F9CFC002FCB75 /* Localizable.strings in Resources */,
+				2FBBEBA721C459FF0082284C /* mini@3x.png in Resources */,
+				2FBBEB9D21C459FF0082284C /* bg.png in Resources */,
+				2FBBEBA821C459FF0082284C /* reload.png in Resources */,
+				2FBBEBA921C459FF0082284C /* reload@2x.png in Resources */,
+				2FBBEBA521C459FF0082284C /* mini.png in Resources */,
 				9DFC63B3214F9CFC002FCB75 /* Localizable.strings in Resources */,
+				2FBBEBA421C459FF0082284C /* icon.png in Resources */,
 				5EA2E3CA2056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard in Resources */,
+				2FBBEB9F21C459FF0082284C /* check@2x.png in Resources */,
+				2FBBEBA121C459FF0082284C /* heart.png in Resources */,
+				2FBBEB9E21C459FF0082284C /* check.png in Resources */,
+				2FBBEBA021C459FF0082284C /* check@3x.png in Resources */,
 				9DFC63AD214F9CFC002FCB75 /* EditableFields.strings in Resources */,
+				2FBBEBA621C459FF0082284C /* mini@2x.png in Resources */,
+				2FBBEBA221C459FF0082284C /* heart@2x.png in Resources */,
+				2FDC68D621C463DC001163D3 /* MatrixConnectionViewController.xib in Resources */,
+				2FBBEBA321C459FF0082284C /* heart@3x.png in Resources */,
 				9DFC63AF214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
+				2FBBEBAA21C459FF0082284C /* reload@3x.png in Resources */,
 				9DFC63B5214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -901,6 +951,7 @@
 				8855BA5620A06492009646CC /* Extension_CalliopeImage.swift in Sources */,
 				8855BA5D20A06492009646CC /* Constants.swift in Sources */,
 				8855BA5820A06492009646CC /* Extension_UIColor.swift in Sources */,
+				2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */,
 				8855BA9A20A064C4009646CC /* BookProgramCommandClear.swift in Sources */,
 				8855BA6520A06492009646CC /* Extension_String.swift in Sources */,
 				8855BAC520A064C4009646CC /* Dashboard_ThermometerAnimation.swift in Sources */,
@@ -949,6 +1000,7 @@
 				8855BAB820A064C4009646CC /* ProgramBlink.swift in Sources */,
 				8855BABD20A064C4009646CC /* Dashboard_ButtonAAnimation.swift in Sources */,
 				8855BA9C20A064C4009646CC /* BookProgramCommandConditionals.swift in Sources */,
+				2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */,
 				8855BAB020A064C4009646CC /* BookProgramProjectClap.swift in Sources */,
 				8855BA5C20A06492009646CC /* ViewController_Base.swift in Sources */,
 				8855BAA120A064C4009646CC /* BookProgramCommandStart.swift in Sources */,
