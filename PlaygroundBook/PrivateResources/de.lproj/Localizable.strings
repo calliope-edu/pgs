@@ -26,4 +26,4 @@
 "connect.connected" = "Verbunden!";
 "connect.testMode" = "Prüfe Calliope...";
 "connect.readyToPlay" = "Bereit zu spielen!";
-"connect.wrongProgram" = "Calliope im falschen Modus!";
+"connect.wrongProgram" = "Calliope muss in Modus 5 sein!";

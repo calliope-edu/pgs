@@ -11,8 +11,10 @@ import PlaygroundSupport
 @objc
 class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAreaContainer
 {
-	private let collapsedSize: CGFloat = 28
-	private let expandedSize: CGFloat = 500
+	private let collapsedWidth: CGFloat = 28
+	private let collapsedHeight: CGFloat = 28
+	private let expandedWidth: CGFloat = 270
+	private let expandedHeight: CGFloat = 500
 
 	/// button to toggle whether connection view is open or not
 	@IBOutlet var collapseButton: UIButton!
@@ -135,10 +137,12 @@ class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAr
 
 	private func animate(expand: Bool, completion: () -> () = {}) {
 
-		let size: CGFloat
+		let width: CGFloat
+		let height: CGFloat
 		let completion: (_ completed: Bool) -> ()
 		if expand {
-			size = expandedSize
+			width = expandedWidth
+			height = expandedHeight
 			completion = { _ in
 				self.collapseButton.isSelected = true
 				if self.connector.state != .connected {
@@ -146,7 +150,8 @@ class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAr
 				}
 			}
 		} else {
-			size = collapsedSize
+			width = collapsedWidth
+			height = collapsedHeight
 			completion = { _ in
 				self.collapseButton.isSelected = false
 				self.connector.stopCalliopeDiscovery()
@@ -154,8 +159,8 @@ class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAr
 		}
 
 		UIView.animate(withDuration: TimeInterval(0.5), animations: {
-			self.collapseHeightConstraint.constant = size
-			self.collapseWidthConstraint.constant = size
+			self.collapseHeightConstraint.constant = height
+			self.collapseWidthConstraint.constant = width
 			self.view.superview?.layoutIfNeeded()
 		}, completion: completion)
 	}
