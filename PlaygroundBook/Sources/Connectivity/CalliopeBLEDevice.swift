@@ -52,7 +52,6 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	public enum CalliopeBLEDeviceState {
 		case discovered //discovered and ready to connect, not connected yet
-		case connecting //trying to connect
 		case connected //connected, but services and characteristics have not (yet) been found
 		case evaluateMode //connected, looking for services and characteristics
 		case playgroundReady //all required services and characteristics have been found, calliope ready to be programmed

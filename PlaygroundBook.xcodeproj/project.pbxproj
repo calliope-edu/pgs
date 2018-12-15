@@ -25,9 +25,9 @@
 		2FBBEBA921C459FF0082284C /* reload@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BAD120A0652C009646CC /* reload@2x.png */; };
 		2FBBEBAA21C459FF0082284C /* reload@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8855BAD220A0652C009646CC /* reload@3x.png */; };
 		2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133C21C3E25F00500EC1 /* MatrixView.swift */; };
-		2FDC68D421C46395001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FCB133A21C3DC8300500EC1 /* MatrixConnectionViewController.xib */; };
 		2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */; };
-		2FDC68D621C463DC001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FCB133A21C3DC8300500EC1 /* MatrixConnectionViewController.xib */; };
+		2FDC68D721C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */; };
+		2FDC68D821C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */; };
 		2FE507B0219D925B008686F4 /* ValueLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE507AF219D925B008686F4 /* ValueLocalizer.swift */; };
 		2FEC8C6221A1ACCF004C27B8 /* BookSourcesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEC8C6121A1ACCF004C27B8 /* BookSourcesTests.swift */; };
 		2FEC8C6421A1ACCF004C27B8 /* libBook_Sources.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF2F9AB2054BBF300191409 /* libBook_Sources.a */; };
@@ -226,8 +226,10 @@
 		2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDevice.swift; sourceTree = "<group>"; };
 		2FBBEBB121C460D20082284C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixConnectionViewController.swift; sourceTree = "<group>"; };
-		2FCB133A21C3DC8300500EC1 /* MatrixConnectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MatrixConnectionViewController.xib; sourceTree = "<group>"; };
 		2FCB133C21C3E25F00500EC1 /* MatrixView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixView.swift; sourceTree = "<group>"; };
+		2FDC68DC21C56513001163D3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
+		2FDC68DD21C56842001163D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MatrixConnectionViewController.xib; sourceTree = "<group>"; };
+		2FDC68DE21C5685C001163D3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
 		2FE507AF219D925B008686F4 /* ValueLocalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueLocalizer.swift; sourceTree = "<group>"; };
 		2FEC8C5F21A1ACCF004C27B8 /* BookSourcesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BookSourcesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FEC8C6121A1ACCF004C27B8 /* BookSourcesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSourcesTests.swift; sourceTree = "<group>"; };
@@ -502,7 +504,7 @@
 		5EF2F9792054B64800191409 /* PrivateResources */ = {
 			isa = PBXGroup;
 			children = (
-				2FCB133A21C3DC8300500EC1 /* MatrixConnectionViewController.xib */,
+				2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */,
 				9DFC63B9214F9DAA002FCB75 /* localizations */,
 				8855BACB20A0652C009646CC /* bg.png */,
 				8855BAC720A0652C009646CC /* check.png */,
@@ -861,7 +863,7 @@
 				9DFC63AC214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				9DFC63AE214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 				9DFC63B2214F9CFC002FCB75 /* Localizable.strings in Resources */,
-				2FDC68D421C46395001163D3 /* MatrixConnectionViewController.xib in Resources */,
+				2FDC68D721C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */,
 				8855BADF20A0652D009646CC /* reload@2x.png in Resources */,
 				8855BADB20A0652D009646CC /* reload.png in Resources */,
 				8855BADA20A0652D009646CC /* mini@2x.png in Resources */,
@@ -895,7 +897,7 @@
 				9DFC63AD214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				2FBBEBA621C459FF0082284C /* mini@2x.png in Resources */,
 				2FBBEBA221C459FF0082284C /* heart@2x.png in Resources */,
-				2FDC68D621C463DC001163D3 /* MatrixConnectionViewController.xib in Resources */,
+				2FDC68D821C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */,
 				2FBBEBA321C459FF0082284C /* heart@3x.png in Resources */,
 				9DFC63AF214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 				2FBBEBAA21C459FF0082284C /* reload@3x.png in Resources */,
@@ -1056,6 +1058,16 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2FDC68DC21C56513001163D3 /* de */,
+				2FDC68DD21C56842001163D3 /* Base */,
+				2FDC68DE21C5685C001163D3 /* en */,
+			);
+			name = MatrixConnectionViewController.xib;
+			sourceTree = "<group>";
+		};
 		5EA2E3C82056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

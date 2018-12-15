@@ -11,7 +11,7 @@ import PlaygroundSupport
 @objc
 class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAreaContainer
 {
-	private let collapsedSize: CGFloat = 40
+	private let collapsedSize: CGFloat = 28
 	private let expandedSize: CGFloat = 500
 
 	/// button to toggle whether connection view is open or not
@@ -30,10 +30,9 @@ class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAr
 
 
 	private let connector = CalliopeBLEDiscovery()
-	public var calliope: CalliopeBLEDevice? {
+	public var calliopeWithCurrentMatrix: CalliopeBLEDevice? {
 		return connector.discoveredCalliopes[Matrix.matrix2friendly(matrixView.matrix) ?? ""]
 	}
-
 
 	@IBAction func toggleOpen(_ sender: Any) {
 		if collapseButton.isSelected {
@@ -47,16 +46,12 @@ class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAr
 	@IBAction func connect(_ sender: Any) {
 		//TODO: implement connection logic
 		if self.connector.state == .initialized
-			|| self.calliope == nil && self.connector.state == .discoveredAll {
+			|| self.calliopeWithCurrentMatrix == nil && self.connector.state == .discoveredAll {
 			connector.startCalliopeDiscovery()
-		} else if let calliope = self.calliope {
-			if calliope.state == .discovered {
+		} else if let calliope = self.calliopeWithCurrentMatrix, calliope.state == .discovered {
 				connector.stopCalliopeDiscovery()
-				calliope.updateBlock = evaluateCalliopeState
+				calliope.updateBlock = updateDiscoveryState
 				connector.connectToCalliope(calliope)
-			} else if calliope.state == .notPlaygroundReady {
-				calliope.evaluateMode()
-			}
 		} else {
 			fatalError("connect button must not be enabled in this state")
 		}
@@ -71,66 +66,70 @@ class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAr
 	}
 
 	private func updateDiscoveryState() {
+
 		switch self.connector.state {
 		case .initialized:
-			self.connectButton.isEnabled = true
-			self.connectButton.setTitle(NSLocalizedString("Start search", comment: "button label in connection view to start search"), for: .normal)
+			matrixView.isUserInteractionEnabled = true
+			connectButton.isEnabled = true
+			connectButton.setTitle("connect.startSearch".localized, for: .normal)
 		case .discoveryStarted:
-			self.connectButton.isEnabled = false
-			self.connectButton.setTitle(NSLocalizedString("Waiting for Bluetooth", comment: "button label in connection view if Bluetooth is off"), for: .normal)
+			matrixView.isUserInteractionEnabled = true
+			connectButton.isEnabled = false
+			connectButton.setTitle("connect.waitForBluetooth".localized, for: .normal)
 		case .discovering, .discovered:
-			if self.calliope != nil {
-				evaluateCalliopeState()
+			if let calliope = self.calliopeWithCurrentMatrix {
+				evaluateCalliopeState(calliope)
 			} else {
-				self.connectButton.isEnabled = false
-				self.connectButton.setTitle(NSLocalizedString("Searching Calliope", comment: "button label in connection view for the discovery process"), for: .normal)
+				matrixView.isUserInteractionEnabled = true
+				connectButton.isEnabled = false
+				connectButton.setTitle("connect.searching".localized, for: .normal)
 			}
-		default:
-			evaluateCalliopeState()
+		case .connecting:
+			matrixView.isUserInteractionEnabled = false
+			connectButton.isEnabled = false
+			connectButton.setTitle("connect.connecting".localized, for: .normal)
+		case .discoveredAll, .connected:
+			if let calliope = self.calliopeWithCurrentMatrix {
+				evaluateCalliopeState(calliope)
+			} else {
+				connector.disconnectOldCalliope()
+				animate(connected: false)
+				matrixView.isUserInteractionEnabled = true
+				connectButton.isEnabled = true
+				connectButton.setTitle("connect.notFoundRetry".localized, for: .normal)
+			}
 		}
 	}
 
-	private func evaluateCalliopeState() {
-
-		guard let calliope = self.calliope else {
-			animate(connected: false)
-			connector.discoveredCalliopes
-				.filter { (_, calliope) -> Bool in
-					return calliope.state != .discovered }
-				.forEach { (_, calliope) in
-					calliope.updateBlock = {}
-					connector.disconnectCalliope(calliope) }
-
-			self.connectButton.isEnabled = true
-			self.connectButton.setTitle(NSLocalizedString("Not found... Try again?", comment: "button label in connection view if calliope with specified pattern was not found"), for: .normal)
-			return
-		}
+	private func evaluateCalliopeState(_ calliope: CalliopeBLEDevice) {
 
 		if calliope.state == .playgroundReady {
-			self.animate(connected: true)
+			animate(connected: true)
 		} else {
 			animate(connected: false)
 		}
 
 		switch calliope.state {
 		case .discovered:
-			self.connectButton.isEnabled = true
-			self.connectButton.setTitle(NSLocalizedString("Connect", comment: "button label in connection view if calliope with specified pattern was found and can be connected"), for: .normal)
-		case .connecting:
-			self.connectButton.isEnabled = false
-			self.connectButton.setTitle(NSLocalizedString("Connecting...", comment: "button label in connection view if connection to calliope is attempted"), for: .normal)
+			matrixView.isUserInteractionEnabled = true
+			connectButton.isEnabled = true
+			connectButton.setTitle("connect.connect".localized, for: .normal)
 		case .connected:
-			self.connectButton.isEnabled = false
-			self.connectButton.setTitle(NSLocalizedString("Connected", comment: "button label in connection view if calliope is connected"), for: .normal)
+			matrixView.isUserInteractionEnabled = false
+			connectButton.isEnabled = false
+			connectButton.setTitle("connect.connected".localized, for: .normal)
 		case .evaluateMode:
-			self.connectButton.isEnabled = false
-			self.connectButton.setTitle(NSLocalizedString("Testing Calliope...", comment: "button label in connection view for calliope mode evaluation"), for: .normal)
+			matrixView.isUserInteractionEnabled = false
+			connectButton.isEnabled = false
+			connectButton.setTitle("connect.testMode".localized, for: .normal)
 		case .playgroundReady:
-			self.connectButton.isEnabled = false
-			self.connectButton.setTitle(NSLocalizedString("Ready to play!", comment: "button label in connection view if calliope is connected and in correct mode"), for: .normal)
+			matrixView.isUserInteractionEnabled = true
+			connectButton.isEnabled = false
+			connectButton.setTitle("connect.readyToPlay".localized, for: .normal)
 		case .notPlaygroundReady:
-			self.connectButton.isEnabled = true
-			self.connectButton.setTitle(NSLocalizedString("Wrong program. retry?", comment: "button label in connection view if calliope is connected and not correct mode"), for: .normal)
+			matrixView.isUserInteractionEnabled = true
+			connectButton.isEnabled = false
+			connectButton.setTitle("connect.wrongProgram".localized, for: .normal)
 		}
 	}
 
@@ -142,7 +141,9 @@ class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAr
 			size = expandedSize
 			completion = { _ in
 				self.collapseButton.isSelected = true
-				self.connector.startCalliopeDiscovery()
+				if self.connector.state != .connected {
+					self.connector.startCalliopeDiscovery()
+				}
 			}
 		} else {
 			size = collapsedSize
