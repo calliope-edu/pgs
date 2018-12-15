@@ -2,7 +2,7 @@ import UIKit
 
 final class MatrixView: UIView {
 
-    public var onChange: (([[Bool]])->())? = nil
+	public var updateBlock: () -> () = {}
 
     var matrix = [
         [ false, false, false, false, false ],
@@ -51,9 +51,7 @@ final class MatrixView: UIView {
             matrix[x][y] = draw
         }
         setNeedsDisplay()
-        if let block = onChange {
-            block(matrix)
-        }
+        updateBlock()
     }
 
     let sf = 0.03

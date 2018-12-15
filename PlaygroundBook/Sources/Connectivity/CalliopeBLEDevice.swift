@@ -59,16 +59,14 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		case notPlaygroundReady //required services and characteristics not available, put into right mode
 	}
 
-	public var state : CalliopeBLEDeviceState = .discovered {
+	var state : CalliopeBLEDeviceState = .discovered {
 		didSet {
 			updateBlock() //TODO: send specific messages according to state transition
 			if state == .discovered {
 				//services get invalidated, undiscovered characteristics are thus restored (need to re-discover)
 				servicesWithUndiscoveredCharacteristics = CalliopeBLEDevice.requiredServicesUUIDs
 			} else if state == .connected {
-				//immediately continue with service discovery
-				state = .evaluateMode
-				peripheral.discoverServices(Array(CalliopeBLEDevice.requiredServicesUUIDs))
+				evaluateMode()
 			}
 		}
 	}
@@ -85,6 +83,13 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	// MARK: Services discovery
+
+	/// evaluate whether calliope is in correct mode
+	public func evaluateMode() {
+		//immediately continue with service discovery
+		state = .evaluateMode
+		peripheral.discoverServices(Array(CalliopeBLEDevice.requiredServicesUUIDs))
+	}
 
 	public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
 		guard error == nil else {
@@ -128,7 +133,6 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			state = .playgroundReady
 		}
 	}
-
 
 	//MARK: reading and writing characteristics synchronously
 	public var timeoutRead: DispatchTimeInterval = DispatchTimeInterval.milliseconds(2000)

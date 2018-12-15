@@ -14,7 +14,8 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		case initialized //no discovered calliopes, doing nothing
 		case discoveryStarted //invoked discovery but waiting for the system bluetooth (might be off)
 		case discovering //running the discovery process now, but not discovered anything yet
-		case discovered //discovery list is not empty, may be still discovering
+		case discovered //discovery list is not empty, still searching
+		case discoveredAll //discovery has finished with discovered calliopes
 	}
 
 	public var state : CalliopeDiscoveryState = .initialized {
@@ -48,12 +49,18 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 			centralManager.scanForPeripherals(withServices: nil, options: nil)
 			//stop the search after some time. The user can invoke it again later.
 			DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 20.0) {
-				self.centralManager.stopScan()
-				//no discovered devices, so we are as fresh as a newborn discoverer
-				if self.state != .discovered {
-					self.state = .initialized
-				}
+				self.stopCalliopeDiscovery()
 			}
+		}
+	}
+
+	public func stopCalliopeDiscovery() {
+		self.centralManager.stopScan()
+		if self.state == .discovered {
+			self.state = .discoveredAll
+		} else if self.state == .discovering {
+			//no discovered devices, so we are as fresh as a newborn discoverer
+			self.state = .initialized
 		}
 	}
 
@@ -75,6 +82,11 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		guard calliope.state == .discovered else { return }
 		calliope.state = .connecting
 		self.centralManager.connect(calliope.peripheral, options: nil)
+	}
+
+	public func disconnectCalliope(_ calliope: CalliopeBLEDevice) {
+		self.centralManager.cancelPeripheralConnection(calliope.peripheral)
+		calliope.state = .discovered
 	}
 
 	public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {

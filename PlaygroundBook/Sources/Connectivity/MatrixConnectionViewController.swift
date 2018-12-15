@@ -11,44 +11,166 @@ import PlaygroundSupport
 @objc
 class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAreaContainer
 {
+	private let collapsedSize: CGFloat = 40
+	private let expandedSize: CGFloat = 500
+
+	/// button to toggle whether connection view is open or not
 	@IBOutlet var collapseButton: UIButton!
 
-
-	@IBOutlet var collapseWidthConstraint: NSLayoutConstraint!
-	@IBOutlet var collapseHeightConstraint: NSLayoutConstraint!
-
+	/// the matrix in which to draw the calliope name pattern
 	@IBOutlet var matrixView: MatrixView!
 
+	/// button to trigger the connection with the calliope
 	@IBOutlet var connectButton: UIButton!
+
+	/// constraint to collapse view horizontally
+	@IBOutlet var collapseWidthConstraint: NSLayoutConstraint!
+	/// constraint to collapse view vertically
+	@IBOutlet var collapseHeightConstraint: NSLayoutConstraint!
+
+
+	private let connector = CalliopeBLEDiscovery()
+	public var calliope: CalliopeBLEDevice? {
+		return connector.discoveredCalliopes[Matrix.matrix2friendly(matrixView.matrix) ?? ""]
+	}
+
 
 	@IBAction func toggleOpen(_ sender: Any) {
 		if collapseButton.isSelected {
-			UIView.animate(withDuration: TimeInterval(0.5), animations: {
-				self.collapseHeightConstraint.constant = 40
-				self.collapseWidthConstraint.constant = 40
-				self.view.superview?.layoutIfNeeded()
-			}) { _ in
-				self.collapseButton.isSelected = false
-			}
+			//button selected --> view in open state --> collapse!
+			animate(expand: false)
 		} else {
-			UIView.animate(withDuration: TimeInterval(0.5), animations: {
-				self.collapseHeightConstraint.constant = 500
-				self.collapseWidthConstraint.constant = 500
-				self.view.superview?.layoutIfNeeded()
-			}) { _ in
-				self.collapseButton.isSelected = true
-			}
+			animate(expand: true)
 		}
 	}
 
 	@IBAction func connect(_ sender: Any) {
 		//TODO: implement connection logic
+		if self.connector.state == .initialized
+			|| self.calliope == nil && self.connector.state == .discoveredAll {
+			connector.startCalliopeDiscovery()
+		} else if let calliope = self.calliope {
+			if calliope.state == .discovered {
+				connector.stopCalliopeDiscovery()
+				calliope.updateBlock = evaluateCalliopeState
+				connector.connectToCalliope(calliope)
+			} else if calliope.state == .notPlaygroundReady {
+				calliope.evaluateMode()
+			}
+		} else {
+			fatalError("connect button must not be enabled in this state")
+		}
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		//TODO: set up ble search and update connect button label according to state changes
-		//TODO: set up reactions to matrix image drawing
+		connector.updateBlock = updateDiscoveryState
+		//TODO: set up proper reactions to matrix image drawing
+		matrixView.updateBlock = updateDiscoveryState
+		animate(expand: false)
+	}
+
+	private func updateDiscoveryState() {
+		switch self.connector.state {
+		case .initialized:
+			self.connectButton.isEnabled = true
+			self.connectButton.setTitle(NSLocalizedString("Start search", comment: "button label in connection view to start search"), for: .normal)
+		case .discoveryStarted:
+			self.connectButton.isEnabled = false
+			self.connectButton.setTitle(NSLocalizedString("Waiting for Bluetooth", comment: "button label in connection view if Bluetooth is off"), for: .normal)
+		case .discovering, .discovered:
+			if self.calliope != nil {
+				evaluateCalliopeState()
+			} else {
+				self.connectButton.isEnabled = false
+				self.connectButton.setTitle(NSLocalizedString("Searching Calliope", comment: "button label in connection view for the discovery process"), for: .normal)
+			}
+		default:
+			evaluateCalliopeState()
+		}
+	}
+
+	private func evaluateCalliopeState() {
+
+		guard let calliope = self.calliope else {
+			animate(connected: false)
+			connector.discoveredCalliopes
+				.filter { (_, calliope) -> Bool in
+					return calliope.state != .discovered }
+				.forEach { (_, calliope) in
+					calliope.updateBlock = {}
+					connector.disconnectCalliope(calliope) }
+
+			self.connectButton.isEnabled = true
+			self.connectButton.setTitle(NSLocalizedString("Not found... Try again?", comment: "button label in connection view if calliope with specified pattern was not found"), for: .normal)
+			return
+		}
+
+		if calliope.state == .playgroundReady {
+			self.animate(connected: true)
+		} else {
+			animate(connected: false)
+		}
+
+		switch calliope.state {
+		case .discovered:
+			self.connectButton.isEnabled = true
+			self.connectButton.setTitle(NSLocalizedString("Connect", comment: "button label in connection view if calliope with specified pattern was found and can be connected"), for: .normal)
+		case .connecting:
+			self.connectButton.isEnabled = false
+			self.connectButton.setTitle(NSLocalizedString("Connecting...", comment: "button label in connection view if connection to calliope is attempted"), for: .normal)
+		case .connected:
+			self.connectButton.isEnabled = false
+			self.connectButton.setTitle(NSLocalizedString("Connected", comment: "button label in connection view if calliope is connected"), for: .normal)
+		case .evaluateMode:
+			self.connectButton.isEnabled = false
+			self.connectButton.setTitle(NSLocalizedString("Testing Calliope...", comment: "button label in connection view for calliope mode evaluation"), for: .normal)
+		case .playgroundReady:
+			self.connectButton.isEnabled = false
+			self.connectButton.setTitle(NSLocalizedString("Ready to play!", comment: "button label in connection view if calliope is connected and in correct mode"), for: .normal)
+		case .notPlaygroundReady:
+			self.connectButton.isEnabled = true
+			self.connectButton.setTitle(NSLocalizedString("Wrong program. retry?", comment: "button label in connection view if calliope is connected and not correct mode"), for: .normal)
+		}
+	}
+
+	private func animate(expand: Bool, completion: () -> () = {}) {
+
+		let size: CGFloat
+		let completion: (_ completed: Bool) -> ()
+		if expand {
+			size = expandedSize
+			completion = { _ in
+				self.collapseButton.isSelected = true
+				self.connector.startCalliopeDiscovery()
+			}
+		} else {
+			size = collapsedSize
+			completion = { _ in
+				self.collapseButton.isSelected = false
+				self.connector.stopCalliopeDiscovery()
+			}
+		}
+
+		UIView.animate(withDuration: TimeInterval(0.5), animations: {
+			self.collapseHeightConstraint.constant = size
+			self.collapseWidthConstraint.constant = size
+			self.view.superview?.layoutIfNeeded()
+		}, completion: completion)
+	}
+
+	private func animate(connected: Bool, completion: @escaping () -> () = {}) {
+		if connected {
+			UIView.animate(withDuration: TimeInterval(0.2), animations: {
+				//show that calliope is connected
+				self.collapseButton.backgroundColor = UIColor.green
+			}, completion: { _ in completion() })
+		} else {
+			UIView.animate(withDuration: TimeInterval(0.2), animations: {
+				//show that no calliope is connected
+				self.collapseButton.backgroundColor = UIColor.red
+			}, completion: { _ in completion() })
+		}
 	}
 
 	// MARK: LiveViewMessageHandler

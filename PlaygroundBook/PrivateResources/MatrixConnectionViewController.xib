@@ -32,7 +32,7 @@
                             <rect key="frame" x="20" y="48" width="305" height="349"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="600" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="r1H-dK-CrE">
+                        <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="600" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="r1H-dK-CrE">
                             <rect key="frame" x="0.0" y="405" width="345" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" priority="650" constant="44" id="RY9-Hk-ddU"/>
