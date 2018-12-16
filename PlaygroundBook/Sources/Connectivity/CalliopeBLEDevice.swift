@@ -58,9 +58,10 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		case notPlaygroundReady //required services and characteristics not available, put into right mode
 	}
 
-	var state : CalliopeBLEDeviceState = .discovered {
+	public var state : CalliopeBLEDeviceState = .discovered { //TODO: make setter private
 		didSet {
-			updateBlock() //TODO: send specific messages according to state transition
+			LogNotify.log("\(self)")
+			updateBlock()
 			if state == .discovered {
 				//services get invalidated, undiscovered characteristics are thus restored (need to re-discover)
 				servicesWithUndiscoveredCharacteristics = CalliopeBLEDevice.requiredServicesUUIDs
@@ -301,5 +302,11 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			}
 			return chunked
 		}
+	}
+}
+
+extension CalliopeBLEDevice {
+	public override var description: String {
+		return "name: \(String(describing: peripheral.name)), state: \(state)"
 	}
 }

@@ -112,7 +112,7 @@ class UITableViewCell_DeviceMatrix: UITableViewCell {
         }
         
         DispatchQueue.global(qos: .userInitiated).async {
-            if let image = Matrix.heights2Matrix(heights: heights, rect: rect) {
+            if let image = Matrix.heights2MatrixImage(heights: heights, rect: rect) {
                 DispatchQueue.main.async { [weak self] in
                     self?._matrix.image = image
                 }

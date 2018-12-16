@@ -202,7 +202,7 @@ extension DashBoardViewController: UIGestureRecognizerDelegate {
 	public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
 		//prevent gestures on connection view itself from collapsing the view
 		if let connectionViewController = self.connectionView {
-			return !touch.view?.isDescendant(of: connectionViewController.view) ?? false
+			return !(touch.view?.isDescendant(of: connectionViewController.view) ?? false)
 		} else {
 			return false
 		}

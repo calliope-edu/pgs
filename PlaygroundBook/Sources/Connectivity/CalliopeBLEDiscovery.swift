@@ -7,8 +7,11 @@
 
 import UIKit
 import CoreBluetooth
+import PlaygroundSupport
 
 public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
+
+	private let lastConnectedKey = "cc.calliope.latestDeviceKey"
 
 	public enum CalliopeDiscoveryState {
 		case initialized //no discovered calliopes, doing nothing
@@ -20,41 +23,116 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		case connected //connected to some calliope
 	}
 
-	public var state : CalliopeDiscoveryState = .initialized {
+	public var updateBlock: () -> () = {}
+
+	public private(set) var state : CalliopeDiscoveryState = .initialized {
 		didSet {
+			LogNotify.log("discovery state: \(state)")
 			updateBlock()
 		}
 	}
 
-	public var updateBlock: () -> () = {}
+	public private(set) var discoveredCalliopes : [String : CalliopeBLEDevice] = [:] {
+		didSet {
+			LogNotify.log("discovered: \(discoveredCalliopes)")
+			redetermineState()
+		}
+	}
 
-	public var discoveredCalliopes : [String : CalliopeBLEDevice] = [:]
+	public private(set) var connectingCalliope: CalliopeBLEDevice? {
+		didSet {
+			LogNotify.log("connecting: \(String(describing: connectingCalliope))")
+			if let connectingCalliope = self.connectingCalliope {
+				connectedCalliope = nil
+				self.centralManager.connect(connectingCalliope.peripheral, options: nil)
+				//manual timeout (system timeout is too long)
+				DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10) {
+					if self.connectedCalliope == nil {
+						self.centralManager.cancelPeripheralConnection(connectingCalliope.peripheral)
+					}
+				}
+			}
+			redetermineState()
+		}
+	}
 
-	public var connectedCalliope: CalliopeBLEDevice?
+	public private(set) var connectedCalliope: CalliopeBLEDevice? {
+		willSet {
+			connectedCalliope?.state = .discovered
+			newValue?.state = .connected
+		}
+		didSet {
+			LogNotify.log("connected: \(String(describing: connectedCalliope))")
+			if connectedCalliope != nil {
+				connectingCalliope = nil
+			}
+			lastConnected = connectedCalliope?.peripheral.identifier
+			redetermineState()
+		}
+	}
 
 	private let centralManager = CBCentralManager()
+
+	private var lastConnected: UUID? {
+		get {
+			let store = PlaygroundKeyValueStore.current
+			guard case let .string(uuidString)? = store[lastConnectedKey] else { return nil }
+			return UUID(uuidString: uuidString)
+		}
+		set {
+			let store = PlaygroundKeyValueStore.current
+			guard let newUUIDString = newValue?.uuidString else {
+				store[lastConnectedKey] = nil
+				return
+			}
+			store[lastConnectedKey] = .string(newUUIDString)
+		}
+	}
 
 	override init() {
 		super.init()
 		centralManager.delegate = self
 	}
 
+	private func redetermineState() {
+		if connectedCalliope != nil {
+			state = .connected
+		} else if connectingCalliope != nil {
+			state = .connecting
+		} else if centralManager.isScanning {
+			state = discoveredCalliopes.isEmpty ? .discovering : .discovered
+		} else {
+			state = discoveredCalliopes.isEmpty ? .initialized : .discoveredAll
+		}
+	}
+
+	private func attemptReconnect() {
+		LogNotify.log("attempt reconnect")
+		guard let lastConnected = self.lastConnected,
+		let lastCalliope = centralManager.retrievePeripherals(withIdentifiers: [lastConnected]).first,
+		let name = lastCalliope.name,
+		let friendlyName = Matrix.full2Friendly(fullName: name)
+		else { return }
+
+		let calliope = CalliopeBLEDevice(peripheral: lastCalliope)
+		self.discoveredCalliopes.updateValue(calliope, forKey: friendlyName)
+		//auto-reconnect
+		LogNotify.log("reconnect to: \(calliope)")
+		connectingCalliope = calliope
+	}
+
 	// MARK: discovery
 
 	public func startCalliopeDiscovery() {
-		disconnectOldCalliope()
+		disconnectFromCalliope()
 
 		//start scan only if central manger already connected to bluetooth system service (=poweredOn)
 		//alternatively, this is invoked after the state of the central mananger changed to poweredOn.
-		if state != .discoveryStarted {
+		if centralManager.state != .poweredOn {
 			state = .discoveryStarted
-		}
-
-		if centralManager.state == .poweredOn && !centralManager.isScanning {
-			if !(self.state == .connected || state == .connecting) {
-				state = .discovering
-			}
+		} else if !centralManager.isScanning {
 			centralManager.scanForPeripherals(withServices: nil, options: nil)
+			redetermineState()
 			//stop the search after some time. The user can invoke it again later.
 			DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 20.0) {
 				self.stopCalliopeDiscovery()
@@ -66,13 +144,7 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		if centralManager.isScanning {
 			self.centralManager.stopScan()
 		}
-		if self.discoveredCalliopes.isEmpty {
-			//no discovered devices, so we are as fresh as a newborn discoverer
-			disconnectOldCalliope()
-			self.state = .initialized
-		} else if !(self.state == .connected || state == .connecting) {
-			self.state = .discoveredAll
-		}
+		redetermineState()
 	}
 
 	public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -86,9 +158,6 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 				discoveredCalliopes.updateValue(CalliopeBLEDevice(peripheral: peripheral),
 												forKey: friendlyName)
 			}
-			if !(self.state == .connected || state == .connecting) {
-				state = .discovered
-			}
 		}
 	}
 
@@ -99,18 +168,10 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		stopCalliopeDiscovery()
 		//do not connect twice
 		guard calliope != connectedCalliope else { return }
-		disconnectOldCalliope()
-		state = .connecting
-		self.centralManager.connect(calliope.peripheral, options: nil)
-		//manual timeout (system timeout is too long)
-		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 7) {
-			if self.connectedCalliope == nil {
-				self.centralManager.cancelPeripheralConnection(calliope.peripheral)
-			}
-		}
+		connectingCalliope = calliope
 	}
 
-	public func disconnectOldCalliope() {
+	public func disconnectFromCalliope() {
 		if let connectedCalliope = self.connectedCalliope {
 			self.centralManager.cancelPeripheralConnection(connectedCalliope.peripheral)
 		}
@@ -124,20 +185,17 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 				return
 		}
 		connectedCalliope = calliope
-		state = .connected
-		calliope.state = .connected
 	}
 
 	public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-		let previouslyConnected = connectedCalliope
+		connectingCalliope = nil
 		connectedCalliope = nil
-		previouslyConnected?.state = .discovered
-		state = .discoveredAll
+		lastConnected = nil
 	}
 
 	public func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
 		//TODO: remove calliope from discovered list depending on error
-		state = .discoveredAll
+		connectingCalliope = nil
 	}
 
 	// MARK: state of the bluetooth manager
@@ -145,8 +203,11 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 	public func centralManagerDidUpdateState(_ central: CBCentralManager) {
 		switch central.state {
 		case .poweredOn:
-			if self.state == .discoveryStarted {
+			if state == .discoveryStarted {
 				startCalliopeDiscovery()
+			}
+			if lastConnected != nil {
+				attemptReconnect()
 			}
 		case .unknown, .resetting, .unsupported, .unauthorized, .poweredOff:
 			//bluetooth is in a state where we cannot do anything

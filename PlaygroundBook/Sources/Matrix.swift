@@ -83,8 +83,16 @@ final class Matrix {
         }
         return heights
     }
-    
-    static func heights2Matrix(heights: [Int], rect: CGRect) -> UIImage? {
+
+	static func friendly2Matrix(_ friendly: String) -> [[Bool]] {
+		let heights = friendly2Heights(friendly)
+		let matrix: [[Bool]] = heights.map { height in
+			(0..<MICROBIT_NAME_LENGTH).map { $0 <= height }.reversed()
+		}
+		return matrix
+	}
+
+    static func heights2MatrixImage(heights: [Int], rect: CGRect) -> UIImage? {
         let len = MICROBIT_NAME_LENGTH-1
         let insetPerc:CGFloat = 0.8
         let max_size = max(rect.size.width, rect.size.height)

@@ -50,8 +50,11 @@ public class MatrixConnectionViewController: UIViewController
 	override public func viewDidLoad() {
 		super.viewDidLoad()
 		connector.updateBlock = updateDiscoveryState
-		//TODO: set up proper reactions to matrix image drawing
-		matrixView.updateBlock = updateDiscoveryState
+		matrixView.updateBlock = {
+			//matrix has been changed manually, this always triggers a disconnect
+			self.connector.disconnectFromCalliope()
+			self.updateDiscoveryState()
+		}
 		animate(expand: false)
 	}
 
@@ -136,20 +139,22 @@ public extension MatrixConnectionViewController {
 				connectButton.isEnabled = false
 				connectButton.setTitle("connect.searching".localized, for: .normal)
 			}
+		case .discoveredAll:
+			animate(connected: false)
+			matrixView.isUserInteractionEnabled = true
+			connectButton.isEnabled = true
+			connectButton.setTitle("connect.notFoundRetry".localized, for: .normal)
 		case .connecting:
 			matrixView.isUserInteractionEnabled = false
 			connectButton.isEnabled = false
 			connectButton.setTitle("connect.connecting".localized, for: .normal)
-		case .discoveredAll, .connected:
-			if let calliope = self.calliopeWithCurrentMatrix {
-				evaluateCalliopeState(calliope)
-			} else {
-				connector.disconnectOldCalliope()
-				animate(connected: false)
-				matrixView.isUserInteractionEnabled = true
-				connectButton.isEnabled = true
-				connectButton.setTitle("connect.notFoundRetry".localized, for: .normal)
+		case .connected:
+			if let connectedCalliope = connector.connectedCalliope {
+				//set matrix in case of auto-reconnect, where we do not have corresponding matrix yet
+				matrixView.matrix = Matrix.friendly2Matrix(Matrix.full2Friendly(fullName: connectedCalliope.peripheral.name!)!)
+				connectedCalliope.updateBlock = updateDiscoveryState
 			}
+			evaluateCalliopeState(calliopeWithCurrentMatrix!)
 		}
 	}
 
