@@ -16,8 +16,8 @@ public class DashBoardViewController: ViewController_Base {
     var identifier:String = ""
     
     var stack:UIStackView_Dashboard!
-    var connectionView:DevicesConnectionView?
-    
+    var connectionView: MatrixConnectionViewController?
+
     public required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -76,10 +76,10 @@ public class DashBoardViewController: ViewController_Base {
             case Brightness = 0x00a
         */
 
-        /*let connectionView = DevicesConnectionView({ (state, data) in
+		/*
+        let connectionView = DevicesConnectionView({ (state, data) in
             let array = [UInt8](data)
             //LogNotify.log("notify array: \(array)")
-            
             if state == DevicesConnectionState.notify {
                 if let type = DashboardItemType(rawValue:UInt16(array[1])) {
                     let value:UInt8 = array[3]
@@ -119,6 +119,7 @@ public class DashBoardViewController: ViewController_Base {
 		*/
 
 		let matrixViewController = MatrixConnectionViewController()
+		connectionView = matrixViewController
 		matrixViewController.willMove(toParent: self)
 		self.addChild(matrixViewController)
 		let matrixView = matrixViewController.view!
@@ -128,6 +129,11 @@ public class DashBoardViewController: ViewController_Base {
 			matrixView.topAnchor.constraint(equalTo: liveViewSafeAreaGuide.topAnchor, constant: top_const),
 			matrixView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -top_const)])
 		matrixViewController.didMove(toParent: self)
+
+		//set up gesture recognizer to collapse connection view
+		let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(collapseConnectionViewController))
+		gestureRecognizer.delegate = self
+		self.view.addGestureRecognizer(gestureRecognizer)
 
         if Debug.debugView {
             let logger = UITextView()
@@ -158,11 +164,9 @@ public class DashBoardViewController: ViewController_Base {
         }
         
         guard let stackView = stack else { return }
-        guard let connectionView = connectionView else { return }
-        
+
         coordinator.animate(alongsideTransition:{ _ in
             stackView.transform = CGAffineTransform(scaleX: 0.96, y: 0.96)
-            connectionView.setNeedsUpdateConstraints()
         }, completion: { _ in
             let ani = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.5, animations: {
                 stackView.transform = CGAffineTransform.identity
@@ -186,6 +190,23 @@ public class DashBoardViewController: ViewController_Base {
             }
         })
     }
+
+	@objc private func collapseConnectionViewController() {
+		self.connectionView?.animate(expand: false)
+	}
+}
+
+//MARK: collapse gesture recognizer delegate
+
+extension DashBoardViewController: UIGestureRecognizerDelegate {
+	public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+		//prevent gestures on connection view itself from collapsing the view
+		if let connectionViewController = self.connectionView {
+			return !touch.view?.isDescendant(of: connectionViewController.view) ?? false
+		} else {
+			return false
+		}
+	}
 }
 
 //MARK: - PlaygroundLiveViewMessageHandler

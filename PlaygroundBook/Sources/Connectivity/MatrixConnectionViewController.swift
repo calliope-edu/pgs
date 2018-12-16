@@ -9,7 +9,7 @@ import UIKit
 import PlaygroundSupport
 
 @objc
-class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAreaContainer
+public class MatrixConnectionViewController: UIViewController
 {
 	private let collapsedWidth: CGFloat = 28
 	private let collapsedHeight: CGFloat = 28
@@ -30,6 +30,8 @@ class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAr
 	/// constraint to collapse view vertically
 	@IBOutlet var collapseHeightConstraint: NSLayoutConstraint!
 
+	///TODO: review if these asynchronized do any harm
+	private let queue = DispatchQueue(label: "bluetooth")
 
 	private let connector = CalliopeBLEDiscovery()
 	public var calliopeWithCurrentMatrix: CalliopeBLEDevice? {
@@ -45,26 +47,74 @@ class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAr
 		}
 	}
 
+	override public func viewDidLoad() {
+		super.viewDidLoad()
+		connector.updateBlock = updateDiscoveryState
+		//TODO: set up proper reactions to matrix image drawing
+		matrixView.updateBlock = updateDiscoveryState
+		animate(expand: false)
+	}
+
+	public func animate(expand: Bool, completion: () -> () = {}) {
+
+		let width: CGFloat
+		let height: CGFloat
+		let completion: (_ completed: Bool) -> ()
+		if expand {
+			width = expandedWidth
+			height = expandedHeight
+			completion = { _ in
+				self.collapseButton.isSelected = true
+				if self.connector.state != .connected {
+					self.connector.startCalliopeDiscovery()
+				}
+			}
+		} else {
+			width = collapsedWidth
+			height = collapsedHeight
+			completion = { _ in
+				self.collapseButton.isSelected = false
+				self.connector.stopCalliopeDiscovery()
+			}
+		}
+
+		UIView.animate(withDuration: TimeInterval(0.5), animations: {
+			self.collapseHeightConstraint.constant = height
+			self.collapseWidthConstraint.constant = width
+			self.view.superview?.layoutIfNeeded()
+		}, completion: completion)
+	}
+
+	private func animate(connected: Bool, completion: @escaping () -> () = {}) {
+		if connected {
+			UIView.animate(withDuration: TimeInterval(0.2), animations: {
+				//show that calliope is connected
+				self.collapseButton.backgroundColor = UIColor.green
+			}, completion: { _ in completion() })
+		} else {
+			UIView.animate(withDuration: TimeInterval(0.2), animations: {
+				//show that no calliope is connected
+				self.collapseButton.backgroundColor = UIColor.red
+			}, completion: { _ in completion() })
+		}
+	}
+}
+
+// MARK: calliope connection
+
+public extension MatrixConnectionViewController {
 	@IBAction func connect(_ sender: Any) {
 		//TODO: implement connection logic
 		if self.connector.state == .initialized
 			|| self.calliopeWithCurrentMatrix == nil && self.connector.state == .discoveredAll {
 			connector.startCalliopeDiscovery()
 		} else if let calliope = self.calliopeWithCurrentMatrix, calliope.state == .discovered {
-				connector.stopCalliopeDiscovery()
-				calliope.updateBlock = updateDiscoveryState
-				connector.connectToCalliope(calliope)
+			connector.stopCalliopeDiscovery()
+			calliope.updateBlock = updateDiscoveryState
+			connector.connectToCalliope(calliope)
 		} else {
 			fatalError("connect button must not be enabled in this state")
 		}
-	}
-
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		connector.updateBlock = updateDiscoveryState
-		//TODO: set up proper reactions to matrix image drawing
-		matrixView.updateBlock = updateDiscoveryState
-		animate(expand: false)
 	}
 
 	private func updateDiscoveryState() {
@@ -134,50 +184,40 @@ class MatrixConnectionViewController: UIViewController, PlaygroundLiveViewSafeAr
 			connectButton.setTitle("connect.wrongProgram".localized, for: .normal)
 		}
 	}
+}
 
-	private func animate(expand: Bool, completion: () -> () = {}) {
+//MARK: calliope communications
 
-		let width: CGFloat
-		let height: CGFloat
-		let completion: (_ completed: Bool) -> ()
-		if expand {
-			width = expandedWidth
-			height = expandedHeight
-			completion = { _ in
-				self.collapseButton.isSelected = true
-				if self.connector.state != .connected {
-					self.connector.startCalliopeDiscovery()
+public extension MatrixConnectionViewController {
+
+	public func uploadProgram(program: ProgramBuildResult) -> Worker<String>  {
+		return Worker { [weak self] resolve in
+			guard let queue = self?.queue else { LogNotify.log("no object to work on...)"); return }
+			guard let device = self?.connector.connectedCalliope, device.state == .playgroundReady else {
+				resolve(Result("result.upload.missing".localized, false))
+				return
+			}
+			queue.async {
+				do {
+					LogNotify.log("trying to upload \(program.length()) bytes")
+					try device.upload(program:program)
+					DispatchQueue.main.async {
+						resolve(Result("result.upload.success".localized, true))
+					}
+				} catch {
+					DispatchQueue.main.async {
+						resolve(Result("result.upload.failed".localized, false))
+					}
 				}
 			}
-		} else {
-			width = collapsedWidth
-			height = collapsedHeight
-			completion = { _ in
-				self.collapseButton.isSelected = false
-				self.connector.stopCalliopeDiscovery()
-			}
-		}
-
-		UIView.animate(withDuration: TimeInterval(0.5), animations: {
-			self.collapseHeightConstraint.constant = height
-			self.collapseWidthConstraint.constant = width
-			self.view.superview?.layoutIfNeeded()
-		}, completion: completion)
-	}
-
-	private func animate(connected: Bool, completion: @escaping () -> () = {}) {
-		if connected {
-			UIView.animate(withDuration: TimeInterval(0.2), animations: {
-				//show that calliope is connected
-				self.collapseButton.backgroundColor = UIColor.green
-			}, completion: { _ in completion() })
-		} else {
-			UIView.animate(withDuration: TimeInterval(0.2), animations: {
-				//show that no calliope is connected
-				self.collapseButton.backgroundColor = UIColor.red
-			}, completion: { _ in completion() })
 		}
 	}
+}
+
+
+//MARK: playground specifics
+
+extension MatrixConnectionViewController: PlaygroundLiveViewSafeAreaContainer {
 
 	// MARK: LiveViewMessageHandler
 
