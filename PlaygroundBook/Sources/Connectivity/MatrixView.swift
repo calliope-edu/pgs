@@ -10,7 +10,11 @@ final class MatrixView: UIView {
         [ false, false, false, false, false ],
         [ false, false, false, false, false ],
         [ false, false, false, false, false ],
-    ]
+		] {
+		didSet {
+			setNeedsDisplay()
+		}
+	}
     let nx = 5
     let ny = 5
 
@@ -50,7 +54,6 @@ final class MatrixView: UIView {
             let y = max(0, min(nx-1, Int(CGFloat(ny) * point.y/gy)))
             matrix[x][y] = draw
         }
-        setNeedsDisplay()
         updateBlock()
     }
 

@@ -127,7 +127,7 @@ public extension MatrixConnectionViewController {
 			matrixView.isUserInteractionEnabled = true
 			connectButton.isEnabled = true
 			connectButton.setTitle("connect.startSearch".localized, for: .normal)
-		case .discoveryStarted:
+		case .discoveryWaitingForBluetooth:
 			matrixView.isUserInteractionEnabled = true
 			connectButton.isEnabled = false
 			connectButton.setTitle("connect.waitForBluetooth".localized, for: .normal)
@@ -141,9 +141,13 @@ public extension MatrixConnectionViewController {
 			}
 		case .discoveredAll:
 			animate(connected: false)
-			matrixView.isUserInteractionEnabled = true
-			connectButton.isEnabled = true
-			connectButton.setTitle("connect.notFoundRetry".localized, for: .normal)
+			if let matchingCalliope = calliopeWithCurrentMatrix {
+				evaluateCalliopeState(matchingCalliope)
+			} else {
+				matrixView.isUserInteractionEnabled = true
+				connectButton.isEnabled = true
+				connectButton.setTitle("connect.notFoundRetry".localized, for: .normal)
+			}
 		case .connecting:
 			matrixView.isUserInteractionEnabled = false
 			connectButton.isEnabled = false

@@ -28,7 +28,7 @@
                 <view contentMode="scaleToFill" placeholderIntrinsicWidth="300" placeholderIntrinsicHeight="300" translatesAutoresizingMaskIntoConstraints="NO" id="gsw-XM-54G" userLabel="zoomView">
                     <rect key="frame" x="1" y="10" width="295" height="423"/>
                     <subviews>
-                        <view contentMode="scaleToFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" translatesAutoresizingMaskIntoConstraints="NO" id="9jq-gB-XIi" customClass="MatrixView" customModule="Book_Sources">
+                        <view contentMode="redraw" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" translatesAutoresizingMaskIntoConstraints="NO" id="9jq-gB-XIi" customClass="MatrixView" customModule="Book_Sources">
                             <rect key="frame" x="20" y="108" width="255" height="255"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
