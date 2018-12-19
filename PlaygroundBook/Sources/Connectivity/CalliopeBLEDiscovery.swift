@@ -26,12 +26,13 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		case connected //connected to some calliope
 	}
 
+	public var updateQueue = DispatchQueue.main
 	public var updateBlock: () -> () = {}
 
 	public private(set) var state : CalliopeDiscoveryState = .initialized {
 		didSet {
 			LogNotify.log("discovery state: \(state)")
-			updateBlock()
+			updateQueue.async { self.updateBlock() }
 		}
 	}
 
@@ -72,7 +73,7 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		}
 	}
 
-	private let centralManager = CBCentralManager()
+	private let centralManager = CBCentralManager(delegate: nil, queue: DispatchQueue.global(qos: DispatchQoS.utility.qosClass))
 
 	private var lastConnected: UUID? {
 		get {

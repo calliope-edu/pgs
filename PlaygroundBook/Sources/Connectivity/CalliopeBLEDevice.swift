@@ -61,7 +61,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	public var state : CalliopeBLEDeviceState = .discovered { //TODO: make setter private
 		didSet {
 			LogNotify.log("\(self)")
-			updateBlock()
+			updateQueue.async { self.updateBlock() }
 			if state == .discovered {
 				//services get invalidated, undiscovered characteristics are thus restored (need to re-discover)
 				servicesWithUndiscoveredCharacteristics = CalliopeBLEDevice.requiredServicesUUIDs
@@ -71,11 +71,12 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			} else if state == .playgroundReady {
 				//auto-start sensor readings
 				do { try readSensors(true) }
-				catch {} //TODO: handle errors, at least log them
+				catch { LogNotify.log("\(self)\ncannot start sensor readings") } //TODO: handle errors, at least log them
 			}
 		}
 	}
 
+	public var updateQueue = DispatchQueue.main
 	public var updateBlock: () -> () = {}
 
 	public let peripheral : CBPeripheral
@@ -147,7 +148,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	let writeSignal = DispatchGroup()
 	var writeError : Error? = nil
 
-	public func write(_ data: Data, for characteristic: CBCharacteristic) -> Error? {
+	public func write(_ data: Data, for characteristic: CBCharacteristic) throws {
 
 		writeSignal.enter()
 		peripheral.writeValue(data, for: characteristic, type: .withResponse)
@@ -164,12 +165,12 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 		writeSignal.wait()
 
-		let error = writeError
-
-		//prepare for next write
-		writeError = nil
-
-		return error
+		guard writeError == nil else {
+			let error = writeError!
+			//prepare for next write
+			writeError = nil
+			throw error
+		}
 	}
 
 	public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -251,26 +252,22 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 		//offset of current program part
 		var address = 0
-		//queue for uploading program
-		var chunkedProgram = partition(data: Data(bytes: code), size: 16) //TODO: what is the size variable for?
 
+		//upload porogram in pieces of size 16 bytes
+		try partition(data: Data(bytes: code), size: 16)
+			.forEach { part in
+				//transfer part of program and wait for response
+				let len = part.count
+				var packet = Data(bytes: [
+					len.hi(), len.lo(),
+					address.hi(), address.lo(),
+					])
+				packet.append(part)
 
-		while (!chunkedProgram.isEmpty) {
-			//transfer part of program and wait for response
-			let part = chunkedProgram.removeFirst()
-			let len = part.count
-			var packet = Data(bytes: [
-				len.hi(), len.lo(),
-				address.hi(), address.lo(),
-				])
-			packet.append(part)
+				LOG(String(format: "packet address:%.4x len:%.4x", address, len))
 
-			LOG(String(format: "packet address:%.4x len:%.4x", address, len))
-
-			let error = write(packet, for: programCharacteristic)
-			guard error == nil else { throw error! }
-
-			address += len
+				try write(packet, for: programCharacteristic)
+				address += len
 		}
 
 		// transfer end packet
@@ -284,23 +281,12 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			packet.append(method.hi())
 			packet.append(method.lo())
 		}
-		let error = write(packet, for: programCharacteristic)
-		guard error == nil else { throw error! }
+		try write(packet, for: programCharacteristic)
 	}
 
 	private func partition(data: Data, size: Int) -> [Data] {
-		return data.withUnsafeBytes { (u8Ptr: UnsafePointer<UInt8>) in
-			var chunked : [Data] = []
-			let mutRawPointer = UnsafeMutableRawPointer(mutating: u8Ptr)
-			let totalSize = data.count
-			var chunkOffset = 0
-			while chunkOffset < totalSize {
-				let chunkSize = chunkOffset + size > totalSize ? totalSize - chunkOffset : size
-				let chunkData = Data(bytesNoCopy: mutRawPointer + chunkOffset, count: chunkSize, deallocator: Data.Deallocator.none)
-				chunked.append(chunkData)
-				chunkOffset += chunkSize
-			}
-			return chunked
+		return stride(from: 0, to: data.count, by: size).map {
+			data.subdata(in: $0 ..< Swift.min($0 + size, data.count))
 		}
 	}
 }

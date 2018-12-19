@@ -38,18 +38,21 @@ class CalliopeBLEDiscoveryTest: XCTestCase {
 		wait(for: [connectionExpectation], timeout: TimeInterval(30))
 	}
 
-	func discover(fulfilled: @escaping () -> ()) {
+	func discover(fulfilled: @escaping () -> () = {}) {
 		discoverer.updateBlock = {
-			if self.discoverer.state == .discovered && !self.discoverer.discoveredCalliopes.isEmpty {
+			if self.discoverer.state == .discoveredAll && !self.discoverer.discoveredCalliopes.isEmpty {
 				fulfilled()
 			}
 		}
 		discoverer.startCalliopeDiscovery()
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10.0) {
+			self.discoverer.stopCalliopeDiscovery()
+		}
 	}
 
-	func connect(_ calliope: CalliopeBLEDevice, fulfilled: @escaping () -> ()) {
-		calliope.updateBlock = {
-			if calliope.state == .connected {
+	func connect(_ calliope: CalliopeBLEDevice, fulfilled: @escaping () -> () = {}) {
+		discoverer.updateBlock = {
+			if self.discoverer.state == .connected {
 				fulfilled()
 			}
 		}
