@@ -17,11 +17,8 @@ class CalliopeBLEDeviceTest: XCTestCase {
 	public lazy var mode5DiscoveryExpectation = XCTestExpectation(description: "connect to povig (is in mode 5)")
 
 	public lazy var programUploadExpectation = XCTestExpectation(description: "upload program to povig")
-	public lazy var programUploadFailedExpectation: XCTestExpectation = {
-		let expectation = XCTestExpectation(description: "cannot upload program to povig")
-		expectation.isInverted = true
-		return expectation
-	}()
+
+	public lazy var notificationExpectation = XCTestExpectation(description: "temperature value read")
 
 	let discoveryTest = CalliopeBLEDiscoveryTest()
 
@@ -49,21 +46,33 @@ class CalliopeBLEDeviceTest: XCTestCase {
 	}
 
 	func testProgramUpload() {
-		let program = BookProgramProjectThermometer()
 		discoveryTest.discover {
 			self.connectToCalliopeInMode5() {
-				do {
-					try self.calliopeInMode5!.upload(program: program.build())
+				self.uploadProgram() {
 					self.programUploadExpectation.fulfill()
-				} catch {
-					self.programUploadFailedExpectation.fulfill()
 				}
 			}
 		}
-		wait(for: [programUploadExpectation, programUploadFailedExpectation], timeout: TimeInterval(60))
+		wait(for: [programUploadExpectation], timeout: TimeInterval(30))
 	}
 
-	func connectToCalliopeNotInMode5(fulfilled: @escaping () -> ()) {
+	func testNotifications() {
+		discoveryTest.discover {
+			self.connectToCalliopeInMode5() {
+				self.uploadProgram() {
+					self.programUploadExpectation.fulfill()
+				}
+			}
+		}
+		NotificationCenter.default.addObserver(forName: UIView_DashboardItem.Ping, object: nil, queue: nil) { notification in
+			if notification.userInfo?["type"] as? DashboardItemType == DashboardItemType.Thermometer {
+				self.notificationExpectation.fulfill()
+			}
+		}
+		wait(for: [notificationExpectation, programUploadExpectation], timeout: TimeInterval(50))
+	}
+
+	func connectToCalliopeNotInMode5(fulfilled: @escaping () -> () = {}) {
 		calliopeNotInMode5 = discoveryTest.discoverer.discoveredCalliopes[self.calliopeNameNotInMode5]
 		if let calliopeNotInMode5 = self.calliopeNotInMode5 {
 			calliopeNotInMode5.updateBlock = {
@@ -76,7 +85,7 @@ class CalliopeBLEDeviceTest: XCTestCase {
 		}
 	}
 
-	func connectToCalliopeInMode5(fulfilled: @escaping () -> ()) {
+	func connectToCalliopeInMode5(fulfilled: @escaping () -> () = {}) {
 		calliopeInMode5 = discoveryTest.discoverer.discoveredCalliopes[self.calliopeNameInMode5]
 		if let calliopeInMode5 = self.calliopeInMode5 {
 			calliopeInMode5.updateBlock = {
@@ -87,6 +96,14 @@ class CalliopeBLEDeviceTest: XCTestCase {
 			}
 			discoveryTest.connect(calliopeInMode5)
 		}
+	}
+
+	func uploadProgram(fulfilled: @escaping () -> () = {}) {
+		let program = BookProgramProjectThermometer()
+		do {
+			try self.calliopeInMode5!.upload(program: program.build())
+			fulfilled()
+		} catch {}
 	}
 
     /*func testPerformanceExample() {

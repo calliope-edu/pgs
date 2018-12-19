@@ -80,7 +80,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	public var updateBlock: () -> () = {}
 
 	public let peripheral : CBPeripheral
-	public var servicesWithUndiscoveredCharacteristics = CalliopeBLEDevice.requiredServicesUUIDs
+	public private(set) var servicesWithUndiscoveredCharacteristics = CalliopeBLEDevice.requiredServicesUUIDs
 
 	init(peripheral: CBPeripheral) {
 		self.peripheral = peripheral
@@ -193,13 +193,13 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	// MARK: Receiving sensor values via notify characteristic
 
-	private var sensorReadings: [DashboardItemType: UInt8] = [:]
+	public private(set) var sensorReadings: [DashboardItemType: UInt8] = [:]
 
 	public func readSensors(_ enabled: Bool) throws {
 		guard state == .playgroundReady else { throw "Not ready to receive programs yet" }
 
-		let notifyServiceUUID = CalliopeBLEDevice.CalliopeService.program.uuid
-		let notifyCharacteristicUUID = CalliopeBLEDevice.CalliopeCharacteristic.program.uuid
+		let notifyServiceUUID = CalliopeBLEDevice.CalliopeService.notify.uuid
+		let notifyCharacteristicUUID = CalliopeBLEDevice.CalliopeCharacteristic.notify.uuid
 		//never crashes because we made sure we are ready for the playground, i.e. we have all required services
 		let service = peripheral.services!.filter { $0.uuid ==  notifyServiceUUID }.first!
 		let notifyCharacteristic = service.characteristics!.filter { $0.uuid == notifyCharacteristicUUID }.first!
@@ -211,6 +211,9 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 		if let type = DashboardItemType(rawValue:UInt16(value[1])) {
 			let value:UInt8 = value[3]
+
+			LogNotify.log("\(self) received value \(value) for \(type)")
+
 			sensorReadings.updateValue(value, forKey: type)
 			//TODO: do not use notification center, but let observers subscribe directly to sensorReadings´ value
 			//TODO: subscription to swift dictionaries via didSet works.
