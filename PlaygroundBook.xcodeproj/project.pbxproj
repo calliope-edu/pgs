@@ -37,7 +37,7 @@
 		8855BA5320A06492009646CC /* UITableViewCell_DeviceMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3820A06490009646CC /* UITableViewCell_DeviceMatrix.swift */; };
 		8855BA5420A06492009646CC /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3920A06490009646CC /* Async.swift */; };
 		8855BA5520A06492009646CC /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3A20A06490009646CC /* Matrix.swift */; };
-		8855BA5620A06492009646CC /* Extension_CalliopeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* Extension_CalliopeImage.swift */; };
+		8855BA5620A06492009646CC /* CalliopeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* CalliopeImage.swift */; };
 		8855BA5720A06492009646CC /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3C20A06490009646CC /* ActivityView.swift */; };
 		8855BA5820A06492009646CC /* Extension_UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3D20A06490009646CC /* Extension_UIColor.swift */; };
 		8855BA5920A06492009646CC /* UIStackView_DashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */; };
@@ -53,12 +53,9 @@
 		8855BA6320A06492009646CC /* Extension_NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */; };
 		8855BA6420A06492009646CC /* DashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4A20A06491009646CC /* DashBoardViewController.swift */; };
 		8855BA6520A06492009646CC /* Extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4B20A06491009646CC /* Extension_String.swift */; };
-		8855BA6620A06492009646CC /* DevicesConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4C20A06491009646CC /* DevicesConnectionView.swift */; };
 		8855BA6720A06492009646CC /* Extension_UILayoutPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4D20A06491009646CC /* Extension_UILayoutPriority.swift */; };
 		8855BA6820A06492009646CC /* Extractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4E20A06491009646CC /* Extractor.swift */; };
 		8855BA6920A06492009646CC /* LogNotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4F20A06491009646CC /* LogNotify.swift */; };
-		8855BA6A20A06492009646CC /* Calliope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA5020A06491009646CC /* Calliope.swift */; };
-		8855BA6B20A06492009646CC /* Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA5120A06492009646CC /* Bluetooth.swift */; };
 		8855BA9A20A064C4009646CC /* BookProgramCommandClear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6D20A064C4009646CC /* BookProgramCommandClear.swift */; };
 		8855BA9B20A064C4009646CC /* BookProgramCommandCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6E20A064C4009646CC /* BookProgramCommandCombination.swift */; };
 		8855BA9C20A064C4009646CC /* BookProgramCommandConditionals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6F20A064C4009646CC /* BookProgramCommandConditionals.swift */; };
@@ -237,7 +234,7 @@
 		8855BA3820A06490009646CC /* UITableViewCell_DeviceMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewCell_DeviceMatrix.swift; sourceTree = "<group>"; };
 		8855BA3920A06490009646CC /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
 		8855BA3A20A06490009646CC /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
-		8855BA3B20A06490009646CC /* Extension_CalliopeImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_CalliopeImage.swift; sourceTree = "<group>"; };
+		8855BA3B20A06490009646CC /* CalliopeImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalliopeImage.swift; sourceTree = "<group>"; };
 		8855BA3C20A06490009646CC /* ActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		8855BA3D20A06490009646CC /* Extension_UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_UIColor.swift; sourceTree = "<group>"; };
 		8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStackView_DashBoard.swift; sourceTree = "<group>"; };
@@ -253,12 +250,9 @@
 		8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_NotificationCenter.swift; sourceTree = "<group>"; };
 		8855BA4A20A06491009646CC /* DashBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardViewController.swift; sourceTree = "<group>"; };
 		8855BA4B20A06491009646CC /* Extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_String.swift; sourceTree = "<group>"; };
-		8855BA4C20A06491009646CC /* DevicesConnectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevicesConnectionView.swift; sourceTree = "<group>"; };
 		8855BA4D20A06491009646CC /* Extension_UILayoutPriority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_UILayoutPriority.swift; sourceTree = "<group>"; };
 		8855BA4E20A06491009646CC /* Extractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extractor.swift; sourceTree = "<group>"; };
 		8855BA4F20A06491009646CC /* LogNotify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogNotify.swift; sourceTree = "<group>"; };
-		8855BA5020A06491009646CC /* Calliope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calliope.swift; sourceTree = "<group>"; };
-		8855BA5120A06492009646CC /* Bluetooth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bluetooth.swift; sourceTree = "<group>"; };
 		8855BA6D20A064C4009646CC /* BookProgramCommandClear.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookProgramCommandClear.swift; sourceTree = "<group>"; };
 		8855BA6E20A064C4009646CC /* BookProgramCommandCombination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookProgramCommandCombination.swift; sourceTree = "<group>"; };
 		8855BA6F20A064C4009646CC /* BookProgramCommandConditionals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookProgramCommandConditionals.swift; sourceTree = "<group>"; };
@@ -482,9 +476,8 @@
 				8855BA3920A06490009646CC /* Async.swift */,
 				8855BA4320A06491009646CC /* Constants.swift */,
 				8855BA4A20A06491009646CC /* DashBoardViewController.swift */,
-				8855BA4C20A06491009646CC /* DevicesConnectionView.swift */,
 				8855BA4420A06491009646CC /* Ext.swift */,
-				8855BA3B20A06490009646CC /* Extension_CalliopeImage.swift */,
+				8855BA3B20A06490009646CC /* CalliopeImage.swift */,
 				8855BA4020A06490009646CC /* Extension_CGRect.swift */,
 				8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */,
 				8855BA4B20A06491009646CC /* Extension_String.swift */,
@@ -622,8 +615,6 @@
 		9DA7FD3A20A1B1140080A6FF /* Connectivity */ = {
 			isa = PBXGroup;
 			children = (
-				8855BA5120A06492009646CC /* Bluetooth.swift */,
-				8855BA5020A06491009646CC /* Calliope.swift */,
 				2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */,
 				2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */,
 				2FCB133C21C3E25F00500EC1 /* MatrixView.swift */,
@@ -874,7 +865,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8855BA5620A06492009646CC /* Extension_CalliopeImage.swift in Sources */,
+				8855BA5620A06492009646CC /* CalliopeImage.swift in Sources */,
 				8855BA5D20A06492009646CC /* Constants.swift in Sources */,
 				8855BA5820A06492009646CC /* Extension_UIColor.swift in Sources */,
 				2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */,
@@ -886,7 +877,6 @@
 				8855BAC220A064C4009646CC /* Dashboard_RGBAnimation.swift in Sources */,
 				8855BAAA20A064C4009646CC /* BookProgramOutputGrid.swift in Sources */,
 				8855BA6920A06492009646CC /* LogNotify.swift in Sources */,
-				8855BA6B20A06492009646CC /* Bluetooth.swift in Sources */,
 				8855BABC20A064C4009646CC /* Dashboard_BrightnessAnimation.swift in Sources */,
 				8855BA9F20A064C4009646CC /* BookProgramCommandRandom.swift in Sources */,
 				8855BA6120A06492009646CC /* API.swift in Sources */,
@@ -896,7 +886,6 @@
 				8855BAA420A064C4009646CC /* BookProgramInputButtonAB.swift in Sources */,
 				8855BA5E20A06492009646CC /* Ext.swift in Sources */,
 				8855BA6220A06492009646CC /* ActionButton.swift in Sources */,
-				8855BA6A20A06492009646CC /* Calliope.swift in Sources */,
 				8855BAC420A064C4009646CC /* Dashboard_SoundAnimation.swift in Sources */,
 				8855BA6020A06492009646CC /* UIView_DashBoardItem.swift in Sources */,
 				8855BAA720A064C4009646CC /* BookProgramInputPin.swift in Sources */,
@@ -908,7 +897,6 @@
 				8855BAA520A064C4009646CC /* BookProgramInputButtonB.swift in Sources */,
 				8855BAAD20A064C4009646CC /* BookProgramOutputRGB.swift in Sources */,
 				8855BAA820A064C4009646CC /* BookProgramInputShake.swift in Sources */,
-				8855BA6620A06492009646CC /* DevicesConnectionView.swift in Sources */,
 				8855BAB720A064C4009646CC /* ProgramBaseInstructions.swift in Sources */,
 				8855BAB420A064C4009646CC /* BookProgramProjectTheremin.swift in Sources */,
 				8855BAB620A064C4009646CC /* ProgramBase.swift in Sources */,
