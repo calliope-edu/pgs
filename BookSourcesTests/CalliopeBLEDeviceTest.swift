@@ -34,6 +34,7 @@ class CalliopeBLEDeviceTest: XCTestCase {
     }
 
     func testPairingModeDiscovery() {
+		//NEEDS ONE CALLIOPE SET TO MODE 5 AND ONE NOT, BUT PAIRABLE. SET NAMES AT BEGINNING OF THE CLASS ACCORDINGLY!
 		discoveryTest.discover {
 			self.connectToCalliopeNotInMode5() {
 				self.notMode5DiscoveryExpectation.fulfill()
@@ -46,6 +47,7 @@ class CalliopeBLEDeviceTest: XCTestCase {
 	}
 
 	func testProgramUpload() {
+		//NEEDS ONE CALLIOPE SET TO MODE 5. SET NAME AT BEGINNING OF THE CLASS ACCORDINGLY!
 		discoveryTest.discover {
 			self.connectToCalliopeInMode5() {
 				self.uploadProgram() {
@@ -57,6 +59,7 @@ class CalliopeBLEDeviceTest: XCTestCase {
 	}
 
 	func testNotifications() {
+		//NEEDS ONE CALLIOPE SET TO MODE 5. SET NAME AT BEGINNING OF THE CLASS ACCORDINGLY!
 		discoveryTest.discover {
 			self.connectToCalliopeInMode5() {
 				self.uploadProgram() {
