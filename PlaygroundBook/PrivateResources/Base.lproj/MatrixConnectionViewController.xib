@@ -17,7 +17,7 @@
                 <outlet property="collapseHeightConstraint" destination="Qaf-v4-KAB" id="atR-D1-806"/>
                 <outlet property="collapseWidthConstraint" destination="44F-2y-1xp" id="6T1-AU-J1w"/>
                 <outlet property="connectButton" destination="r1H-dK-CrE" id="EdF-wr-YTg"/>
-                <outlet property="matrixView" destination="9jq-gB-XIi" id="R4d-Cg-pe4"/>
+                <outlet property="matrixView" destination="RPk-JR-Os2" id="fQu-C0-FDs"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -29,14 +29,24 @@
                 <view contentMode="scaleToFill" placeholderIntrinsicWidth="300" placeholderIntrinsicHeight="300" translatesAutoresizingMaskIntoConstraints="NO" id="gsw-XM-54G" userLabel="zoomView">
                     <rect key="frame" x="1" y="10" width="275" height="428"/>
                     <subviews>
-                        <view contentMode="redraw" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" translatesAutoresizingMaskIntoConstraints="NO" id="9jq-gB-XIi" customClass="MatrixView" customModule="Book_Sources">
+                        <view opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="200" placeholderIntrinsicHeight="200" translatesAutoresizingMaskIntoConstraints="NO" id="9jq-gB-XIi">
                             <rect key="frame" x="20" y="78" width="235" height="235"/>
+                            <subviews>
+                                <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="RPk-JR-Os2" customClass="MatrixView" customModule="Book_Sources">
+                                    <rect key="frame" x="5" y="5" width="225" height="225"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                            </subviews>
                             <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
+                                <constraint firstItem="RPk-JR-Os2" firstAttribute="leading" secondItem="9jq-gB-XIi" secondAttribute="leading" constant="5" id="Bap-vB-Q5e"/>
+                                <constraint firstItem="RPk-JR-Os2" firstAttribute="top" secondItem="9jq-gB-XIi" secondAttribute="top" constant="5" id="dke-sd-HVV"/>
+                                <constraint firstAttribute="bottom" secondItem="RPk-JR-Os2" secondAttribute="bottom" constant="5" id="mDv-do-Qna"/>
+                                <constraint firstAttribute="trailing" secondItem="RPk-JR-Os2" secondAttribute="trailing" constant="5" id="rT1-wW-OCl"/>
                                 <constraint firstAttribute="width" secondItem="9jq-gB-XIi" secondAttribute="height" multiplier="1:1" id="yGE-TL-KLW"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="700" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="r1H-dK-CrE" customClass="ConnectionButton" customModule="Book_Sources">
+                        <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="700" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="r1H-dK-CrE" customClass="ConnectionButton" customModule="Book_Sources">
                             <rect key="frame" x="0.0" y="321" width="275" height="99"/>
                             <state key="normal" image="mini_refresh"/>
                             <state key="disabled">
@@ -56,7 +66,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" name="calliope-yellow"/>
+                    <color key="backgroundColor" name="calliope-brightyellow"/>
                     <constraints>
                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="9jq-gB-XIi" secondAttribute="bottom" id="3lP-cd-rtj"/>
                         <constraint firstAttribute="width" constant="275" id="44F-2y-1xp"/>
@@ -113,8 +123,8 @@
         <image name="mini_button_circle_red" width="75" height="75"/>
         <image name="mini_mini" width="75" height="75"/>
         <image name="mini_refresh" width="75" height="75"/>
-        <namedColor name="calliope-yellow">
-            <color red="0.97647058823529409" green="0.77647058823529413" blue="0.14901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="calliope-brightyellow">
+            <color red="0.98431372549019602" green="0.81960784313725488" blue="0.31372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

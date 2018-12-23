@@ -14,32 +14,36 @@ public class CollapseButton: UIButton {
 		case connected
 	}
 
-	override init(frame: CGRect) {
-		super.init(frame: frame)
-		initialize()
-	}
-
-	required init?(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
-		initialize()
+	public enum ExpansionState {
+		case open
+		case closed
 	}
 
 	public var connectionState: ConnectionState = .disconnected {
 		didSet {
-			switch connectionState {
-			case .disconnected:
-				setBackgroundImage(#imageLiteral(resourceName: "mini_button_circle_red"), for: .normal)
-				setImage(#imageLiteral(resourceName: "mini_mini"), for: .normal)
-			case .connected:
-				setBackgroundImage(#imageLiteral(resourceName: "mini_button_circle_green"), for: .normal)
-				setImage(#imageLiteral(resourceName: "mini_mini"), for: .normal)
-			}
+			determineAppearance()
 		}
 	}
 
-	private func initialize() {
-		setBackgroundImage(nil, for: .selected)
-		setImage(UIImage(named: "mini_close"), for: .selected)
+	public var expansionState: ExpansionState = .closed {
+		didSet {
+			determineAppearance()
+		}
 	}
 
+	private func determineAppearance() {
+		if self.expansionState == .open {
+			self.setBackgroundImage(nil, for: .normal)
+			self.setImage(#imageLiteral(resourceName: "mini_close"), for: .normal)
+		} else {
+			switch self.connectionState {
+			case .disconnected:
+				self.setBackgroundImage(#imageLiteral(resourceName: "mini_button_circle_red"), for: .normal)
+				self.setImage(#imageLiteral(resourceName: "mini_mini"), for: .normal)
+			case .connected:
+				self.setBackgroundImage(#imageLiteral(resourceName: "mini_button_circle_green"), for: .normal)
+				self.setImage(#imageLiteral(resourceName: "mini_mini"), for: .normal)
+			}
+		}
+	}
 }

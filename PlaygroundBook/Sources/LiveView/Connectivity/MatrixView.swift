@@ -96,7 +96,7 @@ final class MatrixView: UIView {
                     height: by
                 ))
                 if matrix[x][y] {
-					UIColor(named: "calliope-pink")?.setFill()
+					UIColor(named: "calliope-pink")!.setFill()
                 } else {
 					UIColor.white.setFill()
                 }

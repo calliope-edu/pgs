@@ -39,10 +39,11 @@ public class MatrixConnectionViewController: UIViewController
 	}
 
 	@IBAction func toggleOpen(_ sender: Any) {
-		if collapseButton.isSelected {
-			//button selected --> view in open state --> collapse!
+		if collapseButton.expansionState == .open {
+			//button state open --> collapse!
 			animate(expand: false)
 		} else {
+			//button state closed --> open!
 			animate(expand: true)
 		}
 	}
@@ -58,49 +59,42 @@ public class MatrixConnectionViewController: UIViewController
 		animate(expand: false)
 	}
 
-	public func animate(expand: Bool, completion: () -> () = {}) {
+	public func animate(expand: Bool) {
 
-		let width: CGFloat
-		let height: CGFloat
-		let selected: Bool
+		let animations: () -> ()
 		let completion: (_ completed: Bool) -> ()
+
 		if expand {
-			width = expandedWidth
-			height = expandedHeight
-			selected = true
-			completion = { _ in }
-			if self.connector.state != .connected {
-				self.connector.startCalliopeDiscovery()
+			animations = {
+				self.collapseHeightConstraint.constant = self.expandedHeight
+				self.collapseWidthConstraint.constant = self.expandedWidth
+				self.collapseButton.alpha = 0.0
+			}
+			completion = { _ in
+				self.collapseButton.expansionState = .open
+				self.collapseButton.alpha = 1.0
+				if self.connector.state == .initialized {
+					self.connector.startCalliopeDiscovery()
+				}
 			}
 		} else {
-			width = collapsedWidth
-			height = collapsedHeight
-			selected = false
+			self.collapseButton.alpha = 0.0
+			animations = {
+				self.collapseHeightConstraint.constant = self.collapsedHeight
+				self.collapseWidthConstraint.constant = self.collapsedWidth
+				self.collapseButton.expansionState = .closed
+				self.collapseButton.alpha = 1.0
+			}
 			completion = { _ in
+				self.collapseButton.alpha = 1.0
 				self.connector.stopCalliopeDiscovery()
 			}
 		}
 
-		UIView.animate(withDuration: TimeInterval(0.5), animations: {
-			self.collapseHeightConstraint.constant = height
-			self.collapseWidthConstraint.constant = width
-			self.collapseButton.isSelected = selected
+		UIView.animate(withDuration: TimeInterval(0.3), animations: {
+			animations()
 			self.view.superview?.layoutIfNeeded()
 		}, completion: completion)
-	}
-
-	private func animate(connected: Bool, completion: @escaping () -> () = {}) {
-		if connected {
-			UIView.animate(withDuration: TimeInterval(0.2), animations: {
-				//show that calliope is connected
-				self.collapseButton.connectionState = .connected
-			}, completion: { _ in completion() })
-		} else {
-			UIView.animate(withDuration: TimeInterval(0.2), animations: {
-				//show that no calliope is connected
-				self.collapseButton.connectionState = .disconnected
-			}, completion: { _ in completion() })
-		}
 	}
 }
 
@@ -127,27 +121,31 @@ public extension MatrixConnectionViewController {
 		case .initialized:
 			matrixView.isUserInteractionEnabled = true
 			connectButton.connectionState = .initialized
+			self.collapseButton.connectionState = .disconnected
 		case .discoveryWaitingForBluetooth:
 			matrixView.isUserInteractionEnabled = true
 			connectButton.connectionState = .waitingForBluetooth
+			self.collapseButton.connectionState = .disconnected
 		case .discovering, .discovered:
 			if let calliope = self.calliopeWithCurrentMatrix {
 				evaluateCalliopeState(calliope)
 			} else {
 				matrixView.isUserInteractionEnabled = true
 				connectButton.connectionState = .searching
+				self.collapseButton.connectionState = .disconnected
 			}
 		case .discoveredAll:
-			animate(connected: false)
 			if let matchingCalliope = calliopeWithCurrentMatrix {
 				evaluateCalliopeState(matchingCalliope)
 			} else {
 				matrixView.isUserInteractionEnabled = true
 				connectButton.connectionState = .notFoundRetry
+				self.collapseButton.connectionState = .disconnected
 			}
 		case .connecting:
 			matrixView.isUserInteractionEnabled = false
 			connectButton.connectionState = .connecting
+			self.collapseButton.connectionState = .disconnected
 		case .connected:
 			if let connectedCalliope = connector.connectedCalliope {
 				//set matrix in case of auto-reconnect, where we do not have corresponding matrix yet
@@ -161,9 +159,9 @@ public extension MatrixConnectionViewController {
 	private func evaluateCalliopeState(_ calliope: CalliopeBLEDevice) {
 
 		if calliope.state == .playgroundReady {
-			animate(connected: true)
+			self.collapseButton.connectionState = .connected
 		} else {
-			animate(connected: false)
+			self.collapseButton.connectionState = .disconnected
 		}
 
 		switch calliope.state {

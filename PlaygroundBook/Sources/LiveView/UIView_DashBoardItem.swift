@@ -58,7 +58,7 @@ fileprivate let dashboardItemStyles:DashboardItemStyle = [
     DashboardItemType.Shake       : ["color": "calliope-turqoise"],
     DashboardItemType.Noise       : ["color": "calliope-orange"],
     DashboardItemType.Thermometer : ["color": "calliope-darkgreen"],
-    DashboardItemType.Brightness  : ["color": "calliope-darkyellow"]
+    DashboardItemType.Brightness  : ["color": "calliope-yellow"]
 ]
 
 // state AWAITING, RUNNING = colors
