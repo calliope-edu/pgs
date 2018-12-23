@@ -1,6 +1,20 @@
 {
   "images" : [
     {
+      "resizing" : {
+        "mode" : "9-part",
+        "center" : {
+          "mode" : "tile",
+          "width" : 1,
+          "height" : 1
+        },
+        "cap-insets" : {
+          "bottom" : 37,
+          "top" : 37,
+          "right" : 15,
+          "left" : 19
+        }
+      },
       "idiom" : "universal",
       "filename" : "mini_button_green.pdf",
       "scale" : "1x"
