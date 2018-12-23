@@ -1,6 +1,6 @@
 
 /* Class = "UILabel"; text = "Draw your Calliope´s pattern!"; ObjectID = "NBD-O3-ICc"; */
-"NBD-O3-ICc.text" = "Switch to mode 5 by pressing \"B\", then shake the calliope and draw its pattern!";
+"NBD-O3-ICc.text" = "1. Start program 5\n2. Shake\n3. Enter LED-pattern";
 
 /* Class = "UIButton"; normalTitle = "..."; ObjectID = "r1H-dK-CrE"; */
-"r1H-dK-CrE.normalTitle" = "...";
+"r1H-dK-CrE.normalTitle" = "";

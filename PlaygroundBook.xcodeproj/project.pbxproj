@@ -10,6 +10,8 @@
 		2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */; };
 		2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */; };
 		2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */; };
+		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
+		2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3874B521CFD07F0011A85A /* CollapseButton.swift */; };
 		2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133C21C3E25F00500EC1 /* MatrixView.swift */; };
 		2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */; };
 		2FDC68D721C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */; };
@@ -34,7 +36,6 @@
 		5EBEC2F0205B399300975D3F /* LiveViewHost.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5EBEC2EF205B396500975D3F /* LiveViewHost.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5EF2F9B72054E6FB00191409 /* Chapters in Copy Book Contents */ = {isa = PBXBuildFile; fileRef = 5EF2F9B62054E6F900191409 /* Chapters */; };
 		5EF2F9B82054E6FE00191409 /* Sources in Copy Book Contents */ = {isa = PBXBuildFile; fileRef = 5EF2F9A52054BBB200191409 /* Sources */; };
-		8855BA5320A06492009646CC /* UITableViewCell_DeviceMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3820A06490009646CC /* UITableViewCell_DeviceMatrix.swift */; };
 		8855BA5420A06492009646CC /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3920A06490009646CC /* Async.swift */; };
 		8855BA5520A06492009646CC /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3A20A06490009646CC /* Matrix.swift */; };
 		8855BA5620A06492009646CC /* CalliopeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* CalliopeImage.swift */; };
@@ -199,6 +200,8 @@
 		2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscovery.swift; sourceTree = "<group>"; };
 		2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscoveryTest.swift; sourceTree = "<group>"; };
 		2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDevice.swift; sourceTree = "<group>"; };
+		2F3874B521CFD07F0011A85A /* CollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButton.swift; sourceTree = "<group>"; };
+		2F44603E21CEA403002D15DF /* ConnectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionButton.swift; sourceTree = "<group>"; };
 		2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixConnectionViewController.swift; sourceTree = "<group>"; };
 		2FCB133C21C3E25F00500EC1 /* MatrixView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixView.swift; sourceTree = "<group>"; };
 		2FDC68DC21C56513001163D3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
@@ -231,7 +234,6 @@
 		5EF2F9AB2054BBF300191409 /* libBook_Sources.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBook_Sources.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EF2F9B62054E6F900191409 /* Chapters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Chapters; sourceTree = "<group>"; };
 		8855BA3720A0648F009646CC /* Book_Sources-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Book_Sources-Bridging-Header.h"; sourceTree = "<group>"; };
-		8855BA3820A06490009646CC /* UITableViewCell_DeviceMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewCell_DeviceMatrix.swift; sourceTree = "<group>"; };
 		8855BA3920A06490009646CC /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
 		8855BA3A20A06490009646CC /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
 		8855BA3B20A06490009646CC /* CalliopeImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalliopeImage.swift; sourceTree = "<group>"; };
@@ -332,6 +334,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F3874B121CFCD830011A85A /* LiveView */ = {
+			isa = PBXGroup;
+			children = (
+				9DA7FD3A20A1B1140080A6FF /* Connectivity */,
+				8855BA8F20A064C4009646CC /* DashboardAnimation */,
+				8855BA4820A06491009646CC /* ActionButton.swift */,
+				8855BA3C20A06490009646CC /* ActivityView.swift */,
+				8855BA4720A06491009646CC /* API.swift */,
+				8855BA3920A06490009646CC /* Async.swift */,
+				8855BA4320A06491009646CC /* Constants.swift */,
+				8855BA4A20A06491009646CC /* DashBoardViewController.swift */,
+				8855BA4420A06491009646CC /* Ext.swift */,
+				8855BA3B20A06490009646CC /* CalliopeImage.swift */,
+				8855BA4020A06490009646CC /* Extension_CGRect.swift */,
+				8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */,
+				8855BA4B20A06491009646CC /* Extension_String.swift */,
+				8855BA3D20A06490009646CC /* Extension_UIColor.swift */,
+				8855BA4D20A06491009646CC /* Extension_UILayoutPriority.swift */,
+				8855BA4E20A06491009646CC /* Extractor.swift */,
+				8855BA4F20A06491009646CC /* LogNotify.swift */,
+				8855BA3A20A06490009646CC /* Matrix.swift */,
+				8855BA4520A06491009646CC /* PlayGroundManager.swift */,
+				8855BA3F20A06490009646CC /* Swoosh.swift */,
+				8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */,
+				8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */,
+				8855BA4120A06490009646CC /* ViewController_Base.swift */,
+				8855BA3720A0648F009646CC /* Book_Sources-Bridging-Header.h */,
+				2FE507AF219D925B008686F4 /* ValueLocalizer.swift */,
+			);
+			path = LiveView;
+			sourceTree = "<group>";
+		};
 		2FEC8C6021A1ACCF004C27B8 /* BookSourcesTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -467,33 +501,8 @@
 		5EF2F9A22054BB3E00191409 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				9DA7FD3A20A1B1140080A6FF /* Connectivity */,
 				8855BA6C20A064C4009646CC /* BookPrograms */,
-				8855BA8F20A064C4009646CC /* DashboardAnimation */,
-				8855BA4820A06491009646CC /* ActionButton.swift */,
-				8855BA3C20A06490009646CC /* ActivityView.swift */,
-				8855BA4720A06491009646CC /* API.swift */,
-				8855BA3920A06490009646CC /* Async.swift */,
-				8855BA4320A06491009646CC /* Constants.swift */,
-				8855BA4A20A06491009646CC /* DashBoardViewController.swift */,
-				8855BA4420A06491009646CC /* Ext.swift */,
-				8855BA3B20A06490009646CC /* CalliopeImage.swift */,
-				8855BA4020A06490009646CC /* Extension_CGRect.swift */,
-				8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */,
-				8855BA4B20A06491009646CC /* Extension_String.swift */,
-				8855BA3D20A06490009646CC /* Extension_UIColor.swift */,
-				8855BA4D20A06491009646CC /* Extension_UILayoutPriority.swift */,
-				8855BA4E20A06491009646CC /* Extractor.swift */,
-				8855BA4F20A06491009646CC /* LogNotify.swift */,
-				8855BA3A20A06490009646CC /* Matrix.swift */,
-				8855BA4520A06491009646CC /* PlayGroundManager.swift */,
-				8855BA3F20A06490009646CC /* Swoosh.swift */,
-				8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */,
-				8855BA3820A06490009646CC /* UITableViewCell_DeviceMatrix.swift */,
-				8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */,
-				8855BA4120A06490009646CC /* ViewController_Base.swift */,
-				8855BA3720A0648F009646CC /* Book_Sources-Bridging-Header.h */,
-				2FE507AF219D925B008686F4 /* ValueLocalizer.swift */,
+				2F3874B121CFCD830011A85A /* LiveView */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -619,6 +628,8 @@
 				2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */,
 				2FCB133C21C3E25F00500EC1 /* MatrixView.swift */,
 				2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */,
+				2F44603E21CEA403002D15DF /* ConnectionButton.swift */,
+				2F3874B521CFD07F0011A85A /* CollapseButton.swift */,
 			);
 			path = Connectivity;
 			sourceTree = "<group>";
@@ -874,6 +885,7 @@
 				8855BAC520A064C4009646CC /* Dashboard_ThermometerAnimation.swift in Sources */,
 				8855BAAF20A064C4009646CC /* BookProgramOutputString.swift in Sources */,
 				8855BA5A20A06492009646CC /* Swoosh.swift in Sources */,
+				2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */,
 				8855BAC220A064C4009646CC /* Dashboard_RGBAnimation.swift in Sources */,
 				8855BAAA20A064C4009646CC /* BookProgramOutputGrid.swift in Sources */,
 				8855BA6920A06492009646CC /* LogNotify.swift in Sources */,
@@ -886,6 +898,7 @@
 				8855BAA420A064C4009646CC /* BookProgramInputButtonAB.swift in Sources */,
 				8855BA5E20A06492009646CC /* Ext.swift in Sources */,
 				8855BA6220A06492009646CC /* ActionButton.swift in Sources */,
+				2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */,
 				8855BAC420A064C4009646CC /* Dashboard_SoundAnimation.swift in Sources */,
 				8855BA6020A06492009646CC /* UIView_DashBoardItem.swift in Sources */,
 				8855BAA720A064C4009646CC /* BookProgramInputPin.swift in Sources */,
@@ -902,7 +915,6 @@
 				8855BAB620A064C4009646CC /* ProgramBase.swift in Sources */,
 				8855BABF20A064C4009646CC /* Dashboard_DisplayAnimation.swift in Sources */,
 				8855BAA020A064C4009646CC /* BookProgramCommandSleep.swift in Sources */,
-				8855BA5320A06492009646CC /* UITableViewCell_DeviceMatrix.swift in Sources */,
 				8855BAB320A064C4009646CC /* BookProgramProjectRockPaperScissors.swift in Sources */,
 				8855BAB120A064C4009646CC /* BookProgramProjectDice.swift in Sources */,
 				8855BAA220A064C4009646CC /* BookProgramCommandVariables.swift in Sources */,
