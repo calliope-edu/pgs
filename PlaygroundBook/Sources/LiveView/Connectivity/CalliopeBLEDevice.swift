@@ -80,10 +80,12 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	public var updateBlock: () -> () = {}
 
 	public let peripheral : CBPeripheral
+	public let name : String
 	public private(set) var servicesWithUndiscoveredCharacteristics = CalliopeBLEDevice.requiredServicesUUIDs
 
-	init(peripheral: CBPeripheral) {
+	init(peripheral: CBPeripheral, name: String) {
 		self.peripheral = peripheral
+		self.name = name
 		super.init()
 		peripheral.delegate = self
 	}
@@ -296,6 +298,6 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 extension CalliopeBLEDevice {
 	public override var description: String {
-		return "name: \(String(describing: peripheral.name)), state: \(state)"
+		return "name: \(String(describing: name)), state: \(state)"
 	}
 }
