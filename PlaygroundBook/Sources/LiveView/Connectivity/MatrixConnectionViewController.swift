@@ -19,6 +19,9 @@ public class MatrixConnectionViewController: UIViewController
 	/// button to toggle whether connection view is open or not
 	@IBOutlet var collapseButton: CollapseButton!
 
+	/// the view which handles the collapsing
+	@IBOutlet weak var zoomView: UIView!
+
 	/// the matrix in which to draw the calliope name pattern
 	@IBOutlet var matrixView: MatrixView!
 
@@ -65,6 +68,7 @@ public class MatrixConnectionViewController: UIViewController
 		let completion: (_ completed: Bool) -> ()
 
 		if expand {
+			self.zoomView.isHidden = false
 			animations = {
 				self.collapseHeightConstraint.constant = self.expandedHeight
 				self.collapseWidthConstraint.constant = self.expandedWidth
@@ -84,9 +88,12 @@ public class MatrixConnectionViewController: UIViewController
 				self.collapseWidthConstraint.constant = self.collapsedWidth
 				self.collapseButton.expansionState = .closed
 				self.collapseButton.alpha = 1.0
+				self.zoomView.alpha = 0.0
 			}
 			completion = { _ in
 				self.collapseButton.alpha = 1.0
+				self.zoomView.alpha = 1.0
+				self.zoomView.isHidden = true
 				self.connector.stopCalliopeDiscovery()
 			}
 		}
