@@ -64,7 +64,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		}
 	}
 
-	public enum CalliopeCharacteristic: String {
+	public enum CalliopeCharacteristic: String, CaseIterable {
 		case debug = "FF44DDEE-251D-470A-A062-FA1922DFA9A8"
 		case notify = "FF55DDEE-251D-470A-A062-FA1922DFA9A8"
 		case program = "FF66DDEE-251D-470A-A062-FA1922DFA9A8"
@@ -176,14 +176,59 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		/// The maximum number of bytes which may be transmitted in one PDU is limited to the MTU minus three or 20 octets to be precise.
 		case rxCharacteristic = "6E400003B5A3F393E0A9E50E24DCCA9E"
 
-		var uuid: CBUUID {
+		fileprivate var uuid: CBUUID {
 			if self.rawValue.count == 32 {
 				return CBUUID(hexString: self.rawValue)
 			} else {
 				return CBUUID(string: self.rawValue)
 			}
 		}
+
+		fileprivate func interpret<T>(dataBytes: Data?) -> T? {
+			guard let dataBytes = dataBytes else { return nil }
+
+			switch self {
+			case .txCharacteristic:
+				return (String(data: dataBytes, encoding: String.Encoding.utf8) ?? "Error reading message") as? T
+			case .pinData:
+				var values = [UInt8:UInt8]()
+				let sequence = stride(from: 0, to: dataBytes.count, by: 2)
+				for element in sequence {
+					values[dataBytes[element]] = dataBytes[element + 1]
+				}
+				return values as? T
+			case .ledMatrixState:
+				//TODO: look up endianness in led octets and apply offset correspondingly
+				return dataBytes.map { (byte) -> [Bool] in
+					(0..<4).map { offset in (byte & (0x01 << offset)) == 1 }
+				} as? T
+			case .buttonAState, .buttonBState:
+				return ButtonPressAction(rawValue: dataBytes[0]) as? T
+			case .accelerometerData, .magnetometerData:
+				return dataBytes.withUnsafeBytes {
+					(int16Ptr: UnsafePointer<Int16>) -> (Int16, Int16, Int16) in
+					return (Int16(littleEndian: int16Ptr[0]), //X
+						Int16(littleEndian: int16Ptr[1]), //y
+						Int16(littleEndian: int16Ptr[2])) //z
+					} as? T
+			case .magnetometerBearing:
+				return dataBytes.withUnsafeBytes { (int16Ptr:UnsafePointer<Int16>) -> Int16 in
+					return Int16(littleEndian:int16Ptr[0])
+					} as? T
+			case .microBitEvent:
+				return dataBytes.withUnsafeBytes { (uint16ptr:UnsafePointer<Int16>)-> (Event, Int16)? in
+					guard let event = Event(rawValue: Int16(littleEndian:uint16ptr[0])) else { return nil }
+					return (event, Int16(littleEndian:uint16ptr[1]))
+					} as? T
+			case .temperature:
+				return Int16(dataBytes[0]) as? T
+			default:
+				return nil
+			}
+		}
 	}
+
+	public static let uuidCharacteristicMap = Dictionary(uniqueKeysWithValues:CalliopeCharacteristic.allCases.map { ($0.uuid, $0) })
 
 	//standard bluetooth profile of any device: Peripherials contain services which contain characteristics
 	//(or included services, but let´s forget about them for now)
@@ -205,6 +250,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	//the services required for the playground
 	public static let requiredServices : Set =  [CalliopeService.accelerometer, CalliopeService.button] //[CalliopeService.notify, CalliopeService.program]
 
+	private static let characteristicServiceMap = Dictionary(uniqueKeysWithValues: serviceCharacteristicMap.flatMap {(key, value) in value.map { value in (value, key) } })
 
 	//Bluetooth profile with non-human-readable names (same as above, but all UUIDs)
 	private static let serviceCharacteristicUUIDMap = Dictionary(uniqueKeysWithValues:
@@ -304,64 +350,320 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		}
 	}
 
-	//MARK: reading and writing characteristics synchronously
+	//MARK: reading and writing characteristics (asynchronously/ scheduled/ synchronously)
+
 	public var timeoutRead: DispatchTimeInterval = DispatchTimeInterval.milliseconds(2000)
 	public var timeoutWrite: DispatchTimeInterval = DispatchTimeInterval.milliseconds(2000)
 
-	//to synchronize reads and writes
-	let writeSignal = DispatchGroup()
+	//to sequentialize reads and writes
+
+	let writeSem = DispatchSemaphore(value: 1)
+	let writeGroup = DispatchGroup()
 	var writeError : Error? = nil
 
-	public func write(_ data: Data, for characteristic: CBCharacteristic) throws {
+	let readSem = DispatchSemaphore(value: 1)
+	let readGroup = DispatchGroup()
+	var readError : Error? = nil
+	var readingCharacteristic : CalliopeCharacteristic? = nil
+	var readValue : Data? = nil
 
-		writeSignal.enter()
+	var notifyListeners : [CalliopeCharacteristic: Any] = [:]
+
+	///listeners for periodic data updates (max. one for each)
+	var updateListeners: [CalliopeCharacteristic: Any] = [:]
+
+	public func write (_ data: Data, for characteristic: CalliopeCharacteristic, of service: CalliopeService) throws {
+		guard state == .playgroundReady
+			else { throw "Not ready to write to characteristic \(characteristic)" }
+		guard CalliopeBLEDevice.requiredServices.contains(service)
+			else { throw "service not available" }
+		guard (CalliopeBLEDevice.serviceCharacteristicMap[service] ?? []).contains(characteristic)
+			else { throw "characteristic and service do not belong together" }
+
+		let cbCharacteristic = peripheral.services!.filter { $0.uuid ==  service.uuid }.first!.characteristics!.filter { $0.uuid == characteristic.uuid }.first!
+		try write(data, for: cbCharacteristic)
+	}
+
+	private func write(_ data: Data, for characteristic: CBCharacteristic) throws {
+		writeSem.wait()
+
+		//write value and wait for delegate call (or error)
+		writeGroup.enter()
 		peripheral.writeValue(data, for: characteristic, type: .withResponse)
-
-		//TODO: this timeout could lead to unexpected results, if we submit multiple programs to be transferred and one times out
-		/*
-		let timeout = DispatchTime.now() + timeoutWrite
-		if writeSignal.wait(timeout: timeout) == .timedOut {
-			ERR("write timed out")
-			//TODO: maybe use own error type
+		//TODO: writeSignal.wait(timeout) could lead to unexpected results, if we submit multiple dependant writes to be transferred and one times out
+		if writeGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
 			writeError = CBError(.connectionTimeout)
 		}
-		*/
-
-		writeSignal.wait()
 
 		guard writeError == nil else {
 			let error = writeError!
 			//prepare for next write
 			writeError = nil
+			writeSem.signal()
 			throw error
 		}
+		writeSem.signal()
+	}
+
+	public func read(characteristic: CalliopeCharacteristic) throws -> Data? {
+		guard state == .playgroundReady
+			else { throw "Not ready to read characteristic \(characteristic)" }
+		guard let cbCharacteristic = getCBCharacteristic(characteristic)
+			else { throw "no service that contains characteristic \(characteristic)" }
+		return try read(characteristic: cbCharacteristic)
+	}
+
+	private func read(characteristic: CBCharacteristic) throws -> Data? {
+		readSem.wait()
+
+		//read value and wait for delegate call (or error)
+		readGroup.enter()
+		peripheral.readValue(for: characteristic)
+		if readGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
+			readError = CBError(.connectionTimeout)
+		}
+
+		guard readError == nil else {
+			let error = readError!
+			//prepare for next read
+			readError = nil
+			readSem.signal()
+			throw error
+		}
+
+		let data = readValue
+		readValue = nil
+		readSem.signal()
+		return data
 	}
 
 	public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
 		//set potential error and move on
 		writeError = error
-		writeSignal.leave()
+		writeGroup.leave()
 	}
 
 	public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-		guard error == nil else { return } //TODO: log the cause
+
+		if let readingCharac = readingCharacteristic, characteristic.uuid == readingCharac.uuid {
+			readingCharacteristic = nil
+			return explicitReadResponse(for: characteristic, error: error)
+		}
+
+		guard error == nil, let value = characteristic.value else {
+			LogNotify.log(readError?.localizedDescription ?? "characteristic \(characteristic.uuid) does not have a value")
+			return
+		}
 
 		if characteristic.uuid == CalliopeCharacteristic.notify.uuid {
-			if let value = characteristic.value {
-				updateSensorReading(value)
-			}
+			updateSensorReading(value)
 		} else {
-			//TODO: some other characteristic has updated its value, but we do not know why...
+			//TODO: if we have all the sensor characteristics, and one updates, we can as well update the dashboard using it
+			notifyListener(for: characteristic, value: value)
 		}
 	}
 
-	// MARK: Receiving sensor values via notify characteristic
+	private func explicitReadResponse(for characteristic: CBCharacteristic, error: Error?) {
+		//answer to explicit read request
+		if let error = error {
+			readError = error
+			LogNotify.log(error.localizedDescription)
+			readGroup.leave()
+			return
+		} else {
+			readValue = characteristic.value
+			readGroup.leave()
+			return
+		}
+	}
 
-	public private(set) var sensorReadings: [DashboardItemType: UInt8] = [:]
+	private func getCBCharacteristic(_ characteristic: CalliopeCharacteristic) -> CBCharacteristic? {
+		guard let serviceUuid = CalliopeBLEDevice.characteristicServiceMap[characteristic]?.uuid else { return nil }
+		let uuid = characteristic.uuid
+		return peripheral.services!.filter { $0.uuid == serviceUuid }.first!
+			.characteristics!.filter { $0.uuid == uuid }.first!
+	}
+}
+
+extension CalliopeBLEDevice {
+
+	//MARK: variables retrieved over bluetooth
+	//Calliope API can be built on top of this.
+	//TODO: read apis missing: parts of Event Service, scrollingDelay, led matrix, pinIOConfiguration, pinADConfiguration
+	//TODO: write is missing so far
+
+	/// data read from I/O Pins
+	var pinData: [UInt8:UInt8]? {
+		return read(.pinData)
+	}
+
+	/// notification called when pinData value is changed
+	public var pinDataNotification: (([UInt8:UInt8]?) -> ())? {
+		set { setNotifyListener(for: .pinData, newValue) }
+		get { return getNotifyListener(for: .pinData) }
+	}
+
+	public enum ButtonPressAction: UInt8 {
+		case Up
+		case Down
+		case Long
+	}
+
+	/// action that is done to button A
+	var buttonAAction: ButtonPressAction? {
+		return read(.buttonAState)
+	}
+
+	/// notification called when Button A value is updated
+	public var buttonAActionNotification: ((ButtonPressAction?) -> ())? {
+		set { setNotifyListener(for: .buttonAState, newValue) }
+		get { return getNotifyListener(for: .buttonAState) }
+	}
+
+	/// action that is done to button B
+	var buttonBAction: ButtonPressAction? {
+		return read(.buttonBState)
+	}
+
+	/// notification called when Button B value is updated
+	public var buttonBActionNotification: ((ButtonPressAction?) -> ())? {
+		set { setNotifyListener(for: .buttonBState, newValue) }
+		get { return getNotifyListener(for: .buttonBState) }
+	}
+
+	/// which leds are on and which off
+	var ledMatrixState: [[Bool]]? {
+		return read(.ledMatrixState)
+	}
+
+	/// (X, Y, Z) value for acceleration
+	var accelerometerValue: (Int16, Int16, Int16)? {
+		return read(.accelerometerData)
+	}
+
+	/// notification called when tx value is being requested periodically
+	public var accelerometerNotification: ((String?) -> ())? {
+		set { setNotifyListener(for: .accelerometerData, newValue) }
+		get { return getNotifyListener(for: .accelerometerData) }
+	}
+
+	/// frequency with which the temperature is updated
+	public func setAccelerometerUpdateFrequency(milliseconds: Int) {
+		setIntCharacteristic(.accelerometerPeriod, to: milliseconds)
+	}
+
+	/// (X, Y, Z) value for angle to magnetic pole
+	var magnetometerValue: (Int16, Int16, Int16)? {
+		return read(.magnetometerData)
+	}
+
+	/// notification called when tx value is being requested periodically
+	public var magnetometerNotification: ((String?) -> ())? {
+		set { setNotifyListener(for: .magnetometerData, newValue) }
+		get { return getNotifyListener(for: .magnetometerData) }
+	}
+
+	/// frequency with which the temperature is updated
+	public func setMagnetometerUpdateFrequency(milliseconds: Int) {
+		setIntCharacteristic(.magnetometerPeriod, to: milliseconds)
+	}
+
+	/// bearing, i.e. deviation of north of the magnetometer
+	var magnetometerBearing: Int16? {
+		return read(.magnetometerBearing)
+	}
+
+	/// notification called when bearing value is changed
+	public var magnetometerBearingNotification: ((Int16?) -> ())? {
+		set { setNotifyListener(for: .magnetometerBearing, newValue) }
+		get { return getNotifyListener(for: .magnetometerBearing) }
+	}
+
+	public enum Event: Int16 {
+		case MES_DEVICE_INFO_ID = 1103
+		case MES_SIGNAL_STRENGTH_ID = 1101
+		case MES_DPAD_CONTROLLER_ID = 1104
+		case MES_BROADCAST_GENERAL_ID = 2000
+	}
+
+	/// (event, value) received via messagebus
+	var eventValue: (Event, Int16)? {
+		return read(.microBitEvent)
+	}
+
+	/// notification called when tx value is being requested periodically
+	public var eventNotification: (((Event, Int16)?) -> ())? {
+		set { setNotifyListener(for: .microBitEvent, newValue) }
+		get { return getNotifyListener(for: .microBitEvent) }
+	}
+
+	/// temperature reading in celsius
+	var temperature: Int16? {
+		return read(.temperature)
+	}
+
+	/// notification called when tx value is being requested periodically
+	public var temperatureNotification: ((String?) -> ())? {
+		set { setNotifyListener(for: .temperature, newValue) }
+		get { return getNotifyListener(for: .temperature) }
+	}
+
+	/// frequency with which the temperature is updated
+	public func setTemperatureUpdateFrequency(milliseconds: Int) {
+		setIntCharacteristic(.temperature, to: milliseconds)
+	}
+
+	/// string received via UART
+	public var tx: String? {
+		return read(.txCharacteristic)
+	}
+
+	private func notifyListener(for characteristic: CBCharacteristic, value: Data) {
+		guard let calliopeCharacteristic = CalliopeBLEDevice.uuidCharacteristicMap[characteristic.uuid] else { return }
+		switch calliopeCharacteristic {
+		case .temperature:
+			temperatureNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+		default:
+			return
+		}
+	}
+
+	private func read<T>(_ characteristic: CalliopeCharacteristic) -> T? {
+		let dataBytes: Data?
+		do { dataBytes = try read(characteristic: characteristic) }
+		catch { return nil }
+		return characteristic.interpret(dataBytes: dataBytes)
+	}
+
+	private func setNotifyListener(for characteristic: CalliopeCharacteristic, _ listener: Any?) {
+		notifyListeners[characteristic] = listener
+		let cbCharacteristic = getCBCharacteristic(characteristic)!
+		if listener != nil {
+			peripheral.setNotifyValue(true, for: cbCharacteristic)
+		} else {
+			peripheral.setNotifyValue(false, for: cbCharacteristic)
+		}
+	}
+
+	private func getNotifyListener<T>(for characteristic: CalliopeCharacteristic) -> T? {
+		return updateListeners[characteristic] as? T
+	}
+
+	private func setIntCharacteristic(_ characteristic: CalliopeCharacteristic, to milliseconds: Int) {
+		let cbCharacteristic = getCBCharacteristic(characteristic)
+		var ms = milliseconds
+		do { try write(Data(bytes: &ms, count: MemoryLayout<Int>.size(ofValue: ms)), for: cbCharacteristic!) }
+		catch { LogNotify.log("did not find service for characteristic \(characteristic)") }
+	}
+}
+
+extension CalliopeBLEDevice {
+
+	// MARK: Receiving sensor values
 
 	public func readSensors(_ enabled: Bool) throws {
 		guard CalliopeBLEDevice.requiredServices.contains(.notify)
-			&& state == .playgroundReady else { throw "Not ready to receive programs yet" }
+			&& state == .playgroundReady else { throw "Not ready to read sensor values" }
 
 		let notifyServiceUUID = CalliopeBLEDevice.CalliopeService.notify.uuid
 		let notifyCharacteristicUUID = CalliopeBLEDevice.CalliopeCharacteristic.notify.uuid
@@ -379,7 +681,6 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 			LogNotify.log("\(self) received value \(value) for \(type)")
 
-			sensorReadings.updateValue(value, forKey: type)
 			//TODO: do not use notification center, but let observers subscribe directly to sensorReadings´ value
 			//TODO: subscription to swift dictionaries via didSet works.
 			if(type == DashboardItemType.ButtonAB)
@@ -397,7 +698,10 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			}
 		}
 	}
+}
 
+
+extension CalliopeBLEDevice {
 
 	// MARK: Uploading programs via program characteristic
 
