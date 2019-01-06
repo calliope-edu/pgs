@@ -59,6 +59,7 @@ public class MatrixConnectionViewController: UIViewController
 			self.connector.disconnectFromCalliope()
 			self.updateDiscoveryState()
 		}
+		connectButton.imageView?.contentMode = .scaleAspectFit
 		animate(expand: false)
 	}
 
