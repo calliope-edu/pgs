@@ -135,8 +135,8 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 		/// A variable length list of event data structures which indicates the types of client event, potentially with a specific value which the micro:bit wishes to be informed of when they occur. The client should read this characteristic when it first connects to the micro:bit. It may also subscribe to notifications to that it can be informed if the value of this characteristic is changed by the micro:bit firmware.
 		/// struct event {
-		/// uint16 event_type;
-		/// uint16 event_value;
+		/// 	uint16 event_type;
+		/// 	uint16 event_value;
 		/// };
 		/// Note that an event_type of zero means ANY event type and an event_value part set to zero means ANY event value.
 		/// event_type and event_value are each encoded in little endian format.
@@ -188,8 +188,6 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			guard let dataBytes = dataBytes else { return nil }
 
 			switch self {
-			case .txCharacteristic:
-				return (String(data: dataBytes, encoding: String.Encoding.utf8) ?? "Error reading message") as? T
 			case .pinData:
 				var values = [UInt8:UInt8]()
 				let sequence = stride(from: 0, to: dataBytes.count, by: 2)
@@ -197,11 +195,20 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 					values[dataBytes[element]] = dataBytes[element + 1]
 				}
 				return values as? T
+			case .pinADConfiguration, .pinIOConfiguration:
+				let config = Array(dataBytes.flatMap { (byte) -> [Bool] in
+					(0..<8).map { offset in (byte & (0x01 << offset)) == 0 ? false : true }
+					}.prefix(19))
+				if self == .pinADConfiguration {
+					return config.map { b -> PinConfiguration in b ? .Digital : .Analogue } as? T
+				}
+				return config as? T //TODO: hopefully the order is right...
 			case .ledMatrixState:
-				//TODO: look up endianness in led octets and apply offset correspondingly
 				return dataBytes.map { (byte) -> [Bool] in
 					(0..<4).map { offset in (byte & (0x01 << offset)) == 1 }
-				} as? T
+				} as? T //TODO: look up endianness in led octets and apply offset correspondingly
+			case .scrollingDelay:
+				return dataBytes.toUInt16() as? T
 			case .buttonAState, .buttonBState:
 				return ButtonPressAction(rawValue: dataBytes[0]) as? T
 			case .accelerometerData, .magnetometerData:
@@ -211,17 +218,58 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 						Int16(littleEndian: int16Ptr[1]), //y
 						Int16(littleEndian: int16Ptr[2])) //z
 					} as? T
+			case .accelerometerPeriod, .magnetometerPeriod, .temperaturePeriod:
+				return dataBytes.toUInt16() as? T
 			case .magnetometerBearing:
-				return dataBytes.withUnsafeBytes { (int16Ptr:UnsafePointer<Int16>) -> Int16 in
-					return Int16(littleEndian:int16Ptr[0])
-					} as? T
+				return dataBytes.toUInt16() as? T
 			case .microBitEvent:
-				return dataBytes.withUnsafeBytes { (uint16ptr:UnsafePointer<Int16>)-> (Event, Int16)? in
+				return dataBytes.withUnsafeBytes { (uint16ptr:UnsafePointer<Int16>) -> (Event, Int16)? in
 					guard let event = Event(rawValue: Int16(littleEndian:uint16ptr[0])) else { return nil }
 					return (event, Int16(littleEndian:uint16ptr[1]))
 					} as? T
+			case .txCharacteristic:
+				return dataBytes as? T
 			case .temperature:
-				return Int16(dataBytes[0]) as? T
+				return dataBytes[0] as? T
+			default:
+				return nil
+			}
+		}
+
+		fileprivate func encode<T>(object: T) -> Data? {
+			switch self {
+			case .accelerometerPeriod, .magnetometerPeriod, .temperaturePeriod:
+				guard let period = object as? UInt16 else { return nil }
+				return period.toData()
+			case .pinData:
+				guard let pinValues = object as? [UInt8: UInt8] else { return nil }
+				return Data(bytes: pinValues.flatMap { [$0, $1] })
+			case .pinADConfiguration, .pinIOConfiguration:
+				let obj: [Bool]?
+				if self == .pinADConfiguration {
+					obj = (object as? [PinConfiguration])?.map { $0 == .Analogue }
+				} else {
+					obj = object as? [Bool]
+				}
+				guard var asBitmap = (obj?.enumerated().reduce(Int32(0)) {
+					return $1.element == false ? $0 : ($0 | 1<<$1.offset)
+				}) else { return nil }
+				return Data(bytes: &asBitmap, count: MemoryLayout.size(ofValue: asBitmap)).subdata(in: 0..<3)
+			case .ledMatrixState:
+				guard let ledArray = object as? [[Bool]] else { return nil }
+				let bitmapArray = ledArray.map {
+					$0.enumerated().reduce(UInt8(0)) {
+						$1.element == false ? $0 : ($0 | 1<<$1.offset)
+					}
+				} //TODO: look up endianness in led octets and apply offset correspondingly
+				return Data(bitmapArray)
+			case .ledText:
+				return (object as? String)?.data(using: .utf8)
+			case .scrollingDelay:
+				guard let delay = object as? UInt16 else { return nil }
+				return delay.toData()
+			case .rxCharacteristic:
+				return object as? Data
 			default:
 				return nil
 			}
@@ -372,13 +420,11 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	///listeners for periodic data updates (max. one for each)
 	var updateListeners: [CalliopeCharacteristic: Any] = [:]
 
-	public func write (_ data: Data, for characteristic: CalliopeCharacteristic, of service: CalliopeService) throws {
+	public func write (_ data: Data, for characteristic: CalliopeCharacteristic) throws {
 		guard state == .playgroundReady
 			else { throw "Not ready to write to characteristic \(characteristic)" }
-		guard CalliopeBLEDevice.requiredServices.contains(service)
+		guard let service = CalliopeBLEDevice.characteristicServiceMap[characteristic], CalliopeBLEDevice.requiredServices.contains(service)
 			else { throw "service not available" }
-		guard (CalliopeBLEDevice.serviceCharacteristicMap[service] ?? []).contains(characteristic)
-			else { throw "characteristic and service do not belong together" }
 
 		let cbCharacteristic = peripheral.services!.filter { $0.uuid ==  service.uuid }.first!.characteristics!.filter { $0.uuid == characteristic.uuid }.first!
 		try write(data, for: cbCharacteristic)
@@ -489,18 +535,36 @@ extension CalliopeBLEDevice {
 
 	//MARK: variables retrieved over bluetooth
 	//Calliope API can be built on top of this.
-	//TODO: read apis missing: parts of Event Service, scrollingDelay, led matrix, pinIOConfiguration, pinADConfiguration
-	//TODO: write is missing so far
+	//TODO: read/write apis missing: parts of Event Service, PWMControl
 
 	/// data read from I/O Pins
-	var pinData: [UInt8:UInt8]? {
+	func readPinData() -> [UInt8:UInt8]? {
 		return read(.pinData)
+	}
+
+	func writePinData(data: [UInt8:UInt8]) {
+		write(data, .pinData)
 	}
 
 	/// notification called when pinData value is changed
 	public var pinDataNotification: (([UInt8:UInt8]?) -> ())? {
 		set { setNotifyListener(for: .pinData, newValue) }
 		get { return getNotifyListener(for: .pinData) }
+	}
+
+	public enum PinConfiguration {
+		case Digital
+		case Analogue
+	}
+
+	var pinADConfiguration: [PinConfiguration]? {
+		get { return read(.pinADConfiguration) }
+		set { write(newValue, .pinADConfiguration) }
+	}
+
+	var pinIOConfiguration: [Bool]? {
+		get { return read(.pinIOConfiguration) }
+		set { write(newValue, .pinIOConfiguration) }
 	}
 
 	public enum ButtonPressAction: UInt8 {
@@ -531,9 +595,26 @@ extension CalliopeBLEDevice {
 		get { return getNotifyListener(for: .buttonBState) }
 	}
 
-	/// which leds are on and which off
+	/// which leds are on and which off.
+	/// ledMatrixState[2][3] gives led 3 in row 2
 	var ledMatrixState: [[Bool]]? {
-		return read(.ledMatrixState)
+		get { return read(.ledMatrixState) }
+		set { write(newValue, .ledMatrixState) }
+	}
+
+
+	/// scrolls a string on the display of the calliope
+	/// - Parameter string: the string to display,
+	///                     can contain all latin letters and some symbols
+	func displayLedText(_ string: String) {
+		write(string, .ledText)
+	}
+
+
+	/// the delay in ms between showing successive characters of the led text
+	var scrollingDelay: UInt16 {
+		get { return read(.scrollingDelay)! }
+		set { write(newValue, .scrollingDelay) }
 	}
 
 	/// (X, Y, Z) value for acceleration
@@ -547,9 +628,11 @@ extension CalliopeBLEDevice {
 		get { return getNotifyListener(for: .accelerometerData) }
 	}
 
-	/// frequency with which the temperature is updated
-	public func setAccelerometerUpdateFrequency(milliseconds: Int) {
-		setIntCharacteristic(.accelerometerPeriod, to: milliseconds)
+	/// frequency with which the accelerometer data is read
+	/// valid values: 1, 2, 5, 10, 20, 80, 160 and 640.
+	public var accelerometerUpdateFrequency: Int16 {
+		get { return read(.accelerometerPeriod)! }
+		set { write(newValue, .accelerometerPeriod) }
 	}
 
 	/// (X, Y, Z) value for angle to magnetic pole
@@ -563,9 +646,11 @@ extension CalliopeBLEDevice {
 		get { return getNotifyListener(for: .magnetometerData) }
 	}
 
-	/// frequency with which the temperature is updated
-	public func setMagnetometerUpdateFrequency(milliseconds: Int) {
-		setIntCharacteristic(.magnetometerPeriod, to: milliseconds)
+	/// frequency with which the magnetometer data is read
+	/// valid values: 1, 2, 5, 10, 20, 80, 160 and 640.
+	public var magnetometerUpdateFrequency: Int16 {
+		get { return read(.magnetometerPeriod)! }
+		set { write(newValue, .magnetometerPeriod) }
 	}
 
 	/// bearing, i.e. deviation of north of the magnetometer
@@ -579,6 +664,7 @@ extension CalliopeBLEDevice {
 		get { return getNotifyListener(for: .magnetometerBearing) }
 	}
 
+	//TODO: don´t really know what event is for
 	public enum Event: Int16 {
 		case MES_DEVICE_INFO_ID = 1103
 		case MES_SIGNAL_STRENGTH_ID = 1101
@@ -591,14 +677,14 @@ extension CalliopeBLEDevice {
 		return read(.microBitEvent)
 	}
 
-	/// notification called when tx value is being requested periodically
+	/// notification called when event value is being requested periodically
 	public var eventNotification: (((Event, Int16)?) -> ())? {
 		set { setNotifyListener(for: .microBitEvent, newValue) }
 		get { return getNotifyListener(for: .microBitEvent) }
 	}
 
 	/// temperature reading in celsius
-	var temperature: Int16? {
+	var temperature: Int8? {
 		return read(.temperature)
 	}
 
@@ -609,14 +695,21 @@ extension CalliopeBLEDevice {
 	}
 
 	/// frequency with which the temperature is updated
-	public func setTemperatureUpdateFrequency(milliseconds: Int) {
-		setIntCharacteristic(.temperature, to: milliseconds)
+	var temperatureUpdateFrequency: Int {
+		get { return read(.temperaturePeriod)! }
+		set { write(newValue, .temperaturePeriod) }
 	}
 
-	/// string received via UART
-	public var tx: String? {
+	/// data received via UART, 20 bytes max.
+	public func readSerialData() -> Data? {
 		return read(.txCharacteristic)
 	}
+
+	// data sent via UART, 20 bytes max.
+	public func sendSerialData(_ data: Data) {
+		return write(data, .rxCharacteristic)
+	}
+
 
 	private func notifyListener(for characteristic: CBCharacteristic, value: Data) {
 		guard let calliopeCharacteristic = CalliopeBLEDevice.uuidCharacteristicMap[characteristic.uuid] else { return }
@@ -626,6 +719,14 @@ extension CalliopeBLEDevice {
 		default:
 			return
 		}
+	}
+
+	private func write<T>(_ value: T, _ characteristic: CalliopeCharacteristic) {
+		do {
+			guard let data = characteristic.encode(object: value) else { throw "could not convert" }
+			try write(data, for: .pinADConfiguration)
+		}
+		catch { LogNotify.log("failed writing to \(characteristic), value \(value)") }
 	}
 
 	private func read<T>(_ characteristic: CalliopeCharacteristic) -> T? {
@@ -648,18 +749,11 @@ extension CalliopeBLEDevice {
 	private func getNotifyListener<T>(for characteristic: CalliopeCharacteristic) -> T? {
 		return updateListeners[characteristic] as? T
 	}
-
-	private func setIntCharacteristic(_ characteristic: CalliopeCharacteristic, to milliseconds: Int) {
-		let cbCharacteristic = getCBCharacteristic(characteristic)
-		var ms = milliseconds
-		do { try write(Data(bytes: &ms, count: MemoryLayout<Int>.size(ofValue: ms)), for: cbCharacteristic!) }
-		catch { LogNotify.log("did not find service for characteristic \(characteristic)") }
-	}
 }
 
 extension CalliopeBLEDevice {
 
-	// MARK: Receiving sensor values
+	// MARK: Receiving sensor values via notify characteristic
 
 	public func readSensors(_ enabled: Bool) throws {
 		guard CalliopeBLEDevice.requiredServices.contains(.notify)

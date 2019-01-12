@@ -47,8 +47,13 @@ extension UInt16 {
     }
 
     func lo() -> UInt8 {
-        return UInt8(self & 0xff)
-    }
+		return UInt8(self & 0xff)
+	}
+
+	func toData() -> Data {
+		var mutableSelf = self
+		return Data(bytes: &mutableSelf, count: MemoryLayout.size(ofValue: self))
+	}
 }
 
 extension Int {
@@ -77,6 +82,12 @@ extension Data {
         }
         return String(utf16CodeUnits: chars, count: chars.count)
     }
+
+	func toUInt16() -> UInt16 {
+		return self.withUnsafeBytes { (int16Ptr:UnsafePointer<UInt16>) -> UInt16 in
+			return UInt16(littleEndian:int16Ptr[0])
+			}
+	}
 }
 
 func int8(_ i: UInt8) -> Int8 {
