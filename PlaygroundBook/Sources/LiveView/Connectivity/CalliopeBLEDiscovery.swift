@@ -73,7 +73,10 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		}
 	}
 
-	private let centralManager = CBCentralManager(delegate: nil, queue: DispatchQueue.global(qos: DispatchQoS.utility.qosClass))
+	private let bluetoothQueue = DispatchQueue(label: "bluetoothQueue", qos: .userInitiated, attributes: .concurrent)
+	private lazy var centralManager: CBCentralManager = {
+		return CBCentralManager(delegate: nil, queue: bluetoothQueue)
+	}()
 
 	private var lastConnected: (UUID, String)? {
 		get {

@@ -45,7 +45,7 @@ class CalliopeBLEDiscoveryTest: XCTestCase {
 			}
 		}
 		discoverer.startCalliopeDiscovery()
-		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 10.0) {
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 6.0) {
 			self.discoverer.stopCalliopeDiscovery()
 		}
 	}

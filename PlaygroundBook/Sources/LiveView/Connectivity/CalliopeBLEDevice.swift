@@ -10,6 +10,10 @@ import CoreBluetooth
 
 public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
+	//the services required for the playground
+	public static let requiredServices : Set = [CalliopeService.accelerometer, CalliopeService.button, CalliopeService.led, CalliopeService.temperature, CalliopeService.ioPin]
+//	public static let requiredServices : Set =  [CalliopeService.notify, CalliopeService.program]
+
 	//Bluetooth profile of the Calliope
 
 	public enum CalliopeService: String {
@@ -295,9 +299,6 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		.uart: [.txCharacteristic, .rxCharacteristic]
 	]
 
-	//the services required for the playground
-	public static let requiredServices : Set =  [CalliopeService.accelerometer, CalliopeService.button] //[CalliopeService.notify, CalliopeService.program]
-
 	private static let characteristicServiceMap = Dictionary(uniqueKeysWithValues: serviceCharacteristicMap.flatMap {(key, value) in value.map { value in (value, key) } })
 
 	//Bluetooth profile with non-human-readable names (same as above, but all UUIDs)
@@ -408,11 +409,12 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	let writeSem = DispatchSemaphore(value: 1)
 	let writeGroup = DispatchGroup()
 	var writeError : Error? = nil
+	var writingCharacteristic : CBCharacteristic? = nil
 
 	let readSem = DispatchSemaphore(value: 1)
 	let readGroup = DispatchGroup()
 	var readError : Error? = nil
-	var readingCharacteristic : CalliopeCharacteristic? = nil
+	var readingCharacteristic : CBCharacteristic? = nil
 	var readValue : Data? = nil
 
 	var notifyListeners : [CalliopeCharacteristic: Any] = [:]
@@ -432,12 +434,14 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	private func write(_ data: Data, for characteristic: CBCharacteristic) throws {
 		writeSem.wait()
+		writingCharacteristic = characteristic
 
 		//write value and wait for delegate call (or error)
 		writeGroup.enter()
 		peripheral.writeValue(data, for: characteristic, type: .withResponse)
 		//TODO: writeSignal.wait(timeout) could lead to unexpected results, if we submit multiple dependant writes to be transferred and one times out
 		if writeGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
+			LogNotify.log("write to \(characteristic) timed out")
 			writeError = CBError(.connectionTimeout)
 		}
 
@@ -461,11 +465,13 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	private func read(characteristic: CBCharacteristic) throws -> Data? {
 		readSem.wait()
+		readingCharacteristic = characteristic
 
 		//read value and wait for delegate call (or error)
 		readGroup.enter()
 		peripheral.readValue(for: characteristic)
 		if readGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
+			LogNotify.log("read from \(characteristic) timed out")
 			readError = CBError(.connectionTimeout)
 		}
 
@@ -484,15 +490,14 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-		//set potential error and move on
-		writeError = error
-		writeGroup.leave()
+		if let writingCharac = writingCharacteristic, characteristic.uuid == writingCharac.uuid {
+			return explicitWriteResponse(error)
+		}
 	}
 
 	public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
 
 		if let readingCharac = readingCharacteristic, characteristic.uuid == readingCharac.uuid {
-			readingCharacteristic = nil
 			return explicitReadResponse(for: characteristic, error: error)
 		}
 
@@ -509,7 +514,18 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		}
 	}
 
+	private func explicitWriteResponse(_ error: Error?) {
+		writingCharacteristic = nil
+		//set potential error and move on
+		writeError = error
+		if let error = error {
+			LogNotify.log(error.localizedDescription)
+		}
+		writeGroup.leave()
+	}
+
 	private func explicitReadResponse(for characteristic: CBCharacteristic, error: Error?) {
+		readingCharacteristic = nil
 		//answer to explicit read request
 		if let error = error {
 			readError = error
@@ -519,6 +535,30 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		} else {
 			readValue = characteristic.value
 			readGroup.leave()
+			return
+		}
+	}
+
+	private func notifyListener(for characteristic: CBCharacteristic, value: Data) {
+		guard let calliopeCharacteristic = CalliopeBLEDevice.uuidCharacteristicMap[characteristic.uuid] else { return }
+		switch calliopeCharacteristic {
+		case .accelerometerData:
+			accelerometerNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+		case .magnetometerData:
+			magnetometerNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+		case .magnetometerBearing:
+			magnetometerBearingNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+		case .pinData:
+			pinDataNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+		case .buttonAState:
+			buttonAActionNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+		case .buttonBState:
+			buttonBActionNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+		case .microBitEvent:
+			eventNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+		case .temperature:
+			temperatureNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+		default:
 			return
 		}
 	}
@@ -623,15 +663,15 @@ extension CalliopeBLEDevice {
 	}
 
 	/// notification called when tx value is being requested periodically
-	public var accelerometerNotification: ((String?) -> ())? {
+	public var accelerometerNotification: (((Int16, Int16, Int16)?) -> ())? {
 		set { setNotifyListener(for: .accelerometerData, newValue) }
 		get { return getNotifyListener(for: .accelerometerData) }
 	}
 
 	/// frequency with which the accelerometer data is read
 	/// valid values: 1, 2, 5, 10, 20, 80, 160 and 640.
-	public var accelerometerUpdateFrequency: Int16 {
-		get { return read(.accelerometerPeriod)! }
+	public var accelerometerUpdateFrequency: UInt16? {
+		get { return read(.accelerometerPeriod) }
 		set { write(newValue, .accelerometerPeriod) }
 	}
 
@@ -641,15 +681,15 @@ extension CalliopeBLEDevice {
 	}
 
 	/// notification called when tx value is being requested periodically
-	public var magnetometerNotification: ((String?) -> ())? {
+	public var magnetometerNotification: (((Int16, Int16, Int16)?) -> ())? {
 		set { setNotifyListener(for: .magnetometerData, newValue) }
 		get { return getNotifyListener(for: .magnetometerData) }
 	}
 
 	/// frequency with which the magnetometer data is read
 	/// valid values: 1, 2, 5, 10, 20, 80, 160 and 640.
-	public var magnetometerUpdateFrequency: Int16 {
-		get { return read(.magnetometerPeriod)! }
+	public var magnetometerUpdateFrequency: UInt16? {
+		get { return read(.magnetometerPeriod) }
 		set { write(newValue, .magnetometerPeriod) }
 	}
 
@@ -684,19 +724,19 @@ extension CalliopeBLEDevice {
 	}
 
 	/// temperature reading in celsius
-	var temperature: Int8? {
+	var temperature: UInt8? {
 		return read(.temperature)
 	}
 
 	/// notification called when tx value is being requested periodically
-	public var temperatureNotification: ((String?) -> ())? {
+	public var temperatureNotification: ((UInt8?) -> ())? {
 		set { setNotifyListener(for: .temperature, newValue) }
 		get { return getNotifyListener(for: .temperature) }
 	}
 
 	/// frequency with which the temperature is updated
-	var temperatureUpdateFrequency: Int {
-		get { return read(.temperaturePeriod)! }
+	var temperatureUpdateFrequency: UInt16? {
+		get { return read(.temperaturePeriod) }
 		set { write(newValue, .temperaturePeriod) }
 	}
 
@@ -710,21 +750,10 @@ extension CalliopeBLEDevice {
 		return write(data, .rxCharacteristic)
 	}
 
-
-	private func notifyListener(for characteristic: CBCharacteristic, value: Data) {
-		guard let calliopeCharacteristic = CalliopeBLEDevice.uuidCharacteristicMap[characteristic.uuid] else { return }
-		switch calliopeCharacteristic {
-		case .temperature:
-			temperatureNotification?(calliopeCharacteristic.interpret(dataBytes: value))
-		default:
-			return
-		}
-	}
-
 	private func write<T>(_ value: T, _ characteristic: CalliopeCharacteristic) {
 		do {
 			guard let data = characteristic.encode(object: value) else { throw "could not convert" }
-			try write(data, for: .pinADConfiguration)
+			try write(data, for: characteristic)
 		}
 		catch { LogNotify.log("failed writing to \(characteristic), value \(value)") }
 	}
@@ -771,26 +800,37 @@ extension CalliopeBLEDevice {
 	private func updateSensorReading(_ value: Data) {
 
 		if let type = DashboardItemType(rawValue:UInt16(value[1])) {
+			LogNotify.log("\(self) received value \(value.subdata(in: 2..<value.count).toUInt16()) for \(type)")
 			let value:UInt8 = value[3]
-
-			LogNotify.log("\(self) received value \(value) for \(type)")
 
 			//TODO: do not use notification center, but let observers subscribe directly to sensorReadings´ value
 			//TODO: subscription to swift dictionaries via didSet works.
 			if(type == DashboardItemType.ButtonAB)
 			{
-				NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonA, "value":value])
-				NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonB, "value":value])
+				postButtonANotification(value)
+				postButtonBNotification(value)
 			}
 			else if type == DashboardItemType.Thermometer {
-				let localizedValue = UInt8( ValueLocalizer.current.localizeTemperature(unlocalized: Double(value)) )
-				NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":localizedValue])
+				postThermometerNotification(value)
 			}
 			else
 			{
 				NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":value])
 			}
 		}
+	}
+
+	private func postButtonANotification(_ value: UInt8) {
+		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonA, "value":value])
+	}
+
+	private func postButtonBNotification(_ value: UInt8) {
+		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonB, "value":value])
+	}
+
+	private func postThermometerNotification(_ value: UInt8) {
+		let localizedValue = UInt8( ValueLocalizer.current.localizeTemperature(unlocalized: Double(value)) )
+		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.Thermometer, "value":localizedValue])
 	}
 }
 
@@ -808,11 +848,8 @@ extension CalliopeBLEDevice {
 		//methods of the program
 		let methods : [UInt16] = program.methods
 
-		let programServiceUUID = CalliopeBLEDevice.CalliopeService.program.uuid
-		let programCharacteristicUUID = CalliopeBLEDevice.CalliopeCharacteristic.program.uuid
 		//never crashes because we made sure we are ready for the playground, i.e. we have all required services
-		let service = peripheral.services!.filter { $0.uuid ==  programServiceUUID }.first!
-		let programCharacteristic = service.characteristics!.filter { $0.uuid == programCharacteristicUUID }.first!
+		let programCharacteristic = getCBCharacteristic(.program)!
 
 		// transfer code in parts
 

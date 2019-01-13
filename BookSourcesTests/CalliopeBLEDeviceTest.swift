@@ -10,8 +10,8 @@ import XCTest
 
 class CalliopeBLEDeviceTest: XCTestCase {
 
-	public let calliopeNameNotInMode5 = "zavig"
-	public let calliopeNameInMode5 = "povig"
+	public let calliopeNameInMode5 = "zavig"
+	public let calliopeNameNotInMode5 = "povig"
 
 	public lazy var notMode5DiscoveryExpectation = XCTestExpectation(description: "connect to zavig (not in mode 5)")
 	public lazy var mode5DiscoveryExpectation = XCTestExpectation(description: "connect to povig (is in mode 5)")
@@ -22,8 +22,8 @@ class CalliopeBLEDeviceTest: XCTestCase {
 
 	let discoveryTest = CalliopeBLEDiscoveryTest()
 
-	private var calliopeNotInMode5 : CalliopeBLEDevice?
-	private var calliopeInMode5 : CalliopeBLEDevice?
+	var calliopeNotInMode5 : CalliopeBLEDevice?
+	var calliopeInMode5 : CalliopeBLEDevice?
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
