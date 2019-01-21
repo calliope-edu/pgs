@@ -155,7 +155,7 @@ public extension MatrixConnectionViewController {
 			connectButton.connectionState = .connecting
 			self.collapseButton.connectionState = .disconnected
 		case .connected:
-			if let connectedCalliope = connector.connectedCalliope {
+			if let connectedCalliope = connector.connectedCalliope, calliopeWithCurrentMatrix != connector.connectedCalliope {
 				//set matrix in case of auto-reconnect, where we do not have corresponding matrix yet
 				matrixView.matrix = Matrix.friendly2Matrix(Matrix.full2Friendly(fullName: connectedCalliope.peripheral.name!)!)
 				connectedCalliope.updateBlock = updateDiscoveryState

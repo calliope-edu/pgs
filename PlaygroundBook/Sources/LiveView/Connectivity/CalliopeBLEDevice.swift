@@ -201,7 +201,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 				return values as? T
 			case .pinADConfiguration, .pinIOConfiguration:
 				let config = Array(dataBytes.flatMap { (byte) -> [Bool] in
-					(0..<8).map { offset in (byte & (0x01 << offset)) == 0 ? false : true }
+					(0..<8).map { offset in (byte & (1 << offset)) == 0 ? false : true }
 					}.prefix(19))
 				if self == .pinADConfiguration {
 					return config.map { b -> PinConfiguration in b ? .Digital : .Analogue } as? T
@@ -209,7 +209,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 				return config as? T //TODO: hopefully the order is right...
 			case .ledMatrixState:
 				return dataBytes.map { (byte) -> [Bool] in
-					(0..<4).map { offset in (byte & (0x01 << offset)) == 1 }
+					return (1...5).map { offset in (byte & (1 << (5 - offset))) != 0 }
 				} as? T //TODO: look up endianness in led octets and apply offset correspondingly
 			case .scrollingDelay:
 				return dataBytes.toUInt16() as? T
@@ -256,14 +256,14 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 					obj = object as? [Bool]
 				}
 				guard var asBitmap = (obj?.enumerated().reduce(Int32(0)) {
-					return $1.element == false ? $0 : ($0 | 1<<$1.offset)
+					return $1.element == false ? $0 : ($0 | (1 << $1.offset))
 				}) else { return nil }
 				return Data(bytes: &asBitmap, count: MemoryLayout.size(ofValue: asBitmap)).subdata(in: 0..<3)
 			case .ledMatrixState:
 				guard let ledArray = object as? [[Bool]] else { return nil }
 				let bitmapArray = ledArray.map {
 					$0.enumerated().reduce(UInt8(0)) {
-						$1.element == false ? $0 : ($0 | 1<<$1.offset)
+						$1.element == false ? $0 : ($0 | 1 << (4 - $1.offset))
 					}
 				} //TODO: look up endianness in led octets and apply offset correspondingly
 				return Data(bitmapArray)
@@ -406,12 +406,12 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	//to sequentialize reads and writes
 
-	let writeSem = DispatchSemaphore(value: 1)
+	let readWriteSem = DispatchSemaphore(value: 1)
+
 	let writeGroup = DispatchGroup()
 	var writeError : Error? = nil
 	var writingCharacteristic : CBCharacteristic? = nil
 
-	let readSem = DispatchSemaphore(value: 1)
 	let readGroup = DispatchGroup()
 	var readError : Error? = nil
 	var readingCharacteristic : CBCharacteristic? = nil
@@ -433,12 +433,12 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	private func write(_ data: Data, for characteristic: CBCharacteristic) throws {
-		writeSem.wait()
+		readWriteSem.wait()
 		writingCharacteristic = characteristic
 
 		//write value and wait for delegate call (or error)
 		writeGroup.enter()
-		peripheral.writeValue(data, for: characteristic, type: .withResponse)
+		self.peripheral.writeValue(data, for: characteristic, type: .withResponse)
 		//TODO: writeSignal.wait(timeout) could lead to unexpected results, if we submit multiple dependant writes to be transferred and one times out
 		if writeGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
 			LogNotify.log("write to \(characteristic) timed out")
@@ -449,10 +449,10 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			let error = writeError!
 			//prepare for next write
 			writeError = nil
-			writeSem.signal()
+			readWriteSem.signal()
 			throw error
 		}
-		writeSem.signal()
+		readWriteSem.signal()
 	}
 
 	public func read(characteristic: CalliopeCharacteristic) throws -> Data? {
@@ -464,12 +464,12 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	private func read(characteristic: CBCharacteristic) throws -> Data? {
-		readSem.wait()
+		readWriteSem.wait()
 		readingCharacteristic = characteristic
 
 		//read value and wait for delegate call (or error)
 		readGroup.enter()
-		peripheral.readValue(for: characteristic)
+		self.peripheral.readValue(for: characteristic)
 		if readGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
 			LogNotify.log("read from \(characteristic) timed out")
 			readError = CBError(.connectionTimeout)
@@ -479,13 +479,13 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			let error = readError!
 			//prepare for next read
 			readError = nil
-			readSem.signal()
+			readWriteSem.signal()
 			throw error
 		}
 
 		let data = readValue
 		readValue = nil
-		readSem.signal()
+		readWriteSem.signal()
 		return data
 	}
 

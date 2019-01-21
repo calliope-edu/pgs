@@ -18,6 +18,22 @@ class BluetoothApiTest: XCTestCase {
 	let magnetometerUpdateExpectation = XCTestExpectation()
 	let accelerometerUpdateExpectation = XCTestExpectation()
 
+	func testLEDWriteOnly() {
+		bluetoothApiTest { calliope in
+			//show diagonal stripe
+			let setState = [
+				[true, false, false, false, false],
+				[false, true, false, false, false],
+				[false, false, true, false, false],
+				[false, false, false, false, false],
+				[false, false, false, false, false]
+			]
+			calliope.ledMatrixState = setState
+			self.ledTestExpectation.fulfill()
+		}
+		wait(for: [ledTestExpectation], timeout: 30)
+	}
+
     func testLedService() {
 		bluetoothApiTest { calliope in
 			//show diagonal stripe
@@ -31,7 +47,8 @@ class BluetoothApiTest: XCTestCase {
 			calliope.ledMatrixState = setState
 			let readLedState = calliope.ledMatrixState
 			XCTAssertEqual(readLedState, setState,
-					  "led should have the state that was just set, but is \(String(describing: readLedState)) instead of \(setState)")
+					  "led should have the state that was just set")
+			self.ledTestExpectation.fulfill()
 		}
 		wait(for: [ledTestExpectation], timeout: 30)
     }
@@ -94,7 +111,10 @@ class BluetoothApiTest: XCTestCase {
 	private func bluetoothApiTest(_ apiUsage: @escaping (CalliopeBLEDevice) -> ()) {
 		self.calliopeTest.discoveryTest.discover {
 			self.calliopeTest.connectToCalliopeInMode5() {
-				apiUsage(self.calliopeTest.calliopeInMode5!)
+				//TODO: not sure if this is just needed for the playground or always
+				DispatchQueue(label: "backgroundBluetooth", qos: .userInteractive).async {
+					apiUsage(self.calliopeTest.calliopeInMode5!)
+				}
 			}
 		}
 	}

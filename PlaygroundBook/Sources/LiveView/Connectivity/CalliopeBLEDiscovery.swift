@@ -180,6 +180,8 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		stopCalliopeDiscovery()
 		//do not connect twice
 		guard calliope != connectedCalliope else { return }
+		//reset last connected, we attempt to connect to a new callipoe now
+		lastConnected = nil
 		connectingCalliope = calliope
 	}
 
