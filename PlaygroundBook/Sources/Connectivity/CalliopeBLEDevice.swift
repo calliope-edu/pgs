@@ -234,7 +234,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			case .txCharacteristic:
 				return dataBytes as? T
 			case .temperature:
-				return dataBytes[0] as? T
+				return Int8(littleEndianData: dataBytes) as? T
 			default:
 				return nil
 			}
@@ -548,14 +548,19 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			magnetometerBearingNotification?(calliopeCharacteristic.interpret(dataBytes: value))
 		case .pinData:
 			pinDataNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+			postSensorUpdateNotification(DashboardItemType.Pin, 0)
 		case .buttonAState:
 			buttonAActionNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+			postSensorUpdateNotification(DashboardItemType.ButtonA, 0)
 		case .buttonBState:
 			buttonBActionNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+			postSensorUpdateNotification(DashboardItemType.ButtonB, 0)
 		case .microBitEvent:
 			eventNotification?(calliopeCharacteristic.interpret(dataBytes: value))
 		case .temperature:
-			temperatureNotification?(calliopeCharacteristic.interpret(dataBytes: value))
+			let temperature: Int8? = calliopeCharacteristic.interpret(dataBytes: value)
+			temperatureNotification?(temperature)
+			postThermometerNotification(temperature ?? 0)
 		default:
 			return
 		}
@@ -722,12 +727,12 @@ extension CalliopeBLEDevice {
 	}
 
 	/// temperature reading in celsius
-	var temperature: UInt8? {
+	var temperature: Int8? {
 		return read(.temperature)
 	}
 
 	/// notification called when tx value is being requested periodically
-	public var temperatureNotification: ((UInt8?) -> ())? {
+	public var temperatureNotification: ((Int8?) -> ())? {
 		set { setNotifyListener(for: .temperature, newValue) }
 		get { return getNotifyListener(for: .temperature) }
 	}
@@ -798,37 +803,37 @@ extension CalliopeBLEDevice {
 	private func updateSensorReading(_ value: Data) {
 
 		if let type = DashboardItemType(rawValue:UInt16(value[1])) {
-			LogNotify.log("\(self) received value \(UInt16(littleEndianData: value.subdata(in: 2..<value.count)))) for \(type)")
-			let value:UInt8 = value[3]
+			LogNotify.log("\(self) received value \(String(describing: UInt16(littleEndianData: value.subdata(in: 2..<value.count))))) for \(type)")
+			let value = int8(Int(value[3]))
 
 			//TODO: do not use notification center, but let observers subscribe directly to sensorReadings´ value
 			//TODO: subscription to swift dictionaries via didSet works.
-			if(type == DashboardItemType.ButtonAB)
-			{
+			if(type == DashboardItemType.ButtonAB) {
 				postButtonANotification(value)
 				postButtonBNotification(value)
-			}
-			else if type == DashboardItemType.Thermometer {
+			} else if type == DashboardItemType.Thermometer {
 				postThermometerNotification(value)
-			}
-			else
-			{
-				NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":value])
+			} else {
+				postSensorUpdateNotification(type, value)
 			}
 		}
 	}
 
-	private func postButtonANotification(_ value: UInt8) {
-		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonA, "value":value])
+	private func postButtonANotification(_ value: Int8) {
+		postSensorUpdateNotification(DashboardItemType.ButtonA, value)
 	}
 
-	private func postButtonBNotification(_ value: UInt8) {
-		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonB, "value":value])
+	private func postButtonBNotification(_ value: Int8) {
+		postSensorUpdateNotification(DashboardItemType.ButtonB, value)
 	}
 
-	private func postThermometerNotification(_ value: UInt8) {
-		let localizedValue = UInt8( ValueLocalizer.current.localizeTemperature(unlocalized: Double(value)) )
-		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.Thermometer, "value":localizedValue])
+	private func postThermometerNotification(_ value: Int8) {
+		let localizedValue = Int8( ValueLocalizer.current.localizeTemperature(unlocalized: Double(value)) )
+		postSensorUpdateNotification(DashboardItemType.Thermometer, localizedValue)
+	}
+
+	fileprivate func postSensorUpdateNotification(_ type: DashboardItemType, _ value: Int8) {
+		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":value])
 	}
 }
 

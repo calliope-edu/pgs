@@ -17,7 +17,7 @@ class ProgramParser {
                 case 0x07, 0x10...0x16:
                     guard let (_, offset) = it.next() else { fatalError() }
                     let i = Int(index + 2)
-                    let o = Int(int8(UInt8(offset)))
+                    let o = Int(offset)
                     let target = UInt(i + o)
                     if let block = targetBlock {
                         block(instruction, index, o, target)
