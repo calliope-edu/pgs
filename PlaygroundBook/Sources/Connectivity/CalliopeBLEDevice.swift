@@ -833,7 +833,7 @@ extension CalliopeBLEDevice {
 	}
 
 	fileprivate func postSensorUpdateNotification(_ type: DashboardItemType, _ value: Int8) {
-		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":value])
+		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type.rawValue, "value":value])
 	}
 }
 

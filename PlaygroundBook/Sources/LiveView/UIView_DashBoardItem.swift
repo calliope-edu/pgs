@@ -136,7 +136,8 @@ public class UIView_DashboardItem: UIView {
         observer_animation = NotificationCenter.default.observe(name: UIView_DashboardItem.Ping, object: nil, queue: .main, using: { [weak self] (note) in
             guard let this = self,
 				let userInfo = note.userInfo,
-				let type = userInfo["type"] as? Book_Sources.DashboardItemType,
+				let typeValue = userInfo["type"] as? UInt16,
+				let type = DashboardItemType(rawValue: typeValue),
 				this.type == type,
 				let ani = this.container
 			else {
