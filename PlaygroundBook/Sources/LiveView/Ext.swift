@@ -49,11 +49,6 @@ extension UInt16 {
     func lo() -> UInt8 {
 		return UInt8(self & 0xff)
 	}
-
-	func toData() -> Data {
-		var mutableSelf = self
-		return Data(bytes: &mutableSelf, count: MemoryLayout.size(ofValue: self))
-	}
 }
 
 extension Int {
@@ -83,31 +78,51 @@ extension Data {
         return String(utf16CodeUnits: chars, count: chars.count)
     }
 
-	func toUInt16() -> UInt16 {
-		return self.withUnsafeBytes { (int16Ptr:UnsafePointer<UInt16>) -> UInt16 in
-			return UInt16(littleEndian:int16Ptr[0])
-			}
+	static func fromValue<T>(_ value: T) -> Data {
+		return Swift.withUnsafeBytes(of: value) { Data($0) }
 	}
 }
 
-func int8(_ i: UInt8) -> Int8 {
-    return i > Int8.max
-        ? Int8(Int(i) - Int(0x100))
-        : Int8(i)
-}
-
-func uint8(_ i: Int8) -> UInt8 {
-    if i < Int8.min || i > Int8.max {
+func uint8(_ i: Int) -> UInt8 {
+    if i < UInt8.min || i > UInt8.max {
         fatalError("out of range")
     }
     return UInt8(bitPattern: Int8(i))
 }
 
 func uint16(_ i: Int) -> UInt16 {
-    if i < Int16.min || i > Int16.max {
+    if i < UInt16.min || i > UInt16.max {
         fatalError("out of range")
     }
     return UInt16(bitPattern: Int16(i))
+}
+
+func uint32(_ i: Int) -> UInt32 {
+	if i < UInt32.min || i > UInt32.max {
+		fatalError("out of range")
+	}
+	return UInt32(bitPattern: Int32(i))
+}
+
+func int8(_ i: Int) -> Int8 {
+	if i < Int8.min || i > Int8.max {
+		fatalError("out of range")
+	}
+	return Int8(i)
+}
+
+func int16(_ i: Int) -> Int16 {
+	if i < Int16.min || i > Int16.max {
+		fatalError("out of range")
+	}
+	return Int16(i)
+}
+
+func int32(_ i: Int) -> Int32 {
+	if i < Int32.min || i > Int32.max {
+		fatalError("out of range")
+	}
+	return Int32(i)
 }
 
 // extension Array {
@@ -125,3 +140,57 @@ func uint16(_ i: Int) -> UInt16 {
 //    outputStream.write(outputString)
 //    return outputStream
 // }
+
+protocol DataConvertible {
+	init?(data: Data)
+	var data: Data { get }
+}
+
+extension DataConvertible {
+	init?(data: Data) {
+		guard data.count == MemoryLayout<Self>.size else { return nil }
+		self = data.withUnsafeBytes { $0.pointee }
+	}
+
+	var data: Data {
+		return withUnsafeBytes(of: self) { Data($0) }
+	}
+}
+
+protocol EndianDataConvertible: FixedWidthInteger {
+	init?(littleEndianData: Data)
+	var littleEndianData: Data { get }
+}
+
+extension EndianDataConvertible {
+	init?(littleEndianData: Data) {
+		guard littleEndianData.count == MemoryLayout<Self>.size else { return nil }
+		self.init(littleEndian: (littleEndianData.withUnsafeBytes { $0.pointee }))
+	}
+
+	var littleEndianData: Data {
+		return withUnsafeBytes(of: self.littleEndian) { Data($0) }
+	}
+
+	init?(bigEndianData: Data) {
+		guard bigEndianData.count == MemoryLayout<Self>.size else { return nil }
+		self.init(bigEndian: (bigEndianData.withUnsafeBytes { $0.pointee }))
+	}
+
+	var bigEndianData: Data {
+		return withUnsafeBytes(of: self.bigEndian) { Data($0) }
+	}
+}
+
+extension Int : EndianDataConvertible { }
+extension Int32 : EndianDataConvertible { }
+extension Int16 : EndianDataConvertible { }
+extension Int8 : EndianDataConvertible { }
+extension UInt : EndianDataConvertible { }
+extension UInt32 : EndianDataConvertible { }
+extension UInt16 : EndianDataConvertible { }
+extension UInt8 : EndianDataConvertible { }
+
+extension Float : DataConvertible { }
+extension Double : DataConvertible { }
+

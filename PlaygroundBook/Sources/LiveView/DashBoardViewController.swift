@@ -15,7 +15,7 @@ public class DashBoardViewController: ViewController_Base {
 
     var identifier:String = ""
     
-    var stack:UIStackView_Dashboard!
+    var stack: UIStackView_Dashboard!
     var connectionView: MatrixConnectionViewController?
 
     public required init(coder aDecoder: NSCoder) {

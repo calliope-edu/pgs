@@ -13,10 +13,10 @@ import XCTest
 class BluetoothApiTest: XCTestCase {
 
 	let calliopeTest = CalliopeBLEDeviceTest()
-	let ledTestExpectation = XCTestExpectation()
-	let temperatureUpdateExpectation = XCTestExpectation()
-	let magnetometerUpdateExpectation = XCTestExpectation()
-	let accelerometerUpdateExpectation = XCTestExpectation()
+	let ledTestExpectation = XCTestExpectation(description: "led service")
+	let temperatureUpdateExpectation = XCTestExpectation(description: "temperature service")
+	let magnetometerUpdateExpectation = XCTestExpectation(description: "magnetometer service")
+	let accelerometerUpdateExpectation = XCTestExpectation(description: "accelerometer service")
 
 	func testLEDWriteOnly() {
 		bluetoothApiTest { calliope in
@@ -86,15 +86,14 @@ class BluetoothApiTest: XCTestCase {
 		wait(for: [magnetometerUpdateExpectation], timeout: 30)
 	}
 
-	func testServiceWithFrequency<T>(_ periodSetter: (UInt16) -> (), _ periodGetter: () -> UInt16?, _ valueGetter: () -> T, _ updateSetter: (@escaping (T) -> ()) -> (), _ expectation: XCTestExpectation) {
+	func testServiceWithFrequency<T>(_ periodSetter: (UInt16) -> (), _ periodGetter: () -> UInt16?, _ valueGetter: () -> T, _ updateSetter: @escaping (@escaping (T) -> ()) -> (), _ expectation: XCTestExpectation) {
 		var updateTime = -1.0
-		let updateFrequency = UInt16(640)
+		let updateFrequency = uint16(5)
 		periodSetter(updateFrequency)
 		let readUpdateFrequency = periodGetter()
 		XCTAssertNotNil(readUpdateFrequency, "should be able to read a value, but was nil")
 		guard let readFrequency = readUpdateFrequency else { return }
-		XCTAssert(readFrequency == updateFrequency,
-				  "led should have the state that was just set, but is \(readUpdateFrequency!) instead of \(updateFrequency)")
+		XCTAssertEqual(readFrequency, updateFrequency, "service should have the notification frequency that was just set")
 		let value = valueGetter()
 		XCTAssertNotNil(value)
 		updateSetter { value in
@@ -102,7 +101,8 @@ class BluetoothApiTest: XCTestCase {
 				updateTime = Date().timeIntervalSince1970
 			} else {
 				let time = Date().timeIntervalSince1970
-				XCTAssertEqual(updateTime, time - 640.0, accuracy: 10.0, "value should be updated every 640ms")
+				XCTAssertEqual(updateTime, time - 0.005, accuracy: 0.001, "value should be updated every 5ms")
+				updateSetter { _ in return }
 				expectation.fulfill()
 			}
 		}

@@ -212,7 +212,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 					return (1...5).map { offset in (byte & (1 << (5 - offset))) != 0 }
 				} as? T //TODO: look up endianness in led octets and apply offset correspondingly
 			case .scrollingDelay:
-				return dataBytes.toUInt16() as? T
+				return UInt16(littleEndianData: dataBytes) as? T
 			case .buttonAState, .buttonBState:
 				return ButtonPressAction(rawValue: dataBytes[0]) as? T
 			case .accelerometerData, .magnetometerData:
@@ -223,13 +223,13 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 						Int16(littleEndian: int16Ptr[2])) //z
 					} as? T
 			case .accelerometerPeriod, .magnetometerPeriod, .temperaturePeriod:
-				return dataBytes.toUInt16() as? T
+				return UInt16(littleEndianData: dataBytes) as? T
 			case .magnetometerBearing:
-				return dataBytes.toUInt16() as? T
+				return UInt16(littleEndianData: dataBytes) as? T
 			case .microBitEvent:
 				return dataBytes.withUnsafeBytes { (uint16ptr:UnsafePointer<Int16>) -> (Event, Int16)? in
-					guard let event = Event(rawValue: Int16(littleEndian:uint16ptr[0])) else { return nil }
-					return (event, Int16(littleEndian:uint16ptr[1]))
+					guard let event = Event(rawValue: Int16(littleEndian:uint16ptr.pointee)) else { return nil }
+					return (event, Int16(littleEndian:uint16ptr.pointee))
 					} as? T
 			case .txCharacteristic:
 				return dataBytes as? T
@@ -244,7 +244,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			switch self {
 			case .accelerometerPeriod, .magnetometerPeriod, .temperaturePeriod:
 				guard let period = object as? UInt16 else { return nil }
-				return period.toData()
+				return period.littleEndianData
 			case .pinData:
 				guard let pinValues = object as? [UInt8: UInt8] else { return nil }
 				return Data(bytes: pinValues.flatMap { [$0, $1] })
@@ -271,7 +271,7 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 				return (object as? String)?.data(using: .utf8)
 			case .scrollingDelay:
 				guard let delay = object as? UInt16 else { return nil }
-				return delay.toData()
+				return delay.bigEndianData
 			case .rxCharacteristic:
 				return object as? Data
 			default:
@@ -416,8 +416,6 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	var readError : Error? = nil
 	var readingCharacteristic : CBCharacteristic? = nil
 	var readValue : Data? = nil
-
-	var notifyListeners : [CalliopeCharacteristic: Any] = [:]
 
 	///listeners for periodic data updates (max. one for each)
 	var updateListeners: [CalliopeCharacteristic: Any] = [:]
@@ -662,7 +660,7 @@ extension CalliopeBLEDevice {
 		return read(.accelerometerData)
 	}
 
-	/// notification called when tx value is being requested periodically
+	/// notification called when accelerometer value is being requested periodically
 	public var accelerometerNotification: (((Int16, Int16, Int16)?) -> ())? {
 		set { setNotifyListener(for: .accelerometerData, newValue) }
 		get { return getNotifyListener(for: .accelerometerData) }
@@ -680,7 +678,7 @@ extension CalliopeBLEDevice {
 		return read(.magnetometerData)
 	}
 
-	/// notification called when tx value is being requested periodically
+	/// notification called when magnetometer value is being requested periodically
 	public var magnetometerNotification: (((Int16, Int16, Int16)?) -> ())? {
 		set { setNotifyListener(for: .magnetometerData, newValue) }
 		get { return getNotifyListener(for: .magnetometerData) }
@@ -698,7 +696,7 @@ extension CalliopeBLEDevice {
 		return read(.magnetometerBearing)
 	}
 
-	/// notification called when bearing value is changed
+	/// notification called when magnetometer bearing value is changed
 	public var magnetometerBearingNotification: ((Int16?) -> ())? {
 		set { setNotifyListener(for: .magnetometerBearing, newValue) }
 		get { return getNotifyListener(for: .magnetometerBearing) }
@@ -766,7 +764,7 @@ extension CalliopeBLEDevice {
 	}
 
 	private func setNotifyListener(for characteristic: CalliopeCharacteristic, _ listener: Any?) {
-		notifyListeners[characteristic] = listener
+		updateListeners[characteristic] = listener
 		let cbCharacteristic = getCBCharacteristic(characteristic)!
 		if listener != nil {
 			peripheral.setNotifyValue(true, for: cbCharacteristic)
@@ -800,7 +798,7 @@ extension CalliopeBLEDevice {
 	private func updateSensorReading(_ value: Data) {
 
 		if let type = DashboardItemType(rawValue:UInt16(value[1])) {
-			LogNotify.log("\(self) received value \(value.subdata(in: 2..<value.count).toUInt16()) for \(type)")
+			LogNotify.log("\(self) received value \(UInt16(littleEndianData: value.subdata(in: 2..<value.count)))) for \(type)")
 			let value:UInt8 = value[3]
 
 			//TODO: do not use notification center, but let observers subscribe directly to sensorReadings´ value

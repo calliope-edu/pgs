@@ -10,6 +10,7 @@
 		2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */; };
 		2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */; };
 		2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */; };
+		2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27131021FC8B80007A1584 /* DataExtensionTest.swift */; };
 		2F288D9421E0230000713CB2 /* Extension_CBUUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */; };
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
 		2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3874B521CFD07F0011A85A /* CollapseButton.swift */; };
@@ -203,6 +204,7 @@
 		2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscovery.swift; sourceTree = "<group>"; };
 		2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscoveryTest.swift; sourceTree = "<group>"; };
 		2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDevice.swift; sourceTree = "<group>"; };
+		2F27131021FC8B80007A1584 /* DataExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTest.swift; sourceTree = "<group>"; };
 		2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_CBUUID.swift; sourceTree = "<group>"; };
 		2F3874B521CFD07F0011A85A /* CollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButton.swift; sourceTree = "<group>"; };
 		2F44603E21CEA403002D15DF /* ConnectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionButton.swift; sourceTree = "<group>"; };
@@ -343,7 +345,6 @@
 		2F3874B121CFCD830011A85A /* LiveView */ = {
 			isa = PBXGroup;
 			children = (
-				9DA7FD3A20A1B1140080A6FF /* Connectivity */,
 				8855BA8F20A064C4009646CC /* DashboardAnimation */,
 				8855BA4820A06491009646CC /* ActionButton.swift */,
 				8855BA3C20A06490009646CC /* ActivityView.swift */,
@@ -383,6 +384,7 @@
 				2FF83D9421BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift */,
 				2FEB5D9921EB641300FCBF7D /* NotificationTest.swift */,
 				2FEB5D9B21EB79E900FCBF7D /* BluetoothApiTest.swift */,
+				2F27131021FC8B80007A1584 /* DataExtensionTest.swift */,
 			);
 			path = BookSourcesTests;
 			sourceTree = "<group>";
@@ -510,6 +512,7 @@
 		5EF2F9A22054BB3E00191409 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				9DA7FD3A20A1B1140080A6FF /* Connectivity */,
 				8855BA6C20A064C4009646CC /* BookPrograms */,
 				2F3874B121CFCD830011A85A /* LiveView */,
 			);
@@ -872,6 +875,7 @@
 				2FF83D9521BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift in Sources */,
 				2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */,
 				2FEB5D9A21EB641300FCBF7D /* NotificationTest.swift in Sources */,
+				2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
