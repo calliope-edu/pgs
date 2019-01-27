@@ -23,5 +23,5 @@ func onButtonAB() {
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramInputButtonAB.assessment )
 //#-end-hidden-code

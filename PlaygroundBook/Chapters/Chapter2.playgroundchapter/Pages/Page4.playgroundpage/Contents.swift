@@ -23,5 +23,5 @@ func onPin(pin:UInt16) {
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramInputPin.assessment )
 //#-end-hidden-code

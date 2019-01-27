@@ -20,5 +20,5 @@ rgb.on(color: /*#-editable-code*/.<#T##miniColor##miniColor#>/*#-end-editable-co
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramOutputRGB.assessment )
 //#-end-hidden-code

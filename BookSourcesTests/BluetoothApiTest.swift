@@ -156,7 +156,6 @@ class BluetoothApiTest: XCTestCase {
 	private func bluetoothApiTest(_ apiUsage: @escaping (CalliopeBLEDevice) -> ()) {
 		self.calliopeTest.discoveryTest.discover {
 			self.calliopeTest.connectToCalliopeInMode5() {
-				//TODO: not sure if this is just needed for the playground or always
 				apiUsage(self.calliopeTest.calliopeInMode5!)
 			}
 		}

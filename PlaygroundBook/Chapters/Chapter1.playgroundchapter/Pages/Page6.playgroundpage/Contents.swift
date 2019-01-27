@@ -20,5 +20,5 @@ sound.on(note: /*#-editable-code*/.<#T##miniSound##miniSound#>/*#-end-editable-c
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramOutputSound.assessment )
 //#-end-hidden-code
