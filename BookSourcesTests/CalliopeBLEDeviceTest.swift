@@ -10,7 +10,8 @@ import XCTest
 
 class CalliopeBLEDeviceTest: XCTestCase {
 
-	public let calliopeNameInMode5 = "zavig"
+	//public let calliopeNameInMode5 = "zavig"
+	public let calliopeNameInMode5 = "gepeg"
 	public let calliopeNameNotInMode5 = "povig"
 
 	public lazy var notMode5DiscoveryExpectation = XCTestExpectation(description: "connect to zavig (not in mode 5)")
@@ -81,6 +82,7 @@ class CalliopeBLEDeviceTest: XCTestCase {
 			calliopeNotInMode5.updateBlock = {
 				//take over update notifications
 				if calliopeNotInMode5.state == .notPlaygroundReady {
+					calliopeNotInMode5.updateBlock = {}
 					fulfilled()
 				}
 			}
@@ -94,6 +96,7 @@ class CalliopeBLEDeviceTest: XCTestCase {
 			calliopeInMode5.updateBlock = {
 				//take over update notifications
 				if calliopeInMode5.state == .playgroundReady {
+					calliopeInMode5.updateBlock = {}
 					fulfilled()
 				}
 			}

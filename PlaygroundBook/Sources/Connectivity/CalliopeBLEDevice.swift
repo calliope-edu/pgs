@@ -508,7 +508,9 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			updateSensorReading(value)
 		} else {
 			//TODO: if we have all the sensor characteristics, and one updates, we can as well update the dashboard using it
-			notifyListener(for: characteristic, value: value)
+			updateQueue.async {
+				self.notifyListener(for: characteristic, value: value)
+			}
 		}
 	}
 

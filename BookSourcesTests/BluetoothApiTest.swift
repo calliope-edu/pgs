@@ -17,6 +17,48 @@ class BluetoothApiTest: XCTestCase {
 	let temperatureUpdateExpectation = XCTestExpectation(description: "temperature service")
 	let magnetometerUpdateExpectation = XCTestExpectation(description: "magnetometer service")
 	let accelerometerUpdateExpectation = XCTestExpectation(description: "accelerometer service")
+	let buttonADownExpectation = XCTestExpectation(description: "button A service down")
+	let buttonBDownExpectation = XCTestExpectation(description: "button B service down")
+	let buttonAUpExpectation = XCTestExpectation(description: "button A service up")
+	let buttonBUpExpectation = XCTestExpectation(description: "button B service up")
+	let buttonALongExpectation = XCTestExpectation(description: "button A service long")
+	let buttonBLongExpectation = XCTestExpectation(description: "button B service long")
+
+	func testButtonNotification() {
+		bluetoothApiTest { callipe in
+			print("PUSH BUTTON B AND A FOR SOME SECONDS AND THEN RELEASE")
+			callipe.buttonAActionNotification = { buttonAction in
+				guard let buttonAction = buttonAction else { return }
+				print(callipe.buttonAAction ?? "NO ACTION")
+				switch buttonAction {
+				case .Up:
+					print("Button A up")
+					self.buttonAUpExpectation.fulfill()
+				case .Down:
+					print("Button A down")
+					self.buttonADownExpectation.fulfill()
+				case .Long:
+					print("Button A long")
+					self.buttonALongExpectation.fulfill()
+				}
+			}
+			callipe.buttonBActionNotification = { buttonAction in
+				guard let buttonAction = buttonAction else { return }
+				switch buttonAction {
+				case .Up:
+					print("Button B up")
+					self.buttonBUpExpectation.fulfill()
+				case .Down:
+					print("Button B down")
+					self.buttonBDownExpectation.fulfill()
+				case .Long:
+					print("Button B long")
+					self.buttonBLongExpectation.fulfill()
+				}
+			}
+		}
+		wait(for: [buttonAUpExpectation, buttonADownExpectation, buttonALongExpectation, buttonBUpExpectation, buttonBDownExpectation, buttonBLongExpectation], timeout: 60)
+	}
 
 	func testLedWriteOnly() {
 		bluetoothApiTest { calliope in
@@ -115,9 +157,7 @@ class BluetoothApiTest: XCTestCase {
 		self.calliopeTest.discoveryTest.discover {
 			self.calliopeTest.connectToCalliopeInMode5() {
 				//TODO: not sure if this is just needed for the playground or always
-				DispatchQueue(label: "backgroundBluetooth", qos: .userInteractive).async {
-					apiUsage(self.calliopeTest.calliopeInMode5!)
-				}
+				apiUsage(self.calliopeTest.calliopeInMode5!)
 			}
 		}
 	}

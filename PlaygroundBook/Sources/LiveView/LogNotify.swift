@@ -16,8 +16,10 @@ public class LogNotify {
         let now = formatter.string(from: Date())
         
         NSLog("LogNotify:: \(thread) : \(msg)")
-        NotificationCenter.default.post(name:logNotifyName, object: nil, userInfo:["message":msg, "date":now])
-        
+		//this seems to have been synchronous, so no matter which queue it was invoked from, if the main queue was waiting the queue had to wait, too. This lead to deadlocks
+		DispatchQueue.main.async {
+			NotificationCenter.default.post(name:logNotifyName, object: nil, userInfo:["message":msg, "date":now])
+		}
     }
     
 }
