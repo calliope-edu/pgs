@@ -28,6 +28,7 @@ public enum ApiCall {
 	case displayClear()
 	case displayShowGrid(grid: [UInt8])
 	case displayShowImage(image: miniImage)
+	case displayShowText(text: String)
 	case soundOff()
 	case soundOnNote(note: miniSound)
 	case soundOnFreq(freq: UInt16)
@@ -39,6 +40,8 @@ public enum ApiCall {
 	case respondNoise(level: UInt16)
 	case requestTemperature()
 	case respondTemperature(degrees: Int16)
+	case requestBrightness()
+	case respondBrightness(level: UInt16)
 
 	//other controls
 	case sleep(time: UInt16)
@@ -51,6 +54,7 @@ extension ApiCall: Codable {
 		case rgbColor
 		case ledGrid
 		case ledImage
+		case ledText
 		case soundNote
 		case soundFreq
 		case button
@@ -139,6 +143,14 @@ extension ApiCall: Codable {
 		case 27:
 			let time = try container.decode(UInt16.self, forKey: .sleepTime)
 			self = .sleep(time: time)
+		case 28:
+			let text = try container.decode(String.self, forKey: .ledText)
+			self = .displayShowText(text: text)
+		case 29:
+			self = .requestBrightness()
+		case 30:
+			let level = try container.decode(UInt16.self, forKey: .brightnessValue)
+			self = .respondBrightness(level: level)
 		default:
 			throw CodingError.unknownValue
 		}
@@ -216,6 +228,14 @@ extension ApiCall: Codable {
 		case .sleep(let time):
 			try container.encode(27, forKey: .rawValue)
 			try container.encode(time, forKey: .sleepTime)
+		case .displayShowText(let text):
+			try container.encode(28, forKey: .rawValue)
+			try container.encode(text, forKey: .ledText)
+		case .requestBrightness():
+			try container.encode(29, forKey: .rawValue)
+		case .respondBrightness(let level):
+			try container.encode(30, forKey: .rawValue)
+			try container.encode(level, forKey: .brightnessValue)
 		}
 	}
 }

@@ -77,9 +77,8 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
             closeLiveViewProxy("No PlaygroundRemoteLiveViewProxy found...")
             return
         }
-        let _data: PlaygroundValue = .data(data)
-        
-        proxy.send(_data)
+
+		proxy.send(PlaygroundValue.dictionary(["program": .data(data)]))
     }
     
     private func showStatus(_ result: AssessmentResults) {
@@ -176,7 +175,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 		}
 
 		deparallelizationGroup.enter()
-		let message: PlaygroundValue = .data(data)
+		let message: PlaygroundValue = .dictionary(["call": .data(data)])
 		proxy.send(message)
 
 		deparallelizationGroup.wait()

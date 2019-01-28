@@ -169,24 +169,23 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
 
         if case let .string(msg) = message {
             LogNotify.log("live view receive string: \(msg)")
-        } else if case let .data(data) = message {
+		} else if case let .dictionary(msg) = message, case let .data(program)? = msg["program"] {
             //LogNotify.log("live view receive data: \(data)")
-            upload(data)
+            upload(program)
             delay(time: 1.0) { [weak self] in
                 let message: PlaygroundValue = .string(Keys.closeLiveProxyKey)
                 self?.send(message)
             }
-            return
-		} else if case let .dictionary(msg) = message {
+		} else if case let .dictionary(msg) = message, case let .data(callData)? = msg["call"] {
 			//TODO: this is the case where we call the api of the calliope
 			//TODO: the api call must only be invoked on certain pages.
 			//TODO: respond with a message back (either with value or just as a kind of "return" call)
+		} else {
+			delay(time: 1.0) { [weak self] in
+				let message: PlaygroundValue = .string("ping from liveview")
+				self?.send(message)
+			}
 		}
-        
-        delay(time: 1.0) { [weak self] in
-            let message: PlaygroundValue = .string("ping from liveview")
-            self?.send(message)
-        }
     }
 }
 

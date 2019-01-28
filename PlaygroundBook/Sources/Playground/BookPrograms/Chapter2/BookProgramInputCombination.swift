@@ -15,7 +15,7 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 		
 		var o: Int = 0
 		
-		let image1:[UInt8] = values[o+0...o+24].flatMap{ UInt8($0) }
+		let image1:[UInt8] = values[o+0...o+24].compactMap{ UInt8($0) }
 		guard image1.count == 25 else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
@@ -24,7 +24,7 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 		}
 		o += 26
 		
-		let image2:[UInt8] = values[o+0...o+24].flatMap{ UInt8($0) }
+		let image2:[UInt8] = values[o+0...o+24].compactMap{ UInt8($0) }
 		guard image2.count == 25 else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
@@ -33,7 +33,7 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 		}
 		o += 26
 		
-		let image3:[UInt8] = values[o+0...o+24].flatMap{ UInt8($0) }
+		let image3:[UInt8] = values[o+0...o+24].compactMap{ UInt8($0) }
 		guard image3.count == 25 else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
