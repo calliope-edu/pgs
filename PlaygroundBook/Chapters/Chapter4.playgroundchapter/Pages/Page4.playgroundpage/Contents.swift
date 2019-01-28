@@ -38,5 +38,5 @@ func forever() {
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramProjectClap.assessment )
 //#-end-hidden-code
