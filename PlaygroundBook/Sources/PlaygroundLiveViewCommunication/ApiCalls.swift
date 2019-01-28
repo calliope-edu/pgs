@@ -108,41 +108,37 @@ extension ApiCall: Codable {
 			self = .displayShowImage(image: image)
 		case 16:
 			self = .soundOff()
-			/* TODO: all the rest
-
-			case .soundOnNote(let note):
-			try container.encode(17, forKey: .rawValue)
-			try container.encode(note, forKey: .soundNote)
-			case .soundOnFreq(let freq):
-			try container.encode(18, forKey: .rawValue)
-			try container.encode(freq, forKey: .soundFreq)
-			case .requestButtonState(let button):
-			try container.encode(19, forKey: .rawValue)
-			try container.encode(button, forKey: .button)
-			case .respondButtonState(let button, let isPressed):
-			try container.encode(20, forKey: .rawValue)
-			try container.encode(button, forKey: .button)
-			try container.encode(isPressed, forKey: .buttonValue)
-			case .requestPinState(let pin):
-			try container.encode(21, forKey: .rawValue)
-			try container.encode(pin, forKey: .pinNumber)
-			case .respondPinState(let pin, let isPressed):
-			try container.encode(22, forKey: .rawValue)
-			try container.encode(pin, forKey: .pinNumber)
-			try container.encode(isPressed, forKey: .pinValue)
-			case .requestNoise:
-			try container.encode(23, forKey: .rawValue)
-			case .respondNoise(let level):
-			try container.encode(24, forKey: .rawValue)
-			try container.encode(level, forKey: .noiseValue)
-			case .requestTemperature:
-			try container.encode(25, forKey: .rawValue)
-			case .respondTemperature(let degrees):
-			try container.encode(26, forKey: .rawValue)
-			try container.encode(degrees, forKey: .temperatureValue)
-			case .sleep(let time):
-			try container.encode(27, forKey: .rawValue)
-			try container.encode(time, forKey: .sleepTime)*/
+		case 17:
+			let note = try container.decode(miniSound.self, forKey: .soundNote)
+			self = .soundOnNote(note: note)
+		case 18:
+			let freq = try container.decode(UInt16.self, forKey: .soundFreq)
+			self = .soundOnFreq(freq: freq)
+		case 19:
+			let button = try container.decode(buttonType.self, forKey: .button)
+			self = .requestButtonState(button: button)
+		case 20:
+			let isPressed = try container.decode(Bool.self, forKey: .buttonValue)
+			self = .respondButtonState(isPressed: isPressed)
+		case 21:
+			let pin = try container.decode(UInt.self, forKey: .pinNumber)
+			self = .requestPinState(pin: pin)
+		case 22:
+			let isPressed = try container.decode(Bool.self, forKey: .pinValue)
+			self = .respondPinState(isPressed: isPressed)
+		case 23:
+			self = .requestNoise()
+		case 24:
+			let level = try container.decode(UInt16.self, forKey: .noiseValue)
+			self = .respondNoise(level: level)
+		case 25:
+			self = .requestTemperature()
+		case 26:
+			let degrees = try container.decode(Int16.self, forKey: .temperatureValue)
+			self = .respondTemperature(degrees: degrees)
+		case 27:
+			let time = try container.decode(UInt16.self, forKey: .sleepTime)
+			self = .sleep(time: time)
 		default:
 			throw CodingError.unknownValue
 		}
