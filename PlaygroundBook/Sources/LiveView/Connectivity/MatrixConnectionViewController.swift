@@ -153,7 +153,7 @@ public extension MatrixConnectionViewController {
 		case .connecting:
 			matrixView.isUserInteractionEnabled = false
 			connectButton.connectionState = .connecting
-			self.collapseButton.connectionState = .disconnected
+			self.collapseButton.connectionState = .connecting
 		case .connected:
 			if let connectedCalliope = connector.connectedCalliope, calliopeWithCurrentMatrix != connector.connectedCalliope {
 				//set matrix in case of auto-reconnect, where we do not have corresponding matrix yet
@@ -166,10 +166,12 @@ public extension MatrixConnectionViewController {
 
 	private func evaluateCalliopeState(_ calliope: CalliopeBLEDevice) {
 
-		if calliope.state == .playgroundReady {
+		if calliope.state == .notPlaygroundReady || calliope.state == .discovered {
+			self.collapseButton.connectionState = .disconnected
+		} else if calliope.state == .playgroundReady {
 			self.collapseButton.connectionState = .connected
 		} else {
-			self.collapseButton.connectionState = .disconnected
+			self.collapseButton.connectionState = .connecting
 		}
 
 		switch calliope.state {
