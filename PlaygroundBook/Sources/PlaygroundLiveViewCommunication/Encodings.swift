@@ -1,3 +1,10 @@
+//
+//  CommunicationDataTypes.swift
+//  PlaygroundBook
+//
+//  Created by Tassilo Karge on 28.01.19.
+//
+
 extension miniImage: RawRepresentable {
     
     static var all: [miniImage] {

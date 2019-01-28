@@ -79,6 +79,8 @@
 		2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* Encodings.swift */; };
 		2F9FAACC21FF4CB40076B737 /* ApiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */; };
 		2F9FAACD21FF4CC50076B737 /* ApiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */; };
+		2F9FAACF21FF5B3C0076B737 /* CommunicationDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACE21FF5B3C0076B737 /* CommunicationDataTypes.swift */; };
+		2F9FAAD021FF5B3C0076B737 /* CommunicationDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACE21FF5B3C0076B737 /* CommunicationDataTypes.swift */; };
 		2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133C21C3E25F00500EC1 /* MatrixView.swift */; };
 		2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */; };
 		2FDC68D721C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */; };
@@ -240,6 +242,7 @@
 		2F9FAAB321FE48080076B737 /* Macros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBuildResult.swift; sourceTree = "<group>"; };
 		2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCalls.swift; sourceTree = "<group>"; };
+		2F9FAACE21FF5B3C0076B737 /* CommunicationDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationDataTypes.swift; sourceTree = "<group>"; };
 		2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixConnectionViewController.swift; sourceTree = "<group>"; };
 		2FCB133C21C3E25F00500EC1 /* MatrixView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixView.swift; sourceTree = "<group>"; };
 		2FDC68DC21C56513001163D3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
@@ -422,6 +425,7 @@
 		2F9FAAB521FE497A0076B737 /* PlaygroundLiveViewCommunication */ = {
 			isa = PBXGroup;
 			children = (
+				2F9FAACE21FF5B3C0076B737 /* CommunicationDataTypes.swift */,
 				8855BA3B20A06490009646CC /* Encodings.swift */,
 				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
 				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
@@ -1035,6 +1039,7 @@
 				2F9FAAA721FE44F90076B737 /* BookProgramProjectPiano.swift in Sources */,
 				2F9FAAA221FE44F90076B737 /* BookProgramCommandRandom.swift in Sources */,
 				2F9FAAA621FE44F90076B737 /* BookProgramProjectRockPaperScissors.swift in Sources */,
+				2F9FAAD021FF5B3C0076B737 /* CommunicationDataTypes.swift in Sources */,
 				2F9FAAA021FE44F90076B737 /* BookProgramCommandVariables.swift in Sources */,
 				2F9FAACD21FF4CC50076B737 /* ApiCalls.swift in Sources */,
 				2F9FAA9021FE44F90076B737 /* BookProgramOutputNumber.swift in Sources */,
@@ -1095,6 +1100,7 @@
 				2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */,
 				8855BAC420A064C4009646CC /* Dashboard_SoundAnimation.swift in Sources */,
 				8855BABE20A064C4009646CC /* Dashboard_ButtonBAnimation.swift in Sources */,
+				2F9FAACF21FF5B3C0076B737 /* CommunicationDataTypes.swift in Sources */,
 				2F9FAA3421FE43FE0076B737 /* ActivityView.swift in Sources */,
 				2F9FAAB021FE47190076B737 /* Ext.swift in Sources */,
 				8855BABF20A064C4009646CC /* Dashboard_DisplayAnimation.swift in Sources */,
