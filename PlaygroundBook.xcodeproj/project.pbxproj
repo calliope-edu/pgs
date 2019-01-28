@@ -33,7 +33,7 @@
 		2F9FAA7E21FE44E60076B737 /* PlayGroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4520A06491009646CC /* PlayGroundManager.swift */; };
 		2F9FAA7F21FE44E60076B737 /* ValueLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE507AF219D925B008686F4 /* ValueLocalizer.swift */; };
 		2F9FAA8021FE44E60076B737 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4720A06491009646CC /* API.swift */; };
-		2F9FAA8221FE44E60076B737 /* CalliopeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* CalliopeImage.swift */; };
+		2F9FAA8221FE44E60076B737 /* Encodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* Encodings.swift */; };
 		2F9FAA8921FE44F90076B737 /* ProgramBlink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8B20A064C4009646CC /* ProgramBlink.swift */; };
 		2F9FAA8A21FE44F90076B737 /* ProgramNotifyPing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8D20A064C4009646CC /* ProgramNotifyPing.swift */; };
 		2F9FAA8B21FE44F90076B737 /* ProgramBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8C20A064C4009646CC /* ProgramBuilder.swift */; };
@@ -76,6 +76,9 @@
 		2F9FAAB721FE49A50076B737 /* ProgramBuildResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */; };
 		2F9FAAB821FE49B80076B737 /* ProgramBuildResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */; };
 		2F9FAAB921FE4A430076B737 /* ValueLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE507AF219D925B008686F4 /* ValueLocalizer.swift */; };
+		2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* Encodings.swift */; };
+		2F9FAACC21FF4CB40076B737 /* ApiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */; };
+		2F9FAACD21FF4CC50076B737 /* ApiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */; };
 		2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133C21C3E25F00500EC1 /* MatrixView.swift */; };
 		2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */; };
 		2FDC68D721C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */; };
@@ -236,6 +239,7 @@
 		2F9FAAAD21FE46490076B737 /* Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext.swift; sourceTree = "<group>"; };
 		2F9FAAB321FE48080076B737 /* Macros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBuildResult.swift; sourceTree = "<group>"; };
+		2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCalls.swift; sourceTree = "<group>"; };
 		2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixConnectionViewController.swift; sourceTree = "<group>"; };
 		2FCB133C21C3E25F00500EC1 /* MatrixView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixView.swift; sourceTree = "<group>"; };
 		2FDC68DC21C56513001163D3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
@@ -271,7 +275,7 @@
 		5EF2F9B62054E6F900191409 /* Chapters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Chapters; sourceTree = "<group>"; };
 		8855BA3920A06490009646CC /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
 		8855BA3A20A06490009646CC /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
-		8855BA3B20A06490009646CC /* CalliopeImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalliopeImage.swift; sourceTree = "<group>"; };
+		8855BA3B20A06490009646CC /* Encodings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encodings.swift; sourceTree = "<group>"; };
 		8855BA3C20A06490009646CC /* ActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		8855BA3D20A06490009646CC /* Extension_UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_UIColor.swift; sourceTree = "<group>"; };
 		8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStackView_DashBoard.swift; sourceTree = "<group>"; };
@@ -386,7 +390,6 @@
 			isa = PBXGroup;
 			children = (
 				8855BA4720A06491009646CC /* API.swift */,
-				8855BA3B20A06490009646CC /* CalliopeImage.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -419,7 +422,9 @@
 		2F9FAAB521FE497A0076B737 /* PlaygroundLiveViewCommunication */ = {
 			isa = PBXGroup;
 			children = (
+				8855BA3B20A06490009646CC /* Encodings.swift */,
 				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
+				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
 			);
 			path = PlaygroundLiveViewCommunication;
 			sourceTree = "<group>";
@@ -1019,7 +1024,7 @@
 				2F9FAA8C21FE44F90076B737 /* ProgramBaseInstructions.swift in Sources */,
 				2F9FAA9221FE44F90076B737 /* BookProgramOutputGrid.swift in Sources */,
 				2F9FAA7321FE44A40076B737 /* Playground_Code.swift in Sources */,
-				2F9FAA8221FE44E60076B737 /* CalliopeImage.swift in Sources */,
+				2F9FAA8221FE44E60076B737 /* Encodings.swift in Sources */,
 				2F9FAA7E21FE44E60076B737 /* PlayGroundManager.swift in Sources */,
 				2F9FAA9821FE44F90076B737 /* BookProgramInputButtonAB.swift in Sources */,
 				2F9FAAA521FE44F90076B737 /* BookProgramProjectDice.swift in Sources */,
@@ -1031,6 +1036,7 @@
 				2F9FAAA221FE44F90076B737 /* BookProgramCommandRandom.swift in Sources */,
 				2F9FAAA621FE44F90076B737 /* BookProgramProjectRockPaperScissors.swift in Sources */,
 				2F9FAAA021FE44F90076B737 /* BookProgramCommandVariables.swift in Sources */,
+				2F9FAACD21FF4CC50076B737 /* ApiCalls.swift in Sources */,
 				2F9FAA9021FE44F90076B737 /* BookProgramOutputNumber.swift in Sources */,
 				2F9FAAA921FE44F90076B737 /* BookProgramProjectTheremin.swift in Sources */,
 				2F9FAA9E21FE44F90076B737 /* BookProgramCommandClear.swift in Sources */,
@@ -1082,6 +1088,7 @@
 				8855BABC20A064C4009646CC /* Dashboard_BrightnessAnimation.swift in Sources */,
 				2F9FAAB921FE4A430076B737 /* ValueLocalizer.swift in Sources */,
 				2F9FAA4121FE43FE0076B737 /* UIView_DashBoardItem.swift in Sources */,
+				2F9FAACC21FF4CB40076B737 /* ApiCalls.swift in Sources */,
 				2F9FAA4021FE43FE0076B737 /* UIStackView_DashBoard.swift in Sources */,
 				8855BAC120A064C4009646CC /* Dashboard_PinAnimation.swift in Sources */,
 				2F9FAAB721FE49A50076B737 /* ProgramBuildResult.swift in Sources */,
@@ -1095,6 +1102,7 @@
 				2F9FAA3821FE43FE0076B737 /* Extension_CGRect.swift in Sources */,
 				2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */,
 				2F9FAAAC21FE45900076B737 /* Extension_Data.swift in Sources */,
+				2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */,
 				2F9FAA4221FE43FE0076B737 /* ViewController_Base.swift in Sources */,
 				8855BABD20A064C4009646CC /* Dashboard_ButtonAAnimation.swift in Sources */,
 				2F9FAA3721FE43FE0076B737 /* DashBoardViewController.swift in Sources */,

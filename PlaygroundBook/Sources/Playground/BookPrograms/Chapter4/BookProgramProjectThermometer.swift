@@ -21,7 +21,7 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let image_cold = CalliopeImage(from: values[2]) else {
+		guard let image_cold = miniImage(from: values[2]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -33,7 +33,7 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let image_normal = CalliopeImage(from: values[5]) else {
+		guard let image_normal = miniImage(from: values[5]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -41,7 +41,7 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let image_hot = CalliopeImage(from: values[7]) else {
+		guard let image_hot = miniImage(from: values[7]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -70,13 +70,13 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
     public var color_normal: UIColor = .green
     public var color_hot: UIColor = .red
 
-    public var image_cold: CalliopeImage = .sad
-    public var image_normal: CalliopeImage = .heart
-    public var image_hot: CalliopeImage = .smiley
+    public var image_cold: miniImage = .sad
+    public var image_normal: miniImage = .heart
+    public var image_hot: miniImage = .smiley
 
     public var delay: Int16 = 5000
 
-    func below(temperature: Int16, color: UIColor, image: CalliopeImage) -> [UInt8] {
+    func below(temperature: Int16, color: UIColor, image: miniImage) -> [UInt8] {
         return [
             movi16(temperature, .r2),
             cmp(.r2, .r1),
@@ -95,7 +95,7 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
         ].flatMap { $0 }
     }
 
-    func show(image: CalliopeImage) -> [UInt8] {
+    func show(image: miniImage) -> [UInt8] {
         return [
             movi16(NotificationAddress.display.rawValue, .r4),
             notify(address: .r4, value: .r4),

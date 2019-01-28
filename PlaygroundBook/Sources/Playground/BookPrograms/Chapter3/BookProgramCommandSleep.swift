@@ -11,7 +11,7 @@ public final class BookProgramCommandSleep: ProgramBase, Program {
 		]
 		let solution = "page.solution".localized
 
-		guard let img1 = CalliopeImage(from: values[0]) else {
+		guard let img1 = miniImage(from: values[0]) else {
 			LogNotify.log("img1")
 			return (.fail(hints: hints, solution: solution), nil)
 		}
@@ -23,7 +23,7 @@ public final class BookProgramCommandSleep: ProgramBase, Program {
 
 		LogNotify.log("img2 \(values[2])")
 
-		guard let img2 = CalliopeImage(from: values[2]) else {
+		guard let img2 = miniImage(from: values[2]) else {
 			LogNotify.log("img2")
 			return (.fail(hints: hints, solution: solution), nil)
 		}
@@ -37,8 +37,8 @@ public final class BookProgramCommandSleep: ProgramBase, Program {
 		return (nil, p)
 	}
 
-	public var image1: CalliopeImage = .sad
-    public var image2: CalliopeImage = .smiley
+	public var image1: miniImage = .sad
+    public var image2: miniImage = .smiley
     public var delay: Int16 = 1000
 
     public func build() -> ProgramBuildResult {

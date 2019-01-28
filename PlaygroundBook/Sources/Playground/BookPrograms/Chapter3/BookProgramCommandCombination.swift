@@ -28,11 +28,11 @@ public final class BookProgramCommandCombination: ProgramBase, Program {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let correct = CalliopeImage(from: values[4]) else {
+		guard let correct = miniImage(from: values[4]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let wrong = CalliopeImage(from: values[5]) else {
+		guard let wrong = miniImage(from: values[5]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -53,9 +53,9 @@ public final class BookProgramCommandCombination: ProgramBase, Program {
     public var color2: UIColor = .blue
     public var color3: UIColor = .white
 
-    public var arrow: CalliopeImage = .arrow_left
-    public var correct: CalliopeImage = .smiley
-    public var wrong: CalliopeImage = .sad
+    public var arrow: miniImage = .arrow_left
+    public var correct: miniImage = .smiley
+    public var wrong: miniImage = .sad
 
     public var delay1: Int16 = 400
     public var delay2: Int16 = 1000

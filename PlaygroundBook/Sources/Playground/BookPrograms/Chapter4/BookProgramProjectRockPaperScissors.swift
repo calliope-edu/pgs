@@ -22,15 +22,15 @@ public final class BookProgramProjectRockPaperScissors: ProgramBase, Program {
 		//return (.fail(hints: time_hint, solution: time_solution), nil)
 		//}
 
-		guard let img1 = CalliopeImage(from: values[1]) else {
+		guard let img1 = miniImage(from: values[1]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let img2 = CalliopeImage(from: values[2]) else {
+		guard let img2 = miniImage(from: values[2]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let img3 = CalliopeImage(from: values[3]) else {
+		guard let img3 = miniImage(from: values[3]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -46,9 +46,9 @@ public final class BookProgramProjectRockPaperScissors: ProgramBase, Program {
 
 	public var speed: Int16 = 10
 
-    public var image1: CalliopeImage = .arrow_left
-    public var image2: CalliopeImage = .arrow_right
-    public var image3: CalliopeImage = .arrow_left_right
+    public var image1: miniImage = .arrow_left
+    public var image2: miniImage = .arrow_right
+    public var image3: miniImage = .arrow_left_right
 
     func waitOnButton() -> [UInt8] {
         return [

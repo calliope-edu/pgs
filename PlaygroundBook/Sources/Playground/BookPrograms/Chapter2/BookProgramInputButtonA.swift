@@ -11,7 +11,7 @@ public final class BookProgramInputButtonA: ProgramBase, Program {
 		]
 		let solution = "page.solution".localized
 
-		guard let img = CalliopeImage(from: values[0]) else {
+		guard let img = miniImage(from: values[0]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -22,7 +22,7 @@ public final class BookProgramInputButtonA: ProgramBase, Program {
 		return (nil, p)
 	}
 
-	public var image: CalliopeImage = .smiley
+	public var image: miniImage = .smiley
 
 	public func build() -> ProgramBuildResult {
 		let delay: Int16 = 200

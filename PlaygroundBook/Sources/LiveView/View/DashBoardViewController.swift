@@ -61,63 +61,6 @@ public class DashBoardViewController: ViewController_Base {
         // button
         let top_const:CGFloat = 20.0
 
-        /*
-        public enum DashboardItemType : UInt16 {
-            case Display = 0x0000
-            case ButtonA = 0x0001
-            case ButtonB = 0x0002
-            case ButtonAB = 0x0003
-            case RGB = 0x004
-            case Sound = 0x005
-            case Pin = 0x006
-            case Shake = 0x007
-            case Thermometer = 0x008
-            case Noise = 0x009
-            case Brightness = 0x00a
-        */
-
-		/*
-        let connectionView = DevicesConnectionView({ (state, data) in
-            let array = [UInt8](data)
-            //LogNotify.log("notify array: \(array)")
-            if state == DevicesConnectionState.notify {
-                if let type = DashboardItemType(rawValue:UInt16(array[1])) {
-                    let value:UInt8 = array[3]
-                    //LogNotify.log("notify_type: \(type)")
-                    //LogNotify.log("notify: \(type.rawValue) : \(value)")
-                    if(type == DashboardItemType.ButtonAB)
-                    {
-                        NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonA, "value":value])
-                        NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonB, "value":value])
-                    }
-                    else if type == DashboardItemType.Thermometer {
-                        let localizedValue = UInt8( ValueLocalizer.current.localizeTemperature(unlocalized: Double(value)) )
-                        NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":localizedValue])
-                    }
-                    else
-                    {
-                        NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":value])
-                    }
-                }
-            }
-        })
-        connectionView.safeAreaBlock = { [weak self] in
-            if let me = self {
-                return me.liveViewSafeAreaGuide
-            }
-            return nil
-        }
-        // on notify ??
-        self.view.addSubview(connectionView)
-
-        NSLayoutConstraint.activate([
-            connectionView.topAnchor.constraint(equalTo: liveViewSafeAreaGuide.topAnchor, constant: top_const),
-            connectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -top_const)
-        ])
-
-        self.connectionView = connectionView
-		*/
-
 		let matrixViewController = MatrixConnectionViewController()
 		connectionView = matrixViewController
 		matrixViewController.willMove(toParent: self)
@@ -223,11 +166,10 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
     }
 
     public func receive(_ message: PlaygroundValue) {
-        
-//        if case let .string(msg) = message {
-//            //LogNotify.log("live view receive string: \(msg)")
-//        } else
-        if case let .data(data) = message {
+
+        if case let .string(msg) = message {
+            LogNotify.log("live view receive string: \(msg)")
+        } else if case let .data(data) = message {
             //LogNotify.log("live view receive data: \(data)")
             upload(data)
             delay(time: 1.0) { [weak self] in
@@ -235,7 +177,11 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
                 self?.send(message)
             }
             return
-        }
+		} else if case let .dictionary(msg) = message {
+			//TODO: this is the case where we call the api of the calliope
+			//TODO: the api call must only be invoked on certain pages.
+			//TODO: respond with a message back (either with value or just as a kind of "return" call)
+		}
         
         delay(time: 1.0) { [weak self] in
             let message: PlaygroundValue = .string("ping from liveview")

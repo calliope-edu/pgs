@@ -3,39 +3,37 @@ import Foundation
 import UIKit
 
 @objc protocol Calliope {
-	@objc optional
-
 	//Buttons
 	/// when button A gets pressed
-	func onButtonA()
+	@objc optional func onButtonA()
 	/// when button B gets pressed
-	func onButtonB()
+	@objc optional func onButtonB()
 	/// when button A and B are pressed together
-	func onButtonAB()
+	@objc optional func onButtonAB()
 	/// when button A is pressed for some seconds
-	func onButtonALongPress()
+	@objc optional func onButtonALongPress()
 	/// when button B is pressed for some seconds
-	func onButtonBLongPress()
+	@objc optional func onButtonBLongPress()
 	/// when button A and B are pressed for some seconds
-	func onButtonABLongPress()
+	@objc optional func onButtonABLongPress()
 
 	//Pins
 	/// when minus and any of pins 1-4 are connected (not implemented yet)
-	func onPin(pin:UInt16)
+	@objc optional func onPin(pin:UInt16)
 
 	//Motion
 	/// when calliope is shook (not implemented yet)
-	func onShake()
+	@objc optional func onShake()
 
 	//Sound
 	/// when calliope recognizes loud sound (not implemented yet)
-	func onClap()
+	@objc optional func onClap()
 
 	//control flow
 	/// executed when calliope is connected
-	func start()
+	@objc optional func start()
 	/// executed over and over again
-	func forever()
+	@objc optional func forever()
 }
 
 public func playgroundPrologue() {
@@ -52,7 +50,7 @@ public func playgroundEpilogue(_ block: AssessmentBlock? = nil) {
 // umbrella API
 
 public class mini {
-    public class func sleep(_ time:UInt16) {}
+    public class func sleep(_ time: UInt16) {}
 }
 
 //
@@ -82,10 +80,10 @@ public class sound {
 
 //
 
-public enum buttonType {
-    case A
-    case B
-    case AB
+public enum buttonType: Int8 {
+    case A = 0
+    case B = 1
+    case AB = 2
 }
 
 public struct io {
@@ -97,9 +95,10 @@ public struct io {
         public var isPressed:Bool = false
         public init(_ type: UInt) {}
     }
+
     public static var noise: UInt16 = 42
     public static var brightness: UInt16 = 42
-    public static var temperature: UInt16 = 42
+	public static var temperature: Int16 = 42
 }
 
 //
@@ -110,7 +109,7 @@ public func random(_ range:CountableClosedRange<UInt16>) -> UInt16 {
 
 // MARK: - miniColor
 
-public enum miniColor:String {
+public enum miniColor: String {
     case red
     case green
     case blue
@@ -153,37 +152,27 @@ public enum miniColor:String {
         }
     }
 }
-
-extension miniColor: RawRepresentable {
-    static var all: [miniColor] = [.red, .green, .blue, .yellow, .black, .darkGray, .lightGray, .white, .cyan, .magenta, .orange, .purple]
-    
-    public init?(from: String) {
-        // adding "." instead of removing from input, so we know its an enum and not some "..."
-        guard let type = miniColor.all.first(where: { "."+String(describing:$0) == from }) else { return nil }
-        self = type
-    }
-}
  
 // MARK: - miniImage
 
-public enum miniImage {
-    case smiley
-    case sad
-    case heart
-    case arrow_left
-    case arrow_right
-    case arrow_left_right
-    case full
-    case dot
-    case small_rect
-    case large_rect
-    case double_row
-    case tick
-    case rock
-    case scissors
-    case well
-    case flash
-    case wave
+public enum miniImage: Int16 {
+	case smiley = 0x00
+	case sad = 0x01
+	case heart = 0x02
+	case arrow_left = 0x03
+	case arrow_right = 0x04
+	case arrow_left_right = 0x05
+	case full = 0x06
+	case dot = 0x07
+	case small_rect = 0x08
+	case large_rect = 0x09
+	case double_row = 0x0a
+	case tick = 0x0b
+	case rock = 0x0c
+	case scissors = 0x0d
+	case well = 0x0e
+	case flash = 0x0f
+	case wave = 0x10
 }
 
 // MARK: - miniSound
@@ -197,14 +186,4 @@ public enum miniSound:UInt16 {
     case A = 440
     case H = 494
     case C5 = 523
-}
-
-extension miniSound: RawRepresentable {
-    static var all: [miniSound] = [ .C, .D, .E, .F, .G, .A, .H, .C5]
-    
-    public init?(from: String) {
-        // adding "." instead of removing from input, so we know its an enum and not some "..."
-        guard let type = miniSound.all.first(where: { "."+String(describing:$0) == from }) else { return nil }
-        self = type
-    }
 }

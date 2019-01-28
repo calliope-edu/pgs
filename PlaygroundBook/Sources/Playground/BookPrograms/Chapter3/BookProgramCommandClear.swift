@@ -11,7 +11,7 @@ public final class BookProgramCommandClear: ProgramBase, Program {
 		]
 		let solution = "page.solution".localized
 
-		guard let img = CalliopeImage(from: values[0]) else {
+		guard let img = miniImage(from: values[0]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -27,7 +27,7 @@ public final class BookProgramCommandClear: ProgramBase, Program {
 		return (nil, p)
 	}
 
-	public var image: CalliopeImage = .smiley
+	public var image: miniImage = .smiley
     public var delay: Int16 = 1000
 
     public func build() -> ProgramBuildResult {

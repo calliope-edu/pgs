@@ -41,7 +41,7 @@ public final class BookProgramOutputCombination: ProgramBase, Program {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let img = CalliopeImage(from: values[7]) else {
+		guard let img = miniImage(from: values[7]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -65,7 +65,7 @@ public final class BookProgramOutputCombination: ProgramBase, Program {
 	public var frequency3: Int16 = 4000
 	public var color3: UIColor = .blue
 	public var s: String = "Hey!"
-	public var image: CalliopeImage = .smiley
+	public var image: miniImage = .smiley
 
 	func show(frequency: Int16, color: UIColor) -> [UInt8] {
 		return [
