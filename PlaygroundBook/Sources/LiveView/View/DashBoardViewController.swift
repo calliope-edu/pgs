@@ -165,21 +165,29 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
         LogNotify.log("live view connection closed")
     }
 
-    public func receive(_ message: PlaygroundValue) {
+	public func receive(_ message: PlaygroundValue) {
 
         if case let .string(msg) = message {
             LogNotify.log("live view receive string: \(msg)")
-		} else if case let .dictionary(msg) = message, case let .data(program)? = msg["program"] {
+		} else if case let .dictionary(msg) = message, case let .data(program)? = msg[PlaygroundValueKeys.programKey] {
             //LogNotify.log("live view receive data: \(data)")
             upload(program)
             delay(time: 1.0) { [weak self] in
                 let message: PlaygroundValue = .string(Keys.closeLiveProxyKey)
                 self?.send(message)
             }
-		} else if case let .dictionary(msg) = message, case let .data(callData)? = msg["call"] {
-			//TODO: this is the case where we call the api of the calliope
+		} else if case let .dictionary(msg) = message, case let .data(callData)? = msg[PlaygroundValueKeys.apiCallKey] {
+			//this is the case where we call the api of the calliope
 			//TODO: the api call must only be invoked on certain pages.
-			//TODO: respond with a message back (either with value or just as a kind of "return" call)
+			let call = ApiCall(from: callData)
+
+			guard let apiCall = call else {
+				LogNotify.log("live view received undecodable api call")
+				return
+			}
+			LogNotify.log("live view received api call \(apiCall)")
+
+			handleApiCall(apiCall)
 		} else {
 			delay(time: 1.0) { [weak self] in
 				let message: PlaygroundValue = .string("ping from liveview")
@@ -187,5 +195,70 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
 			}
 		}
     }
+
+	private func handleApiCall(_ apiCall: ApiCall) {
+		//respond with a message back (either with value or just as a kind of "return" call)
+		let response: ApiCall
+		switch apiCall {
+		case let ApiCall.buttonA():
+			response = .finished()
+		case .rgbOn(let color):
+			response = .finished()
+		case .rgbOff:
+			response = .finished()
+		case .displayClear:
+			connectionView?.playgroundReadyCalliope?.ledMatrixState = [[false, false, false, false, false], [false, false, false, false, false], [false, false, false, false, false], [false, false, false, false, false], [false, false, false, false, false]]
+			response = .finished()
+		case .displayShowGrid(let grid):
+			//TODO: decode grid
+			connectionView?.playgroundReadyCalliope?.ledMatrixState = [[true, false, false, false, false], [false, true, false, false, false], [false, false, true, false, false], [false, false, false, false, false], [false, false, false, false, false]]
+			response = .finished()
+		case .displayShowImage(let image):
+			response = .finished()
+		case .displayShowText(let text):
+			connectionView?.playgroundReadyCalliope?.displayLedText(text)
+			response = .finished()
+		case .soundOff:
+			response = .finished()
+		case .soundOnNote(let note):
+			response = .finished()
+		case .soundOnFreq(let freq):
+			response = .finished()
+		case .requestButtonState(let button):
+			var buttonState: Bool?
+			if let calliope = connectionView?.playgroundReadyCalliope {
+				if button == .A {
+					buttonState = calliope.buttonAAction == .Down
+				} else if button == .B {
+					buttonState = calliope.buttonBAction == .Down
+				} else {
+					buttonState = calliope.buttonAAction == .Down && calliope.buttonBAction == .Down
+				}
+			}
+			response = .respondButtonState(isPressed: buttonState == true)
+		case .requestPinState(let pin):
+			response = .respondPinState(isPressed: false)
+		case .requestNoise:
+			response = .respondNoise(level: 42)
+		case .requestTemperature:
+			response = .respondTemperature(degrees: connectionView?.playgroundReadyCalliope?.temperature ?? 42)
+		case .requestBrightness:
+			response = .respondBrightness(level: 42)
+		default:
+			if case .sleep(_) = apiCall {
+			} else {
+				LogNotify.log("cannot handle this api call")
+			}
+			response = .finished()
+		}
+
+		if case .sleep(let time) = apiCall {
+			DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(time)) {
+				self.send(.dictionary([PlaygroundValueKeys.apiCallKey: .data(response.toData())]))
+			}
+		} else {
+			self.send(.dictionary([PlaygroundValueKeys.apiCallKey: .data(response.toData())]))
+		}
+	}
 }
 

@@ -25,7 +25,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
         page.needsIndefiniteExecution = false
         
         let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy
-        proxy?.delegate = PlayGroundManager.shared // as extension
+        proxy?.delegate = self
     }
     
     private var assessment: AssessmentBlock?
@@ -78,7 +78,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
             return
         }
 
-		proxy.send(PlaygroundValue.dictionary(["program": .data(data)]))
+		proxy.send(PlaygroundValue.dictionary([PlaygroundValueKeys.programKey: .data(data)]))
     }
     
     private func showStatus(_ result: AssessmentResults) {
@@ -115,10 +115,13 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
         if case let .string(msg) = message {
             LogNotify.log("remoteLiveViewProxy: \(msg)")
 		} else if case let .dictionary(msg) = message {
-			if case let .data(call)? = msg["apiCall"],
+			LogNotify.log("received dictionary \(msg) from LiveView")
+			if case let .data(call)? = msg[PlaygroundValueKeys.apiCallKey],
 				let apiCall = try? PropertyListDecoder().decode(ApiCall.self, from: call) {
 				callFromApiInterface(apiCall: apiCall)
 			}
+		} else {
+			LogNotify.log("received unknown message from liveView: \(message)")
 		}
     }
 
@@ -156,6 +159,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 		}
 	}
 
+	private let messagingQueue = DispatchQueue(label: "messaging queue", qos: .userInitiated, attributes: .concurrent)
 	private let semaphore = DispatchSemaphore(value: 1)
 	private let deparallelizationGroup = DispatchGroup()
 	private var apiResponse: ApiCall?
@@ -169,21 +173,36 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 			let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy,
 			let data = try? PropertyListEncoder().encode(apiCall)
 		else {
-			LogNotify.log("no current page or encoding \(apiCall) failed")
+			LogNotify.log("cannot send because there is current page or encoding \(apiCall) failed")
 			semaphore.signal()
 			return nil
 		}
 
-		deparallelizationGroup.enter()
-		let message: PlaygroundValue = .dictionary(["call": .data(data)])
-		proxy.send(message)
-
-		deparallelizationGroup.wait()
+		sendAsyncAndWait(data, proxy)
 
 		let value: T? = extractApiResponseValue()
 		//TODO: return response as T
 		semaphore.signal()
 		return value
+	}
+
+	private func sendAsyncAndWait(_ data: Data, _ proxy: PlaygroundRemoteLiveViewProxy) {
+		let runLoop = CFRunLoopGetCurrent()
+		var didFinish = false
+		messagingQueue.async {
+			self.deparallelizationGroup.enter()
+			let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiCallKey: .data(data)])
+			proxy.send(message)
+			self.deparallelizationGroup.wait()
+			didFinish = true
+			CFRunLoopPerformBlock(runLoop, CFRunLoopMode.commonModes?.rawValue) {
+				CFRunLoopStop(runLoop)
+			}
+			CFRunLoopWakeUp(runLoop)
+		}
+		while !didFinish {
+			CFRunLoopRun()
+		}
 	}
 
 	private func extractApiResponseValue<T>() -> T? {
@@ -198,6 +217,8 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 			return isPressed as? T
 		case .respondButtonState(let isPressed):
 			return isPressed as? T
+		case .finished():
+			return true as? T
 		default:
 			return nil
 		}
@@ -208,10 +229,12 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 		switch apiCall {
 		case .buttonA(), .buttonB(), .buttonAB(), .buttonALongPress()
 			, .buttonBLongPress(), .buttonABLongPress(), .pin(_), .shake(), .clap(), .start(), .forever():
+			LogNotify.log("playground page received api notification \(apiCall)")
 			DispatchQueue.main.async {
 				self.callObservingCalliope(apiCall: apiCall)
 			}
 		default:
+			LogNotify.log("playground page received api response \(apiCall)")
 			callResponse(apiCall: apiCall)
 		}
 	}

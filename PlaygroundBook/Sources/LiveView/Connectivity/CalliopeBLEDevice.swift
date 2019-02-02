@@ -423,10 +423,8 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	public func write (_ data: Data, for characteristic: CalliopeCharacteristic) throws {
 		guard state == .playgroundReady
 			else { throw "Not ready to write to characteristic \(characteristic)" }
-		guard let service = CalliopeBLEDevice.characteristicServiceMap[characteristic], CalliopeBLEDevice.requiredServices.contains(service)
-			else { throw "service not available" }
+		guard let cbCharacteristic = getCBCharacteristic(characteristic) else { throw "characteristic \(characteristic) not available" }
 
-		let cbCharacteristic = peripheral.services!.filter { $0.uuid ==  service.uuid }.first!.characteristics!.filter { $0.uuid == characteristic.uuid }.first!
 		try write(data, for: cbCharacteristic)
 	}
 
@@ -569,10 +567,12 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	private func getCBCharacteristic(_ characteristic: CalliopeCharacteristic) -> CBCharacteristic? {
-		guard let serviceUuid = CalliopeBLEDevice.characteristicServiceMap[characteristic]?.uuid else { return nil }
+		guard state == .playgroundReady,
+			let serviceUuid = CalliopeBLEDevice.characteristicServiceMap[characteristic]?.uuid
+			else { return nil }
 		let uuid = characteristic.uuid
-		return peripheral.services!.filter { $0.uuid == serviceUuid }.first!
-			.characteristics!.filter { $0.uuid == uuid }.first!
+		return peripheral.services?.filter { $0.uuid == serviceUuid }.first?
+			.characteristics?.filter { $0.uuid == uuid }.first
 	}
 }
 
@@ -771,8 +771,8 @@ extension CalliopeBLEDevice {
 	}
 
 	private func setNotifyListener(for characteristic: CalliopeCharacteristic, _ listener: Any?) {
+		guard let cbCharacteristic = getCBCharacteristic(characteristic) else { return }
 		updateListeners[characteristic] = listener
-		let cbCharacteristic = getCBCharacteristic(characteristic)!
 		if listener != nil {
 			peripheral.setNotifyValue(true, for: cbCharacteristic)
 		} else {
@@ -792,12 +792,8 @@ extension CalliopeBLEDevice {
 	public func readSensors(_ enabled: Bool) throws {
 		guard CalliopeBLEDevice.requiredServices.contains(.notify)
 			&& state == .playgroundReady else { throw "Not ready to read sensor values" }
-
-		let notifyServiceUUID = CalliopeBLEDevice.CalliopeService.notify.uuid
-		let notifyCharacteristicUUID = CalliopeBLEDevice.CalliopeCharacteristic.notify.uuid
-		//never crashes because we made sure we are ready for the playground, i.e. we have all required services
-		let service = peripheral.services!.filter { $0.uuid ==  notifyServiceUUID }.first!
-		let notifyCharacteristic = service.characteristics!.filter { $0.uuid == notifyCharacteristicUUID }.first!
+		//never throws because we made sure we are ready for the playground, i.e. we have all required services
+		guard let notifyCharacteristic = getCBCharacteristic(.notify) else { throw "Notify characteristic not available!" }
 
 		peripheral.setNotifyValue(enabled, for: notifyCharacteristic)
 	}
@@ -854,7 +850,7 @@ extension CalliopeBLEDevice {
 		let methods : [UInt16] = program.methods
 
 		//never crashes because we made sure we are ready for the playground, i.e. we have all required services
-		let programCharacteristic = getCBCharacteristic(.program)!
+		guard let programCharacteristic = getCBCharacteristic(.program) else { throw "Program characteristic not available" }
 
 		// transfer code in parts
 

@@ -13,6 +13,8 @@
 		2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27131021FC8B80007A1584 /* DataExtensionTest.swift */; };
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
 		2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3874B521CFD07F0011A85A /* CollapseButton.swift */; };
+		2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
+		2F5A210B2205BF3B005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
 		2F9FAA3421FE43FE0076B737 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3C20A06490009646CC /* ActivityView.swift */; };
 		2F9FAA3521FE43FE0076B737 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3920A06490009646CC /* Async.swift */; };
 		2F9FAA3621FE43FE0076B737 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4320A06491009646CC /* Constants.swift */; };
@@ -235,6 +237,7 @@
 		2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_CBUUID.swift; sourceTree = "<group>"; };
 		2F3874B521CFD07F0011A85A /* CollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButton.swift; sourceTree = "<group>"; };
 		2F44603E21CEA403002D15DF /* ConnectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionButton.swift; sourceTree = "<group>"; };
+		2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundValueKeys.swift; sourceTree = "<group>"; };
 		2F9FA9E921FE408A0076B737 /* libPlayground_Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libPlayground_Code.swift; sourceTree = "<group>"; };
 		2F9FAA7021FE44A40076B737 /* libPlayground_Code.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPlayground_Code.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F9FAA7221FE44A40076B737 /* Playground_Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground_Code.swift; sourceTree = "<group>"; };
@@ -429,6 +432,7 @@
 				8855BA3B20A06490009646CC /* Encodings.swift */,
 				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
 				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
+				2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */,
 			);
 			path = PlaygroundLiveViewCommunication;
 			sourceTree = "<group>";
@@ -1008,6 +1012,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F9FAA9421FE44F90076B737 /* BookProgramOutputSound.swift in Sources */,
+				2F5A210B2205BF3B005E9248 /* PlaygroundValueKeys.swift in Sources */,
 				2F9FAAAB21FE45420076B737 /* LogNotify.swift in Sources */,
 				2F9FAA9C21FE44F90076B737 /* BookProgramCommandStart.swift in Sources */,
 				2F9FAA8B21FE44F90076B737 /* ProgramBuilder.swift in Sources */,
@@ -1089,6 +1094,7 @@
 				2F9FAA3F21FE43FE0076B737 /* Swoosh.swift in Sources */,
 				2F9FAA3A21FE43FE0076B737 /* Extension_String.swift in Sources */,
 				2F9FAA3521FE43FE0076B737 /* Async.swift in Sources */,
+				2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */,
 				2F9FAA4321FE43FE0076B737 /* Extension_CBUUID.swift in Sources */,
 				8855BABC20A064C4009646CC /* Dashboard_BrightnessAnimation.swift in Sources */,
 				2F9FAAB921FE4A430076B737 /* ValueLocalizer.swift in Sources */,

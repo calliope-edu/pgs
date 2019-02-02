@@ -11,12 +11,12 @@ public final class BookProgramInputShake: ProgramBase, Program {
 		]
 		let solution = "page.solution".localized
 
-		guard let str = values[0] as? String else {
+		guard values.count > 0 else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
 		let p = BookProgramInputShake()
-		p.s = str
+		p.s = values[0]
 		//return (.pass(message: success), p)
 		return (nil, p)
 	}

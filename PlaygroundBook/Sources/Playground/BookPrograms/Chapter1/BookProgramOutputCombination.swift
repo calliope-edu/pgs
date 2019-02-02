@@ -37,7 +37,7 @@ public final class BookProgramOutputCombination: ProgramBase, Program {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let str = values[6] as? String else {
+		guard values.count > 6 else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -52,7 +52,7 @@ public final class BookProgramOutputCombination: ProgramBase, Program {
 		p.color2 = mColor2.color
 		p.frequency3 = Int16(freq3.rawValue)
 		p.color3 = mColor3.color
-		p.s = str
+		p.s = values[6]
 		p.image = img
 		// return (.pass(message: success), p)
 		return (nil, p)

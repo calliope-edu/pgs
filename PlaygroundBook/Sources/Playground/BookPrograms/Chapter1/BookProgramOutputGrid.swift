@@ -11,7 +11,7 @@ public final class BookProgramOutputGrid: ProgramBase, Program {
 		]
 		let solution = "page.solution".localized
 		
-		let grid:[UInt8] = values.flatMap{ UInt8($0) }
+		let grid:[UInt8] = values.compactMap { UInt8($0) }
 		
 		guard grid.count == 25 else {
 			return (.fail(hints: hints, solution: solution), nil)

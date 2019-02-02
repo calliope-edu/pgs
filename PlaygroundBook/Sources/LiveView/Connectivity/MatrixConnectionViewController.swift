@@ -41,6 +41,13 @@ public class MatrixConnectionViewController: UIViewController
 		return connector.discoveredCalliopes[Matrix.matrix2friendly(matrixView.matrix) ?? ""]
 	}
 
+	public var playgroundReadyCalliope: CalliopeBLEDevice? {
+		guard let calliope = connector.connectedCalliope,
+		calliope.state == .playgroundReady
+		else { return nil }
+		return calliope
+	}
+
 	@IBAction func toggleOpen(_ sender: Any) {
 		if collapseButton.expansionState == .open {
 			//button state open --> collapse!
@@ -200,7 +207,7 @@ public extension MatrixConnectionViewController {
 	public func uploadProgram(program: ProgramBuildResult) -> Worker<String>  {
 		return Worker { [weak self] resolve in
 			guard let queue = self?.queue else { LogNotify.log("no object to work on...)"); return }
-			guard let device = self?.connector.connectedCalliope, device.state == .playgroundReady else {
+			guard let device = self?.playgroundReadyCalliope else {
 				resolve(Result("result.upload.missing".localized, false))
 				return
 			}

@@ -5,6 +5,8 @@
 //  Created by Tassilo Karge on 28.01.19.
 //
 
+import Foundation
+
 public enum ApiCall {
 
 	//callbacks/inputs
@@ -39,12 +41,13 @@ public enum ApiCall {
 	case requestNoise()
 	case respondNoise(level: UInt16)
 	case requestTemperature()
-	case respondTemperature(degrees: Int16)
+	case respondTemperature(degrees: Int8)
 	case requestBrightness()
 	case respondBrightness(level: UInt16)
 
 	//other controls
 	case sleep(time: UInt16)
+	case finished()
 }
 
 extension ApiCall: Codable {
@@ -138,7 +141,7 @@ extension ApiCall: Codable {
 		case 25:
 			self = .requestTemperature()
 		case 26:
-			let degrees = try container.decode(Int16.self, forKey: .temperatureValue)
+			let degrees = try container.decode(Int8.self, forKey: .temperatureValue)
 			self = .respondTemperature(degrees: degrees)
 		case 27:
 			let time = try container.decode(UInt16.self, forKey: .sleepTime)
@@ -151,6 +154,8 @@ extension ApiCall: Codable {
 		case 30:
 			let level = try container.decode(UInt16.self, forKey: .brightnessValue)
 			self = .respondBrightness(level: level)
+		case 31:
+			self = .finished()
 		default:
 			throw CodingError.unknownValue
 		}
@@ -236,6 +241,21 @@ extension ApiCall: Codable {
 		case .respondBrightness(let level):
 			try container.encode(30, forKey: .rawValue)
 			try container.encode(level, forKey: .brightnessValue)
+		case .finished():
+			try container.encode(31, forKey: .rawValue)
 		}
+	}
+}
+
+
+extension ApiCall {
+	public func toData() -> Data {
+		return try! PropertyListEncoder().encode(self)
+	}
+
+	init?(from data: Data) {
+		let maybeCall = try? PropertyListDecoder().decode(ApiCall.self, from: data)
+		guard let call = maybeCall else { return nil }
+		self = call
 	}
 }
