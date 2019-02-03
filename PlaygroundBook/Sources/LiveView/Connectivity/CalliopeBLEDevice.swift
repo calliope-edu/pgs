@@ -10,9 +10,11 @@ import CoreBluetooth
 
 public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
+	static let apiRequirements: Set = [CalliopeService.accelerometer, CalliopeService.button, CalliopeService.led, CalliopeService.temperature, CalliopeService.ioPin]
+	static let programmingRequirements = [CalliopeService.notify, CalliopeService.program]
+
 	//the services required for the playground
-//	public static let requiredServices : Set = [CalliopeService.accelerometer, CalliopeService.button, CalliopeService.led, CalliopeService.temperature, CalliopeService.ioPin]
-	public static let requiredServices : Set =  [CalliopeService.notify, CalliopeService.program]
+	public static let requiredServices : Set = apiRequirements //apiRequirements.union(programmingRequirements)
 
 	//Bluetooth profile of the Calliope
 
@@ -234,7 +236,8 @@ public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			case .txCharacteristic:
 				return dataBytes as? T
 			case .temperature:
-				return Int8(littleEndianData: dataBytes) as? T
+				let localized = Int8(ValueLocalizer.current.localizeTemperature(unlocalized: Double(Int8(littleEndianData: dataBytes) ?? 42)))
+				return localized as? T
 			default:
 				return nil
 			}
@@ -810,7 +813,7 @@ extension CalliopeBLEDevice {
 				postButtonANotification(value)
 				postButtonBNotification(value)
 			} else if type == DashboardItemType.Thermometer {
-				postThermometerNotification(value)
+				postThermometerNotification(Int8(ValueLocalizer.current.localizeTemperature(unlocalized: Double(value))))
 			} else {
 				postSensorUpdateNotification(type, value)
 			}
@@ -826,8 +829,7 @@ extension CalliopeBLEDevice {
 	}
 
 	private func postThermometerNotification(_ value: Int8) {
-		let localizedValue = Int8( ValueLocalizer.current.localizeTemperature(unlocalized: Double(value)) )
-		postSensorUpdateNotification(DashboardItemType.Thermometer, localizedValue)
+		postSensorUpdateNotification(DashboardItemType.Thermometer, value)
 	}
 
 	fileprivate func postSensorUpdateNotification(_ type: DashboardItemType, _ value: Int8) {

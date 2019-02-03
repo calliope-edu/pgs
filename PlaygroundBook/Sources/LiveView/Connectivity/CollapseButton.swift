@@ -22,13 +22,17 @@ public class CollapseButton: UIButton {
 
 	public var connectionState: ConnectionState = .disconnected {
 		didSet {
-			determineAppearance(smooth: true)
+			if oldValue != connectionState {
+				determineAppearance(smooth: true)
+			}
 		}
 	}
 
-	public var expansionState: ExpansionState = .closed {
+	public var expansionState: ExpansionState = .open {
 		didSet {
-			determineAppearance(smooth: false)
+			if oldValue != expansionState {
+				determineAppearance(smooth: false)
+			}
 		}
 	}
 

@@ -41,10 +41,19 @@ public class MatrixConnectionViewController: UIViewController
 		return connector.discoveredCalliopes[Matrix.matrix2friendly(matrixView.matrix) ?? ""]
 	}
 
-	public var playgroundReadyCalliope: CalliopeBLEDevice? {
+	public var programmingReadyCalliope: CalliopeBLEDevice? {
 		guard let calliope = connector.connectedCalliope,
-		calliope.state == .playgroundReady
+		calliope.state == .playgroundReady,
+		CalliopeBLEDevice.requiredServices.isSuperset(of: CalliopeBLEDevice.programmingRequirements)
 		else { return nil }
+		return calliope
+	}
+
+	public var apiReadyCalliope: CalliopeBLEDevice? {
+		guard let calliope = connector.connectedCalliope,
+			calliope.state == .playgroundReady,
+			CalliopeBLEDevice.requiredServices.isSuperset(of: CalliopeBLEDevice.apiRequirements)
+			else { return nil }
 		return calliope
 	}
 
@@ -71,6 +80,9 @@ public class MatrixConnectionViewController: UIViewController
 	}
 
 	public func animate(expand: Bool) {
+
+		//do not animate anything if no change will happen
+		guard expand && collapseButton.expansionState == .closed || collapseButton.expansionState == .open else { return }
 
 		let animations: () -> ()
 		let completion: (_ completed: Bool) -> ()
@@ -207,7 +219,7 @@ public extension MatrixConnectionViewController {
 	public func uploadProgram(program: ProgramBuildResult) -> Worker<String>  {
 		return Worker { [weak self] resolve in
 			guard let queue = self?.queue else { LogNotify.log("no object to work on...)"); return }
-			guard let device = self?.playgroundReadyCalliope else {
+			guard let device = self?.programmingReadyCalliope else {
 				resolve(Result("result.upload.missing".localized, false))
 				return
 			}

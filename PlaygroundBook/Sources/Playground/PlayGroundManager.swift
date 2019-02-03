@@ -114,12 +114,11 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
     public func remoteLiveViewProxy(_ remoteLiveViewProxy: PlaygroundRemoteLiveViewProxy, received message: PlaygroundValue) {
         if case let .string(msg) = message {
             LogNotify.log("remoteLiveViewProxy: \(msg)")
-		} else if case let .dictionary(msg) = message {
-			LogNotify.log("received dictionary \(msg) from LiveView")
-			if case let .data(call)? = msg[PlaygroundValueKeys.apiCallKey],
-				let apiCall = try? PropertyListDecoder().decode(ApiCall.self, from: call) {
-				callFromApiInterface(apiCall: apiCall)
-			}
+		} else if case let .dictionary(msg) = message,
+			case let .data(callData)? = msg[PlaygroundValueKeys.apiCallKey],
+			let apiCall = ApiCall(data: callData)  {
+			LogNotify.log("received api call \(apiCall) from LiveView")
+			processApiCall(apiCall)
 		} else {
 			LogNotify.log("received unknown message from liveView: \(message)")
 		}
@@ -128,23 +127,16 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 
 	//MARK: sending and receiving API calls
 
-	///calliope for api callbacks (e.g. when button is pressed, temperature changed, ...)
-	public var myCalliope: Calliope? {
-		didSet {
-			//execute start once (if it exists)
-			myCalliope?.start?()
-			//start the calls to "forever" after a slight delay
-			DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-				self.foreverCall()
-			}
-		}
+	public func startForever() {
+		PlaygroundPage.current.needsIndefiniteExecution = true
+		foreverCall()
 	}
 
 	private func foreverCall() {
-		guard let foreverFunction = myCalliope?.forever else { return }
-		foreverFunction()
+		myCalliope?.forever()
 		//execute again with delay of 0.1s
-		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+		//TODO: run forever on another queue
+		DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: DispatchTime.now() + 0.1) {
 			self.foreverCall()
 		}
 	}
@@ -169,16 +161,15 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 		semaphore.wait()
 
 		let page = PlaygroundPage.current
-		guard
-			let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy,
-			let data = try? PropertyListEncoder().encode(apiCall)
-		else {
-			LogNotify.log("cannot send because there is current page or encoding \(apiCall) failed")
-			semaphore.signal()
-			return nil
+		guard let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy else {
+				LogNotify.log("cannot send because there is current page or encoding \(apiCall) failed")
+				semaphore.signal()
+				return nil
 		}
 
-		sendAsyncAndWait(data, proxy)
+		sendAsyncAndWait(apiCall.data, proxy)
+
+		LogNotify.log("response for api call: \(String(describing: apiResponse))")
 
 		let value: T? = extractApiResponseValue()
 		//TODO: return response as T
@@ -206,7 +197,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 	}
 
 	private func extractApiResponseValue<T>() -> T? {
-		guard let apiResponse = apiResponse else { return nil }
+		guard let apiResponse = self.apiResponse else { return nil }
 
 		switch apiResponse {
 		case .respondTemperature(let degrees):
@@ -225,10 +216,11 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 
 	}
 
-	public func callFromApiInterface(apiCall: ApiCall) {
+	public func processApiCall(_ apiCall: ApiCall) {
 		switch apiCall {
-		case .buttonA(), .buttonB(), .buttonAB(), .buttonALongPress()
-			, .buttonBLongPress(), .buttonABLongPress(), .pin(_), .shake(), .clap(), .start(), .forever():
+		case .buttonA(), .buttonB(), .buttonAB(),
+			 .buttonALongPress(), .buttonBLongPress(), .buttonABLongPress(),
+			 .pin(_), .shake(), .clap():
 			LogNotify.log("playground page received api notification \(apiCall)")
 			DispatchQueue.main.async {
 				self.callObservingCalliope(apiCall: apiCall)
@@ -239,38 +231,34 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 		}
 	}
 
-	public func callObservingCalliope(apiCall: ApiCall) {
-		switch apiCall {
-		case .buttonA():
-			myCalliope?.onButtonA?()
-		case .buttonB():
-			myCalliope?.onButtonB?()
-		case .buttonAB():
-			myCalliope?.onButtonAB?()
-		case .buttonALongPress():
-			myCalliope?.onButtonALongPress?()
-		case .buttonBLongPress():
-			myCalliope?.onButtonBLongPress?()
-		case .buttonABLongPress():
-			myCalliope?.onButtonABLongPress?()
-		case .pin(let pin):
-			myCalliope?.onPin?(pin: pin)
-		case .shake():
-			myCalliope?.onShake?()
-		case .clap():
-			myCalliope?.onClap?()
-		case .start():
-			myCalliope?.start?()
-		case .forever():
-			myCalliope?.forever?()
-		default:
-			//TODO: sort this out
-			return
-		}
-	}
-
 	public func callResponse(apiCall: ApiCall) {
 		apiResponse = apiCall
 		deparallelizationGroup.leave()
+	}
+
+	public func callObservingCalliope(apiCall: ApiCall) {
+		switch apiCall {
+		case .buttonA():
+			myCalliope?.onButtonA()
+		case .buttonB():
+			myCalliope?.onButtonB()
+		case .buttonAB():
+			myCalliope?.onButtonAB()
+		case .buttonALongPress():
+			myCalliope?.onButtonALongPress()
+		case .buttonBLongPress():
+			myCalliope?.onButtonBLongPress()
+		case .buttonABLongPress():
+			myCalliope?.onButtonABLongPress()
+		case .pin(let pin):
+			myCalliope?.onPin(pin: pin)
+		case .shake():
+			myCalliope?.onShake()
+		case .clap():
+			myCalliope?.onClap()
+		default:
+			LogNotify.log("playground page received api call \(apiCall) which it cannot handle")
+			return
+		}
 	}
 }

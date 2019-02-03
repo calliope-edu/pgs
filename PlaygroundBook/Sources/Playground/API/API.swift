@@ -2,38 +2,64 @@
 import Foundation
 import UIKit
 
-@objc protocol Calliope {
+public protocol Calliope {
 	//Buttons
 	/// when button A gets pressed
-	@objc optional func onButtonA()
+	func onButtonA()
 	/// when button B gets pressed
-	@objc optional func onButtonB()
+	func onButtonB()
 	/// when button A and B are pressed together
-	@objc optional func onButtonAB()
+	func onButtonAB()
 	/// when button A is pressed for some seconds
-	@objc optional func onButtonALongPress()
+	func onButtonALongPress()
 	/// when button B is pressed for some seconds
-	@objc optional func onButtonBLongPress()
+	func onButtonBLongPress()
 	/// when button A and B are pressed for some seconds
-	@objc optional func onButtonABLongPress()
+	func onButtonABLongPress()
 
 	//Pins
 	/// when minus and any of pins 1-4 are connected (not implemented yet)
-	@objc optional func onPin(pin:UInt16)
+	func onPin(pin:UInt16)
 
 	//Motion
 	/// when calliope is shook (not implemented yet)
-	@objc optional func onShake()
+	func onShake()
 
 	//Sound
 	/// when calliope recognizes loud sound (not implemented yet)
-	@objc optional func onClap()
+	func onClap()
 
 	//control flow
 	/// executed when calliope is connected
-	@objc optional func start()
+	func start()
 	/// executed over and over again
-	@objc optional func forever()
+	func forever()
+}
+
+public extension Calliope {
+	func onButtonA() {}
+	func onButtonB() {}
+	func onButtonAB() {}
+	func onButtonALongPress() {}
+	func onButtonBLongPress() {}
+	func onButtonABLongPress() {}
+	func onPin(pin:UInt16) {}
+	func onShake() {}
+	func onClap() {}
+	func start() {}
+	func forever() { sleep(1) }
+}
+
+///calliope for api callbacks (e.g. when button is pressed, temperature changed, ...)
+public var myCalliope: Calliope? {
+	didSet {
+		//register for callbacks
+		PlayGroundManager.shared.sendWithoutResponse(apiCall: .registerCallbacks())
+		//execute start once (if it exists)
+		myCalliope?.start()
+		//start the calls to "forever" after a slight delay
+		PlayGroundManager.shared.startForever()
+	}
 }
 
 public func playgroundPrologue() {

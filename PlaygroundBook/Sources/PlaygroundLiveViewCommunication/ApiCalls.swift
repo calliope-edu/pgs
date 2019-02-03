@@ -41,13 +41,14 @@ public enum ApiCall {
 	case requestNoise()
 	case respondNoise(level: UInt16)
 	case requestTemperature()
-	case respondTemperature(degrees: Int8)
+	case respondTemperature(degrees: Int16)
 	case requestBrightness()
 	case respondBrightness(level: UInt16)
 
 	//other controls
 	case sleep(time: UInt16)
 	case finished()
+	case registerCallbacks()
 }
 
 extension ApiCall: Codable {
@@ -141,7 +142,7 @@ extension ApiCall: Codable {
 		case 25:
 			self = .requestTemperature()
 		case 26:
-			let degrees = try container.decode(Int8.self, forKey: .temperatureValue)
+			let degrees = try container.decode(Int16.self, forKey: .temperatureValue)
 			self = .respondTemperature(degrees: degrees)
 		case 27:
 			let time = try container.decode(UInt16.self, forKey: .sleepTime)
@@ -156,6 +157,8 @@ extension ApiCall: Codable {
 			self = .respondBrightness(level: level)
 		case 31:
 			self = .finished()
+		case 32:
+			self = .registerCallbacks()
 		default:
 			throw CodingError.unknownValue
 		}
@@ -243,17 +246,19 @@ extension ApiCall: Codable {
 			try container.encode(level, forKey: .brightnessValue)
 		case .finished():
 			try container.encode(31, forKey: .rawValue)
+		case .registerCallbacks():
+			try container.encode(32, forKey: .rawValue)
 		}
 	}
 }
 
 
-extension ApiCall {
-	public func toData() -> Data {
-		return try! PropertyListEncoder().encode(self)
+extension ApiCall: DataConvertible {
+	public var data: Data {
+		return (try? PropertyListEncoder().encode(self)) ?? Data()
 	}
 
-	init?(from data: Data) {
+	init?(data: Data) {
 		let maybeCall = try? PropertyListDecoder().decode(ApiCall.self, from: data)
 		guard let call = maybeCall else { return nil }
 		self = call
