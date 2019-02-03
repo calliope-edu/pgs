@@ -5,6 +5,8 @@
 //  Created by Tassilo Karge on 28.01.19.
 //
 
+import UIKit
+
 extension miniImage: RawRepresentable {
     
     static var all: [miniImage] {
@@ -156,6 +158,38 @@ extension miniColor: RawRepresentable {
 		guard let type = miniColor.all.first(where: { "."+String(describing:$0) == from }) else { return nil }
 		self = type
 	}
+}
+
+extension miniColor {
+	public var color: UIColor {
+		switch self {
+		case .red:
+			return UIColor.red
+		case .green:
+			return UIColor.green
+		case .blue:
+			return UIColor.blue
+		case .yellow:
+			return UIColor.yellow
+		case .black:
+			return UIColor.black
+		case .darkGray:
+			return UIColor.darkGray
+		case .lightGray:
+			return UIColor.lightGray
+		case .white:
+			return UIColor.white
+		case .cyan:
+			return UIColor.cyan
+		case .magenta:
+			return UIColor.magenta
+		case .orange:
+			return UIColor.orange
+		case .purple:
+			return UIColor.purple
+		}
+	}
+
 }
 
 extension miniColor: Codable {}

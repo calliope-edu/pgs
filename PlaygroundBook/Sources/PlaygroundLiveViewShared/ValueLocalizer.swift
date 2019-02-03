@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class ValueLocalizer: NSObject {
+class ValueLocalizer: NSObject {
 
     public static let current = ValueLocalizer()
 

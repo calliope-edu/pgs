@@ -9,7 +9,7 @@ import UIKit
 import PlaygroundSupport
 
 @objc
-public class MatrixConnectionViewController: UIViewController
+class MatrixConnectionViewController: UIViewController
 {
 	private let collapsedWidth: CGFloat = 28
 	private let collapsedHeight: CGFloat = 28
@@ -127,7 +127,7 @@ public class MatrixConnectionViewController: UIViewController
 
 // MARK: calliope connection
 
-public extension MatrixConnectionViewController {
+extension MatrixConnectionViewController {
 	@IBAction func connect(_ sender: Any) {
 		//TODO: implement connection logic
 		if self.connector.state == .initialized
@@ -214,9 +214,9 @@ public extension MatrixConnectionViewController {
 
 //MARK: calliope communications
 
-public extension MatrixConnectionViewController {
+extension MatrixConnectionViewController {
 
-	public func uploadProgram(program: ProgramBuildResult) -> Worker<String>  {
+	func uploadProgram(program: ProgramBuildResult) -> Worker<String>  {
 		return Worker { [weak self] resolve in
 			guard let queue = self?.queue else { LogNotify.log("no object to work on...)"); return }
 			guard let device = self?.programmingReadyCalliope else {

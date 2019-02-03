@@ -7,6 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F09853622070FE00075A5DB /* Extractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4E20A06491009646CC /* Extractor.swift */; };
+		2F09853722070FE00075A5DB /* PlayGroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4520A06491009646CC /* PlayGroundManager.swift */; };
+		2F09853B2207102D0075A5DB /* BookProgramProjectDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8420A064C4009646CC /* BookProgramProjectDice.swift */; };
+		2F09853C2207102D0075A5DB /* BookProgramProjectRockPaperScissors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8620A064C4009646CC /* BookProgramProjectRockPaperScissors.swift */; };
+		2F09853D2207102D0075A5DB /* BookProgramProjectPiano.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8520A064C4009646CC /* BookProgramProjectPiano.swift */; };
+		2F09853E2207102D0075A5DB /* BookProgramProjectClap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8320A064C4009646CC /* BookProgramProjectClap.swift */; };
+		2F09853F2207102D0075A5DB /* BookProgramProjectTheremin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8720A064C4009646CC /* BookProgramProjectTheremin.swift */; };
+		2F0985402207102D0075A5DB /* BookProgramProjectThermometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8820A064C4009646CC /* BookProgramProjectThermometer.swift */; };
+		2F098541220710300075A5DB /* BookProgramCommandStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7420A064C4009646CC /* BookProgramCommandStart.swift */; };
+		2F098542220710300075A5DB /* BookProgramCommandSleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7320A064C4009646CC /* BookProgramCommandSleep.swift */; };
+		2F098543220710300075A5DB /* BookProgramCommandClear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6D20A064C4009646CC /* BookProgramCommandClear.swift */; };
+		2F098544220710300075A5DB /* BookProgramCommandForever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7020A064C4009646CC /* BookProgramCommandForever.swift */; };
+		2F098545220710300075A5DB /* BookProgramCommandVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7520A064C4009646CC /* BookProgramCommandVariables.swift */; };
+		2F098546220710300075A5DB /* BookProgramCommandLoops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7120A064C4009646CC /* BookProgramCommandLoops.swift */; };
+		2F098547220710300075A5DB /* BookProgramCommandRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7220A064C4009646CC /* BookProgramCommandRandom.swift */; };
+		2F098548220710300075A5DB /* BookProgramCommandConditionals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6F20A064C4009646CC /* BookProgramCommandConditionals.swift */; };
+		2F098549220710300075A5DB /* BookProgramCommandCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6E20A064C4009646CC /* BookProgramCommandCombination.swift */; };
+		2F09854A220710330075A5DB /* BookProgramInputButtonA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7620A064C4009646CC /* BookProgramInputButtonA.swift */; };
+		2F09854B220710330075A5DB /* BookProgramInputButtonB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7820A064C4009646CC /* BookProgramInputButtonB.swift */; };
+		2F09854C220710330075A5DB /* BookProgramInputButtonAB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7720A064C4009646CC /* BookProgramInputButtonAB.swift */; };
+		2F09854D220710330075A5DB /* BookProgramInputPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7A20A064C4009646CC /* BookProgramInputPin.swift */; };
+		2F09854E220710330075A5DB /* BookProgramInputShake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7B20A064C4009646CC /* BookProgramInputShake.swift */; };
+		2F09854F220710330075A5DB /* BookProgramInputCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7920A064C4009646CC /* BookProgramInputCombination.swift */; };
+		2F098550220710370075A5DB /* BookProgramOutputString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8220A064C4009646CC /* BookProgramOutputString.swift */; };
+		2F098551220710370075A5DB /* BookProgramOutputNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7F20A064C4009646CC /* BookProgramOutputNumber.swift */; };
+		2F098552220710370075A5DB /* BookProgramOutputImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7E20A064C4009646CC /* BookProgramOutputImage.swift */; };
+		2F098553220710370075A5DB /* BookProgramOutputGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7D20A064C4009646CC /* BookProgramOutputGrid.swift */; };
+		2F098554220710370075A5DB /* BookProgramOutputRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8020A064C4009646CC /* BookProgramOutputRGB.swift */; };
+		2F098555220710370075A5DB /* BookProgramOutputSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8120A064C4009646CC /* BookProgramOutputSound.swift */; };
+		2F098556220710370075A5DB /* BookProgramOutputCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7C20A064C4009646CC /* BookProgramOutputCombination.swift */; };
+		2F0985572207103A0075A5DB /* ProgramBlink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8B20A064C4009646CC /* ProgramBlink.swift */; };
+		2F0985582207103A0075A5DB /* ProgramNotifyPing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8D20A064C4009646CC /* ProgramNotifyPing.swift */; };
+		2F0985592207103D0075A5DB /* ProgramBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8C20A064C4009646CC /* ProgramBuilder.swift */; };
+		2F09855A2207103D0075A5DB /* ProgramBaseInstructions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8A20A064C4009646CC /* ProgramBaseInstructions.swift */; };
+		2F09855B2207103D0075A5DB /* ProgramBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8920A064C4009646CC /* ProgramBase.swift */; };
+		2F09855D220711550075A5DB /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F09855C220711550075A5DB /* DataTypes.swift */; };
+		2F098561220718310075A5DB /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F098560220718310075A5DB /* Runtime.swift */; };
 		2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */; };
 		2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */; };
 		2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */; };
@@ -14,7 +51,6 @@
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
 		2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3874B521CFD07F0011A85A /* CollapseButton.swift */; };
 		2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
-		2F5A210B2205BF3B005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
 		2F9FAA3421FE43FE0076B737 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3C20A06490009646CC /* ActivityView.swift */; };
 		2F9FAA3521FE43FE0076B737 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3920A06490009646CC /* Async.swift */; };
 		2F9FAA3621FE43FE0076B737 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4320A06491009646CC /* Constants.swift */; };
@@ -30,59 +66,14 @@
 		2F9FAA4121FE43FE0076B737 /* UIView_DashBoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */; };
 		2F9FAA4221FE43FE0076B737 /* ViewController_Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4120A06490009646CC /* ViewController_Base.swift */; };
 		2F9FAA4321FE43FE0076B737 /* Extension_CBUUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */; };
-		2F9FAA7321FE44A40076B737 /* Playground_Code.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAA7221FE44A40076B737 /* Playground_Code.swift */; };
-		2F9FAA7D21FE44E60076B737 /* Extractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4E20A06491009646CC /* Extractor.swift */; };
-		2F9FAA7E21FE44E60076B737 /* PlayGroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4520A06491009646CC /* PlayGroundManager.swift */; };
-		2F9FAA7F21FE44E60076B737 /* ValueLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE507AF219D925B008686F4 /* ValueLocalizer.swift */; };
-		2F9FAA8021FE44E60076B737 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4720A06491009646CC /* API.swift */; };
-		2F9FAA8221FE44E60076B737 /* Encodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* Encodings.swift */; };
-		2F9FAA8921FE44F90076B737 /* ProgramBlink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8B20A064C4009646CC /* ProgramBlink.swift */; };
-		2F9FAA8A21FE44F90076B737 /* ProgramNotifyPing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8D20A064C4009646CC /* ProgramNotifyPing.swift */; };
-		2F9FAA8B21FE44F90076B737 /* ProgramBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8C20A064C4009646CC /* ProgramBuilder.swift */; };
-		2F9FAA8C21FE44F90076B737 /* ProgramBaseInstructions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8A20A064C4009646CC /* ProgramBaseInstructions.swift */; };
-		2F9FAA8D21FE44F90076B737 /* ProgramBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8920A064C4009646CC /* ProgramBase.swift */; };
-		2F9FAA8F21FE44F90076B737 /* BookProgramOutputString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8220A064C4009646CC /* BookProgramOutputString.swift */; };
-		2F9FAA9021FE44F90076B737 /* BookProgramOutputNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7F20A064C4009646CC /* BookProgramOutputNumber.swift */; };
-		2F9FAA9121FE44F90076B737 /* BookProgramOutputImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7E20A064C4009646CC /* BookProgramOutputImage.swift */; };
-		2F9FAA9221FE44F90076B737 /* BookProgramOutputGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7D20A064C4009646CC /* BookProgramOutputGrid.swift */; };
-		2F9FAA9321FE44F90076B737 /* BookProgramOutputRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8020A064C4009646CC /* BookProgramOutputRGB.swift */; };
-		2F9FAA9421FE44F90076B737 /* BookProgramOutputSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8120A064C4009646CC /* BookProgramOutputSound.swift */; };
-		2F9FAA9521FE44F90076B737 /* BookProgramOutputCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7C20A064C4009646CC /* BookProgramOutputCombination.swift */; };
-		2F9FAA9621FE44F90076B737 /* BookProgramInputButtonA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7620A064C4009646CC /* BookProgramInputButtonA.swift */; };
-		2F9FAA9721FE44F90076B737 /* BookProgramInputButtonB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7820A064C4009646CC /* BookProgramInputButtonB.swift */; };
-		2F9FAA9821FE44F90076B737 /* BookProgramInputButtonAB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7720A064C4009646CC /* BookProgramInputButtonAB.swift */; };
-		2F9FAA9921FE44F90076B737 /* BookProgramInputPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7A20A064C4009646CC /* BookProgramInputPin.swift */; };
-		2F9FAA9A21FE44F90076B737 /* BookProgramInputShake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7B20A064C4009646CC /* BookProgramInputShake.swift */; };
-		2F9FAA9B21FE44F90076B737 /* BookProgramInputCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7920A064C4009646CC /* BookProgramInputCombination.swift */; };
-		2F9FAA9C21FE44F90076B737 /* BookProgramCommandStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7420A064C4009646CC /* BookProgramCommandStart.swift */; };
-		2F9FAA9D21FE44F90076B737 /* BookProgramCommandSleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7320A064C4009646CC /* BookProgramCommandSleep.swift */; };
-		2F9FAA9E21FE44F90076B737 /* BookProgramCommandClear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6D20A064C4009646CC /* BookProgramCommandClear.swift */; };
-		2F9FAA9F21FE44F90076B737 /* BookProgramCommandForever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7020A064C4009646CC /* BookProgramCommandForever.swift */; };
-		2F9FAAA021FE44F90076B737 /* BookProgramCommandVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7520A064C4009646CC /* BookProgramCommandVariables.swift */; };
-		2F9FAAA121FE44F90076B737 /* BookProgramCommandLoops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7120A064C4009646CC /* BookProgramCommandLoops.swift */; };
-		2F9FAAA221FE44F90076B737 /* BookProgramCommandRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7220A064C4009646CC /* BookProgramCommandRandom.swift */; };
-		2F9FAAA321FE44F90076B737 /* BookProgramCommandConditionals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6F20A064C4009646CC /* BookProgramCommandConditionals.swift */; };
-		2F9FAAA421FE44F90076B737 /* BookProgramCommandCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6E20A064C4009646CC /* BookProgramCommandCombination.swift */; };
-		2F9FAAA521FE44F90076B737 /* BookProgramProjectDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8420A064C4009646CC /* BookProgramProjectDice.swift */; };
-		2F9FAAA621FE44F90076B737 /* BookProgramProjectRockPaperScissors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8620A064C4009646CC /* BookProgramProjectRockPaperScissors.swift */; };
-		2F9FAAA721FE44F90076B737 /* BookProgramProjectPiano.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8520A064C4009646CC /* BookProgramProjectPiano.swift */; };
-		2F9FAAA821FE44F90076B737 /* BookProgramProjectClap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8320A064C4009646CC /* BookProgramProjectClap.swift */; };
-		2F9FAAA921FE44F90076B737 /* BookProgramProjectTheremin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8720A064C4009646CC /* BookProgramProjectTheremin.swift */; };
-		2F9FAAAA21FE44F90076B737 /* BookProgramProjectThermometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8820A064C4009646CC /* BookProgramProjectThermometer.swift */; };
-		2F9FAAAB21FE45420076B737 /* LogNotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4F20A06491009646CC /* LogNotify.swift */; };
 		2F9FAAAC21FE45900076B737 /* Extension_Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4420A06491009646CC /* Extension_Data.swift */; };
-		2F9FAAAF21FE466F0076B737 /* Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAAAD21FE46490076B737 /* Ext.swift */; };
 		2F9FAAB021FE47190076B737 /* Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAAAD21FE46490076B737 /* Ext.swift */; };
 		2F9FAAB121FE471D0076B737 /* LogNotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4F20A06491009646CC /* LogNotify.swift */; };
 		2F9FAAB421FE48080076B737 /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAAB321FE48080076B737 /* Macros.swift */; };
 		2F9FAAB721FE49A50076B737 /* ProgramBuildResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */; };
-		2F9FAAB821FE49B80076B737 /* ProgramBuildResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */; };
 		2F9FAAB921FE4A430076B737 /* ValueLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE507AF219D925B008686F4 /* ValueLocalizer.swift */; };
 		2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* Encodings.swift */; };
 		2F9FAACC21FF4CB40076B737 /* ApiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */; };
-		2F9FAACD21FF4CC50076B737 /* ApiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */; };
-		2F9FAACF21FF5B3C0076B737 /* CommunicationDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACE21FF5B3C0076B737 /* CommunicationDataTypes.swift */; };
-		2F9FAAD021FF5B3C0076B737 /* CommunicationDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACE21FF5B3C0076B737 /* CommunicationDataTypes.swift */; };
 		2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133C21C3E25F00500EC1 /* MatrixView.swift */; };
 		2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */; };
 		2FDC68D721C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */; };
@@ -154,13 +145,6 @@
 			remoteGlobalIDString = 5EA2E3BC2056F35A00416A35;
 			remoteInfo = LiveViewTestApp;
 		};
-		2F9FAAC821FE5CD70076B737 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5E2A7ADD204F611300F4E17A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2F9FAA6F21FE44A40076B737;
-			remoteInfo = Playground_Code;
-		};
 		2FEC8C6521A1ACCF004C27B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E2A7ADD204F611300F4E17A /* Project object */;
@@ -192,15 +176,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		2F9FAA6E21FE44A40076B737 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5E086DD22051E35D004D8D25 /* Copy Book Contents */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -230,6 +205,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2F09855C220711550075A5DB /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
+		2F098560220718310075A5DB /* Runtime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Runtime.swift; sourceTree = "<group>"; };
 		2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscovery.swift; sourceTree = "<group>"; };
 		2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscoveryTest.swift; sourceTree = "<group>"; };
 		2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDevice.swift; sourceTree = "<group>"; };
@@ -238,14 +215,10 @@
 		2F3874B521CFD07F0011A85A /* CollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButton.swift; sourceTree = "<group>"; };
 		2F44603E21CEA403002D15DF /* ConnectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionButton.swift; sourceTree = "<group>"; };
 		2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundValueKeys.swift; sourceTree = "<group>"; };
-		2F9FA9E921FE408A0076B737 /* libPlayground_Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = libPlayground_Code.swift; sourceTree = "<group>"; };
-		2F9FAA7021FE44A40076B737 /* libPlayground_Code.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPlayground_Code.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2F9FAA7221FE44A40076B737 /* Playground_Code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playground_Code.swift; sourceTree = "<group>"; };
 		2F9FAAAD21FE46490076B737 /* Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext.swift; sourceTree = "<group>"; };
 		2F9FAAB321FE48080076B737 /* Macros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBuildResult.swift; sourceTree = "<group>"; };
 		2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCalls.swift; sourceTree = "<group>"; };
-		2F9FAACE21FF5B3C0076B737 /* CommunicationDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationDataTypes.swift; sourceTree = "<group>"; };
 		2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixConnectionViewController.swift; sourceTree = "<group>"; };
 		2FCB133C21C3E25F00500EC1 /* MatrixView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixView.swift; sourceTree = "<group>"; };
 		2FDC68DC21C56513001163D3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
@@ -292,7 +265,6 @@
 		8855BA4420A06491009646CC /* Extension_Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_Data.swift; sourceTree = "<group>"; };
 		8855BA4520A06491009646CC /* PlayGroundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayGroundManager.swift; sourceTree = "<group>"; };
 		8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView_DashBoardItem.swift; sourceTree = "<group>"; };
-		8855BA4720A06491009646CC /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_NotificationCenter.swift; sourceTree = "<group>"; };
 		8855BA4A20A06491009646CC /* DashBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardViewController.swift; sourceTree = "<group>"; };
 		8855BA4B20A06491009646CC /* Extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_String.swift; sourceTree = "<group>"; };
@@ -351,13 +323,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2F9FAA6D21FE44A40076B737 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2FEC8C5C21A1ACCF004C27B8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -384,28 +349,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2F9FA9E821FE408A0076B737 /* libPlayground_Code */ = {
-			isa = PBXGroup;
-			children = (
-				2F9FA9E921FE408A0076B737 /* libPlayground_Code.swift */,
-			);
-			path = libPlayground_Code;
-			sourceTree = "<group>";
-		};
 		2F9FAA1121FE41340076B737 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				8855BA4720A06491009646CC /* API.swift */,
+				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
+				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
+				2F09855C220711550075A5DB /* DataTypes.swift */,
+				2F098560220718310075A5DB /* Runtime.swift */,
 			);
 			path = API;
-			sourceTree = "<group>";
-		};
-		2F9FAA7121FE44A40076B737 /* Playground_Code */ = {
-			isa = PBXGroup;
-			children = (
-				2F9FAA7221FE44A40076B737 /* Playground_Code.swift */,
-			);
-			path = Playground_Code;
 			sourceTree = "<group>";
 		};
 		2F9FAA7721FE44B00076B737 /* Frameworks */ = {
@@ -428,10 +380,7 @@
 		2F9FAAB521FE497A0076B737 /* PlaygroundLiveViewCommunication */ = {
 			isa = PBXGroup;
 			children = (
-				2F9FAACE21FF5B3C0076B737 /* CommunicationDataTypes.swift */,
 				8855BA3B20A06490009646CC /* Encodings.swift */,
-				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
-				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
 				2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */,
 			);
 			path = PlaygroundLiveViewCommunication;
@@ -451,6 +400,10 @@
 		2F9FAAC521FE56F90076B737 /* LiveView */ = {
 			isa = PBXGroup;
 			children = (
+				8855BA4A20A06491009646CC /* DashBoardViewController.swift */,
+				8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */,
+				8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */,
+				8855BA4120A06490009646CC /* ViewController_Base.swift */,
 				9DA7FD3A20A1B1140080A6FF /* Connectivity */,
 				8855BA8F20A064C4009646CC /* DashboardAnimation */,
 				2F9FAAC721FE57660076B737 /* View */,
@@ -480,12 +433,8 @@
 			isa = PBXGroup;
 			children = (
 				8855BA3C20A06490009646CC /* ActivityView.swift */,
-				8855BA4A20A06491009646CC /* DashBoardViewController.swift */,
 				8855BA3A20A06490009646CC /* Matrix.swift */,
 				8855BA3F20A06490009646CC /* Swoosh.swift */,
-				8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */,
-				8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */,
-				8855BA4120A06490009646CC /* ViewController_Base.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -512,7 +461,6 @@
 				5EF2F9AB2054BBF300191409 /* libBook_Sources.a */,
 				5EA2E3BD2056F35A00416A35 /* LiveViewTestApp.app */,
 				2FEC8C5F21A1ACCF004C27B8 /* BookSourcesTests.xctest */,
-				2F9FAA7021FE44A40076B737 /* libPlayground_Code.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -563,8 +511,6 @@
 				5E1004BD208E7F6E00BCFE70 /* LICENSE */,
 				5EA2E3D52056F83400416A35 /* Supporting Content */,
 				2FEC8C6021A1ACCF004C27B8 /* BookSourcesTests */,
-				2F9FA9E821FE408A0076B737 /* libPlayground_Code */,
-				2F9FAA7121FE44A40076B737 /* Playground_Code */,
 				5E086DA4204F706E004D8D25 /* Products */,
 				2F9FAA7721FE44B00076B737 /* Frameworks */,
 			);
@@ -798,23 +744,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2F9FAA6F21FE44A40076B737 /* Playground_Code */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2F9FAA7421FE44A40076B737 /* Build configuration list for PBXNativeTarget "Playground_Code" */;
-			buildPhases = (
-				2F9FAA6C21FE44A40076B737 /* Sources */,
-				2F9FAA6D21FE44A40076B737 /* Frameworks */,
-				2F9FAA6E21FE44A40076B737 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Playground_Code;
-			productName = Playground_Code;
-			productReference = 2F9FAA7021FE44A40076B737 /* libPlayground_Code.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		2FEC8C5E21A1ACCF004C27B8 /* BookSourcesTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2FEC8C6921A1ACCF004C27B8 /* Build configuration list for PBXNativeTarget "BookSourcesTests" */;
@@ -845,7 +774,6 @@
 				5E086DD42051E415004D8D25 /* PBXBuildRule */,
 			);
 			dependencies = (
-				2F9FAAC921FE5CD70076B737 /* PBXTargetDependency */,
 				5EF2F9B52054BDD100191409 /* PBXTargetDependency */,
 			);
 			name = PlaygroundBook;
@@ -899,9 +827,6 @@
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 0940;
 				TargetAttributes = {
-					2F9FAA6F21FE44A40076B737 = {
-						CreatedOnToolsVersion = 10.1;
-					};
 					2FEC8C5E21A1ACCF004C27B8 = {
 						CreatedOnToolsVersion = 10.1;
 						TestTargetID = 5EA2E3BC2056F35A00416A35;
@@ -937,7 +862,6 @@
 				5EF2F9AA2054BBF300191409 /* Book_Sources */,
 				5EA2E3BC2056F35A00416A35 /* LiveViewTestApp */,
 				2FEC8C5E21A1ACCF004C27B8 /* BookSourcesTests */,
-				2F9FAA6F21FE44A40076B737 /* Playground_Code */,
 			);
 		};
 /* End PBXProject section */
@@ -1007,58 +931,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2F9FAA6C21FE44A40076B737 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2F9FAA9421FE44F90076B737 /* BookProgramOutputSound.swift in Sources */,
-				2F5A210B2205BF3B005E9248 /* PlaygroundValueKeys.swift in Sources */,
-				2F9FAAAB21FE45420076B737 /* LogNotify.swift in Sources */,
-				2F9FAA9C21FE44F90076B737 /* BookProgramCommandStart.swift in Sources */,
-				2F9FAA8B21FE44F90076B737 /* ProgramBuilder.swift in Sources */,
-				2F9FAAA421FE44F90076B737 /* BookProgramCommandCombination.swift in Sources */,
-				2F9FAA7D21FE44E60076B737 /* Extractor.swift in Sources */,
-				2F9FAAA321FE44F90076B737 /* BookProgramCommandConditionals.swift in Sources */,
-				2F9FAA8A21FE44F90076B737 /* ProgramNotifyPing.swift in Sources */,
-				2F9FAA9B21FE44F90076B737 /* BookProgramInputCombination.swift in Sources */,
-				2F9FAA8F21FE44F90076B737 /* BookProgramOutputString.swift in Sources */,
-				2F9FAAA121FE44F90076B737 /* BookProgramCommandLoops.swift in Sources */,
-				2F9FAA9D21FE44F90076B737 /* BookProgramCommandSleep.swift in Sources */,
-				2F9FAA9321FE44F90076B737 /* BookProgramOutputRGB.swift in Sources */,
-				2F9FAA8D21FE44F90076B737 /* ProgramBase.swift in Sources */,
-				2F9FAA7F21FE44E60076B737 /* ValueLocalizer.swift in Sources */,
-				2F9FAA9621FE44F90076B737 /* BookProgramInputButtonA.swift in Sources */,
-				2F9FAAA821FE44F90076B737 /* BookProgramProjectClap.swift in Sources */,
-				2F9FAA9521FE44F90076B737 /* BookProgramOutputCombination.swift in Sources */,
-				2F9FAA8C21FE44F90076B737 /* ProgramBaseInstructions.swift in Sources */,
-				2F9FAA9221FE44F90076B737 /* BookProgramOutputGrid.swift in Sources */,
-				2F9FAA7321FE44A40076B737 /* Playground_Code.swift in Sources */,
-				2F9FAA8221FE44E60076B737 /* Encodings.swift in Sources */,
-				2F9FAA7E21FE44E60076B737 /* PlayGroundManager.swift in Sources */,
-				2F9FAA9821FE44F90076B737 /* BookProgramInputButtonAB.swift in Sources */,
-				2F9FAAA521FE44F90076B737 /* BookProgramProjectDice.swift in Sources */,
-				2F9FAA9A21FE44F90076B737 /* BookProgramInputShake.swift in Sources */,
-				2F9FAA8921FE44F90076B737 /* ProgramBlink.swift in Sources */,
-				2F9FAA8021FE44E60076B737 /* API.swift in Sources */,
-				2F9FAA9721FE44F90076B737 /* BookProgramInputButtonB.swift in Sources */,
-				2F9FAAA721FE44F90076B737 /* BookProgramProjectPiano.swift in Sources */,
-				2F9FAAA221FE44F90076B737 /* BookProgramCommandRandom.swift in Sources */,
-				2F9FAAA621FE44F90076B737 /* BookProgramProjectRockPaperScissors.swift in Sources */,
-				2F9FAAD021FF5B3C0076B737 /* CommunicationDataTypes.swift in Sources */,
-				2F9FAAA021FE44F90076B737 /* BookProgramCommandVariables.swift in Sources */,
-				2F9FAACD21FF4CC50076B737 /* ApiCalls.swift in Sources */,
-				2F9FAA9021FE44F90076B737 /* BookProgramOutputNumber.swift in Sources */,
-				2F9FAAA921FE44F90076B737 /* BookProgramProjectTheremin.swift in Sources */,
-				2F9FAA9E21FE44F90076B737 /* BookProgramCommandClear.swift in Sources */,
-				2F9FAAB821FE49B80076B737 /* ProgramBuildResult.swift in Sources */,
-				2F9FAA9121FE44F90076B737 /* BookProgramOutputImage.swift in Sources */,
-				2F9FAA9F21FE44F90076B737 /* BookProgramCommandForever.swift in Sources */,
-				2F9FAA9921FE44F90076B737 /* BookProgramInputPin.swift in Sources */,
-				2F9FAAAA21FE44F90076B737 /* BookProgramProjectThermometer.swift in Sources */,
-				2F9FAAAF21FE466F0076B737 /* Ext.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2FEC8C5B21A1ACCF004C27B8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1085,46 +957,82 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F09853622070FE00075A5DB /* Extractor.swift in Sources */,
+				2F09855D220711550075A5DB /* DataTypes.swift in Sources */,
 				2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */,
 				2F9FAAB121FE471D0076B737 /* LogNotify.swift in Sources */,
+				2F09854D220710330075A5DB /* BookProgramInputPin.swift in Sources */,
+				2F098554220710370075A5DB /* BookProgramOutputRGB.swift in Sources */,
 				2F9FAA3621FE43FE0076B737 /* Constants.swift in Sources */,
 				8855BAC520A064C4009646CC /* Dashboard_ThermometerAnimation.swift in Sources */,
+				2F098544220710300075A5DB /* BookProgramCommandForever.swift in Sources */,
 				2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */,
 				8855BAC220A064C4009646CC /* Dashboard_RGBAnimation.swift in Sources */,
+				2F098548220710300075A5DB /* BookProgramCommandConditionals.swift in Sources */,
 				2F9FAA3F21FE43FE0076B737 /* Swoosh.swift in Sources */,
 				2F9FAA3A21FE43FE0076B737 /* Extension_String.swift in Sources */,
 				2F9FAA3521FE43FE0076B737 /* Async.swift in Sources */,
 				2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */,
 				2F9FAA4321FE43FE0076B737 /* Extension_CBUUID.swift in Sources */,
+				2F09853F2207102D0075A5DB /* BookProgramProjectTheremin.swift in Sources */,
 				8855BABC20A064C4009646CC /* Dashboard_BrightnessAnimation.swift in Sources */,
+				2F09854A220710330075A5DB /* BookProgramInputButtonA.swift in Sources */,
 				2F9FAAB921FE4A430076B737 /* ValueLocalizer.swift in Sources */,
+				2F09854F220710330075A5DB /* BookProgramInputCombination.swift in Sources */,
 				2F9FAA4121FE43FE0076B737 /* UIView_DashBoardItem.swift in Sources */,
 				2F9FAACC21FF4CB40076B737 /* ApiCalls.swift in Sources */,
 				2F9FAA4021FE43FE0076B737 /* UIStackView_DashBoard.swift in Sources */,
 				8855BAC120A064C4009646CC /* Dashboard_PinAnimation.swift in Sources */,
+				2F098547220710300075A5DB /* BookProgramCommandRandom.swift in Sources */,
+				2F098555220710370075A5DB /* BookProgramOutputSound.swift in Sources */,
 				2F9FAAB721FE49A50076B737 /* ProgramBuildResult.swift in Sources */,
+				2F098556220710370075A5DB /* BookProgramOutputCombination.swift in Sources */,
+				2F0985402207102D0075A5DB /* BookProgramProjectThermometer.swift in Sources */,
 				2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */,
 				8855BAC420A064C4009646CC /* Dashboard_SoundAnimation.swift in Sources */,
 				8855BABE20A064C4009646CC /* Dashboard_ButtonBAnimation.swift in Sources */,
-				2F9FAACF21FF5B3C0076B737 /* CommunicationDataTypes.swift in Sources */,
+				2F0985572207103A0075A5DB /* ProgramBlink.swift in Sources */,
+				2F098546220710300075A5DB /* BookProgramCommandLoops.swift in Sources */,
 				2F9FAA3421FE43FE0076B737 /* ActivityView.swift in Sources */,
+				2F098541220710300075A5DB /* BookProgramCommandStart.swift in Sources */,
 				2F9FAAB021FE47190076B737 /* Ext.swift in Sources */,
+				2F09853D2207102D0075A5DB /* BookProgramProjectPiano.swift in Sources */,
+				2F09853B2207102D0075A5DB /* BookProgramProjectDice.swift in Sources */,
 				8855BABF20A064C4009646CC /* Dashboard_DisplayAnimation.swift in Sources */,
+				2F09854B220710330075A5DB /* BookProgramInputButtonB.swift in Sources */,
+				2F098553220710370075A5DB /* BookProgramOutputGrid.swift in Sources */,
 				2F9FAA3921FE43FE0076B737 /* Extension_NotificationCenter.swift in Sources */,
 				2F9FAA3821FE43FE0076B737 /* Extension_CGRect.swift in Sources */,
 				2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */,
+				2F098542220710300075A5DB /* BookProgramCommandSleep.swift in Sources */,
+				2F0985592207103D0075A5DB /* ProgramBuilder.swift in Sources */,
 				2F9FAAAC21FE45900076B737 /* Extension_Data.swift in Sources */,
+				2F09854C220710330075A5DB /* BookProgramInputButtonAB.swift in Sources */,
+				2F09855A2207103D0075A5DB /* ProgramBaseInstructions.swift in Sources */,
 				2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */,
+				2F0985582207103A0075A5DB /* ProgramNotifyPing.swift in Sources */,
+				2F098549220710300075A5DB /* BookProgramCommandCombination.swift in Sources */,
 				2F9FAA4221FE43FE0076B737 /* ViewController_Base.swift in Sources */,
 				8855BABD20A064C4009646CC /* Dashboard_ButtonAAnimation.swift in Sources */,
 				2F9FAA3721FE43FE0076B737 /* DashBoardViewController.swift in Sources */,
 				2F9FAA3E21FE43FE0076B737 /* Matrix.swift in Sources */,
+				2F09854E220710330075A5DB /* BookProgramInputShake.swift in Sources */,
 				2F9FAA3B21FE43FE0076B737 /* Extension_UIColor.swift in Sources */,
 				2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */,
+				2F098545220710300075A5DB /* BookProgramCommandVariables.swift in Sources */,
+				2F098552220710370075A5DB /* BookProgramOutputImage.swift in Sources */,
 				2F9FAAB421FE48080076B737 /* Macros.swift in Sources */,
+				2F09853E2207102D0075A5DB /* BookProgramProjectClap.swift in Sources */,
 				2F9FAA3C21FE43FE0076B737 /* Extension_UILayoutPriority.swift in Sources */,
+				2F09855B2207103D0075A5DB /* ProgramBase.swift in Sources */,
+				2F09853722070FE00075A5DB /* PlayGroundManager.swift in Sources */,
 				2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */,
+				2F098550220710370075A5DB /* BookProgramOutputString.swift in Sources */,
+				2F098551220710370075A5DB /* BookProgramOutputNumber.swift in Sources */,
+				2F098561220718310075A5DB /* Runtime.swift in Sources */,
 				8855BAC320A064C4009646CC /* Dashboard_ShakeAnimation.swift in Sources */,
+				2F098543220710300075A5DB /* BookProgramCommandClear.swift in Sources */,
+				2F09853C2207102D0075A5DB /* BookProgramProjectRockPaperScissors.swift in Sources */,
 				8855BAC020A064C4009646CC /* Dashboard_NoiseAnimation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1136,11 +1044,6 @@
 			isa = PBXTargetDependency;
 			target = 5EA2E3BC2056F35A00416A35 /* LiveViewTestApp */;
 			targetProxy = 2F8DC42B21A1AF3300C349D8 /* PBXContainerItemProxy */;
-		};
-		2F9FAAC921FE5CD70076B737 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2F9FAA6F21FE44A40076B737 /* Playground_Code */;
-			targetProxy = 2F9FAAC821FE5CD70076B737 /* PBXContainerItemProxy */;
 		};
 		2FEC8C6621A1ACCF004C27B8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1234,42 +1137,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		2F9FAA7521FE44A40076B737 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GKA87N33H4;
-				GCC_DYNAMIC_NO_PIC = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		2F9FAA7621FE44A40076B737 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GKA87N33H4;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
-				MTL_FAST_MATH = YES;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		2FEC8C6721A1ACCF004C27B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1545,15 +1412,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2F9FAA7421FE44A40076B737 /* Build configuration list for PBXNativeTarget "Playground_Code" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2F9FAA7521FE44A40076B737 /* Debug */,
-				2F9FAA7621FE44A40076B737 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		2FEC8C6921A1ACCF004C27B8 /* Build configuration list for PBXNativeTarget "BookSourcesTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

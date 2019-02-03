@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-public struct Result<T> {
+struct Result<T> {
     private(set) var value: T
     private(set) var success: Bool
     
@@ -11,7 +11,7 @@ public struct Result<T> {
     }
 }
 
-public struct Worker<T> {
+struct Worker<T> {
     public typealias ResultType = Result<T>
     private let work: ( @escaping (ResultType) -> ()) -> ()
     

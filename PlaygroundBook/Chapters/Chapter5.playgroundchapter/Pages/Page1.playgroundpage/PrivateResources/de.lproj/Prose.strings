@@ -6,13 +6,3 @@
 
 **Ziel:** Hier kannst du dich austoben. Nutze alles, was du in den vorherigen Seiten gelernt hast, und schreibe dein ganz eigenes Programm!
 ";
-
-"cc.calliope.miniplaygroundbook.Advanced.MainEditableArea" = "
-Hier kannst du dinge tun wie _display.show(string: "Hello World")
-Du kannst sogar eigene Methoden schreiben und aufrufen!
-";
-
-"cc.calliope.miniplaygroundbook.Advanced.EditableCalliope" = "
-Überschreibe die Methoden deines Calliope:
-Wenn du z.B. etwas immer wiederholen willst, implementiere _forever()_
-";

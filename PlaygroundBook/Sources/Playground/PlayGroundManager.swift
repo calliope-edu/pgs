@@ -2,12 +2,7 @@ import Foundation
 import PlaygroundSupport
 import PlaygroundBluetooth
 
-//FIXME: class that listens...
-//FIXME: no need for singleton...?
-
-public typealias AssessmentTuple = (result: AssessmentResults?, program: Program?)
-public typealias AssessmentBlock = ([String]) -> AssessmentTuple
-public typealias AssessmentResults = PlaygroundPage.AssessmentStatus
+//MARK: class that handels communication from and to liveview and thus runs page
 
 final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
     

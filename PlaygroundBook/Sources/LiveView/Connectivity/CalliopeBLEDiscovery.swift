@@ -9,7 +9,7 @@ import UIKit
 import CoreBluetooth
 import PlaygroundSupport
 
-public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
+class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 
 	public enum CalliopeDiscoveryState {
 		case initialized //no discovered calliopes, doing nothing

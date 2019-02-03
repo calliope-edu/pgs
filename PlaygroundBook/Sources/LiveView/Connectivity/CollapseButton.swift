@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class CollapseButton: UIButton {
+class CollapseButton: UIButton {
 
 	public enum ConnectionState {
 		case disconnected

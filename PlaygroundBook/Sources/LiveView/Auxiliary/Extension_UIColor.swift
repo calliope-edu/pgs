@@ -30,7 +30,7 @@ extension UIColor {
         )
     }
     
-    public class var random:UIColor {
+    class var random:UIColor {
         //Generate between 0 to 1
         let red:CGFloat = CGFloat(drand48())
         let green:CGFloat = CGFloat(drand48())
@@ -39,7 +39,7 @@ extension UIColor {
         return UIColor(red:red, green: green, blue: blue, alpha: 1.0)
     }
 
-    public class func degreesToRadians(degrees: CGFloat) -> CGFloat {
+    class func degreesToRadians(degrees: CGFloat) -> CGFloat {
         return degrees * CGFloat(Double.pi) / 180
     }
 }

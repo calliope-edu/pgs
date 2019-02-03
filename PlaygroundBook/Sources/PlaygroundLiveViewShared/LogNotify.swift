@@ -2,7 +2,7 @@ import Foundation
 
 //FIXME: add debug
 
-public class LogNotify {
+class LogNotify {
     
     static let logNotifyName = Notification.Name("cc.calliope.mini.logger")
     

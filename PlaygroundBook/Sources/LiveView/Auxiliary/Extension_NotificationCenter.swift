@@ -39,7 +39,7 @@ extension Array where Element: Equatable {
 }
 
 //MARK: observe all
-public class NotificationCenterCatchAll {
+class NotificationCenterCatchAll {
     private static var catchAllTocken:NotificationToken?
     
     public static func start(_ block: @escaping (Notification) -> ()) {

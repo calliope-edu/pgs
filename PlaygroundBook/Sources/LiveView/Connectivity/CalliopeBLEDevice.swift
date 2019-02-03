@@ -8,7 +8,7 @@
 import UIKit
 import CoreBluetooth
 
-public class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
+class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	static let apiRequirements: Set = [CalliopeService.accelerometer, CalliopeService.button, CalliopeService.led, CalliopeService.temperature, CalliopeService.ioPin]
 	static let programmingRequirements = [CalliopeService.notify, CalliopeService.program]
@@ -842,7 +842,7 @@ extension CalliopeBLEDevice {
 
 	// MARK: Uploading programs via program characteristic
 
-	public func upload(program: ProgramBuildResult) throws {
+	func upload(program: ProgramBuildResult) throws {
 		guard CalliopeBLEDevice.requiredServices.contains(.notify)
 			&& state == .playgroundReady else { throw "Not ready to receive programs yet" }
 

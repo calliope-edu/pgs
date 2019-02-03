@@ -7,14 +7,3 @@
 **Goal:** Here you are free to do whatever you want. Use all you learned on the previous pages!
 
 ";
-
-"cc.calliope.miniplaygroundbook.Advanced.MainEditableArea" = "
-Here you can do things like _display.show(string: "Hello World")
-You can even write and call your own methods!
-";
-
-"cc.calliope.miniplaygroundbook.Advanced.EditableCalliope" = "
-Override methods of your callipe:
-For example, if you want to repeat something over and over again,
-implement the function _forever()_
-";

@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class ConnectionButton: UIButton {
+class ConnectionButton: UIButton {
 
 	public enum ConnectionState {
 		case initialized
