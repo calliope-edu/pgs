@@ -409,6 +409,8 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	//to sequentialize reads and writes
 
+	let readWriteQueue = DispatchQueue(label: "BluetoothReadWrite", qos: .userInitiated, attributes: .concurrent)
+
 	let readWriteSem = DispatchSemaphore(value: 1)
 
 	let writeGroup = DispatchGroup()
@@ -435,13 +437,15 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		readWriteSem.wait()
 		writingCharacteristic = characteristic
 
-		//write value and wait for delegate call (or error)
-		writeGroup.enter()
-		self.peripheral.writeValue(data, for: characteristic, type: .withResponse)
-		//TODO: writeSignal.wait(timeout) could lead to unexpected results, if we submit multiple dependant writes to be transferred and one times out
-		if writeGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
-			LogNotify.log("write to \(characteristic) timed out")
-			writeError = CBError(.connectionTimeout)
+		asyncAndWaitOnReadWriteQueue {
+			//write value and wait for delegate call (or error)
+			self.writeGroup.enter()
+			self.peripheral.writeValue(data, for: characteristic, type: .withResponse)
+			//TODO: writeSignal.wait(timeout) could lead to unexpected results, if we submit multiple dependant writes to be transferred and one times out
+			if self.writeGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
+				LogNotify.log("write to \(characteristic) timed out")
+				self.writeError = CBError(.connectionTimeout)
+			}
 		}
 
 		guard writeError == nil else {
@@ -466,12 +470,14 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		readWriteSem.wait()
 		readingCharacteristic = characteristic
 
-		//read value and wait for delegate call (or error)
-		readGroup.enter()
-		self.peripheral.readValue(for: characteristic)
-		if readGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
-			LogNotify.log("read from \(characteristic) timed out")
-			readError = CBError(.connectionTimeout)
+		asyncAndWaitOnReadWriteQueue {
+			//read value and wait for delegate call (or error)
+			self.readGroup.enter()
+			self.peripheral.readValue(for: characteristic)
+			if self.readGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
+				LogNotify.log("read from \(characteristic) timed out")
+				self.readError = CBError(.connectionTimeout)
+			}
 		}
 
 		guard readError == nil else {
@@ -486,6 +492,22 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		readValue = nil
 		readWriteSem.signal()
 		return data
+	}
+
+	func asyncAndWaitOnReadWriteQueue(_ block: @escaping () -> ()) {
+		var didFinish = false
+		let runLoop = CFRunLoopGetCurrent()
+		readWriteQueue.async {
+			block()
+			didFinish = true
+			CFRunLoopPerformBlock(runLoop, CFRunLoopMode.commonModes?.rawValue) {
+				CFRunLoopStop(runLoop)
+			}
+			CFRunLoopWakeUp(runLoop)
+		}
+		while !didFinish {
+			CFRunLoopRun()
+		}
 	}
 
 	public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
