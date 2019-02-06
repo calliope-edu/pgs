@@ -497,7 +497,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
 
 		if let readingCharac = readingCharacteristic, characteristic.uuid == readingCharac.uuid {
-			return explicitReadResponse(for: characteristic, error: error)
+			explicitReadResponse(for: characteristic, error: error)
 		}
 
 		guard error == nil, let value = characteristic.value else {
