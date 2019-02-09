@@ -54,19 +54,20 @@ public class ViewController_Base: UIViewController, PlaygroundLiveViewSafeAreaCo
     
     func notificationLogNotify(note:Notification) -> Void {
         guard let userInfo = note.userInfo,
-        let message  = userInfo["message"] as? String,
-        let date     = userInfo["date"]    as? String,
-        let debugView = self.view.viewWithTag(666) as? UITextView
-        else {
-            // print("No userInfo found in notification")
-            return
-         }
-         
-        let msg = "\(debugView.text!) \(date) --- \(message) \r\n"
-        debugView.text = msg
-        
-        let range = NSMakeRange(msg.count - 1, 1)
-        debugView.scrollRangeToVisible(range)
+			let message  = userInfo["message"] as? String,
+			let date     = userInfo["date"]    as? String,
+			let debugView = self.view.viewWithTag(666) as? UITextView
+			else {
+				// print("No userInfo found in notification")
+				return
+		}
+
+		DispatchQueue.main.async {
+			debugView.text.append("\(date) --- \(message) \r\n")
+
+			let lastLetter = debugView.text.count
+			debugView.scrollRangeToVisible(NSRange(lastLetter-1..<lastLetter))
+		}
      }
     
     func appDidEnterBackground(note:Notification) {

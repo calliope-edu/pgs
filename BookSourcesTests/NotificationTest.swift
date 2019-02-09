@@ -23,7 +23,7 @@ class NotificationTest: XCTestCase {
 	fileprivate func waitForNotification(_ type: DashboardItemType, _ fulfilled: @escaping () -> () = {}) {
 		self.notificationTokens.append(
 			NotificationCenter.default.observe(name: UIView_DashboardItem.Ping, using: { (notification) in
-				DispatchQueue.main.asyncAfter(deadline: DispatchTime.now(), execute: {
+				DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: DispatchTime.now(), execute: {
 					if notification.userInfo?["type"] as? DashboardItemType == type {
 						fulfilled()
 					}

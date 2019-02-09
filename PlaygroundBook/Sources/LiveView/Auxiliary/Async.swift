@@ -1,6 +1,22 @@
 import Foundation
 import UIKit
 
+func asyncAndWait(on queue: DispatchQueue, _ block: @escaping () -> ()) {
+	var didFinish = false
+	let runLoop = CFRunLoopGetCurrent()
+	queue.async {
+		block()
+		didFinish = true
+		CFRunLoopPerformBlock(runLoop, CFRunLoopMode.commonModes?.rawValue) {
+			CFRunLoopStop(runLoop)
+		}
+		CFRunLoopWakeUp(runLoop)
+	}
+	while !didFinish {
+		CFRunLoopRun()
+	}
+}
+
 struct Result<T> {
     private(set) var value: T
     private(set) var success: Bool

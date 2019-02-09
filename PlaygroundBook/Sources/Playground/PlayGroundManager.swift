@@ -130,8 +130,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 	private func foreverCall() {
 		myCalliope?.forever()
 		//execute again with delay of 0.1s
-		//TODO: run forever on another queue
-		DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: DispatchTime.now() + 0.1) {
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
 			self.foreverCall()
 		}
 	}
@@ -173,21 +172,11 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 	}
 
 	private func sendAsyncAndWait(_ data: Data, _ proxy: PlaygroundRemoteLiveViewProxy) {
-		let runLoop = CFRunLoopGetCurrent()
-		var didFinish = false
-		messagingQueue.async {
+		asyncAndWait(on: messagingQueue) {
 			self.deparallelizationGroup.enter()
 			let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiCallKey: .data(data)])
 			proxy.send(message)
 			self.deparallelizationGroup.wait()
-			didFinish = true
-			CFRunLoopPerformBlock(runLoop, CFRunLoopMode.commonModes?.rawValue) {
-				CFRunLoopStop(runLoop)
-			}
-			CFRunLoopWakeUp(runLoop)
-		}
-		while !didFinish {
-			CFRunLoopRun()
 		}
 	}
 

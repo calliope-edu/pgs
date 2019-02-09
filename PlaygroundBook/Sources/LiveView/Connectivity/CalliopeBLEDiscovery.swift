@@ -47,7 +47,7 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 				connectedCalliope = nil
 				self.centralManager.connect(connectingCalliope.peripheral, options: nil)
 				//manual timeout (system timeout is too long)
-				DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + BLE.connectTimeout) {
+				bluetoothQueue.asyncAfter(deadline: DispatchTime.now() + BLE.connectTimeout) {
 					if self.connectedCalliope == nil {
 						self.centralManager.cancelPeripheralConnection(connectingCalliope.peripheral)
 					}
@@ -73,7 +73,7 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		}
 	}
 
-	private let bluetoothQueue = DispatchQueue(label: "bluetoothQueue", qos: .userInitiated, attributes: .concurrent)
+	private let bluetoothQueue = DispatchQueue.global(qos: .userInitiated)
 	private lazy var centralManager: CBCentralManager = {
 		return CBCentralManager(delegate: nil, queue: bluetoothQueue)
 	}()
@@ -142,7 +142,7 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		} else if !centralManager.isScanning {
 			centralManager.scanForPeripherals(withServices: nil, options: nil)
 			//stop the search after some time. The user can invoke it again later.
-			DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + BLE.discoveryTimeout) {
+			bluetoothQueue.asyncAfter(deadline: DispatchTime.now() + BLE.discoveryTimeout) {
 				self.stopCalliopeDiscovery()
 			}
 			redetermineState()

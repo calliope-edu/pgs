@@ -205,36 +205,11 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
 		//respond with a message back (either with value or just as a kind of "return" call)
 		let calliope = connectionView?.apiReadyCalliope
 
-		if case .registerCallbacks() = apiCall {
-			calliope?.buttonAActionNotification = { action in
-				guard let action = action else { return }
-				let other = calliope?.buttonBAction
-				if action == .Down {
-					let bothButtons = other == .Down || other == .Long
-					self.sendResponse(bothButtons ? .buttonAB() : .buttonA())
-				} else if action == .Long {
-					let bothButtons = other == .Long
-					self.sendResponse(bothButtons ? .buttonABLongPress() : .buttonALongPress())
-				}
-			}
-			calliope?.buttonBActionNotification = { action in
-				guard let action = action else { return }
-				let other = calliope?.buttonAAction
-				if action == .Down {
-					let bothButtons = other == .Down || other == .Long
-					self.sendResponse(bothButtons ? .buttonAB() : .buttonB())
-				} else if action == .Long {
-					let bothButtons = other == .Long
-					self.sendResponse(bothButtons ? .buttonABLongPress() : .buttonBLongPress())
-				}
-			}
-			//TODO: other callbacks to calliope
-			sendResponse(.finished())
-			return
-		}
-
 		let response: ApiCall
 		switch apiCall {
+		case .registerCallbacks():
+			registerCallbacks(calliope)
+			response = .finished()
 		case .rgbOn(let color):
 			response = .finished()
 		case .rgbOff:
@@ -302,7 +277,7 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
 		}
 
 		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + t) {
-			self.sendResponse(response)
+			self.send(apiCall: response)
 		}
 	}
 
@@ -310,8 +285,36 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
 		return (0..<5).map { row in (0..<5).map { column in grid[row * 5 + column] == 1 } }
 	}
 
-	func sendResponse(_ apiCall: ApiCall) {
-		LogNotify.log("responding with \(apiCall)")
+	func registerCallbacks(_ calliope: CalliopeBLEDevice?) {
+		guard let calliope = calliope else { return }
+
+		calliope.buttonAActionNotification = { action in
+			guard let action = action else { return }
+			let other = calliope.buttonBAction
+			if action == .Down {
+				let bothButtons = other == .Down || other == .Long
+				self.send(apiCall: bothButtons ? .buttonAB() : .buttonA())
+			} else if action == .Long {
+				let bothButtons = other == .Long
+				self.send(apiCall: bothButtons ? .buttonABLongPress() : .buttonALongPress())
+			}
+		}
+		calliope.buttonBActionNotification = { action in
+			guard let action = action else { return }
+			let other = calliope.buttonAAction
+			if action == .Down {
+				let bothButtons = other == .Down || other == .Long
+				self.send(apiCall: bothButtons ? .buttonAB() : .buttonB())
+			} else if action == .Long {
+				let bothButtons = other == .Long
+				self.send(apiCall: bothButtons ? .buttonABLongPress() : .buttonBLongPress())
+			}
+		}
+		//TODO: other callbacks to calliope
+	}
+
+	func send(apiCall: ApiCall) {
+		LogNotify.log("sendig \(apiCall) to page")
 		let data = apiCall.data
 		let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiCallKey: .data(data)])
 		self.send(message)
