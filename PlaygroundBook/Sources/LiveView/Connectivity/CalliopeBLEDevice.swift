@@ -252,16 +252,14 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 				guard let pinValues = object as? [UInt8: UInt8] else { return nil }
 				return Data(bytes: pinValues.flatMap { [$0, $1] })
 			case .pinADConfiguration, .pinIOConfiguration:
-				let obj: [Bool]?
+				let obj: [Int32]?
 				if self == .pinADConfiguration {
-					obj = (object as? [PinConfiguration])?.map { $0 == .Analogue }
+					obj = (object as? [PinConfiguration])?.enumerated().map { $0.element == .Analogue ? (1 << $0.offset) : 0 }
 				} else {
-					obj = object as? [Bool]
+					obj = (object as? [Bool])?.enumerated().map { $0.element ? (1 << $0.offset) : 0 }
 				}
-				guard var asBitmap = (obj?.enumerated().reduce(Int32(0)) {
-					return $1.element == false ? $0 : ($0 | (1 << $1.offset))
-				}) else { return nil }
-				return Data(bytes: &asBitmap, count: MemoryLayout.size(ofValue: asBitmap)).subdata(in: 0..<3)
+				guard var asBitmap = (obj?.reduce(0) { $0 | $1 }) else { return nil }
+				return Data(bytes: &asBitmap, count: MemoryLayout.size(ofValue: asBitmap))
 			case .ledMatrixState:
 				guard let ledArray = object as? [[Bool]] else { return nil }
 				let bitmapArray = ledArray.map {
