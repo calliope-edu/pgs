@@ -189,7 +189,7 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
 			}
 			LogNotify.log("live view received api call \(apiCall)")
 
-			handleApiCall(apiCall)
+			TeachingApiImplementation.instance.handleApiCall(apiCall, calliope: connectionView?.apiReadyCalliope)
 		} else {
 			delay(time: 1.0) { [weak self] in
 				let message: PlaygroundValue = .string("ping from liveview")
@@ -197,127 +197,5 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
 			}
 		}
     }
-
-	private func handleApiCall(_ apiCall: ApiCall) {
-		//TODO: working so far is button notifications, button state requests, sleep, forever, start, led matrix calls, temperature request.
-		//TODO: not working: rgb led, pins, shake callback, clap callback, sound api, noise request, brightness request
-
-		//respond with a message back (either with value or just as a kind of "return" call)
-		let calliope = connectionView?.apiReadyCalliope
-
-		let response: ApiCall
-		switch apiCall {
-		case .registerCallbacks():
-			registerCallbacks(calliope)
-			response = .finished()
-		case .rgbOn(let color):
-			response = .finished()
-		case .rgbOff:
-			response = .finished()
-		case .displayClear:
-			calliope?.ledMatrixState = [[false, false, false, false, false],
-										[false, false, false, false, false],
-										[false, false, false, false, false],
-										[false, false, false, false, false],
-										[false, false, false, false, false]]
-			response = .finished()
-		case .displayShowGrid(let grid):
-			//TODO: decode grid
-			calliope?.ledMatrixState = interpretGrid(grid)
-			response = .finished()
-		case .displayShowImage(let image):
-			calliope?.ledMatrixState = interpretGrid(image.grid)
-			response = .finished()
-		case .displayShowText(let text):
-			calliope?.displayLedText(text)
-			response = .finished()
-		case .soundOff:
-			response = .finished()
-		case .soundOnNote(let note):
-			response = .finished()
-		case .soundOnFreq(let freq):
-			response = .finished()
-		case .requestButtonState(let button):
-			var buttonPressed: Bool?
-			if button == .A {
-				let buttonState = calliope?.buttonAAction
-				buttonPressed = buttonState == .Down || buttonState == .Long
-			} else if button == .B {
-				let buttonState = calliope?.buttonBAction
-				buttonPressed = buttonState == .Down || buttonState == .Long
-			} else {
-				let buttonState1 = calliope?.buttonAAction
-				let buttonState2 = calliope?.buttonBAction
-				let buttonPressed1 = buttonState1 == .Down || buttonState1 == .Long
-				let buttonPressed2 = buttonState2 == .Down || buttonState2 == .Long
-				buttonPressed = buttonPressed1 && buttonPressed2
-			}
-			response = .respondButtonState(isPressed: buttonPressed == true)
-		case .requestPinState(let pin):
-			response = .respondPinState(isPressed: false)
-		case .requestNoise:
-			response = .respondNoise(level: 42)
-		case .requestTemperature:
-			response = .respondTemperature(degrees: Int16(calliope?.temperature ?? 42))
-		case .requestBrightness:
-			response = .respondBrightness(level: 42)
-		default:
-			if case .sleep(_) = apiCall {
-			} else {
-				LogNotify.log("cannot handle this api call")
-			}
-			response = .finished()
-		}
-
-		let t: Double
-		if case .sleep(let time) = apiCall {
-			t = Double(time)
-		} else {
-			t = 0.0
-		}
-
-		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + t) {
-			self.send(apiCall: response)
-		}
-	}
-
-	func interpretGrid(_ grid: [UInt8]) -> [[Bool]] {
-		return (0..<5).map { row in (0..<5).map { column in grid[row * 5 + column] == 1 } }
-	}
-
-	func registerCallbacks(_ calliope: CalliopeBLEDevice?) {
-		guard let calliope = calliope else { return }
-
-		calliope.buttonAActionNotification = { action in
-			guard let action = action else { return }
-			let other = calliope.buttonBAction
-			if action == .Down {
-				let bothButtons = other == .Down || other == .Long
-				self.send(apiCall: bothButtons ? .buttonAB() : .buttonA())
-			} else if action == .Long {
-				let bothButtons = other == .Long
-				self.send(apiCall: bothButtons ? .buttonABLongPress() : .buttonALongPress())
-			}
-		}
-		calliope.buttonBActionNotification = { action in
-			guard let action = action else { return }
-			let other = calliope.buttonAAction
-			if action == .Down {
-				let bothButtons = other == .Down || other == .Long
-				self.send(apiCall: bothButtons ? .buttonAB() : .buttonB())
-			} else if action == .Long {
-				let bothButtons = other == .Long
-				self.send(apiCall: bothButtons ? .buttonABLongPress() : .buttonBLongPress())
-			}
-		}
-		//TODO: other callbacks to calliope
-	}
-
-	func send(apiCall: ApiCall) {
-		LogNotify.log("sendig \(apiCall) to page")
-		let data = apiCall.data
-		let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiCallKey: .data(data)])
-		self.send(message)
-	}
 }
 

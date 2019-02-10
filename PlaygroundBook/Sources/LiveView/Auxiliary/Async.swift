@@ -1,20 +1,27 @@
 import Foundation
 import UIKit
 
-func asyncAndWait(on queue: DispatchQueue, _ block: @escaping () -> ()) {
+func asyncAndWait<T>(on queue: DispatchQueue, after deadline: DispatchTime? = nil, _ block: @escaping () -> T) -> T {
 	var didFinish = false
+	var result: T?
 	let runLoop = CFRunLoopGetCurrent()
-	queue.async {
-		block()
+	let asyncBlock = {
+		result = block()
 		didFinish = true
 		CFRunLoopPerformBlock(runLoop, CFRunLoopMode.commonModes?.rawValue) {
 			CFRunLoopStop(runLoop)
 		}
 		CFRunLoopWakeUp(runLoop)
 	}
+	if let deadline = deadline {
+		queue.asyncAfter(deadline: deadline, execute: asyncBlock)
+	} else {
+		queue.async(execute: asyncBlock)
+	}
 	while !didFinish {
 		CFRunLoopRun()
 	}
+	return result!
 }
 
 struct Result<T> {

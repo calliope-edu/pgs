@@ -47,6 +47,7 @@
 		2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */; };
 		2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */; };
 		2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */; };
+		2F1C9A9F220F3A8800E05DD1 /* TeachingApiImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */; };
 		2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27131021FC8B80007A1584 /* DataExtensionTest.swift */; };
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
 		2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3874B521CFD07F0011A85A /* CollapseButton.swift */; };
@@ -210,6 +211,7 @@
 		2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscovery.swift; sourceTree = "<group>"; };
 		2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscoveryTest.swift; sourceTree = "<group>"; };
 		2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDevice.swift; sourceTree = "<group>"; };
+		2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeachingApiImplementation.swift; sourceTree = "<group>"; };
 		2F27131021FC8B80007A1584 /* DataExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTest.swift; sourceTree = "<group>"; };
 		2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_CBUUID.swift; sourceTree = "<group>"; };
 		2F3874B521CFD07F0011A85A /* CollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButton.swift; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 		2F9FAA1121FE41340076B737 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */,
 				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
 				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
 				2F09855C220711550075A5DB /* DataTypes.swift */,
@@ -1009,6 +1012,7 @@
 				2F9FAAAC21FE45900076B737 /* Extension_Data.swift in Sources */,
 				2F09854C220710330075A5DB /* BookProgramInputButtonAB.swift in Sources */,
 				2F09855A2207103D0075A5DB /* ProgramBaseInstructions.swift in Sources */,
+				2F1C9A9F220F3A8800E05DD1 /* TeachingApiImplementation.swift in Sources */,
 				2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */,
 				2F0985582207103A0075A5DB /* ProgramNotifyPing.swift in Sources */,
 				2F098549220710300075A5DB /* BookProgramCommandCombination.swift in Sources */,
