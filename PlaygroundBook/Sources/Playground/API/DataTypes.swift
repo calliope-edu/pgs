@@ -23,8 +23,8 @@ public protocol Calliope {
 	func onButtonABLongPress()
 
 	//Pins
-	/// when minus and any of pins 1-4 are connected (not implemented yet)
-	func onPin(pin:UInt16)
+	/// when minus and any of pins 0-3 are connected
+	func onPin(pin: UInt16)
 
 	//Motion
 	/// when calliope is shook (not implemented yet)

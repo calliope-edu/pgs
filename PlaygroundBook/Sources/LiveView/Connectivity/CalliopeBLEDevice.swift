@@ -10,11 +10,11 @@ import CoreBluetooth
 
 class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
-	static let apiRequirements: Set<CalliopeService> = [.accelerometer, .button, .led, .temperature, .ioPin]
+	static let apiRequirements: Set<CalliopeService> = [.accelerometer, .button, .led, .temperature, .ioPin, .event]
 	static let programmingRequirements: Set<CalliopeService> = [.notify, .program]
 
 	//the services required for the playground
-	public static let requiredServices : Set = programmingRequirements //apiRequirements //apiRequirements.union(programmingRequirements)
+	public static let requiredServices : Set = apiRequirements //apiRequirements.union(programmingRequirements)
 
 	//Bluetooth profile of the Calliope
 
@@ -212,7 +212,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			case .ledMatrixState:
 				return dataBytes.map { (byte) -> [Bool] in
 					return (1...5).map { offset in (byte & (1 << (5 - offset))) != 0 }
-				} as? T //TODO: look up endianness in led octets and apply offset correspondingly
+				} as? T
 			case .scrollingDelay:
 				return UInt16(littleEndianData: dataBytes) as? T
 			case .buttonAState, .buttonBState:
@@ -229,9 +229,9 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			case .magnetometerBearing:
 				return UInt16(littleEndianData: dataBytes) as? T
 			case .microBitEvent:
-				return dataBytes.withUnsafeBytes { (uint16ptr:UnsafePointer<Int16>) -> (Event, Int16)? in
-					guard let event = Event(rawValue: Int16(littleEndian:uint16ptr.pointee)) else { return nil }
-					return (event, Int16(littleEndian:uint16ptr.pointee))
+				return dataBytes.withUnsafeBytes { (uint16ptr:UnsafePointer<UInt16>) -> (Event, UInt16)? in
+					guard let event = Event(rawValue: UInt16(littleEndian:uint16ptr[0])) else { return nil }
+					return (event, UInt16(littleEndian:uint16ptr[1]))
 					} as? T
 			case .txCharacteristic:
 				return dataBytes as? T
@@ -266,7 +266,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 					$0.enumerated().reduce(UInt8(0)) {
 						$1.element == false ? $0 : ($0 | 1 << (4 - $1.offset))
 					}
-				} //TODO: look up endianness in led octets and apply offset correspondingly
+				}
 				return Data(bitmapArray)
 			case .ledText:
 				return (object as? String)?.data(using: .utf8)
@@ -275,6 +275,10 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 				return delay.bigEndianData
 			case .rxCharacteristic:
 				return object as? Data
+			case .clientRequirements:
+				guard let eventTuples = object as? [(Event, UInt16)] else { return nil }
+				return eventTuples.flatMap { [$0.rawValue.littleEndianData, $1.littleEndianData] }
+					.reduce(into: Data()) { $0.append($1) }
 			default:
 				return nil
 			}
@@ -717,21 +721,21 @@ extension CalliopeBLEDevice {
 		get { return getNotifyListener(for: .magnetometerBearing) }
 	}
 
-	//TODO: don´t really know what event is for
-	public enum Event: Int16 {
-		case MES_DEVICE_INFO_ID = 1103
-		case MES_SIGNAL_STRENGTH_ID = 1101
-		case MES_DPAD_CONTROLLER_ID = 1104
-		case MES_BROADCAST_GENERAL_ID = 2000
+	//Identifiers used in the firmware for sending via event message bus
+	public enum Event: UInt16 {
+		case PIN_TOUCH_0 = 11200
+		case PIN_TOUCH_1 = 11201
+		case PIN_TOUCH_2 = 11202
+		case PIN_TOUCH_3 = 11203
 	}
 
-	/// (event, value) received via messagebus
-	var eventValue: (Event, Int16)? {
-		return read(.microBitEvent)
+	/// (event, value) to be received via messagebus
+	func notifyForEvents(_ eventTuples: [(Event, UInt16)]) {
+		write(eventTuples, .clientRequirements)
 	}
 
-	/// notification called when event value is being requested periodically
-	public var eventNotification: (((Event, Int16)?) -> ())? {
+	/// notification called when event is raised
+	public var eventNotification: (((Event, UInt16)?) -> ())? {
 		set { setNotifyListener(for: .microBitEvent, newValue) }
 		get { return getNotifyListener(for: .microBitEvent) }
 	}
@@ -804,24 +808,21 @@ extension CalliopeBLEDevice {
 		peripheral.setNotifyValue(enabled, for: notifyCharacteristic)
 	}
 
-	private func updateSensorReading(_ data: Data) {
+	private func updateSensorReading(_ value: Data) {
 
-		if let type = DashboardItemType(rawValue:UInt16(data[1])) {
-			guard let receivedValue = Int8(littleEndianData: data.subdata(in: 3..<4)) else {
-				LogNotify.log("value for \(type) not readable")
-				return
-			}
-			LogNotify.log("\(self) received value \(String(describing: receivedValue)) for \(type)")
+		if let type = DashboardItemType(rawValue:UInt16(value[1])) {
+			LogNotify.log("\(self) received value \(String(describing: UInt16(littleEndianData: value.subdata(in: 2..<value.count))))) for \(type)")
+			let value = int8(Int(value[3]))
 
 			//TODO: do not use notification center, but let observers subscribe directly to sensorReadings´ value
 			//TODO: subscription to swift dictionaries via didSet works.
 			if(type == DashboardItemType.ButtonAB) {
-				postButtonANotification(receivedValue)
-				postButtonBNotification(receivedValue)
+				postButtonANotification(value)
+				postButtonBNotification(value)
 			} else if type == DashboardItemType.Thermometer {
-				postThermometerNotification(Int8(ValueLocalizer.current.localizeTemperature(unlocalized: Double(receivedValue))))
+				postThermometerNotification(Int8(ValueLocalizer.current.localizeTemperature(unlocalized: Double(value))))
 			} else {
-				postSensorUpdateNotification(type, receivedValue)
+				postSensorUpdateNotification(type, value)
 			}
 		}
 	}

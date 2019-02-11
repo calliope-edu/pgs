@@ -19,10 +19,13 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	private var buttonAState: CalliopeBLEDevice.ButtonPressAction = .Up
 	private var buttonBState: CalliopeBLEDevice.ButtonPressAction = .Up
 
+	private var pinPressed = [false, false, false, false]
+
 	private func resetVars() {
 		resetRgbState()
 		resetSoundFreq()
 		resetButtonState()
+		resetPinState()
 	}
 
 	private func resetRgbState() {
@@ -36,6 +39,10 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	private func resetButtonState() {
 		buttonAState = .Up
 		buttonBState = .Up
+	}
+
+	private func resetPinState() {
+		pinPressed = [false, false, false, false]
 	}
 
 	private let displayOffState = [[false, false, false, false, false],
@@ -71,10 +78,10 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			calliope?.ledMatrixState = displayOffState
 			response = .finished()
 		case .displayShowGrid(let grid):
-			calliope?.ledMatrixState = interpretGrid(grid)
+			calliope?.ledMatrixState = convertGrid(grid)
 			response = .finished()
 		case .displayShowImage(let image):
-			calliope?.ledMatrixState = interpretGrid(image.grid)
+			calliope?.ledMatrixState = convertGrid(image.grid)
 			response = .finished()
 		case .displayShowText(let text):
 			//TODO: display state?
@@ -95,7 +102,11 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		case .requestButtonState(let button):
 			response = .respondButtonState(isPressed: buttonPressState(button, calliope) == true)
 		case .requestPinState(let pin):
-			response = .respondPinState(isPressed: false)
+			if pin < 4 {
+				response = .respondPinState(isPressed: pinPressed[Int(pin)])
+			} else {
+				response = .respondPinState(isPressed: false)
+			}
 		case .requestNoise:
 			response = .respondNoise(level: 42)
 		case .requestTemperature:
@@ -124,7 +135,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		}
 	}
 
-	func interpretGrid(_ grid: [UInt8]) -> [[Bool]] {
+	func convertGrid(_ grid: [UInt8]) -> [[Bool]] {
 		return (0..<5).map { row in (0..<5).map { column in grid[row * 5 + column] == 1 } }
 	}
 
@@ -140,6 +151,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	func registerCallbacks(_ calliope: CalliopeBLEDevice?) {
 		guard let calliope = calliope else { return }
 
+		// BUTTONS
 		calliope.buttonAActionNotification = { action in
 			guard let action = action else { return }
 			self.buttonApiNotification(action, .A)
@@ -148,6 +160,30 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			guard let action = action else { return }
 			self.buttonApiNotification(action, .B)
 		}
+
+		//PINS
+		let pinEvents: [CalliopeBLEDevice.Event] = [.PIN_TOUCH_0, .PIN_TOUCH_1, .PIN_TOUCH_2, .PIN_TOUCH_3]
+		calliope.notifyForEvents(pinEvents.map { ($0, 0) })
+		calliope.eventNotification = { tuple in
+			guard let (event, value) = tuple else { return }
+			if pinEvents.contains(event) {
+				self.pinTouchNotification(event, value)
+			}
+		}
+		//LogNotify.log("Pin config:\nIO: \(calliope.pinIOConfiguration!)\nAD: \(calliope.pinADConfiguration!)")
+		/*calliope.pinIOConfiguration = [true, true, true, true,
+									   false, false, false, false,
+									   false, false, false, false,
+									   false, false, false, false,
+									   false, false, false]
+		calliope.pinDataNotification = { data in
+			LogNotify.log("received pin data:\n\(String(describing: data))")
+		}
+		calliope.pinADConfiguration = [.Analogue, .Analogue, .Analogue, .Digital,
+									   .Digital, .Digital, .Digital, .Digital,
+									   .Digital, .Digital, .Digital, .Digital,
+									   .Digital, .Digital, .Digital, .Digital,
+									   .Digital, .Digital, .Digital]*/
 		//TODO: other callbacks to calliope
 	}
 
@@ -286,6 +322,27 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			state = (.N, .N)
 		default:
 			break
+		}
+	}
+
+	private func pinTouchNotification(_ event: CalliopeBLEDevice.Event, _ value: UInt16) {
+		let index: Int
+		switch event {
+		case .PIN_TOUCH_0:
+			index = 0
+		case .PIN_TOUCH_1:
+			index = 1
+		case .PIN_TOUCH_2:
+			index = 2
+		case .PIN_TOUCH_3:
+			index = 3
+		}
+
+		if value == 1 {
+			self.send(apiCall: .pin(pin: UInt16(index)))
+			self.pinPressed[index] = true
+		} else {
+			self.pinPressed[index] = false
 		}
 	}
 

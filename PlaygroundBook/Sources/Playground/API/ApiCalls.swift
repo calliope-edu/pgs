@@ -95,108 +95,108 @@ extension ApiCall: Codable {
 
 		//NOTIFICATIONS
 		//buttons
-		case 111000000:
+		case 11100:
 			self = .buttonA()
-		case 111000001:
+		case 11101:
 			self = .buttonB()
-		case 111000002:
+		case 11102:
 			self = .buttonAB()
-		case 111000003:
+		case 11103:
 			self = .buttonALongPress()
-		case 111000004:
+		case 11104:
 			self = .buttonBLongPress()
-		case 111000005:
+		case 11105:
 			self = .buttonABLongPress()
 		//pin
-		case 112000000:
+		case 11200:
 			let pinNumber = try container.decode(UInt16.self, forKey: .pinNumber)
 			self = .pin(pin: pinNumber)
 		//accelerometer
-		case 113000000:
+		case 11300:
 			self = .shake()
 		//microphone
-		case 11400000:
+		case 11400:
 			self = .clap()
 
 		//OUTPUT
 		//rgb
-		case 121000000:
+		case 12100:
 			let color = try container.decode(miniColor.self, forKey: .rgbColor)
 			self = .rgbOn(color: color)
-		case 121000001:
+		case 12101:
 			self = .rgbOff()
 		//display
-		case 122000000:
+		case 12200:
 			self = .displayClear()
-		case 122000001:
+		case 12201:
 			let grid = try container.decode([UInt8].self, forKey: .ledGrid)
 			self = .displayShowGrid(grid: grid)
-		case 122000002:
+		case 12202:
 			let image = try container.decode(miniImage.self, forKey: .ledImage)
 			self = .displayShowImage(image: image)
-		case 122000003:
+		case 12203:
 			let text = try container.decode(String.self, forKey: .ledText)
 			self = .displayShowText(text: text)
 		//sound
-		case 123000000:
+		case 12300:
 			self = .soundOff()
-		case 123000001:
+		case 12301:
 			let note = try container.decode(miniSound.self, forKey: .soundNote)
 			self = .soundOnNote(note: note)
-		case 123000002:
+		case 12302:
 			let freq = try container.decode(UInt16.self, forKey: .soundFreq)
 			self = .soundOnFreq(freq: freq)
 
 		//REQUEST/RESPONSE
-		case 131000000:
+		case 13100:
 			let button = try container.decode(buttonType.self, forKey: .button)
 			self = .requestButtonState(button: button)
-		case 131000001:
+		case 13101:
 			let isPressed = try container.decode(Bool.self, forKey: .buttonValue)
 			self = .respondButtonState(isPressed: isPressed)
 
-		case 132000000:
+		case 13200:
 			let pin = try container.decode(UInt16.self, forKey: .pinNumber)
 			self = .requestPinState(pin: pin)
-		case 132000001:
+		case 13201:
 			let isPressed = try container.decode(Bool.self, forKey: .pinValue)
 			self = .respondPinState(isPressed: isPressed)
 
-		case 133000000:
+		case 13300:
 			self = .requestNoise()
-		case 133000001:
+		case 13301:
 			let level = try container.decode(UInt16.self, forKey: .noiseValue)
 			self = .respondNoise(level: level)
 
-		case 134000000:
+		case 13400:
 			self = .requestTemperature()
-		case 134000001:
+		case 13401:
 			let degrees = try container.decode(Int16.self, forKey: .temperatureValue)
 			self = .respondTemperature(degrees: degrees)
 
-		case 135000000:
+		case 13500:
 			self = .requestBrightness()
-		case 135000001:
+		case 13501:
 			let level = try container.decode(UInt16.self, forKey: .brightnessValue)
 			self = .respondBrightness(level: level)
 
-		case 136000000:
+		case 13600:
 			self = .requestDisplay()
-		case 136000001:
+		case 13601:
 			let grid = try container.decode([UInt8].self, forKey: .gridValue)
 			self = .respondDisplay(grid: grid)
 
 		//CONTROL
-		case 191000000:
+		case 19100:
 			self = .registerCallbacks()
-		case 192000000:
+		case 19200:
 			self = .start()
-		case 193000000:
+		case 19300:
 			self = .forever()
-		case 194000000:
+		case 19400:
 			let time = try container.decode(UInt16.self, forKey: .sleepTime)
 			self = .sleep(time: time)
-		case 195000000:
+		case 19500:
 			self = .finished()
 
 		default:
@@ -211,108 +211,108 @@ extension ApiCall: Codable {
 		//NOTIFICATIONS
 		//buttons
 		case .buttonA():
-			try container.encode(111000000, forKey: .rawValue)
+			try container.encode(11100, forKey: .rawValue)
 		case .buttonB():
-			try container.encode(111000001, forKey: .rawValue)
+			try container.encode(11101, forKey: .rawValue)
 		case .buttonAB():
-			try container.encode(111000002, forKey: .rawValue)
+			try container.encode(11102, forKey: .rawValue)
 		case .buttonALongPress():
-			try container.encode(111000003, forKey: .rawValue)
+			try container.encode(11103, forKey: .rawValue)
 		case .buttonBLongPress():
-			try container.encode(111000004, forKey: .rawValue)
+			try container.encode(11104, forKey: .rawValue)
 		case .buttonABLongPress():
-			try container.encode(111000005, forKey: .rawValue)
+			try container.encode(11105, forKey: .rawValue)
 		//pin
 		case .pin(let pinNumber):
-			try container.encode(112000000, forKey: .rawValue)
+			try container.encode(11200, forKey: .rawValue)
 			try container.encode(pinNumber, forKey: .pinNumber)
 		//accelerometer
 		case .shake:
-			try container.encode(113000000, forKey: .rawValue)
+			try container.encode(11300, forKey: .rawValue)
 		//microphone
 		case .clap:
-			try container.encode(114000000, forKey: .rawValue)
+			try container.encode(11400, forKey: .rawValue)
 
 		//OUTPUT
 		//rgb
 		case .rgbOn(let color):
-			try container.encode(121000000, forKey: .rawValue)
+			try container.encode(12100, forKey: .rawValue)
 			try container.encode(color, forKey: .rgbColor)
 		case .rgbOff:
-			try container.encode(121000001, forKey: .rawValue)
+			try container.encode(12101, forKey: .rawValue)
 		//display
 		case .displayClear:
-			try container.encode(122000000, forKey: .rawValue)
+			try container.encode(12200, forKey: .rawValue)
 		case .displayShowGrid(let grid):
-			try container.encode(122000001, forKey: .rawValue)
+			try container.encode(12201, forKey: .rawValue)
 			try container.encode(grid, forKey: .ledGrid)
 		case .displayShowImage(let image):
-			try container.encode(122000002, forKey: .rawValue)
+			try container.encode(12202, forKey: .rawValue)
 			try container.encode(image, forKey: .ledImage)
 		case .displayShowText(let text):
-			try container.encode(122000003, forKey: .rawValue)
+			try container.encode(12203, forKey: .rawValue)
 			try container.encode(text, forKey: .ledText)
 		//sound
 		case .soundOff:
-			try container.encode(123000000, forKey: .rawValue)
+			try container.encode(12300, forKey: .rawValue)
 		case .soundOnNote(let note):
-			try container.encode(123000001, forKey: .rawValue)
+			try container.encode(12301, forKey: .rawValue)
 			try container.encode(note, forKey: .soundNote)
 		case .soundOnFreq(let freq):
-			try container.encode(123000002, forKey: .rawValue)
+			try container.encode(12302, forKey: .rawValue)
 			try container.encode(freq, forKey: .soundFreq)
 
 		//REQUEST/RESPONSE
 		case .requestButtonState(let button):
-			try container.encode(131000000, forKey: .rawValue)
+			try container.encode(13100, forKey: .rawValue)
 			try container.encode(button, forKey: .button)
 		case .respondButtonState(let isPressed):
-			try container.encode(131000001, forKey: .rawValue)
+			try container.encode(13101, forKey: .rawValue)
 			try container.encode(isPressed, forKey: .buttonValue)
 
 		case .requestPinState(let pin):
-			try container.encode(132000000, forKey: .rawValue)
+			try container.encode(13200, forKey: .rawValue)
 			try container.encode(pin, forKey: .pinNumber)
 		case .respondPinState(let isPressed):
-			try container.encode(132000001, forKey: .rawValue)
+			try container.encode(13201, forKey: .rawValue)
 			try container.encode(isPressed, forKey: .pinValue)
 
 		case .requestNoise:
-			try container.encode(133000000, forKey: .rawValue)
+			try container.encode(13300, forKey: .rawValue)
 		case .respondNoise(let level):
-			try container.encode(133000001, forKey: .rawValue)
+			try container.encode(13301, forKey: .rawValue)
 			try container.encode(level, forKey: .noiseValue)
 
 		case .requestTemperature:
-			try container.encode(134000000, forKey: .rawValue)
+			try container.encode(13400, forKey: .rawValue)
 		case .respondTemperature(let degrees):
-			try container.encode(134000001, forKey: .rawValue)
+			try container.encode(13401, forKey: .rawValue)
 			try container.encode(degrees, forKey: .temperatureValue)
 
 		case .requestBrightness():
-			try container.encode(135000000, forKey: .rawValue)
+			try container.encode(13500, forKey: .rawValue)
 		case .respondBrightness(let level):
-			try container.encode(135000001, forKey: .rawValue)
+			try container.encode(13501, forKey: .rawValue)
 			try container.encode(level, forKey: .brightnessValue)
 
 		case .requestDisplay():
-			try container.encode(136000000, forKey: .rawValue)
+			try container.encode(13600, forKey: .rawValue)
 		case .respondDisplay(let grid):
-			try container.encode(136000001, forKey: .rawValue)
+			try container.encode(13601, forKey: .rawValue)
 			try container.encode(grid, forKey: .gridValue)
 
 		//CONTROL
 		case .registerCallbacks():
-			try container.encode(191000000, forKey: .rawValue)
+			try container.encode(19100, forKey: .rawValue)
 		case .start:
-			try container.encode(192000000, forKey: .rawValue)
+			try container.encode(19200, forKey: .rawValue)
 		case .forever:
-			try container.encode(193000000, forKey: .rawValue)
+			try container.encode(19300, forKey: .rawValue)
 		case .sleep(let time):
-			try container.encode(194000000, forKey: .rawValue)
+			try container.encode(19400, forKey: .rawValue)
 			try container.encode(time, forKey: .sleepTime)
 		case .finished():
-			try container.encode(195000000, forKey: .rawValue)
+			try container.encode(19500, forKey: .rawValue)
 		}
 	}
 }
