@@ -39,6 +39,7 @@ public enum ApiCall {
 
 	case requestButtonState(button: buttonType)
 	case respondButtonState(isPressed: Bool)
+
 	case requestPinState(pin: UInt16)
 	case respondPinState(isPressed: Bool)
 
@@ -153,6 +154,7 @@ extension ApiCall: Codable {
 		case 131000001:
 			let isPressed = try container.decode(Bool.self, forKey: .buttonValue)
 			self = .respondButtonState(isPressed: isPressed)
+
 		case 132000000:
 			let pin = try container.decode(UInt16.self, forKey: .pinNumber)
 			self = .requestPinState(pin: pin)

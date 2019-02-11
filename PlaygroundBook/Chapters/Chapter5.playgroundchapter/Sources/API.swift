@@ -10,7 +10,7 @@ public extension Calliope {
 	func onButtonALongPress() {}
 	func onButtonBLongPress() {}
 	func onButtonABLongPress() {}
-	func onPin(pin:UInt16) {}
+	func onPin(pin: UInt16) {}
 	func onShake() {}
 	func onClap() {}
 	func start() {}
@@ -86,7 +86,7 @@ public struct io {
 	}
 	public class pin {
 		public var isPressed: Bool = false
-		public init(_ type: UInt) {
+		public init(_ type: UInt16) {
 			isPressed = send(apiCall: .requestPinState(pin: type))!
 		}
 	}
