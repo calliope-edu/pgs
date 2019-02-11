@@ -36,9 +36,11 @@ public class sound {
 
 public struct io {
 	public class button {
+		public init(_ type: buttonType) { }
 		public var isPressed: Bool = false
 	}
 	public class pin {
+		public init(_ type: UInt) {  }
 		public var isPressed: Bool = false
 	}
 	public static var noise: UInt16 = 42

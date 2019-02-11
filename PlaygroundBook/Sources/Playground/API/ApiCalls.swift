@@ -36,7 +36,7 @@ public enum ApiCall {
 	case soundOnFreq(freq: UInt16)
 	case requestButtonState(button: buttonType)
 	case respondButtonState(isPressed: Bool)
-	case requestPinState(pin: UInt)
+	case requestPinState(pin: UInt16)
 	case respondPinState(isPressed: Bool)
 	case requestNoise()
 	case respondNoise(level: UInt16)
@@ -129,7 +129,7 @@ extension ApiCall: Codable {
 			let isPressed = try container.decode(Bool.self, forKey: .buttonValue)
 			self = .respondButtonState(isPressed: isPressed)
 		case 21:
-			let pin = try container.decode(UInt.self, forKey: .pinNumber)
+			let pin = try container.decode(UInt16.self, forKey: .pinNumber)
 			self = .requestPinState(pin: pin)
 		case 22:
 			let isPressed = try container.decode(Bool.self, forKey: .pinValue)
