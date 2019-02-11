@@ -163,7 +163,10 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 		//PINS
 		let pinEvents: [CalliopeBLEDevice.Event] = [.PIN_TOUCH_0, .PIN_TOUCH_1, .PIN_TOUCH_2, .PIN_TOUCH_3]
-		calliope.notifyForEvents(pinEvents.map { ($0, 0) })
+		/*for event in pinEvents {
+			calliope.notifyForEvent(event)
+		}*/
+		calliope.notifyForEvent(.ALL)
 		calliope.eventNotification = { tuple in
 			guard let (event, value) = tuple else { return }
 			if pinEvents.contains(event) {
@@ -336,6 +339,8 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			index = 2
 		case .PIN_TOUCH_3:
 			index = 3
+		default:
+			return
 		}
 
 		if value == 1 {
