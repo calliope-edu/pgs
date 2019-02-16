@@ -25,7 +25,8 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let temp_normal = UInt16(values[3]) else {
+		guard let temp_normal = UInt16(values[3]),
+			temp_normal > temp_cold else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -78,9 +79,8 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
 
     func below(temperature: Int16, color: UIColor, image: miniImage) -> [UInt8] {
         return [
-            movi16(temperature, .r2),
-            cmp(.r2, .r1),
-            blt(32),
+            cmpi16(temperature, .r1),
+            ble(32),
             show(color: color),
             show(image: image),
             ret(),
