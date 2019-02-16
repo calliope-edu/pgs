@@ -148,7 +148,12 @@ public class UIView_DashboardItem: UIView {
 			// LogNotify.log("before ani: \(this.type!) : isAnimating: \(this.isAnimating)")
 			
 			if let value = userInfo["value"] as? Int8 {
-				ani.updateLabel(value: value)
+				LogNotify.log("update label of \(self!.type!) to \(value)")
+				DispatchQueue.main.async {
+					ani.updateLabel(value: value)
+				}
+			} else {
+				LogNotify.log("cannot read value for dashboard item label of \(self!.type!)")
 			}
 
 			guard !this.isAnimating else { return }

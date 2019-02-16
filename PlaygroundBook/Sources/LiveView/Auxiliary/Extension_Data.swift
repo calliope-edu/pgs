@@ -61,10 +61,12 @@ extension EndianDataConvertible {
 }
 
 extension Int : EndianDataConvertible { }
+extension Int64 : EndianDataConvertible { }
 extension Int32 : EndianDataConvertible { }
 extension Int16 : EndianDataConvertible { }
 extension Int8 : EndianDataConvertible { }
 extension UInt : EndianDataConvertible { }
+extension UInt64 : EndianDataConvertible { }
 extension UInt32 : EndianDataConvertible { }
 extension UInt16 : EndianDataConvertible { }
 extension UInt8 : EndianDataConvertible { }

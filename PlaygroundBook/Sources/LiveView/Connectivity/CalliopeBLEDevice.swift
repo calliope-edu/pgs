@@ -801,21 +801,24 @@ extension CalliopeBLEDevice {
 		peripheral.setNotifyValue(enabled, for: notifyCharacteristic)
 	}
 
-	private func updateSensorReading(_ value: Data) {
+	private func updateSensorReading(_ data: Data) {
 
-		if let type = DashboardItemType(rawValue:UInt16(value[1])) {
-			LogNotify.log("\(self) received value \(String(describing: UInt16(littleEndianData: value.subdata(in: 2..<value.count))))) for \(type)")
-			let value = int8(Int(value[3]))
+		if let type = DashboardItemType(rawValue:UInt16(data[1])) {
+			guard let receivedValue = Int8(littleEndianData: data.subdata(in: 3..<4)) else {
+				LogNotify.log("value for \(type) not readable")
+				return
+			}
+			LogNotify.log("\(self) received value \(String(describing: receivedValue)) for \(type)")
 
 			//TODO: do not use notification center, but let observers subscribe directly to sensorReadings´ value
 			//TODO: subscription to swift dictionaries via didSet works.
 			if(type == DashboardItemType.ButtonAB) {
-				postButtonANotification(value)
-				postButtonBNotification(value)
+				postButtonANotification(receivedValue)
+				postButtonBNotification(receivedValue)
 			} else if type == DashboardItemType.Thermometer {
-				postThermometerNotification(Int8(ValueLocalizer.current.localizeTemperature(unlocalized: Double(value))))
+				postThermometerNotification(Int8(ValueLocalizer.current.localizeTemperature(unlocalized: Double(receivedValue))))
 			} else {
-				postSensorUpdateNotification(type, value)
+				postSensorUpdateNotification(type, receivedValue)
 			}
 		}
 	}

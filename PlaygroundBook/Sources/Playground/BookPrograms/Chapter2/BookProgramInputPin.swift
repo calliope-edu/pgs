@@ -31,7 +31,7 @@ public final class BookProgramInputPin: ProgramBase, Program {
 		let code: [UInt8] = [
 
 			movi16(NotificationAddress.pin.rawValue, .r4),
-			notify(address: .r4, value: .r4),
+			notify(address: .r4, value: .r0),
 
 			movi16(NotificationAddress.display.rawValue, .r4),
 			notify(address: .r4, value: .r4),
