@@ -11,11 +11,11 @@ public final class BookProgramProjectTheremin: ProgramBase, Program {
 		]
 		let solution = "page.solution".localized
 
-		guard let factor = UInt16(values[0]) else {
+		guard let offset = UInt16(values[0]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
-		guard let offset = UInt16(values[1]) else {
+		guard let factor = UInt16(values[1]) else {
 			return (.fail(hints: hints, solution: solution), nil)
 		}
 
@@ -34,19 +34,29 @@ public final class BookProgramProjectTheremin: ProgramBase, Program {
     public func build() -> ProgramBuildResult {
 
         let code: [UInt8] = [
-            movi16(factor, .r0),
+            movi16(factor, .r3),
             movi16(offset, .r1),
             // f = brightness * freq + off
             brightness(.r2),
-            mul(.r0, .r2),
-            add(.r1, .r2),
 
-            movi16(NotificationAddress.light.rawValue, .r4),
-            notify(address: .r4, value: .r2),
+			movi16(NotificationAddress.light.rawValue, .r4),
+			notify(address: .r4, value: .r2),
 
-            movi16(NotificationAddress.sound.rawValue, .r4),
-            notify(address: .r4, value: .r4),
-            sound_on(.r2),
+			mov(.r2, .r0),
+
+			bne(
+				onTrue:
+				[mul(.r3, .r2),
+				add(.r1, .r2),
+				sound_on(.r2),
+				movi16(NotificationAddress.sound.rawValue, .r4),
+				notify(address: .r4, value: .r4)]
+					.flatMap {$0 },
+				onFalse:
+				[sound_off()]
+					.flatMap { $0 }
+			),
+
             movi16(delay, .r0),
             sleep(.r0),
 
