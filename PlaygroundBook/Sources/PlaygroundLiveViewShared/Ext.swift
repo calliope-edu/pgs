@@ -60,21 +60,21 @@ extension Int {
 }
 
 func uint8(_ i: Int) -> UInt8 {
-	if i < UInt8.min || i > UInt8.max {
+	if i < Int8.min || i > Int8.max {
 		fatalError("out of range")
 	}
 	return UInt8(bitPattern: Int8(i))
 }
 
 func uint16(_ i: Int) -> UInt16 {
-	if i < UInt16.min || i > UInt16.max {
+	if i < Int16.min || i > Int16.max {
 		fatalError("out of range")
 	}
 	return UInt16(bitPattern: Int16(i))
 }
 
 func uint32(_ i: Int) -> UInt32 {
-	if i < UInt32.min || i > UInt32.max {
+	if i < Int32.min || i > Int32.max {
 		fatalError("out of range")
 	}
 	return UInt32(bitPattern: Int32(i))
