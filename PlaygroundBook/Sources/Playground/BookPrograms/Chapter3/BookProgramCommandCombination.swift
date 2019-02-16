@@ -81,8 +81,8 @@ public final class BookProgramCommandCombination: ProgramBase, Program {
             button(.r0),
             bne(-7),
 
-            // get random
-            movi16(4, .r0),
+            // get random pin (0 <= pin <= 3)
+            movi16(3 + 1, .r0),
             mov(.r0, .r1),
             random(.r1),
             mov(.r0, .r2),

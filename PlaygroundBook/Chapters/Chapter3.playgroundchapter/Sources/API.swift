@@ -50,6 +50,6 @@ public struct io {
 
 //MARK: - random number generation
 
-public func random(_ range:CountableClosedRange<UInt16>) -> UInt16 {
-	return UInt16( arc4random_uniform(UInt32(range.upperBound)) + UInt32(range.lowerBound) )
+public func random(_ range: CountableClosedRange<UInt16>) -> UInt16 {
+	return UInt16.random(in: range)
 }

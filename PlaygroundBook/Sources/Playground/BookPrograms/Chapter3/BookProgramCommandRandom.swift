@@ -40,7 +40,7 @@ public final class BookProgramCommandRandom: ProgramBase, Program {
             notify(address: .r4, value: .r4),
 
             movi16(start, .r1),
-            movi16(stop, .r2),
+            movi16(stop + 1, .r2),
             sub(.r1, .r2),
             random(.r2),
             add(.r1, .r2),
