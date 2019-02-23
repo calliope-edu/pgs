@@ -73,7 +73,7 @@ public class UIView_DashboardItem: UIView {
     lazy var symbolBackgroundLayer: CAShapeLayer = {
         let symbolBackgroundLayer = CAShapeLayer()
         symbolBackgroundLayer.backgroundColor = UIColor.clear.cgColor
-        symbolBackgroundLayer.fillColor = UIColor(white: 1.0, alpha: Debug.debugSymbolBgAlpha).cgColor
+        symbolBackgroundLayer.fillColor = UIColor(white: 1.0, alpha: DebugConstants.debugSymbolBgAlpha).cgColor
         return symbolBackgroundLayer
     }()
     private var container:UIView_DashboardItemAnimation!
@@ -178,7 +178,7 @@ public class UIView_DashboardItem: UIView {
                 view.layoutIfNeeded()
                 
                 self.symbolBackgroundLayer.frame = view.frame
-                let symbol_bg_path = UIBezierPath(ovalIn: view.bounds.insetBy(percentage: Layout.symbolInsetByPercentage))
+                let symbol_bg_path = UIBezierPath(ovalIn: view.bounds.insetBy(percentage: LayoutHelper.symbolInsetByPercentage))
                 self.symbolBackgroundLayer.path = symbol_bg_path.cgPath
             }
         }
@@ -226,7 +226,7 @@ public class UIView_DashboardItemAnimation: UIView, UIView_DashboardItemAnimatio
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = UIColor(red:1, green: 0, blue:0, alpha:Debug.debugGridBgAlpha)
+        self.backgroundColor = UIColor(red:1, green: 0, blue:0, alpha:DebugConstants.debugGridBgAlpha)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -290,8 +290,8 @@ public class UIView_DashboardItemAnimation: UIView, UIView_DashboardItemAnimatio
     func adjustFrames() {
         //print("*** adjustFrames \(frame) \(bounds)")
         if let sw = self.swoosh {
-            sw._heightConstraint.constant = bounds.size.height * Layout.symbolInsetByPercentage
-            sw._widthConstraint.constant = bounds.size.width * Layout.symbolInsetByPercentage
+            sw._heightConstraint.constant = bounds.size.height * LayoutHelper.symbolInsetByPercentage
+            sw._widthConstraint.constant = bounds.size.width * LayoutHelper.symbolInsetByPercentage
             sw.setNeedsLayout()
             sw.layoutIfNeeded()
         }

@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol DataConvertible {
-	init?(data: Data)
-	var data: Data { get }
-}
-
 extension Character {
 	var ascii: UInt8 {
 		return UInt8(String(self).unicodeScalars.first!.value)

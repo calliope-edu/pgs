@@ -24,6 +24,11 @@ extension Data {
 	}
 }
 
+protocol DataConvertible {
+	init?(data: Data)
+	var data: Data { get }
+}
+
 extension DataConvertible {
 	init?(data: Data) {
 		guard data.count == MemoryLayout<Self>.size else { return nil }

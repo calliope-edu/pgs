@@ -52,9 +52,15 @@
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
 		2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3874B521CFD07F0011A85A /* CollapseButton.swift */; };
 		2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
+		2F666BFA222149BE00533040 /* ApiCallEncodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666BF9222149BE00533040 /* ApiCallEncodings.swift */; };
+		2F666BFC22214B0F00533040 /* BluetoothConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666BFB22214B0F00533040 /* BluetoothConstants.swift */; };
+		2F666BFF22216F1E00533040 /* LayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666BFE22216F1E00533040 /* LayoutHelper.swift */; };
+		2F666C022221786900533040 /* ProgrammableCalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C012221786900533040 /* ProgrammableCalliopeBLEDevice.swift */; };
+		2F666C04222179BE00533040 /* ClientCalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C03222179BE00533040 /* ClientCalliopeBLEDevice.swift */; };
+		2F666C0622217B1000533040 /* CalliopeBLEProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C0522217B1000533040 /* CalliopeBLEProfile.swift */; };
 		2F9FAA3421FE43FE0076B737 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3C20A06490009646CC /* ActivityView.swift */; };
 		2F9FAA3521FE43FE0076B737 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3920A06490009646CC /* Async.swift */; };
-		2F9FAA3621FE43FE0076B737 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4320A06491009646CC /* Constants.swift */; };
+		2F9FAA3621FE43FE0076B737 /* DebugConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4320A06491009646CC /* DebugConstants.swift */; };
 		2F9FAA3721FE43FE0076B737 /* DashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4A20A06491009646CC /* DashBoardViewController.swift */; };
 		2F9FAA3821FE43FE0076B737 /* Extension_CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4020A06490009646CC /* Extension_CGRect.swift */; };
 		2F9FAA3921FE43FE0076B737 /* Extension_NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */; };
@@ -217,6 +223,12 @@
 		2F3874B521CFD07F0011A85A /* CollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButton.swift; sourceTree = "<group>"; };
 		2F44603E21CEA403002D15DF /* ConnectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionButton.swift; sourceTree = "<group>"; };
 		2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundValueKeys.swift; sourceTree = "<group>"; };
+		2F666BF9222149BE00533040 /* ApiCallEncodings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCallEncodings.swift; sourceTree = "<group>"; };
+		2F666BFB22214B0F00533040 /* BluetoothConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothConstants.swift; sourceTree = "<group>"; };
+		2F666BFE22216F1E00533040 /* LayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutHelper.swift; sourceTree = "<group>"; };
+		2F666C012221786900533040 /* ProgrammableCalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammableCalliopeBLEDevice.swift; sourceTree = "<group>"; };
+		2F666C03222179BE00533040 /* ClientCalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientCalliopeBLEDevice.swift; sourceTree = "<group>"; };
+		2F666C0522217B1000533040 /* CalliopeBLEProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEProfile.swift; sourceTree = "<group>"; };
 		2F9FAAAD21FE46490076B737 /* Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext.swift; sourceTree = "<group>"; };
 		2F9FAAB321FE48080076B737 /* Macros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBuildResult.swift; sourceTree = "<group>"; };
@@ -263,7 +275,7 @@
 		8855BA3F20A06490009646CC /* Swoosh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swoosh.swift; sourceTree = "<group>"; };
 		8855BA4020A06490009646CC /* Extension_CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_CGRect.swift; sourceTree = "<group>"; };
 		8855BA4120A06490009646CC /* ViewController_Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController_Base.swift; sourceTree = "<group>"; };
-		8855BA4320A06491009646CC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8855BA4320A06491009646CC /* DebugConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugConstants.swift; sourceTree = "<group>"; };
 		8855BA4420A06491009646CC /* Extension_Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_Data.swift; sourceTree = "<group>"; };
 		8855BA4520A06491009646CC /* PlayGroundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayGroundManager.swift; sourceTree = "<group>"; };
 		8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView_DashBoardItem.swift; sourceTree = "<group>"; };
@@ -351,16 +363,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2F9FAA1121FE41340076B737 /* API */ = {
+		2F666BF82221496000533040 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
-				2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */,
-				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
-				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
+				2F666BFB22214B0F00533040 /* BluetoothConstants.swift */,
+				2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */,
+				2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */,
+				2F666C0522217B1000533040 /* CalliopeBLEProfile.swift */,
+				2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */,
+				2F666C012221786900533040 /* ProgrammableCalliopeBLEDevice.swift */,
+				2F666C03222179BE00533040 /* ClientCalliopeBLEDevice.swift */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		2F666BFD22216E3C00533040 /* PlaygroundPageInterface */ = {
+			isa = PBXGroup;
+			children = (
 				2F09855C220711550075A5DB /* DataTypes.swift */,
 				2F098560220718310075A5DB /* Runtime.swift */,
 			);
-			path = API;
+			path = PlaygroundPageInterface;
+			sourceTree = "<group>";
+		};
+		2F666C002221702300533040 /* DashboardView */ = {
+			isa = PBXGroup;
+			children = (
+				8855BA4A20A06491009646CC /* DashBoardViewController.swift */,
+				8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */,
+				8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */,
+				8855BA4120A06490009646CC /* ViewController_Base.swift */,
+			);
+			path = DashboardView;
 			sourceTree = "<group>";
 		};
 		2F9FAA7721FE44B00076B737 /* Frameworks */ = {
@@ -370,14 +404,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		2F9FAAB221FE47280076B737 /* PlaygroundLiveViewShared */ = {
+		2F9FAAB221FE47280076B737 /* GeneralUtilities */ = {
 			isa = PBXGroup;
 			children = (
+				8855BA3920A06490009646CC /* Async.swift */,
+				8855BA4420A06491009646CC /* Extension_Data.swift */,
 				2FE507AF219D925B008686F4 /* ValueLocalizer.swift */,
 				8855BA4F20A06491009646CC /* LogNotify.swift */,
+				2F9FAAB321FE48080076B737 /* Macros.swift */,
 				2F9FAAAD21FE46490076B737 /* Ext.swift */,
 			);
-			path = PlaygroundLiveViewShared;
+			path = GeneralUtilities;
 			sourceTree = "<group>";
 		};
 		2F9FAAB521FE497A0076B737 /* PlaygroundLiveViewCommunication */ = {
@@ -385,29 +422,30 @@
 			children = (
 				8855BA3B20A06490009646CC /* Encodings.swift */,
 				2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */,
+				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
+				2F666BF9222149BE00533040 /* ApiCallEncodings.swift */,
+				2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */,
+				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
 			);
 			path = PlaygroundLiveViewCommunication;
 			sourceTree = "<group>";
 		};
-		2F9FAAC421FE56B80076B737 /* Playground */ = {
+		2F9FAAC421FE56B80076B737 /* PlaygroundPageUtilities */ = {
 			isa = PBXGroup;
 			children = (
 				8855BA4E20A06491009646CC /* Extractor.swift */,
 				8855BA4520A06491009646CC /* PlayGroundManager.swift */,
-				2F9FAA1121FE41340076B737 /* API */,
+				2F666BFD22216E3C00533040 /* PlaygroundPageInterface */,
 				8855BA6C20A064C4009646CC /* BookPrograms */,
 			);
-			path = Playground;
+			path = PlaygroundPageUtilities;
 			sourceTree = "<group>";
 		};
 		2F9FAAC521FE56F90076B737 /* LiveView */ = {
 			isa = PBXGroup;
 			children = (
-				8855BA4A20A06491009646CC /* DashBoardViewController.swift */,
-				8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */,
-				8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */,
-				8855BA4120A06490009646CC /* ViewController_Base.swift */,
-				9DA7FD3A20A1B1140080A6FF /* Connectivity */,
+				2F666C002221702300533040 /* DashboardView */,
+				9DA7FD3A20A1B1140080A6FF /* ConnectionView */,
 				8855BA8F20A064C4009646CC /* DashboardAnimation */,
 				2F9FAAC721FE57660076B737 /* View */,
 				2F9FAAC621FE574F0076B737 /* Auxiliary */,
@@ -418,16 +456,13 @@
 		2F9FAAC621FE574F0076B737 /* Auxiliary */ = {
 			isa = PBXGroup;
 			children = (
-				8855BA3920A06490009646CC /* Async.swift */,
-				8855BA4320A06491009646CC /* Constants.swift */,
+				8855BA4320A06491009646CC /* DebugConstants.swift */,
 				8855BA4020A06490009646CC /* Extension_CGRect.swift */,
-				8855BA4420A06491009646CC /* Extension_Data.swift */,
 				8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */,
 				8855BA4B20A06491009646CC /* Extension_String.swift */,
 				8855BA3D20A06490009646CC /* Extension_UIColor.swift */,
 				8855BA4D20A06491009646CC /* Extension_UILayoutPriority.swift */,
-				2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */,
-				2F9FAAB321FE48080076B737 /* Macros.swift */,
+				2F666BFE22216F1E00533040 /* LayoutHelper.swift */,
 			);
 			path = Auxiliary;
 			sourceTree = "<group>";
@@ -581,10 +616,11 @@
 		5EF2F9A22054BB3E00191409 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				2F666BF82221496000533040 /* Bluetooth */,
 				2F9FAAC521FE56F90076B737 /* LiveView */,
 				2F9FAAB521FE497A0076B737 /* PlaygroundLiveViewCommunication */,
-				2F9FAAB221FE47280076B737 /* PlaygroundLiveViewShared */,
-				2F9FAAC421FE56B80076B737 /* Playground */,
+				2F9FAAB221FE47280076B737 /* GeneralUtilities */,
+				2F9FAAC421FE56B80076B737 /* PlaygroundPageUtilities */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -702,17 +738,15 @@
 			path = Chapter3;
 			sourceTree = "<group>";
 		};
-		9DA7FD3A20A1B1140080A6FF /* Connectivity */ = {
+		9DA7FD3A20A1B1140080A6FF /* ConnectionView */ = {
 			isa = PBXGroup;
 			children = (
-				2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */,
-				2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */,
 				2FCB133C21C3E25F00500EC1 /* MatrixView.swift */,
 				2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */,
 				2F44603E21CEA403002D15DF /* ConnectionButton.swift */,
 				2F3874B521CFD07F0011A85A /* CollapseButton.swift */,
 			);
-			path = Connectivity;
+			path = ConnectionView;
 			sourceTree = "<group>";
 		};
 		9DFC6396214F9CFC002FCB75 /* en.lproj */ = {
@@ -966,7 +1000,7 @@
 				2F9FAAB121FE471D0076B737 /* LogNotify.swift in Sources */,
 				2F09854D220710330075A5DB /* BookProgramInputPin.swift in Sources */,
 				2F098554220710370075A5DB /* BookProgramOutputRGB.swift in Sources */,
-				2F9FAA3621FE43FE0076B737 /* Constants.swift in Sources */,
+				2F9FAA3621FE43FE0076B737 /* DebugConstants.swift in Sources */,
 				8855BAC520A064C4009646CC /* Dashboard_ThermometerAnimation.swift in Sources */,
 				2F098544220710300075A5DB /* BookProgramCommandForever.swift in Sources */,
 				2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */,
@@ -993,6 +1027,7 @@
 				2F0985402207102D0075A5DB /* BookProgramProjectThermometer.swift in Sources */,
 				2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */,
 				8855BAC420A064C4009646CC /* Dashboard_SoundAnimation.swift in Sources */,
+				2F666BFA222149BE00533040 /* ApiCallEncodings.swift in Sources */,
 				8855BABE20A064C4009646CC /* Dashboard_ButtonBAnimation.swift in Sources */,
 				2F0985572207103A0075A5DB /* ProgramBlink.swift in Sources */,
 				2F098546220710300075A5DB /* BookProgramCommandLoops.swift in Sources */,
@@ -1003,6 +1038,7 @@
 				2F09853B2207102D0075A5DB /* BookProgramProjectDice.swift in Sources */,
 				8855BABF20A064C4009646CC /* Dashboard_DisplayAnimation.swift in Sources */,
 				2F09854B220710330075A5DB /* BookProgramInputButtonB.swift in Sources */,
+				2F666C0622217B1000533040 /* CalliopeBLEProfile.swift in Sources */,
 				2F098553220710370075A5DB /* BookProgramOutputGrid.swift in Sources */,
 				2F9FAA3921FE43FE0076B737 /* Extension_NotificationCenter.swift in Sources */,
 				2F9FAA3821FE43FE0076B737 /* Extension_CGRect.swift in Sources */,
@@ -1028,12 +1064,16 @@
 				2F9FAAB421FE48080076B737 /* Macros.swift in Sources */,
 				2F09853E2207102D0075A5DB /* BookProgramProjectClap.swift in Sources */,
 				2F9FAA3C21FE43FE0076B737 /* Extension_UILayoutPriority.swift in Sources */,
+				2F666C04222179BE00533040 /* ClientCalliopeBLEDevice.swift in Sources */,
 				2F09855B2207103D0075A5DB /* ProgramBase.swift in Sources */,
+				2F666BFC22214B0F00533040 /* BluetoothConstants.swift in Sources */,
 				2F09853722070FE00075A5DB /* PlayGroundManager.swift in Sources */,
 				2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */,
+				2F666C022221786900533040 /* ProgrammableCalliopeBLEDevice.swift in Sources */,
 				2F098550220710370075A5DB /* BookProgramOutputString.swift in Sources */,
 				2F098551220710370075A5DB /* BookProgramOutputNumber.swift in Sources */,
 				2F098561220718310075A5DB /* Runtime.swift in Sources */,
+				2F666BFF22216F1E00533040 /* LayoutHelper.swift in Sources */,
 				8855BAC320A064C4009646CC /* Dashboard_ShakeAnimation.swift in Sources */,
 				2F098543220710300075A5DB /* BookProgramCommandClear.swift in Sources */,
 				2F09853C2207102D0075A5DB /* BookProgramProjectRockPaperScissors.swift in Sources */,

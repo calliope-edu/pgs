@@ -43,7 +43,7 @@ public class ViewController_Base: UIViewController, PlaygroundLiveViewSafeAreaCo
 		let observer_willForeground = nc.observe(name:UIApplication.willEnterForegroundNotification, object: nil, queue: .main, using: appWillEnterForeground)
         observerTockens.append(observer_willForeground)
         
-        if Debug.catchAll {
+        if DebugConstants.catchAll {
             NotificationCenterCatchAll.start { (note) in
                 print("")
                 NSLog("LogNotify :: \(note)")

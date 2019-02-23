@@ -8,7 +8,7 @@ class Dashboard_SoundAnimation: UIView_DashboardItemAnimation, CAAnimationDelega
     
     override func run(_ completionBlock: @escaping ((Bool) -> Void)) {
         self.completionBlock = completionBlock
-        let inner_bounds = self.bounds.insetBy(percentage: Layout.symbolInsetByPercentage)
+        let inner_bounds = self.bounds.insetBy(percentage: LayoutHelper.symbolInsetByPercentage)
         setUpAnimation(in: self.layer, size: inner_bounds.size, color: .white, duration: 1.4)
     }
     
@@ -26,7 +26,7 @@ class Dashboard_SoundAnimation: UIView_DashboardItemAnimation, CAAnimationDelega
 	}
 	
 	func setupLayers(){
-        self.backgroundColor = UIColor(red:1, green: 1, blue:1, alpha:Debug.debugGridBgAlpha)
+        self.backgroundColor = UIColor(red:1, green: 1, blue:1, alpha:DebugConstants.debugGridBgAlpha)
 	}
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool){

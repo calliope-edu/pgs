@@ -164,9 +164,9 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		//PINS
 		let pinEvents: [CalliopeBLEDevice.Event] = [.PIN_TOUCH_0, .PIN_TOUCH_1, .PIN_TOUCH_2, .PIN_TOUCH_3]
 		/*for event in pinEvents {
-			calliope.notifyForEvent(event)
+			startNotificationForEvent(event)
 		}*/
-		calliope.notifyForEvent(.ALL)
+		calliope.startNotificationForEvent(.ALL)
 		calliope.eventNotification = { tuple in
 			guard let (event, value) = tuple else { return }
 			if pinEvents.contains(event) {

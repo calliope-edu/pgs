@@ -33,7 +33,7 @@ class Dashboard_BrightnessAnimation: UIView_DashboardItemAnimation, CAAnimationD
 	}
 	
     func setupLayers(){
-        self.textLabel = Layout.animationLabel(in: self, center: false)
+        self.textLabel = LayoutHelper.animationLabel(in: self, center: false)
         textLabelXConstraint = self.textLabel?.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 0)
         textLabelYConstraint = self.textLabel?.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 0)
         textLabelXConstraint?.isActive = true

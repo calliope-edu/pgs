@@ -84,7 +84,7 @@ class Dashboard_PinAnimation: UIView_DashboardItemAnimation, CAAnimationDelegate
             ring_inner_view.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
         
-        self.textLabel = Layout.animationLabel(in: self)
+        self.textLabel = LayoutHelper.animationLabel(in: self)
     }
     
     override func layoutSubviews() {
