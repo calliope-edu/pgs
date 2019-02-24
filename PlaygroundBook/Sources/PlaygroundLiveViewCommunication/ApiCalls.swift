@@ -24,18 +24,17 @@ public enum ApiCall {
 
 
 	//outputs
-	case rgbOn(color: miniColor)
-	case rgbOff()
+	/*case rgbOn(color: miniColor)
+	case rgbOff()*/
 
 	case displayClear()
 	case displayShowGrid(grid: [UInt8])
 	case displayShowImage(image: miniImage)
 	case displayShowText(text: String)
 
-	case soundOff()
+	/*case soundOff()
 	case soundOnNote(note: miniSound)
-	case soundOnFreq(freq: UInt16)
-
+	case soundOnFreq(freq: UInt16)*/
 
 	case requestButtonState(button: buttonType)
 	case respondButtonState(isPressed: Bool)

@@ -12,29 +12,32 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	static let instance = TeachingApiImplementation()
 
-	private var rgbState: miniColor = .black
+	//private var rgbState: miniColor = .black
 
-	private var soundFreq: UInt16 = 0
+	//private var soundFreq: UInt16 = 0
 
-	private var buttonAState: CalliopeBLEDevice.ButtonPressAction = .Up
-	private var buttonBState: CalliopeBLEDevice.ButtonPressAction = .Up
+	private var buttonAState: BLEDataTypes.ButtonPressAction = .Up
+	private var buttonBState: BLEDataTypes.ButtonPressAction = .Up
 
 	private var pinPressed = [false, false, false, false]
 
+	private var noiseLevel: UInt16 = 0
+
 	private func resetVars() {
-		resetRgbState()
-		resetSoundFreq()
+		//resetRgbState()
+		//resetSoundFreq()
 		resetButtonState()
 		resetPinState()
+		resetNoiseLevel()
 	}
 
-	private func resetRgbState() {
+	/*private func resetRgbState() {
 		rgbState = .black
-	}
+	}*/
 
-	private func resetSoundFreq() {
+	/*private func resetSoundFreq() {
 		soundFreq = 0
-	}
+	}*/
 
 	private func resetButtonState() {
 		buttonAState = .Up
@@ -45,6 +48,10 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		pinPressed = [false, false, false, false]
 	}
 
+	private func resetNoiseLevel() {
+		noiseLevel = 0
+	}
+
 	private let displayOffState = [[false, false, false, false, false],
 								   [false, false, false, false, false],
 								   [false, false, false, false, false],
@@ -52,12 +59,13 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 								   [false, false, false, false, false]]
 
 	func handleApiCall(_ apiCall: ApiCall, calliope: CalliopeBLEDevice?) {
-		//TODO: working so far is button notifications, button state requests, sleep, forever, start, led matrix calls, temperature request.
-		//TODO: done AB/A/B besser unterscheiden,
-		//TODO: 1. to do: rgb led, pins, shake callback, sound api,
+		//DONE: button notifications, button state requests, sleep, forever, start, led matrix calls, temperature request.
+		//DONE: AB/A/B besser unterscheiden,
+		//DONE: pins, shake callback
+		//DONE: micro (clap callback, noise request)
 		//TODO: 2. erweitern mit Position/Beschleunigungsapi
 		//FIXME: 3. brightness request: schwierig
-		//FIXME: raus: micro (clap callback, noise request)
+		//FIXME: impossible: rgb led, sound api
 
 		//respond with a message back (either with value or just as a kind of "return" call)
 
@@ -66,14 +74,14 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		case .registerCallbacks():
 			registerCallbacks(calliope)
 			response = .finished()
-		case .rgbOn(let color):
+		/*case .rgbOn(let color):
 			rgbState = color
 			//TODO: send to calliope
 			response = .finished()
 		case .rgbOff:
 			resetRgbState()
 			//TODO: send to calliope
-			response = .finished()
+			response = .finished()*/
 		case .displayClear:
 			calliope?.ledMatrixState = displayOffState
 			response = .finished()
@@ -87,7 +95,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			//TODO: display state?
 			calliope?.displayLedText(text)
 			response = .finished()
-		case .soundOff:
+		/*case .soundOff:
 			resetSoundFreq()
 			//TODO: send to calliope
 			response = .finished()
@@ -106,9 +114,9 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 				response = .respondPinState(isPressed: pinPressed[Int(pin)])
 			} else {
 				response = .respondPinState(isPressed: false)
-			}
+			}*/
 		case .requestNoise:
-			response = .respondNoise(level: 42)
+			response = .respondNoise(level: noiseLevel)
 		case .requestTemperature:
 			response = .respondTemperature(degrees: Int16(calliope?.temperature ?? 42))
 		case .requestBrightness:
@@ -161,32 +169,39 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			self.buttonApiNotification(action, .B)
 		}
 
-		//PINS
-		let pinEvents: [CalliopeBLEDevice.Event] = [.PIN_TOUCH_0, .PIN_TOUCH_1, .PIN_TOUCH_2, .PIN_TOUCH_3]
-		/*for event in pinEvents {
-			startNotificationForEvent(event)
-		}*/
-		calliope.startNotificationForEvent(.ALL)
+		//TOUCH PINS
+		let pins: [BLEDataTypes.EventSource] = [.MICROBIT_ID_IO_P0, .MICROBIT_ID_IO_P1, .MICROBIT_ID_IO_P2, .MICROBIT_ID_IO_P3]
+		for pinSource in pins {
+			calliope.startNotification(from: pinSource)
+		}
+
+		//SHAKE
+		let accelerometerSource: BLEDataTypes.EventSource = .MICROBIT_ID_ACCELEROMETER
+		let accelerometerEvents: [BLEDataTypes.AccelerometerEventValue] =
+			[.MICROBIT_ACCELEROMETER_EVT_SHAKE,
+			 .MICROBIT_ACCELEROMETER_EVT_FACE_DOWN, .MICROBIT_ACCELEROMETER_EVT_FACE_UP,
+			 .MICROBIT_ACCELEROMETER_EVT_TILT_LEFT,  .MICROBIT_ACCELEROMETER_EVT_TILT_RIGHT, .MICROBIT_ACCELEROMETER_EVT_TILT_UP, .MICROBIT_ACCELEROMETER_EVT_TILT_DOWN]
+		for accelValue in accelerometerEvents {
+			calliope.startNotification(from: accelerometerSource, for: accelValue.rawValue)
+		}
+
 		calliope.eventNotification = { tuple in
-			guard let (event, value) = tuple else { return }
-			if pinEvents.contains(event) {
-				self.pinTouchNotification(event, value)
+			guard let (source, value) = tuple else { return }
+			if source == accelerometerSource {
+				self.accelerometerNotification(value)
+			} else if pins.contains(source) {
+				self.pinTouchNotification(source, value)
 			}
 		}
-		//LogNotify.log("Pin config:\nIO: \(calliope.pinIOConfiguration!)\nAD: \(calliope.pinADConfiguration!)")
-		/*calliope.pinIOConfiguration = [true, true, true, true,
-									   false, false, false, false,
-									   false, false, false, false,
-									   false, false, false, false,
-									   false, false, false]
-		calliope.pinDataNotification = { data in
-			LogNotify.log("received pin data:\n\(String(describing: data))")
+
+		//NOISE / CLAP
+		calliope.noiseLevelNotification = { level in
+			self.noiseLevel = UInt16(level)
+			//FIXME: make level adaptable or figure out good level
+			if level > 5 {
+				self.send(apiCall: .clap())
+			}
 		}
-		calliope.pinADConfiguration = [.Analogue, .Analogue, .Analogue, .Digital,
-									   .Digital, .Digital, .Digital, .Digital,
-									   .Digital, .Digital, .Digital, .Digital,
-									   .Digital, .Digital, .Digital, .Digital,
-									   .Digital, .Digital, .Digital]*/
 		//TODO: other callbacks to calliope
 	}
 
@@ -207,28 +222,13 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	}
 
 
-	private enum ButtonState: CustomStringConvertible {
-		var description: String {
-			switch self {
-			case .L:
-				return "L"
-			case .N:
-				return "N"
-			case .D:
-				return "D"
-			case .R:
-				return "R"
-			}
-		}
-
+	private enum ButtonState {
 		case N, D, L, R
 	}
 	var indep = false
 
 	private var state: (ButtonState, ButtonState) = (.N, .N) {
-		didSet {
-			evaluateStateChange(oldValue)
-		}
+		didSet { evaluateStateChange(oldValue) }
 	}
 
 	/// Sends the appropriate call according to button action.
@@ -238,7 +238,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	/// - Parameters:
 	///   - action: The button press action reported by the notification
 	///   - thisButton: The button which emitted the action (.A or .B, never .AB)
-	private func buttonApiNotification(_ action: CalliopeBLEDevice.ButtonPressAction, _ thisButton: buttonType) {
+	private func buttonApiNotification(_ action: BLEDataTypes.ButtonPressAction, _ thisButton: buttonType) {
 
 		//update states of buttons
 		if thisButton == .A {
@@ -328,26 +328,79 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		}
 	}
 
-	private func pinTouchNotification(_ event: CalliopeBLEDevice.Event, _ value: UInt16) {
-		let index: Int
-		switch event {
-		case .PIN_TOUCH_0:
-			index = 0
-		case .PIN_TOUCH_1:
-			index = 1
-		case .PIN_TOUCH_2:
-			index = 2
-		case .PIN_TOUCH_3:
-			index = 3
-		default:
+	private func pinTouchNotification(_ source: BLEDataTypes.EventSource, _ value: BLEDataTypes.EventValue) {
+		guard let touchType: BLEDataTypes.TouchPinEvent = BLEDataTypes.TouchPinEvent(rawValue: value) else {
+			LogNotify.log("could not decipher pin touch value \(value)")
 			return
 		}
 
-		if value == 1 {
-			self.send(apiCall: .pin(pin: UInt16(index)))
+		LogNotify.log("\(source): \(touchType)")
+
+		let index: Int
+		switch source {
+		case .MICROBIT_ID_IO_P0:
+			index = 0
+		case .MICROBIT_ID_IO_P1:
+			index = 1
+		case .MICROBIT_ID_IO_P2:
+			index = 2
+		case .MICROBIT_ID_IO_P3:
+			index = 3
+		default:
+			LogNotify.log("Some pin sent a pressed notification without being a pin")
+			return
+		}
+
+		switch touchType {
+		case .MICROBIT_BUTTON_EVT_DOWN, .MICROBIT_BUTTON_EVT_HOLD:
 			self.pinPressed[index] = true
-		} else {
+		case .MICROBIT_BUTTON_EVT_UP:
 			self.pinPressed[index] = false
+		default:
+			LogNotify.log("Pin sent message that is not valid")
+			return
+		}
+	}
+
+	private func accelerometerNotification(_ value: BLEDataTypes.EventValue) {
+		guard let accelValue = BLEDataTypes.AccelerometerEventValue(rawValue: value) else {
+			LogNotify.log("could not decipher accelerometer event \(value)")
+			return
+		}
+
+		switch accelValue {
+		case .MICROBIT_ACCELEROMETER_EVT_TILT_UP:
+			//TODO
+			return
+		case .MICROBIT_ACCELEROMETER_EVT_TILT_DOWN:
+			//TODO
+			return
+		case .MICROBIT_ACCELEROMETER_EVT_TILT_LEFT:
+			//TODO
+			return
+		case .MICROBIT_ACCELEROMETER_EVT_TILT_RIGHT:
+			//TODO
+			return
+		case .MICROBIT_ACCELEROMETER_EVT_FACE_UP:
+			//TODO
+			return
+		case .MICROBIT_ACCELEROMETER_EVT_FACE_DOWN:
+			//TODO
+			return
+		case .MICROBIT_ACCELEROMETER_EVT_FREEFALL:
+			//TODO
+			return
+		case .MICROBIT_ACCELEROMETER_EVT_2G:
+			//TODO
+			return
+		case .MICROBIT_ACCELEROMETER_EVT_3G:
+			//TODO
+			return
+		case .MICROBIT_ACCELEROMETER_EVT_6G:
+			//TODO
+			return
+		case .MICROBIT_ACCELEROMETER_EVT_SHAKE:
+			self.send(apiCall: .shake())
 		}
 	}
 

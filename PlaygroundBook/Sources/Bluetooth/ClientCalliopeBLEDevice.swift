@@ -9,72 +9,29 @@ import Foundation
 
 extension CalliopeBLEDevice {
 
-	enum PinConfiguration {
-		case Digital
-		case Analogue
-	}
-
-	//Identifiers used in the firmware for sending via event message bus
-	enum Event: UInt16 {
-		case ALL = 0
-		case PIN_TOUCH_0 = 11200
-		case PIN_TOUCH_1 = 11201
-		case PIN_TOUCH_2 = 11202
-		case PIN_TOUCH_3 = 11203
-	}
-
-	enum ButtonPressAction: UInt8 {
-		case Up
-		case Down
-		case Long
-	}
-
 	//MARK: Convenient way to synchronously access calliope via Bluetooth
-	//TODO: read/write apis missing: parts of Event Service, PWMControl
-
-	/// data read from I/O Pins
-	public func readPinData() -> [UInt8:UInt8]? {
-		return read(.pinData)
-	}
-
-	public func writePinData(data: [UInt8:UInt8]) {
-		write(data, .pinData)
-	}
-
-	/// notification called when pinData value is changed
-	public var pinDataNotification: (([UInt8:UInt8]?) -> ())? {
-		set { setNotifyListener(for: .pinData, newValue) }
-		get { return getNotifyListener(for: .pinData) }
-	}
-
-	public var pinADConfiguration: [PinConfiguration]? {
-		get { return read(.pinADConfiguration) }
-		set { write(newValue, .pinADConfiguration) }
-	}
-
-	public var pinIOConfiguration: [Bool]? {
-		get { return read(.pinIOConfiguration) }
-		set { write(newValue, .pinIOConfiguration) }
-	}
+	//TODO: Missing: parts of Event Service (we only receive events from calliope, cannot write
+	//TODO: Missing: PWMControl (part of Pin Service, which we currently ignore because it is not safe to use)
+	//TODO: cannot control motors, sound and rgb yet (api not exposed via bluetooth and pins not exposed as well
 
 	/// action that is done to button A
-	public var buttonAAction: ButtonPressAction? {
+	public var buttonAAction: BLEDataTypes.ButtonPressAction? {
 		return read(.buttonAState)
 	}
 
 	/// notification called when Button A value is updated
-	public var buttonAActionNotification: ((ButtonPressAction?) -> ())? {
+	public var buttonAActionNotification: ((BLEDataTypes.ButtonPressAction?) -> ())? {
 		set { setNotifyListener(for: .buttonAState, newValue) }
 		get { return getNotifyListener(for: .buttonAState) }
 	}
 
 	/// action that is done to button B
-	public var buttonBAction: ButtonPressAction? {
+	public var buttonBAction: BLEDataTypes.ButtonPressAction? {
 		return read(.buttonBState)
 	}
 
 	/// notification called when Button B value is updated
-	public var buttonBActionNotification: ((ButtonPressAction?) -> ())? {
+	public var buttonBActionNotification: ((BLEDataTypes.ButtonPressAction?) -> ())? {
 		set { setNotifyListener(for: .buttonBState, newValue) }
 		get { return getNotifyListener(for: .buttonBState) }
 	}
@@ -149,12 +106,13 @@ extension CalliopeBLEDevice {
 	}
 
 	/// (event, value) to be received via messagebus.
-	public func startNotificationForEvent(_ event: Event = .ALL, value: UInt16 = 0) {
-		write([(event, value)], .clientRequirements)
+	public func startNotification(from source: BLEDataTypes.EventSource = .ANY,
+									 for value: BLEDataTypes.EventValue = .ANY) {
+		write([(source, value)], .clientRequirements)
 	}
 
 	/// notification called when event is raised
-	public var eventNotification: (((Event, UInt16)?) -> ())? {
+	public var eventNotification: (((BLEDataTypes.EventSource, BLEDataTypes.EventValue)?) -> ())? {
 		set { setNotifyListener(for: .microBitEvent, newValue) }
 		get { return getNotifyListener(for: .microBitEvent) }
 	}
@@ -181,10 +139,81 @@ extension CalliopeBLEDevice {
 		return read(.txCharacteristic)
 	}
 
-	// data sent via UART, 20 bytes max.
+	/// data sent via UART, 20 bytes max.
 	public func sendSerialData(_ data: Data) {
-		return write(data, .rxCharacteristic)
+		write(data, .rxCharacteristic)
 	}
+
+	//MARK: calliope specialities
+
+	public var noiseLevelNotification: ((UInt8) -> ())? {
+		get { return nil }
+		set {
+			guard let notification = newValue else {
+				setNotifyListener(for: .pinData, nil)
+				return
+			}
+			let microphonePin: UInt8 = 21
+			//according to the current DAL implementation, this only changes the microphone pin.
+			//other pins remain untouched (analogue pins stay analogue)
+			let ioConf = (0..<32).map { $0 == microphonePin }
+			let adConf: [BLEDataTypes.PinConfiguration] = ioConf.map { $0 ? .Digital : .Analogue }
+			let micPinListener = { (data: [UInt8: UInt8]) in
+				if let noise = data[microphonePin] {
+					notification(noise)
+				}
+			}
+			pinADConfiguration = adConf
+			pinIOConfiguration = ioConf
+			setNotifyListener(for: .pinData, micPinListener)
+		}
+	}
+
+	private func setSound(frequency: UInt16?) {
+		//TODO: not possible with current DAL (pin and driver not exposed)
+	}
+
+	private func setColor(r: Int8, g: Int8, b: Int8) {
+		//TODO: not possible with current DAL (pin and driver not exposed)
+	}
+
+	// TODO: the pin api is not safely useable on any pin, since on-board components connected to it need very specific inputs.
+	/// data read from input I/O Pins
+	private func readPinData() -> [UInt8:UInt8]? {
+	return read(.pinData)
+	}
+
+	/// writes to pins configured as output pins
+	private func writePinData(data: [UInt8:UInt8]) {
+	write(data, .pinData)
+	}
+
+	/// notification called when pinData value is changed
+	private var pinDataNotification: (([UInt8:UInt8]?) -> ())? {
+	set { setNotifyListener(for: .pinData, newValue) }
+	get { return getNotifyListener(for: .pinData) }
+	}
+
+	/// Pins can be analogue or digital
+	/// Pins used for internal purposes should not be changed.
+	/// Only some pins have the capability to be analogue.
+	/// Array holds one entry for each pin.
+	private var pinADConfiguration: [BLEDataTypes.PinConfiguration]? {
+	get { return read(.pinADConfiguration) }
+	set { write(newValue, .pinADConfiguration) }
+	}
+
+	/// Pins can be configured as input or output.
+	/// Pins used for internal purposes should not be changed.
+	/// Input means, the pin delivers read values via bluetooth.
+	/// Array holds one entry for each pin.
+	private var pinIOConfiguration: [Bool]? {
+	get { return read(.pinIOConfiguration) }
+	set { write(newValue, .pinIOConfiguration) }
+	}
+
+
+	//MARK: private api
 
 
 	/// writes a typed input by encoding it to data and sending it to calliope
@@ -231,9 +260,9 @@ extension CalliopeBLEDevice {
 			magnetometerNotification?(characteristic.interpret(dataBytes: value))
 		case .magnetometerBearing:
 			magnetometerBearingNotification?(characteristic.interpret(dataBytes: value))
-		case .pinData:
+		/*case .pinData:
 			pinDataNotification?(characteristic.interpret(dataBytes: value))
-			postSensorUpdateNotification(DashboardItemType.Pin, 0)
+			postSensorUpdateNotification(DashboardItemType.Pin, 0)*/
 		case .buttonAState:
 			buttonAActionNotification?(characteristic.interpret(dataBytes: value))
 			postSensorUpdateNotification(DashboardItemType.ButtonA, 0)
@@ -257,21 +286,21 @@ extension CalliopeCharacteristic {
 		guard let dataBytes = dataBytes else { return nil }
 
 		switch self {
-		case .pinData:
+		/*case .pinData:
 			var values = [UInt8:UInt8]()
 			let sequence = stride(from: 0, to: dataBytes.count, by: 2)
 			for element in sequence {
 				values[dataBytes[element]] = dataBytes[element + 1]
 			}
-			return values as? T
-		case .pinADConfiguration, .pinIOConfiguration:
+			return values as? T*/
+		/*case .pinADConfiguration, .pinIOConfiguration:
 			let config = Array(dataBytes.flatMap { (byte) -> [Bool] in
 				(0..<8).map { offset in (byte & (1 << offset)) == 0 ? false : true }
 				}.prefix(19))
 			if self == .pinADConfiguration {
-				return config.map { b -> CalliopeBLEDevice.PinConfiguration in b ? .Digital : .Analogue } as? T
+				return config.map { b -> BLEDataTypes.PinConfiguration in b ? .Digital : .Analogue } as? T
 			}
-			return config as? T //TODO: hopefully the order is right...
+			return config as? T //TODO: hopefully the order is right...*/
 		case .ledMatrixState:
 			return dataBytes.map { (byte) -> [Bool] in
 				return (1...5).map { offset in (byte & (1 << (5 - offset))) != 0 }
@@ -279,7 +308,7 @@ extension CalliopeCharacteristic {
 		case .scrollingDelay:
 			return UInt16(littleEndianData: dataBytes) as? T
 		case .buttonAState, .buttonBState:
-			return CalliopeBLEDevice.ButtonPressAction(rawValue: dataBytes[0]) as? T
+			return BLEDataTypes.ButtonPressAction(rawValue: dataBytes[0]) as? T
 		case .accelerometerData, .magnetometerData:
 			return dataBytes.withUnsafeBytes {
 				(int16Ptr: UnsafePointer<Int16>) -> (Int16, Int16, Int16) in
@@ -292,9 +321,11 @@ extension CalliopeCharacteristic {
 		case .magnetometerBearing:
 			return UInt16(littleEndianData: dataBytes) as? T
 		case .microBitEvent:
-			return dataBytes.withUnsafeBytes { (uint16ptr:UnsafePointer<UInt16>) -> (CalliopeBLEDevice.Event, UInt16)? in
-				guard let event = CalliopeBLEDevice.Event(rawValue: UInt16(littleEndian:uint16ptr[0])) else { return nil }
-				return (event, UInt16(littleEndian:uint16ptr[1]))
+			return dataBytes.withUnsafeBytes { (uint16ptr:UnsafePointer<UInt16>) -> (BLEDataTypes.EventSource, BLEDataTypes.EventValue)? in
+				guard let event = BLEDataTypes.EventSource(rawValue: UInt16(littleEndian:uint16ptr[0]))
+					else { return nil }
+				let value = BLEDataTypes.EventValue(integerLiteral: UInt16(littleEndian:uint16ptr[1]))
+				return (event, value)
 				} as? T
 		case .txCharacteristic:
 			return dataBytes as? T
@@ -311,18 +342,18 @@ extension CalliopeCharacteristic {
 		case .accelerometerPeriod, .magnetometerPeriod, .temperaturePeriod:
 			guard let period = object as? UInt16 else { return nil }
 			return period.littleEndianData
-		case .pinData:
+		/*case .pinData:
 			guard let pinValues = object as? [UInt8: UInt8] else { return nil }
 			return Data(bytes: pinValues.flatMap { [$0, $1] })
 		case .pinADConfiguration, .pinIOConfiguration:
 			let obj: [Int32]?
 			if self == .pinADConfiguration {
-				obj = (object as? [CalliopeBLEDevice.PinConfiguration])?.enumerated().map { $0.element == .Analogue ? (1 << $0.offset) : 0 }
+				obj = (object as? [BLEDataTypes.PinConfiguration])?.enumerated().map { $0.element == .Analogue ? (1 << $0.offset) : 0 }
 			} else {
 				obj = (object as? [Bool])?.enumerated().map { $0.element ? (1 << $0.offset) : 0 }
 			}
 			guard var asBitmap = (obj?.reduce(0) { $0 | $1 }) else { return nil }
-			return Data(bytes: &asBitmap, count: MemoryLayout.size(ofValue: asBitmap))
+			return Data(bytes: &asBitmap, count: MemoryLayout.size(ofValue: asBitmap))*/
 		case .ledMatrixState:
 			guard let ledArray = object as? [[Bool]] else { return nil }
 			let bitmapArray = ledArray.map {
@@ -339,9 +370,10 @@ extension CalliopeCharacteristic {
 		case .rxCharacteristic:
 			return object as? Data
 		case .clientRequirements:
-			guard let eventTuples = object as? [(CalliopeBLEDevice.Event, UInt16)] else { return nil }
-			return eventTuples.flatMap { [$0.rawValue.littleEndianData, $1.littleEndianData] }
-				.reduce(into: Data()) { $0.append($1) }
+			guard let eventTuples = object as? [(BLEDataTypes.EventSource, BLEDataTypes.EventValue)] else { return nil }
+			return eventTuples.flatMap({ (tuple: (BLEDataTypes.EventSource, BLEDataTypes.EventValue)) -> [Data] in
+				[tuple.0.rawValue.littleEndianData, tuple.1.value.littleEndianData]
+			}).reduce(into: Data()) { $0.append($1) }
 		default:
 			return nil
 		}

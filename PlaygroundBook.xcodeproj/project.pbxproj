@@ -58,6 +58,7 @@
 		2F666C022221786900533040 /* ProgrammableCalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C012221786900533040 /* ProgrammableCalliopeBLEDevice.swift */; };
 		2F666C04222179BE00533040 /* ClientCalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C03222179BE00533040 /* ClientCalliopeBLEDevice.swift */; };
 		2F666C0622217B1000533040 /* CalliopeBLEProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C0522217B1000533040 /* CalliopeBLEProfile.swift */; };
+		2F666C082221BB1500533040 /* BLEDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C072221BB1500533040 /* BLEDataTypes.swift */; };
 		2F9FAA3421FE43FE0076B737 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3C20A06490009646CC /* ActivityView.swift */; };
 		2F9FAA3521FE43FE0076B737 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3920A06490009646CC /* Async.swift */; };
 		2F9FAA3621FE43FE0076B737 /* DebugConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4320A06491009646CC /* DebugConstants.swift */; };
@@ -229,6 +230,7 @@
 		2F666C012221786900533040 /* ProgrammableCalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammableCalliopeBLEDevice.swift; sourceTree = "<group>"; };
 		2F666C03222179BE00533040 /* ClientCalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientCalliopeBLEDevice.swift; sourceTree = "<group>"; };
 		2F666C0522217B1000533040 /* CalliopeBLEProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEProfile.swift; sourceTree = "<group>"; };
+		2F666C072221BB1500533040 /* BLEDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDataTypes.swift; sourceTree = "<group>"; };
 		2F9FAAAD21FE46490076B737 /* Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext.swift; sourceTree = "<group>"; };
 		2F9FAAB321FE48080076B737 /* Macros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBuildResult.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 			isa = PBXGroup;
 			children = (
 				2F666BFB22214B0F00533040 /* BluetoothConstants.swift */,
+				2F666C072221BB1500533040 /* BLEDataTypes.swift */,
 				2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */,
 				2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */,
 				2F666C0522217B1000533040 /* CalliopeBLEProfile.swift */,
@@ -1058,6 +1061,7 @@
 				2F9FAA3E21FE43FE0076B737 /* Matrix.swift in Sources */,
 				2F09854E220710330075A5DB /* BookProgramInputShake.swift in Sources */,
 				2F9FAA3B21FE43FE0076B737 /* Extension_UIColor.swift in Sources */,
+				2F666C082221BB1500533040 /* BLEDataTypes.swift in Sources */,
 				2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */,
 				2F098545220710300075A5DB /* BookProgramCommandVariables.swift in Sources */,
 				2F098552220710370075A5DB /* BookProgramOutputImage.swift in Sources */,

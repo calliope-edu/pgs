@@ -63,11 +63,11 @@ extension ApiCall: Codable {
 
 		//OUTPUT
 		//rgb
-		case 12100:
+		/*case 12100:
 			let color = try container.decode(miniColor.self, forKey: .rgbColor)
 			self = .rgbOn(color: color)
 		case 12101:
-			self = .rgbOff()
+			self = .rgbOff()*/
 		//display
 		case 12200:
 			self = .displayClear()
@@ -81,14 +81,14 @@ extension ApiCall: Codable {
 			let text = try container.decode(String.self, forKey: .ledText)
 			self = .displayShowText(text: text)
 		//sound
-		case 12300:
+		/*case 12300:
 			self = .soundOff()
 		case 12301:
 			let note = try container.decode(miniSound.self, forKey: .soundNote)
 			self = .soundOnNote(note: note)
 		case 12302:
 			let freq = try container.decode(UInt16.self, forKey: .soundFreq)
-			self = .soundOnFreq(freq: freq)
+			self = .soundOnFreq(freq: freq)*/
 
 		//REQUEST/RESPONSE
 		case 13100:
@@ -178,11 +178,11 @@ extension ApiCall: Codable {
 
 		//OUTPUT
 		//rgb
-		case .rgbOn(let color):
+		/*case .rgbOn(let color):
 			try container.encode(12100, forKey: .rawValue)
 			try container.encode(color, forKey: .rgbColor)
 		case .rgbOff:
-			try container.encode(12101, forKey: .rawValue)
+			try container.encode(12101, forKey: .rawValue)*/
 		//display
 		case .displayClear:
 			try container.encode(12200, forKey: .rawValue)
@@ -196,14 +196,14 @@ extension ApiCall: Codable {
 			try container.encode(12203, forKey: .rawValue)
 			try container.encode(text, forKey: .ledText)
 		//sound
-		case .soundOff:
+		/*case .soundOff:
 			try container.encode(12300, forKey: .rawValue)
 		case .soundOnNote(let note):
 			try container.encode(12301, forKey: .rawValue)
 			try container.encode(note, forKey: .soundNote)
 		case .soundOnFreq(let freq):
 			try container.encode(12302, forKey: .rawValue)
-			try container.encode(freq, forKey: .soundFreq)
+			try container.encode(freq, forKey: .soundFreq)*/
 
 		//REQUEST/RESPONSE
 		case .requestButtonState(let button):
