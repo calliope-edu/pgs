@@ -69,11 +69,13 @@ enum CalliopeCharacteristic: String, CaseIterable {
 	/// X, Y and Z axes as 3 signed 16 bit values in that order and in little endian format. X, Y and Z values should be divided by 1000.
 	case accelerometerData = "E95DCA4B251D470AA062FA1922DFA9A8"
 	/// frequency with which accelerometer data is reported in milliseconds. Valid values are 1, 2, 5, 10, 20, 80, 160 and 640.
+	/// TODO: possible periods do not match with documentation
 	case accelerometerPeriod = "E95DFB24251D470AA062FA1922DFA9A8"
 
 	/// X, Y and Z axes as 3 signed 16 bit values in that order and in little endian format.
 	case magnetometerData = "E95DFB11251D470AA062FA1922DFA9A8"
 	//frequency with which magnetometer data is reported in milliseconds. Valid values are 1, 2, 5, 10, 20, 80, 160 and 640.
+	/// TODO: possible periods do not match with documentation
 	case magnetometerPeriod = "E95D386C251D470AA062FA1922DFA9A8"
 	/// Compass bearing in degrees from North.
 	case magnetometerBearing = "E95D9715251D470AA062FA1922DFA9A8"
@@ -95,12 +97,12 @@ enum CalliopeCharacteristic: String, CaseIterable {
 	/// READ: A client reading this characteristic will receive Pin Number / Value pairs for all those pins defined as input pins by the Pin IO Configuration characteristic.*/
 	case pinData = "E95D8D00251D470AA062FA1922DFA9A8"
 	/// A bit mask which allows each pin to be configured for analogue or digital use. Bit n corresponds to pin n where 0 LESS THAN OR EQUAL TO n LESS THAN 19. A value of 0 means digital and 1 means analogue.
-	/// TODO: report error: documentation says uint24, but implementation seems to demand uint32
+	/// TODO: documentation mismatch: documentation says uint24, but implementation seems to demand uint32
 	case pinADConfiguration = "E95D5899251D470AA062FA1922DFA9A8"
 	/// A bit mask (32 bit) which defines which inputs will be read. If the Pin AD Configuration bit mask is also set the pin will be read as an analogue input, if not it will be read as a digital input.
 	/// Note that in practice, setting a pin's mask bit means that it will be read by the micro:bit runtime and, if notifications have been enabled on the Pin Data characteristic, data read will be transmitted to the connected Bluetooth peer device in a Pin Data notification. If the pin's bit is clear, it  simply means that it will not be read by the micro:bit runtime.
 	/// Bit n corresponds to pin n where 0 LESS THAN OR EQUAL TO n LESS THAN 19. A value of 0 means configured for output and 1 means configured for input.
-	/// TODO: report error: documentation says uint24, but implementation seems to demand uint32
+	/// TODO: documentation mismatch: documentation says uint24, but implementation seems to demand uint32
 	case pinIOConfiguration = "E95DB9FE251D470AA062FA1922DFA9A8"
 	/// A variable length array 1 to 2 instances of :
 	/// struct PwmControlData
@@ -153,7 +155,7 @@ enum CalliopeCharacteristic: String, CaseIterable {
 	/// };
 	/// Note that an event_type of zero means ANY event type and an event_value part set to zero means ANY event value.
 	/// event_type and event_value are each encoded in little endian format.
-	/// TODO: report error: there is a problem with the implementation of this characteristic, so we can only send one event tuple at a time
+	/// TODO: documentation mismatch: there is a problem with the implementation of this characteristic, so we can only send one event tuple at a time
 	case clientRequirements = "E95D23C4251D470AA062FA1922DFA9A8"
 	/// a writable characteristic which the client may write one or more event structures to, to inform the micro:bit of events which have occurred on the client.
 	/// These should be of types indicated in the micro:bit Requirements characteristic bit mask.
@@ -167,6 +169,7 @@ enum CalliopeCharacteristic: String, CaseIterable {
 	case temperature = "E95D9250251D470AA062FA1922DFA9A8"
 
 	/// Determines the frequency with which temperature data is updated in milliseconds.
+	/// TODO: periods do not match with documentation (or no periods documented, but only certain periods allowed)
 	case temperaturePeriod = "E95D1B25251D470AA062FA1922DFA9A8"
 
 	/// allows the micro:bit to transmit a byte array containing an arbitrary number of arbitrary octet values to a connected device.
