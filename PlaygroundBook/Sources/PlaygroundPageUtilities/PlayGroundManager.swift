@@ -109,11 +109,16 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
     public func remoteLiveViewProxy(_ remoteLiveViewProxy: PlaygroundRemoteLiveViewProxy, received message: PlaygroundValue) {
         if case let .string(msg) = message {
             LogNotify.log("remoteLiveViewProxy: \(msg)")
-		} else if case let .dictionary(msg) = message,
-			case let .data(callData)? = msg[PlaygroundValueKeys.apiCallKey],
-			let apiCall = ApiCall(data: callData)  {
-			LogNotify.log("received api call \(apiCall) from LiveView")
-			processApiCall(apiCall)
+		} else if case let .dictionary(dict) = message {
+			if case let .data(callData)? = dict[PlaygroundValueKeys.apiResponseKey],
+				let apiCall = ApiResponse(data: callData) {
+				processApiResponse(apiCall: apiCall)
+			} else if case let .data(callData)? = dict[PlaygroundValueKeys.apiCallbackKey],
+				let apiCall = ApiCallback(data: callData) {
+				processApiCallback(apiCall)
+			} else {
+				LogNotify.log("received unknown dictionary from liveView: \(dict)")
+			}
 		} else {
 			LogNotify.log("received unknown message from liveView: \(message)")
 		}
@@ -135,46 +140,37 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 		}
 	}
 
-	public func sendWithoutResponse(apiCall: ApiCall) {
-		guard
-			let sent: Bool = send(apiCall: apiCall),
-			sent == true
-		else {
-			LogNotify.log("call to api \(apiCall) failed!")
-			return
-		}
-	}
-
 	private let messagingQueue = DispatchQueue(label: "messaging queue", qos: .userInitiated, attributes: .concurrent)
 	private let semaphore = DispatchSemaphore(value: 1)
 	private let deparallelizationGroup = DispatchGroup()
-	private var apiResponse: ApiCall?
+	private var apiResponse: ApiResponse?
 
-	public func send<T>(apiCall: ApiCall) -> T? {
-
+	public func sendCommand(apiCall: ApiCommand) {
 		semaphore.wait()
-
-		let page = PlaygroundPage.current
-		guard let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy else {
-				LogNotify.log("cannot send because there is current page or encoding \(apiCall) failed")
-				semaphore.signal()
-				return nil
+		sendPlaygroundMessage(.dictionary([PlaygroundValueKeys.apiCommandKey: .data(apiCall.data)]))
+		let value: Bool? = extractApiResponseValue()
+		if value == nil || value! == false {
+			LogNotify.log("api command \(apiCall) failed")
 		}
+		semaphore.signal()
+	}
 
-		sendAsyncAndWait(apiCall.data, proxy)
-
-		LogNotify.log("response for api call: \(String(describing: apiResponse))")
-
+	public func sendRequest<T>(apiCall: ApiRequest) -> T? {
+		semaphore.wait()
+		sendPlaygroundMessage(.dictionary([PlaygroundValueKeys.apiRequestKey: .data(apiCall.data)]))
 		let value: T? = extractApiResponseValue()
-		//TODO: return response as T
 		semaphore.signal()
 		return value
 	}
 
-	private func sendAsyncAndWait(_ data: Data, _ proxy: PlaygroundRemoteLiveViewProxy) {
+	private func sendPlaygroundMessage(_ message: PlaygroundValue) {
+		let page = PlaygroundPage.current
+		guard let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy else {
+			LogNotify.log("cannot send \(message) because there is current page")
+			return
+		}
 		asyncAndWait(on: messagingQueue) {
 			self.deparallelizationGroup.enter()
-			let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiCallKey: .data(data)])
 			proxy.send(message)
 			self.deparallelizationGroup.wait()
 		}
@@ -182,6 +178,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 
 	private func extractApiResponseValue<T>() -> T? {
 		guard let apiResponse = self.apiResponse else { return nil }
+		self.apiResponse = nil
 
 		switch apiResponse {
 		case .respondTemperature(let degrees):
@@ -192,57 +189,47 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 			return isPressed as? T
 		case .respondButtonState(let isPressed):
 			return isPressed as? T
+		case .respondBrightness(let level):
+			return level as? T
+		case .respondDisplay(let grid):
+			return grid as? T
 		case .finished():
 			return true as? T
-		default:
-			return nil
 		}
-
 	}
 
-	public func processApiCall(_ apiCall: ApiCall) {
-		switch apiCall {
-		case .buttonA(), .buttonB(), .buttonAB(),
-			 .buttonALongPress(), .buttonBLongPress(), .buttonABLongPress(),
-			 .pin(_), .shake(), .clap():
-			LogNotify.log("playground page received api notification \(apiCall)")
-			DispatchQueue.main.async {
-				self.callObservingCalliope(apiCall: apiCall)
+	public func processApiCallback(_ apiCall: ApiCallback) {
+		LogNotify.log("playground page received api notification \(apiCall)")
+		DispatchQueue.main.async {
+			switch apiCall {
+			case .buttonA():
+				myCalliope?.onButtonA()
+			case .buttonB():
+				myCalliope?.onButtonB()
+			case .buttonAB():
+				myCalliope?.onButtonAB()
+			case .buttonALongPress():
+				myCalliope?.onButtonALongPress()
+			case .buttonBLongPress():
+				myCalliope?.onButtonBLongPress()
+			case .buttonABLongPress():
+				myCalliope?.onButtonABLongPress()
+			case .pin(let pin):
+				myCalliope?.onPin(pin: pin)
+			case .shake():
+				myCalliope?.onShake()
+			case .clap():
+				myCalliope?.onClap()
+			case .start:
+				myCalliope?.start()
+			case .forever:
+				myCalliope?.forever()
 			}
-		default:
-			LogNotify.log("playground page received api response \(apiCall)")
-			callResponse(apiCall: apiCall)
 		}
 	}
 
-	public func callResponse(apiCall: ApiCall) {
+	public func processApiResponse(apiCall: ApiResponse) {
 		apiResponse = apiCall
 		deparallelizationGroup.leave()
-	}
-
-	public func callObservingCalliope(apiCall: ApiCall) {
-		switch apiCall {
-		case .buttonA():
-			myCalliope?.onButtonA()
-		case .buttonB():
-			myCalliope?.onButtonB()
-		case .buttonAB():
-			myCalliope?.onButtonAB()
-		case .buttonALongPress():
-			myCalliope?.onButtonALongPress()
-		case .buttonBLongPress():
-			myCalliope?.onButtonBLongPress()
-		case .buttonABLongPress():
-			myCalliope?.onButtonABLongPress()
-		case .pin(let pin):
-			myCalliope?.onPin(pin: pin)
-		case .shake():
-			myCalliope?.onShake()
-		case .clap():
-			myCalliope?.onClap()
-		default:
-			LogNotify.log("playground page received api call \(apiCall) which it cannot handle")
-			return
-		}
 	}
 }

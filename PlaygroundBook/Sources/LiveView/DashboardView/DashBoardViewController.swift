@@ -169,19 +169,18 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
 
         if case let .string(msg) = message {
             LogNotify.log("live view receive string: \(msg)")
-		} else if case let .dictionary(msg) = message,
-			case let .data(callData)? = msg[PlaygroundValueKeys.apiCallKey] {
-			//this is the case where we call the api of the calliope
-			//TODO: the api call must only be invoked on certain pages.
-			let call = ApiCall(data: callData)
-
-			guard let apiCall = call else {
-				LogNotify.log("live view received undecodable api call")
-				return
+		} else if case let .dictionary(dict) = message {
+			if case let .data(callData)? = dict[PlaygroundValueKeys.apiCommandKey],
+				let call = ApiCommand(data: callData) {
+				LogNotify.log("live view received api command \(call)")
+				TeachingApiImplementation.instance.handleApiCommand(call, calliope: connectionView?.apiReadyCalliope)
+			} else if case let .data(callData)? = dict[PlaygroundValueKeys.apiRequestKey],
+				let call = ApiRequest(data: callData) {
+				LogNotify.log("live view received api request \(call)")
+				TeachingApiImplementation.instance.handleApiRequest(call, calliope: connectionView?.apiReadyCalliope)
+			} else {
+				LogNotify.log("live view cannot handle call \(dict)")
 			}
-			LogNotify.log("live view received api call \(apiCall)")
-
-			TeachingApiImplementation.instance.handleApiCall(apiCall, calliope: connectionView?.apiReadyCalliope)
 		} else {
 			LogNotify.log("live view receive unknown message: \(message)")
 			delay(time: 1.0) { [weak self] in

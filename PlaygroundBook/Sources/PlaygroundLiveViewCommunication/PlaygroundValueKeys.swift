@@ -9,5 +9,8 @@ import Foundation
 
 struct PlaygroundValueKeys {
 	static let programKey = "playgroundValue.program"
-	static let apiCallKey = "playgroundValue.call"
+	static let apiCommandKey = "playgroundValue.apiCommand"
+	static let apiRequestKey = "playgroundValue.apiRequest"
+	static let apiResponseKey = "playgroundValue.apiResponse"
+	static let apiCallbackKey = "playgroundValue.apiCallback"
 }

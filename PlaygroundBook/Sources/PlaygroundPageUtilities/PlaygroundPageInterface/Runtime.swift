@@ -31,18 +31,18 @@ public func playgroundEpilogue(_ block: AssessmentBlock? = nil) {
 public var myCalliope: Calliope? {
 	didSet {
 		//register for callbacks
-		PlayGroundManager.shared.sendWithoutResponse(apiCall: .registerCallbacks())
-		//execute start once (if it exists)
+		PlayGroundManager.shared.sendCommand(apiCall: .registerCallbacks())
+		//execute start once
 		myCalliope?.start()
 		//start the calls to "forever" after a slight delay
 		PlayGroundManager.shared.startForever()
 	}
 }
 
-public func sendWithoutResponse(apiCall: ApiCall) {
-	PlayGroundManager.shared.sendWithoutResponse(apiCall: apiCall)
+public func sendCommand(apiCall: ApiCommand) {
+	PlayGroundManager.shared.sendCommand(apiCall: apiCall)
 }
 
-public func send<T>(apiCall: ApiCall) -> T? {
-	return PlayGroundManager.shared.send(apiCall: apiCall)
+public func sendRequest<T>(apiCall: ApiRequest) -> T? {
+	return PlayGroundManager.shared.sendRequest(apiCall: apiCall)
 }

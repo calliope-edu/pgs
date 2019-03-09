@@ -106,7 +106,7 @@ extension CalliopeBLEDevice {
 	}
 
 	/// (event, value) to be received via messagebus.
-	public func startNotification(from source: BLEDataTypes.EventSource = .ANY,
+	public func startNotifying(from source: BLEDataTypes.EventSource = .ANY,
 									 for value: BLEDataTypes.EventValue = .ANY) {
 		write([(source, value)], .clientRequirements)
 	}

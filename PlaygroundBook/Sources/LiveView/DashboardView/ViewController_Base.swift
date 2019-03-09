@@ -62,11 +62,12 @@ public class ViewController_Base: UIViewController, PlaygroundLiveViewSafeAreaCo
 				return
 		}
 
-		DispatchQueue.main.async {
-			debugView.text.append("\(date) --- \(message) \r\n")
+		let msg = "\(debugView.text!) \(date) --- \(message) \r\n"
+		let range = NSMakeRange(msg.count - 1, 1)
 
-			let lastLetter = debugView.text.count
-			debugView.scrollRangeToVisible(NSRange(lastLetter-1..<lastLetter))
+		DispatchQueue.main.async {
+			debugView.text = msg
+			debugView.scrollRangeToVisible(range)
 		}
      }
     

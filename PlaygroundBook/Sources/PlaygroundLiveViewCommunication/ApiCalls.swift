@@ -7,22 +7,7 @@
 
 import Foundation
 
-public enum ApiCall {
-
-	//callbacks/inputs
-	case buttonA()
-	case buttonB()
-	case buttonAB()
-	case buttonALongPress()
-	case buttonBLongPress()
-	case buttonABLongPress()
-
-	case pin(pin: UInt16)
-
-	case shake()
-	case clap()
-
-
+public enum ApiCommand {
 	//outputs
 	/*case rgbOn(color: miniColor)
 	case rgbOff()*/
@@ -36,28 +21,46 @@ public enum ApiCall {
 	case soundOnNote(note: miniSound)
 	case soundOnFreq(freq: UInt16)*/
 
-	case requestButtonState(button: buttonType)
-	case respondButtonState(isPressed: Bool)
-
-	case requestPinState(pin: UInt16)
-	case respondPinState(isPressed: Bool)
-
-	case requestNoise()
-	case respondNoise(level: UInt16)
-
-	case requestTemperature()
-	case respondTemperature(degrees: Int16)
-
-	case requestBrightness()
-	case respondBrightness(level: UInt16)
-
-	case requestDisplay()
-	case respondDisplay(grid: [UInt8])
-
 	//other controls
 	case sleep(time: UInt16)
-	case finished()
 	case registerCallbacks()
+}
+
+public enum ApiRequest {
+	case requestButtonState(button: buttonType)
+	case requestPinState(pin: UInt16)
+	case requestNoise()
+	case requestTemperature()
+	case requestBrightness()
+	case requestDisplay()
+}
+
+public enum ApiResponse {
+	case respondButtonState(isPressed: Bool)
+	case respondPinState(isPressed: Bool)
+	case respondNoise(level: UInt16)
+	case respondTemperature(degrees: Int16)
+	case respondBrightness(level: UInt16)
+	case respondDisplay(grid: [UInt8])
+
+	//empty response
+	case finished()
+}
+
+public enum ApiCallback {
+	//callbacks/inputs
+	case buttonA()
+	case buttonB()
+	case buttonAB()
+	case buttonALongPress()
+	case buttonBLongPress()
+	case buttonABLongPress()
+
+	case pin(pin: UInt16)
+
+	case shake()
+	case clap()
+
 	//internally handled
 	case start()
 	case forever()

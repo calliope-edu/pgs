@@ -16,6 +16,9 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	//private var soundFreq: UInt16 = 0
 
+
+	//MARK: Variables mirroring calliope state
+
 	private var buttonAState: BLEDataTypes.ButtonPressAction = .Up
 	private var buttonBState: BLEDataTypes.ButtonPressAction = .Up
 
@@ -58,23 +61,30 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 								   [false, false, false, false, false],
 								   [false, false, false, false, false]]
 
-	func handleApiCall(_ apiCall: ApiCall, calliope: CalliopeBLEDevice?) {
+
+	//MARK: handling commandas and requests from playground page
+
+	func handleApiCommand(_ apiCall: ApiCommand, calliope: CalliopeBLEDevice?) {
 		//DONE: button notifications, button state requests, sleep, forever, start, led matrix calls, temperature request.
 		//DONE: AB/A/B besser unterscheiden,
-		//DONE: pins, shake callback
-		//DONE: micro (clap callback, noise request)
-		//TODO: 2. erweitern mit Position/Beschleunigungsapi
-		//FIXME: 3. brightness request: schwierig
-		//FIXME: impossible: rgb led, sound api
+
+		//TODO: erweitern mit Lage/Beschleunigungsapi
+
+		//FIXME: pins, shake callback
+		//FIXME: micro clap callback, noise request
+		//FIXME: brightness request, rgb led, sound api
 
 		//respond with a message back (either with value or just as a kind of "return" call)
 
-		let response: ApiCall
+		let response: ApiResponse
+		var t = 0.0
+
 		switch apiCall {
 		case .registerCallbacks():
 			registerCallbacks(calliope)
 			response = .finished()
-		/*case .rgbOn(let color):
+		/* TODO: not working right now
+		case .rgbOn(let color):
 			rgbState = color
 			//TODO: send to calliope
 			response = .finished()
@@ -92,10 +102,11 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			calliope?.ledMatrixState = convertGrid(image.grid)
 			response = .finished()
 		case .displayShowText(let text):
-			//TODO: display state?
+			//TODO: is display state in this case working?
 			calliope?.displayLedText(text)
 			response = .finished()
-		/*case .soundOff:
+		/* TODO: not working right now
+			case .soundOff:
 			resetSoundFreq()
 			//TODO: send to calliope
 			response = .finished()
@@ -107,6 +118,22 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			soundFreq = freq
 			//TODO: send to calliope
 			response = .finished()
+			*/
+		case .sleep(let time):
+			response = .finished()
+			t = Double(time) / 1000.0
+		}
+
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + t) {
+			self.send(apiCall: response)
+		}
+	}
+
+	func handleApiRequest(_ apiCall: ApiRequest, calliope: CalliopeBLEDevice?) {
+
+		let response: ApiResponse
+
+		switch apiCall {
 		case .requestButtonState(let button):
 			response = .respondButtonState(isPressed: buttonPressState(button, calliope) == true)
 		case .requestPinState(let pin):
@@ -114,7 +141,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 				response = .respondPinState(isPressed: pinPressed[Int(pin)])
 			} else {
 				response = .respondPinState(isPressed: false)
-			}*/
+			}
 		case .requestNoise:
 			response = .respondNoise(level: noiseLevel)
 		case .requestTemperature:
@@ -123,25 +150,31 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			response = .respondBrightness(level: 42)
 		case .requestDisplay():
 			response = .respondDisplay(grid: encodeMatrix(calliope?.ledMatrixState))
-		default:
-			if case .sleep(_) = apiCall {
-			} else {
-				LogNotify.log("cannot handle this api call")
-			}
-			response = .finished()
 		}
 
-		let t: Double
-		if case .sleep(let time) = apiCall {
-			t = Double(time)
-		} else {
-			t = 0.0
-		}
-
-		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + t) {
+		DispatchQueue.main.async {
 			self.send(apiCall: response)
 		}
 	}
+
+	//MARK: communicating with playground page
+
+	func send(apiCall: ApiResponse) {
+		LogNotify.log("sendig \(apiCall) to page")
+		let data = apiCall.data
+		let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiResponseKey: .data(data)])
+		self.send(message)
+	}
+
+	func send(apiCall: ApiCallback) {
+		LogNotify.log("sendig \(apiCall) to page")
+		let data = apiCall.data
+		let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiCallbackKey: .data(data)])
+		self.send(message)
+	}
+
+
+	//MARK: helper methods
 
 	func convertGrid(_ grid: [UInt8]) -> [[Bool]] {
 		return (0..<5).map { row in (0..<5).map { column in grid[row * 5 + column] == 1 } }
@@ -169,10 +202,11 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			self.buttonApiNotification(action, .B)
 		}
 
+		/* TODO: this is not working so far
 		//TOUCH PINS
 		let pins: [BLEDataTypes.EventSource] = [.MICROBIT_ID_IO_P0, .MICROBIT_ID_IO_P1, .MICROBIT_ID_IO_P2, .MICROBIT_ID_IO_P3]
 		for pinSource in pins {
-			calliope.startNotification(from: pinSource)
+			calliope.startNotifying(from: pinSource)
 		}
 
 		//SHAKE
@@ -182,11 +216,12 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			 .MICROBIT_ACCELEROMETER_EVT_FACE_DOWN, .MICROBIT_ACCELEROMETER_EVT_FACE_UP,
 			 .MICROBIT_ACCELEROMETER_EVT_TILT_LEFT,  .MICROBIT_ACCELEROMETER_EVT_TILT_RIGHT, .MICROBIT_ACCELEROMETER_EVT_TILT_UP, .MICROBIT_ACCELEROMETER_EVT_TILT_DOWN]
 		for accelValue in accelerometerEvents {
-			calliope.startNotification(from: accelerometerSource, for: accelValue.rawValue)
+			calliope.startNotifying(from: accelerometerSource, for: accelValue.rawValue)
 		}
 
 		calliope.eventNotification = { tuple in
 			guard let (source, value) = tuple else { return }
+			LogNotify.log("received event \(tuple)")
 			if source == accelerometerSource {
 				self.accelerometerNotification(value)
 			} else if pins.contains(source) {
@@ -195,13 +230,9 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		}
 
 		//NOISE / CLAP
-		calliope.noiseLevelNotification = { level in
-			self.noiseLevel = UInt16(level)
-			//FIXME: make level adaptable or figure out good level
-			if level > 5 {
-				self.send(apiCall: .clap())
-			}
-		}
+
+		*/
+
 		//TODO: other callbacks to calliope
 	}
 
@@ -228,7 +259,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	var indep = false
 
 	private var state: (ButtonState, ButtonState) = (.N, .N) {
-		didSet { evaluateStateChange(oldValue) }
+		didSet { evaluateButtonStateChange(oldValue) }
 	}
 
 	/// Sends the appropriate call according to button action.
@@ -265,7 +296,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	}
 
 
-	private func evaluateStateChange(_ oldValue: (TeachingApiImplementation.ButtonState, TeachingApiImplementation.ButtonState)) {
+	private func evaluateButtonStateChange(_ oldValue: (TeachingApiImplementation.ButtonState, TeachingApiImplementation.ButtonState)) {
 		switch (oldValue, state, indep) {
 
 		case ((.N,.D),(.N, .R), false):
@@ -351,6 +382,8 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			return
 		}
 
+		LogNotify.log("Pin \(index) event \(touchType)")
+
 		switch touchType {
 		case .MICROBIT_BUTTON_EVT_DOWN, .MICROBIT_BUTTON_EVT_HOLD:
 			self.pinPressed[index] = true
@@ -402,13 +435,6 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		case .MICROBIT_ACCELEROMETER_EVT_SHAKE:
 			self.send(apiCall: .shake())
 		}
-	}
-
-	func send(apiCall: ApiCall) {
-		LogNotify.log("sendig \(apiCall) to page")
-		let data = apiCall.data
-		let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiCallKey: .data(data)])
-		self.send(message)
 	}
 
 }

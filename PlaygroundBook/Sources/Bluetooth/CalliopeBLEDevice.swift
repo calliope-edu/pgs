@@ -10,7 +10,7 @@ import CoreBluetooth
 
 class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
-	static let apiRequirements: Set<CalliopeService> = [.accelerometer, .button, .led, .temperature, .ioPin, .event]
+	static let apiRequirements: Set<CalliopeService> = [.accelerometer, .button, .led, .temperature, .event]
 	static let programmingRequirements: Set<CalliopeService> = [.notify, .program]
 
 	//the services required for the playground
