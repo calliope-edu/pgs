@@ -64,7 +64,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	//MARK: handling commandas and requests from playground page
 
-	func handleApiCommand(_ apiCall: ApiCommand, calliope: CalliopeBLEDevice?) {
+	func handleApiCommand(_ apiCall: ApiCommand, calliope: ApiCalliope?) {
 		//DONE: button notifications, button state requests, sleep, forever, start, led matrix calls, temperature request.
 		//DONE: AB/A/B besser unterscheiden,
 
@@ -129,7 +129,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		}
 	}
 
-	func handleApiRequest(_ apiCall: ApiRequest, calliope: CalliopeBLEDevice?) {
+	func handleApiRequest(_ apiCall: ApiRequest, calliope: ApiCalliope?) {
 
 		let response: ApiResponse
 
@@ -189,7 +189,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		return matrix.flatMap { row in row.map { on in on ? 1 : 0 } }
 	}
 
-	func registerCallbacks(_ calliope: CalliopeBLEDevice?) {
+	func registerCallbacks(_ calliope: ApiCalliope?) {
 		guard let calliope = calliope else { return }
 
 		// BUTTONS

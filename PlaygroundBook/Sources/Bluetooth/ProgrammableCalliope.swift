@@ -6,13 +6,27 @@
 //
 
 import Foundation
+import CoreBluetooth
 
-extension CalliopeBLEDevice {
+class ProgrammableCalliope: CalliopeBLEDevice {
+
+	static let programmingServices: Set<CalliopeService> =
+		[.interpreter]
+
+	static let programmingServicesLegacy: Set<CalliopeService> =
+		[.notify, .program]
+
+
+	override var requiredServices: Set<CalliopeService> {
+		return hasMasterService
+			? ProgrammableCalliope.programmingServices
+			: ProgrammableCalliope.programmingServicesLegacy
+	}
 
 	// MARK: Uploading programs via program characteristic
 
 	func upload(program: ProgramBuildResult) throws {
-		guard CalliopeBLEDevice.requiredServices.contains(.notify)
+		guard requiredServices.contains(.notify)
 			&& state == .playgroundReady else { throw "Not ready to receive programs yet" }
 
 		//code of the program
@@ -64,19 +78,46 @@ extension CalliopeBLEDevice {
 			data.subdata(in: $0 ..< Swift.min($0 + size, data.count))
 		}
 	}
+
+	override func handleStateUpdate() {
+		do { try readSensors(true) }
+		catch { LogNotify.log("\(self)\ncannot start sensor readings") }
+	}
+
+	override func handleValueUpdate(_ characteristic: CalliopeCharacteristic, _ value: Data) {
+		if characteristic == .notify {
+			updateSensorReading(value)
+		} else {
+			LogNotify.log("programmable calliope received value for characteristic other than notify:\n \(characteristic), \(value)")
+			return
+		}
+	}
+
+	override func getCBCharacteristic(_ calliopeCharacteristic: CalliopeCharacteristic) -> CBCharacteristic? {
+		let characteristic: CBCharacteristic?
+		if hasMasterService {
+			characteristic = getCBCharacteristic(CalliopeService.interpreter.uuid, calliopeCharacteristic.uuid)
+		} else {
+			characteristic = getCBCharacteristic(CalliopeService.notify.uuid, calliopeCharacteristic.uuid)
+		}
+		return characteristic
+	}
 }
 
-extension CalliopeBLEDevice {
+extension ProgrammableCalliope {
+
+
 
 	// MARK: Receiving sensor values via notify characteristic
 
 	func readSensors(_ enabled: Bool) throws {
-		guard CalliopeBLEDevice.requiredServices.contains(.notify)
+		guard requiredServices.contains(.notify)
 			&& state == .playgroundReady else { throw "Not ready to read sensor values" }
 		//never throws because we made sure we are ready for the playground, i.e. we have all required services
-		guard let notifyCharacteristic = getCBCharacteristic(.notify) else { throw "Notify characteristic not available!" }
 
-		peripheral.setNotifyValue(enabled, for: notifyCharacteristic)
+		guard let cbCharacteristic = getCBCharacteristic(.notify) else { throw "Notify characteristic not available" }
+
+		peripheral.setNotifyValue(enabled, for: cbCharacteristic)
 	}
 
 	func updateSensorReading(_ value: Data) {
@@ -96,21 +137,5 @@ extension CalliopeBLEDevice {
 				postSensorUpdateNotification(type, value)
 			}
 		}
-	}
-
-	func postButtonANotification(_ value: Int8) {
-		postSensorUpdateNotification(DashboardItemType.ButtonA, value)
-	}
-
-	func postButtonBNotification(_ value: Int8) {
-		postSensorUpdateNotification(DashboardItemType.ButtonB, value)
-	}
-
-	func postThermometerNotification(_ value: Int8) {
-		postSensorUpdateNotification(DashboardItemType.Thermometer, value)
-	}
-
-	func postSensorUpdateNotification(_ type: DashboardItemType, _ value: Int8) {
-		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type.rawValue, "value":value])
 	}
 }

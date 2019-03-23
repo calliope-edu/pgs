@@ -10,9 +10,32 @@ import CoreBluetooth
 //Bluetooth profile of the Calliope
 
 enum CalliopeService: String {
-	case debug = "FF44DDEE-251D-470A-A062-FA1922DFA9A8"
+
+	//MARK: master service
+
+	case master = "CA11FF01-251D-470A-A062FA1922DFA9A8"
+
+	//MARK: service for interpreter
+
+	case interpreter = "FF44DDEE-251D-470A-A062FA1922DFA9A8"
+
+	//MARK: services for interpreter (legacy)
+
 	case notify = "FF55DDEE-251D-470A-A062-FA1922DFA9A8"
 	case program = "FF66DDEE-251D-470A-A062-FA1922DFA9A8"
+
+	//MARK: custom calliope services
+
+	case rgbLed = "CA110101-251D-470A-A062FA1922DFA9A8"
+
+	case microphone = "CA110201-251D-470A-A062FA1922DFA9A8"
+
+	case speaker = "CA110401-251D-470A-A062FA1922DFA9A8"
+
+	case brightness = "CA110301-251D-470A-A062FA1922DFA9A8"
+
+	//MARK: services from BLE Profile of Microbit from Lancester University
+	//https://lancaster-university.github.io/microbit-docs/resources/bluetooth/bluetooth_profile.html
 
 	case accelerometer = "E95D0753251D470AA062FA1922DFA9A8"
 
@@ -53,18 +76,64 @@ enum CalliopeService: String {
 	case uart = "6E400001B5A3F393E0A9E50E24DCCA9E"
 
 	var uuid: CBUUID {
-		if self.rawValue.count == 32 {
-			return CBUUID(hexString: self.rawValue)
-		} else {
-			return CBUUID(string: self.rawValue)
+		return rawValue.uuid
+	}
+
+	var bitPattern: UInt32 {
+		switch self {
+		case .interpreter:
+			return 1 << 28
+		case .notify:
+			return 1 << 30
+		case .program:
+			return 1 << 29
+		case .rgbLed:
+			return 1 << 0
+		case .microphone:
+			return 1 << 1
+		case .speaker:
+			return 1 << 3
+		case .brightness:
+			return 1 << 2
+		case .accelerometer:
+			return 1 << 8
+		case .magnetometer:
+			return 1 << 7
+		case .button:
+			return 1 << 6
+		case .led:
+			return 1 << 4
+		case .event:
+			return 1 << 24
+		case .temperature:
+			return 1 << 5
+		default:
+			return 0
 		}
 	}
 }
 
 enum CalliopeCharacteristic: String, CaseIterable {
-	case debug = "FF44DDEE-251D-470A-A062-FA1922DFA9A8"
+
+	//MARK: master service characteristic
+
+	case services = "CA11FF02-251D-470A-A062FA1922DFA9A8"
+
+	//MARK: interpreter characteristics (current + legacy)
 	case notify = "FF55DDEE-251D-470A-A062-FA1922DFA9A8"
 	case program = "FF66DDEE-251D-470A-A062-FA1922DFA9A8"
+
+	//MARK: custom calliope service characteristics
+
+	case color = "CA110102-251D-470A-A062FA1922DFA9A8"
+
+	case noise = "CA110203-251D-470A-A062FA1922DFA9A8"
+
+	case playTone = "CA110402-251D-470A-A062FA1922DFA9A8"
+
+	case brightness = "CA110303-251D-470A-A062FA1922DFA9A8"
+
+	//MARK: characteristics from microbit ble profile
 
 	/// X, Y and Z axes as 3 signed 16 bit values in that order and in little endian format. X, Y and Z values should be divided by 1000.
 	case accelerometerData = "E95DCA4B251D470AA062FA1922DFA9A8"
@@ -180,23 +249,32 @@ enum CalliopeCharacteristic: String, CaseIterable {
 	case rxCharacteristic = "6E400003B5A3F393E0A9E50E24DCCA9E"
 
 	var uuid: CBUUID {
-		if self.rawValue.count == 32 {
-			return CBUUID(hexString: self.rawValue)
-		} else {
-			return CBUUID(string: self.rawValue)
-		}
+		return rawValue.uuid
 	}
 }
 
 struct CalliopeBLEProfile {
 
-	//standard bluetooth profile of any device: Peripherials contain services which contain characteristics
-	//(or included services, but let´s forget about them for now)
+	///standard bluetooth profile of any device: Peripherials contain services which contain characteristics
+	///(or included services, but let´s forget about them for now)
 	static let serviceCharacteristicMap : [CalliopeService : [CalliopeCharacteristic]] = [
-		.debug : [.debug],
+		//master
+		.master : [.services],
+
+		//interpreter
+		.interpreter : [.program, .notify],
+
+		//interpreter legacy
 		.notify : [.notify],
 		.program: [.program],
 
+		//custom
+		.rgbLed : [.color],
+		.microphone : [.noise],
+		.speaker : [.playTone],
+		.brightness : [.brightness],
+
+		//microbit profile
 		.accelerometer: [.accelerometerData, .accelerometerPeriod],
 		.magnetometer: [.magnetometerData, .magnetometerPeriod, .magnetometerBearing],
 		.button: [.buttonAState, .buttonBState],
@@ -207,11 +285,26 @@ struct CalliopeBLEProfile {
 		.uart: [.txCharacteristic, .rxCharacteristic]
 	]
 
-	static let characteristicServiceMap = Dictionary(uniqueKeysWithValues: serviceCharacteristicMap.flatMap {(key, value) in value.map { value in (value, key) } })
+	///inverted map of characteristics and corresponding services (there are some ambiguities, which we ignore)
+	static let characteristicServiceMap = Dictionary(
+		serviceCharacteristicMap.flatMap { (key, value) in value.map { value in (value, key) } },
+		uniquingKeysWith: { (first, _) in first })
 
-	//Bluetooth profile with non-human-readable names (same as above, but all UUIDs)
+	///Bluetooth profile with non-human-readable names (same as above, but all UUIDs)
 	static let serviceCharacteristicUUIDMap = Dictionary(uniqueKeysWithValues:
 		serviceCharacteristicMap.map { ($0.uuid, $1.map { $0.uuid }) })
 	
-	static let uuidCharacteristicMap = Dictionary(uniqueKeysWithValues:CalliopeCharacteristic.allCases.map { ($0.uuid, $0) })
+	///To quickly access the characteristic with the corresponding uuid
+	static let uuidCharacteristicMap = Dictionary(uniqueKeysWithValues:
+		CalliopeCharacteristic.allCases.map { ($0.uuid, $0) })
+}
+
+extension String {
+	var uuid: CBUUID {
+		if self.count == 32 {
+			return CBUUID(hexString: self)
+		} else {
+			return CBUUID(string: self)
+		}
+	}
 }

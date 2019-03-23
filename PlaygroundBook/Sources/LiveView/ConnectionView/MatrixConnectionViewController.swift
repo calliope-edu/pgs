@@ -41,20 +41,20 @@ class MatrixConnectionViewController: UIViewController
 		return connector.discoveredCalliopes[Matrix.matrix2friendly(matrixView.matrix) ?? ""]
 	}
 
-	public var programmingReadyCalliope: CalliopeBLEDevice? {
+	public var programmingReadyCalliope: ProgrammableCalliope? {
 		guard let calliope = connector.connectedCalliope,
 		calliope.state == .playgroundReady,
-		CalliopeBLEDevice.requiredServices.isSuperset(of: CalliopeBLEDevice.programmingRequirements)
+		let programmableCalliope = calliope as? ProgrammableCalliope
 		else { return nil }
-		return calliope
+		return programmableCalliope
 	}
 
-	public var apiReadyCalliope: CalliopeBLEDevice? {
+	public var apiReadyCalliope: ApiCalliope? {
 		guard let calliope = connector.connectedCalliope,
 			calliope.state == .playgroundReady,
-			CalliopeBLEDevice.requiredServices.isSuperset(of: CalliopeBLEDevice.apiRequirements)
+			let apiCalliope = calliope as? ApiCalliope
 			else { return nil }
-		return calliope
+		return apiCalliope
 	}
 
 	@IBAction func toggleOpen(_ sender: Any) {

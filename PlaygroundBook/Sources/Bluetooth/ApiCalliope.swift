@@ -7,7 +7,16 @@
 
 import Foundation
 
-extension CalliopeBLEDevice {
+class ApiCalliope: CalliopeBLEDevice {
+
+	static let apiServices: Set<CalliopeService> =
+		[.rgbLed, .microphone, .speaker, .brightness,
+		 .accelerometer, .button, .led, .temperature, .event]
+
+
+	override var requiredServices: Set<CalliopeService> {
+		return ApiCalliope.apiServices
+	}
 
 	//MARK: Convenient way to synchronously access calliope via Bluetooth
 	//TODO: Missing: parts of Event Service (we only receive events from calliope, cannot write
@@ -252,6 +261,13 @@ extension CalliopeBLEDevice {
 		return updateListeners[characteristic] as? T
 	}
 
+	override func handleValueUpdate(_ characteristic: CalliopeCharacteristic, _ value: Data) {
+		//TODO: if we have all the sensor characteristics, and one updates, we can as well update the dashboard using it
+		updateQueue.async {
+			self.notifyListener(for: characteristic, value: value)
+		}
+	}
+
 	func notifyListener(for characteristic: CalliopeCharacteristic, value: Data) {
 		switch characteristic {
 		case .accelerometerData:
@@ -286,21 +302,21 @@ extension CalliopeCharacteristic {
 		guard let dataBytes = dataBytes else { return nil }
 
 		switch self {
-		/*case .pinData:
+		case .pinData:
 			var values = [UInt8:UInt8]()
 			let sequence = stride(from: 0, to: dataBytes.count, by: 2)
 			for element in sequence {
 				values[dataBytes[element]] = dataBytes[element + 1]
 			}
-			return values as? T*/
-		/*case .pinADConfiguration, .pinIOConfiguration:
+			return values as? T
+		case .pinADConfiguration, .pinIOConfiguration:
 			let config = Array(dataBytes.flatMap { (byte) -> [Bool] in
 				(0..<8).map { offset in (byte & (1 << offset)) == 0 ? false : true }
 				}.prefix(19))
 			if self == .pinADConfiguration {
 				return config.map { b -> BLEDataTypes.PinConfiguration in b ? .Digital : .Analogue } as? T
 			}
-			return config as? T //TODO: hopefully the order is right...*/
+			return config as? T //TODO: hopefully the order is right...
 		case .ledMatrixState:
 			return dataBytes.map { (byte) -> [Bool] in
 				return (1...5).map { offset in (byte & (1 << (5 - offset))) != 0 }

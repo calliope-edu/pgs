@@ -10,13 +10,10 @@ import CoreBluetooth
 
 class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
-	static let apiRequirements: Set<CalliopeService> = [.accelerometer, .button, .led, .temperature, .event]
-	static let programmingRequirements: Set<CalliopeService> = [.notify, .program]
-
 	//the services required for the playground
-	static let requiredServices : Set = apiRequirements //apiRequirements.union(programmingRequirements)
-
-	private static let requiredServicesUUIDs = CalliopeBLEDevice.requiredServices.map { $0.uuid }
+	var requiredServices : Set<CalliopeService> {
+		return []
+	}
 
 	enum CalliopeBLEDeviceState {
 		case discovered //discovered and ready to connect, not connected yet
@@ -29,18 +26,18 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	var state : CalliopeBLEDeviceState = .discovered { //TODO: make setter private
 		didSet {
 			LogNotify.log("\(self)")
-			updateQueue.async { self.updateBlock() }
-			if state == .discovered {
-				//services get invalidated, undiscovered characteristics are thus restored (need to re-discover)
-				servicesWithUndiscoveredCharacteristics = CalliopeBLEDevice.requiredServicesUUIDs
-			} else if state == .connected {
-				//immediately evaluate whether in playground mode
-				evaluateMode()
-			} else if state == .playgroundReady {
-				//auto-start sensor readings
-				do { try readSensors(true) }
-				catch { LogNotify.log("\(self)\ncannot start sensor readings") } //TODO: handle errors, at least log them
-			}
+			handleStateUpdate()
+		}
+	}
+
+	func handleStateUpdate() {
+		updateQueue.async { self.updateBlock() }
+		if state == .discovered {
+			//services get invalidated, undiscovered characteristics are thus restored (need to re-discover)
+			servicesWithUndiscoveredCharacteristics = requiredServicesUUIDs
+		} else if state == .connected {
+			//immediately evaluate whether in playground mode
+			evaluateMode()
 		}
 	}
 
@@ -49,7 +46,19 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	let peripheral : CBPeripheral
 	let name : String
-	private(set) var servicesWithUndiscoveredCharacteristics = CalliopeBLEDevice.requiredServicesUUIDs
+
+	lazy var servicesWithUndiscoveredCharacteristics: [CBUUID] = {
+		return requiredServicesUUIDs
+	}()
+
+	lazy var requiredServicesUUIDs: [CBUUID] = requiredServices.map { $0.uuid }
+
+	var hasMasterService = false {
+		didSet {
+			requiredServicesUUIDs = requiredServices.map { $0.uuid }
+			servicesWithUndiscoveredCharacteristics = requiredServicesUUIDs
+		}
+	}
 
 	init(peripheral: CBPeripheral, name: String) {
 		self.peripheral = peripheral
@@ -64,7 +73,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	private func evaluateMode() {
 		//immediately continue with service discovery
 		state = .evaluateMode
-		peripheral.discoverServices(Array(CalliopeBLEDevice.requiredServicesUUIDs))
+		peripheral.discoverServices(Array(requiredServicesUUIDs))
 	}
 
 	func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -77,14 +86,21 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		let services = peripheral.services ?? []
 		let uuidSet = Set(services.map { return $0.uuid })
 
+		if (uuidSet.contains(CalliopeService.master.uuid)) {
+			hasMasterService = true
+		}
+
 		//evaluate whether all required services were found. If not, Calliope is not ready for programs from the playground
-		if uuidSet.isSuperset(of: CalliopeBLEDevice.requiredServicesUUIDs) {
+		if uuidSet.isSuperset(of: requiredServicesUUIDs) {
 			//discover the characteristics of all required services, just to be thorough
 			services.forEach { service in
-				if CalliopeBLEDevice.requiredServicesUUIDs.contains(service.uuid) {
+				if requiredServicesUUIDs.contains(service.uuid) {
 					peripheral.discoverCharacteristics(CalliopeBLEProfile.serviceCharacteristicUUIDMap[service.uuid], for: service)
 				}
 			}
+		} else if (hasMasterService) {
+			//TODO: activate missing services, retry connect and evaluation
+			//in the future, just activate services on the fly
 		} else {
 			state = .notPlaygroundReady
 		}
@@ -115,6 +131,10 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			let serviceUuid = CalliopeBLEProfile.characteristicServiceMap[characteristic]?.uuid
 			else { return nil }
 		let uuid = characteristic.uuid
+		return getCBCharacteristic(serviceUuid, uuid)
+	}
+
+	func getCBCharacteristic(_ serviceUuid: CBUUID, _ uuid: CBUUID) -> CBCharacteristic? {
 		return peripheral.services?.filter { $0.uuid == serviceUuid }.first?
 			.characteristics?.filter { $0.uuid == uuid }.first
 	}
@@ -228,20 +248,21 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		}
 
 		guard error == nil, let value = characteristic.value else {
-			LogNotify.log(readError?.localizedDescription ?? "characteristic \(characteristic.uuid) does not have a value")
+			LogNotify.log(readError?.localizedDescription ??
+				"characteristic \(characteristic.uuid) does not have a value")
 			return
 		}
 
-		if characteristic.uuid == CalliopeCharacteristic.notify.uuid {
-			updateSensorReading(value)
-		} else {
-			guard let calliopeCharacteristic = CalliopeBLEProfile.uuidCharacteristicMap[characteristic.uuid] else { return }
-			//TODO: if we have all the sensor characteristics, and one updates, we can as well update the dashboard using it
-			updateQueue.async {
-				self.notifyListener(for: calliopeCharacteristic, value: value)
-			}
+		guard let calliopeCharacteristic = CalliopeBLEProfile.uuidCharacteristicMap[characteristic.uuid]
+			else {
+				LogNotify.log("received value from unknown characteristic: \(characteristic.uuid)")
+				return
 		}
+
+		handleValueUpdate(calliopeCharacteristic, value)
 	}
+
+	func handleValueUpdate(_ characteristic: CalliopeCharacteristic, _ value: Data) {}
 
 	private func explicitWriteResponse(_ error: Error?) {
 		writingCharacteristic = nil
@@ -263,6 +284,27 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			readValue = characteristic.value
 		}
 		readGroup.leave()
+	}
+}
+
+
+//MARK: notifications for ui updates
+
+extension CalliopeBLEDevice {
+	func postButtonANotification(_ value: Int8) {
+		postSensorUpdateNotification(DashboardItemType.ButtonA, value)
+	}
+
+	func postButtonBNotification(_ value: Int8) {
+		postSensorUpdateNotification(DashboardItemType.ButtonB, value)
+	}
+
+	func postThermometerNotification(_ value: Int8) {
+		postSensorUpdateNotification(DashboardItemType.Thermometer, value)
+	}
+
+	func postSensorUpdateNotification(_ type: DashboardItemType, _ value: Int8) {
+		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type.rawValue, "value":value])
 	}
 }
 
