@@ -11,7 +11,7 @@ playgroundPrologue()
 
 //#-code-completion(everything, hide)
 //#-code-completion(identifier, show, .)
-//#-code-completion(identifier, show, C, D, E, F, G, A, H, C5)
+//#-code-completion(identifier, show, c´, d´, e´, f´, g´, a´, h´, c´´)
 
 func onShake() {
     let r = random(/*#-editable-code*/<#T##nummer##UInt#>/*#-end-editable-code*/.../*#-editable-code*/<#T##nummer##UInt#>/*#-end-editable-code*/)

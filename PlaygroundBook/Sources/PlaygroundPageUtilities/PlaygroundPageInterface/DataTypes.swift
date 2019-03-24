@@ -90,13 +90,66 @@ public enum miniImage: Int16 {
 
 // MARK: - miniSound
 
-public enum miniSound:UInt16 {
-	case C = 262
-	case D = 294
-	case E = 330
-	case F = 349
-	case G = 392
-	case A = 440
-	case H = 494
-	case C5 = 523
+public enum miniSound: UInt16, CaseIterable {
+	case A3 = 55
+	case Bb3 = 58
+	case B3 = 62
+	case C2 = 65
+	case Db2 = 69
+	case D2 = 73
+	case Eb2 = 78
+	case E2 = 82
+	case F2 = 87
+	case Gb2 = 93
+	case G2 = 98
+	case Ab1 = 104
+	case A1 = 110
+	case Bb1 = 117
+	case B1 = 123
+	case C1 = 131
+	case Db = 139
+	case D = 147
+	case Eb = 156
+	case E = 165
+	case F = 175
+	case Gb = 185
+	case G = 196
+	case Ab = 208
+	case A = 220
+	case Bb = 233
+	case B = 247
+	case c´ = 262
+	case db´ = 277
+	case d´ = 294
+	case eb´ = 311
+	case e´ = 330
+	case f´ = 349
+	case gb´ = 370
+	case g´ = 392
+	case ab´ = 415
+	case a´ = 440
+	case bb´ = 466
+	case h´ = 494
+	case c´´ = 523
+	case db´´ = 554
+	case d´´ = 587
+	case eb´´ = 622
+	case e´´ = 659
+	case f´´ = 698
+	case gb´´ = 740
+	case g´´ = 784
+	case ab´´ = 831
+	case a´´ = 880
+	case bb´´ = 932
+	case h´´ = 988
+	case c´´´ = 1047
+	case db´´´ = 1109
+	case d´´´ = 1175
+	case eb´´´ = 1245
+	case e´´´ = 1319
+	case f´´´ = 1397
+	case gb´´´ = 1480
+	case g´´´ = 1568
+	case ab´´´ = 1661
+	case a´´´ = 1760
 }

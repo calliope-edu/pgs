@@ -95,11 +95,11 @@ extension ApiCommand: ApiCall {
 
 		//OUTPUT
 		//rgb
-		/*case .rgbOn(let color):
+		case .rgbOn(let color):
 			try container.encode(12100, forKey: .enumValue)
 			try container.encode(color, forKey: .parameterValue)
 		case .rgbOff:
-			try container.encode(12101, forKey: .enumValue)*/
+			try container.encode(12101, forKey: .enumValue)
 		//display
 		case .displayClear:
 			try container.encode(12200, forKey: .enumValue)
@@ -113,14 +113,14 @@ extension ApiCommand: ApiCall {
 			try container.encode(12203, forKey: .enumValue)
 			try container.encode(text, forKey: .parameterValue)
 		//sound
-		/*case .soundOff:
+		case .soundOff:
 			try container.encode(12300, forKey: .enumValue)
 		case .soundOnNote(let note):
 			try container.encode(12301, forKey: .enumValue)
 			try container.encode(note, forKey: .parameterValue)
 		case .soundOnFreq(let freq):
 			try container.encode(12302, forKey: .enumValue)
-			try container.encode(freq, forKey: .parameterValue)*/
+			try container.encode(freq, forKey: .parameterValue)
 
 		//CONTROL
 		case .registerCallbacks():

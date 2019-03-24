@@ -13,7 +13,7 @@ struct BluetoothConstants {
 	static let readTimeout = 2.0
 	static let writeTimeout = 2.0
 
-	static let restartDuration = 1.5
+	static let restartDuration = 4.0
 
 	static let lastConnectedKey = "cc.calliope.latestDeviceKey"
 	static let lastConnectedNameKey = "name"

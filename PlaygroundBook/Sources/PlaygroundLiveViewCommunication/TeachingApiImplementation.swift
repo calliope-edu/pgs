@@ -12,9 +12,9 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	static let instance = TeachingApiImplementation()
 
-	//private var rgbState: miniColor = .black
+	private var rgbState: miniColor = .black
 
-	//private var soundFreq: UInt16 = 0
+	private var soundFreq: UInt16 = 0
 
 
 	//MARK: Variables mirroring calliope state
@@ -27,20 +27,20 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	private var noiseLevel: UInt16 = 0
 
 	private func resetVars() {
-		//resetRgbState()
-		//resetSoundFreq()
+		resetRgbState()
+		resetSoundFreq()
 		resetButtonState()
 		resetPinState()
 		resetNoiseLevel()
 	}
 
-	/*private func resetRgbState() {
+	private func resetRgbState() {
 		rgbState = .black
-	}*/
+	}
 
-	/*private func resetSoundFreq() {
+	private func resetSoundFreq() {
 		soundFreq = 0
-	}*/
+	}
 
 	private func resetButtonState() {
 		buttonAState = .Up
@@ -83,15 +83,17 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		case .registerCallbacks():
 			registerCallbacks(calliope)
 			response = .finished()
-		/* TODO: not working right now
 		case .rgbOn(let color):
 			rgbState = color
-			//TODO: send to calliope
+			let (rf, gf, bf, af) = color.color.components
+			let (r, g, b, a) = (UInt8(rf * 255), UInt8(gf * 255), UInt8(bf * 255), UInt8(af * 255))
+			calliope?.setColor(r: r, g: g, b: b)
+			//, a: a) (this might not lead to correct result: alpha = 1 when color opaque -> a = 255 always
 			response = .finished()
 		case .rgbOff:
 			resetRgbState()
-			//TODO: send to calliope
-			response = .finished()*/
+			calliope?.setColor(r: 0, g: 0, b: 0)
+			response = .finished()
 		case .displayClear:
 			calliope?.ledMatrixState = displayOffState
 			response = .finished()
@@ -105,20 +107,18 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			//TODO: is display state in this case working?
 			calliope?.displayLedText(text)
 			response = .finished()
-		/* TODO: not working right now
 			case .soundOff:
 			resetSoundFreq()
-			//TODO: send to calliope
+			calliope?.setSound(frequency: 0)
 			response = .finished()
 		case .soundOnNote(let note):
-			soundFreq = 0 //TODO: note to frequency
-			//TODO: send to calliope
+			soundFreq = note.rawValue
+			calliope?.setSound(frequency: soundFreq)
 			response = .finished()
 		case .soundOnFreq(let freq):
 			soundFreq = freq
-			//TODO: send to calliope
+			calliope?.setSound(frequency: freq)
 			response = .finished()
-			*/
 		case .sleep(let time):
 			response = .finished()
 			t = Double(time) / 1000.0
