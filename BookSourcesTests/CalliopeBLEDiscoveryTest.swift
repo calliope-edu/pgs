@@ -8,11 +8,11 @@
 import XCTest
 @testable import Book_Sources
 
-class CalliopeBLEDiscoveryTest: XCTestCase {
+class CalliopeBLEDiscoveryTest<C: CalliopeBLEDevice>: XCTestCase {
 
 	public let discoveryExpectation = XCTestExpectation()
 	public let connectionExpectation = XCTestExpectation()
-	public let discoverer = CalliopeBLEDiscovery()
+	public let discoverer = CalliopeBLEDiscovery<C>()
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -50,7 +50,7 @@ class CalliopeBLEDiscoveryTest: XCTestCase {
 		}
 	}
 
-	func connect(_ calliope: CalliopeBLEDevice, fulfilled: @escaping () -> () = {}) {
+	func connect(_ calliope: C, fulfilled: @escaping () -> () = {}) {
 		discoverer.updateBlock = {
 			if self.discoverer.state == .connected {
 				fulfilled()

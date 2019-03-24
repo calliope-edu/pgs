@@ -12,7 +12,11 @@ import XCTest
 /// as well as these services in the required services array of CalliopeBLEDevice
 class BluetoothApiTest: XCTestCase {
 
-	let calliopeTest = CalliopeBLEDeviceTest()
+	let calliopeTest = CalliopeBLEDeviceTest<ApiCalliope>()
+
+	let rgbTestExpectation = XCTestExpectation(description: "rgb api")
+
+	let soundTestExpectation = XCTestExpectation(description: "sound service")
 	let ledTestExpectation = XCTestExpectation(description: "led service")
 	let temperatureUpdateExpectation = XCTestExpectation(description: "temperature service")
 	let magnetometerUpdateExpectation = XCTestExpectation(description: "magnetometer service")
@@ -23,6 +27,22 @@ class BluetoothApiTest: XCTestCase {
 	let buttonBUpExpectation = XCTestExpectation(description: "button B service up")
 	let buttonALongExpectation = XCTestExpectation(description: "button A service long")
 	let buttonBLongExpectation = XCTestExpectation(description: "button B service long")
+
+	func testSoundApi() {
+		bluetoothApiTest { calliope in
+			calliope.setSound(frequency: 440, duration: 250)
+			self.soundTestExpectation.fulfill()
+		}
+		wait(for: [soundTestExpectation], timeout: 20)
+	}
+
+	func testRGBApi() {
+		bluetoothApiTest { calliope in
+			calliope.setColor(r: 255, g: 0, b: 0)
+			self.rgbTestExpectation.fulfill()
+		}
+		wait(for: [rgbTestExpectation], timeout: 20)
+	}
 
 	func testButtonNotification() {
 		bluetoothApiTest { callipe in
@@ -153,7 +173,7 @@ class BluetoothApiTest: XCTestCase {
 		}
 	}
 
-	private func bluetoothApiTest(_ apiUsage: @escaping (CalliopeBLEDevice) -> ()) {
+	private func bluetoothApiTest(_ apiUsage: @escaping (ApiCalliope) -> ()) {
 		self.calliopeTest.discoveryTest.discover {
 			self.calliopeTest.connectToCalliopeInMode5() {
 				apiUsage(self.calliopeTest.calliopeInMode5!)

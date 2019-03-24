@@ -38,7 +38,9 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			servicesWithUndiscoveredCharacteristics = requiredServicesUUIDs
 		} else if state == .connected {
 			//immediately evaluate whether in playground mode
-			evaluateMode()
+			DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + BluetoothConstants.couplingDelay) {
+				self.evaluateMode()
+			}
 		}
 	}
 

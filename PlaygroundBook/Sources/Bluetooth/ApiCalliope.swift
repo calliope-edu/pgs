@@ -159,7 +159,7 @@ class ApiCalliope: CalliopeBLEDevice {
 		write((frequency, duration), .playTone)
 	}
 
-	public func setColor(r: UInt8, g: UInt8, b: UInt8, a: UInt8 = 128) {
+	public func setColor(r: UInt8, g: UInt8, b: UInt8, a: UInt8 = 0) {
 		write((r, g, b, a), .color)
 	}
 
@@ -381,10 +381,10 @@ extension CalliopeCharacteristic {
 			}).reduce(into: Data()) { $0.append($1) }
 		case .color:
 			guard let (r, g, b, a) = object as? (UInt8, UInt8, UInt8, UInt8) else { return nil }
-			return b.littleEndianData + g.littleEndianData + r.littleEndianData + a.littleEndianData
+			return r.littleEndianData + g.littleEndianData + b.littleEndianData + a.littleEndianData
 		case .playTone:
 			guard let (tone, duration) = object as? (UInt16, UInt16) else { return nil }
-			return duration.littleEndianData + tone.littleEndianData
+			return tone.littleEndianData + duration.littleEndianData
 		default:
 			return nil
 		}
