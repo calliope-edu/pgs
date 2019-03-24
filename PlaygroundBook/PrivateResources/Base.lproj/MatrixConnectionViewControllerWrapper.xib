@@ -11,7 +11,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MatrixConnectionViewController" customModule="CalliopePlaybook" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MatrixConnectionViewController" customModule="Book_Sources">
             <connections>
                 <outlet property="collapseButton" destination="zs4-zm-gk9" id="o1d-8h-6pc"/>
                 <outlet property="collapseHeightConstraint" destination="Qaf-v4-KAB" id="atR-D1-806"/>
@@ -66,7 +66,7 @@
                                 <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                             </state>
                             <connections>
-                                <action selector="connect:" destination="-1" eventType="touchUpInside" id="auz-cN-Gta"/>
+                                <action selector="connect" destination="-1" eventType="touchUpInside" id="6cq-xK-lbM"/>
                             </connections>
                         </button>
                     </subviews>

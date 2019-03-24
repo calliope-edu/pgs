@@ -11,12 +11,12 @@ import PlaygroundBluetooth
 
 // https://developer.apple.com/library/content/documentation/Xcode/Conceptual/swift_playgrounds_doc_format/PlaygroundLiveViewMessageHandlerProtocol.html#//apple_ref/doc/uid/TP40017343-CH42-SW1
 
-public class DashBoardViewController: ViewController_Base {
+public class ApiCalliopeDashboardViewController: ViewController_Base {
 
 	var identifier:String = ""
 
 	var stack: UIStackView_Dashboard!
-	var connectionView = MatrixConnectionViewController<ProgrammableCalliope>(nibName: "MatrixConnectionViewControllerWrapper", bundle: nil)
+	var connectionView = MatrixConnectionViewController<ApiCalliope>(nibName: "MatrixConnectionViewControllerWrapper", bundle: nil)
 
 	public required init(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -38,7 +38,7 @@ public class DashBoardViewController: ViewController_Base {
 
 	public override func viewDidLoad() {
 		super.viewDidLoad()
-		//LogNotify.log("ProgrammableCalliopeDashboardViewController loaded")
+		//LogNotify.log("ApiCalliopeDashboardViewController loaded")
 	}
 
 	func UISetup(_ output:[DashboardItemGroup.Output], _ input:[DashboardItemGroup.Input], _ sensor:[DashboardItemGroup.Sensor],
@@ -121,22 +121,6 @@ public class DashBoardViewController: ViewController_Base {
 		})
 	}
 
-	func upload(_ data: Data) {
-		let decoder = PropertyListDecoder()
-		guard let prog:ProgramBuildResult = try? decoder.decode(ProgramBuildResult.self, from: data) else {
-			LogNotify.log("failed to encode build result")
-			return
-		}
-		connectionView.uploadProgram(program: prog).done({ (msg, success) in
-			LogNotify.log("upload worked: \(success) - \(msg)")
-			if(!success) {
-				let alert = UIAlertController(title: "alert.notconnected.title".localized, message: msg, preferredStyle: .alert)
-				alert.addAction(UIAlertAction(title: "alert.notconnected.button".localized, style: .default, handler: nil))
-				self.present(alert, animated: true)
-			}
-		})
-	}
-
 	@objc private func collapseConnectionViewController() {
 		self.connectionView.animate(expand: false)
 	}
@@ -144,7 +128,7 @@ public class DashBoardViewController: ViewController_Base {
 
 //MARK: collapse gesture recognizer delegate
 
-extension DashBoardViewController: UIGestureRecognizerDelegate {
+extension ApiCalliopeDashboardViewController: UIGestureRecognizerDelegate {
 	public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
 		//prevent gestures on connection view itself from collapsing the view
 		let connectionViewController = self.connectionView
@@ -153,7 +137,7 @@ extension DashBoardViewController: UIGestureRecognizerDelegate {
 }
 
 //MARK: - PlaygroundLiveViewMessageHandler
-extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
+extension ApiCalliopeDashboardViewController: PlaygroundLiveViewMessageHandler {
 
 	public func liveViewMessageConnectionOpened() {
 		// We don't need to do anything in particular when the connection opens.
@@ -169,10 +153,18 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
 
 		if case let .string(msg) = message {
 			LogNotify.log("live view receive string: \(msg)")
-		} else if case let .dictionary(msg) = message,
-			case let .data(program)? = msg[PlaygroundValueKeys.programKey] {
-			//LogNotify.log("live view receive data: \(data)")
-			upload(program)
+		} else if case let .dictionary(dict) = message {
+			if case let .data(callData)? = dict[PlaygroundValueKeys.apiCommandKey],
+				let call = ApiCommand(data: callData) {
+				LogNotify.log("live view received api command \(call)")
+				TeachingApiImplementation.instance.handleApiCommand(call, calliope: connectionView.usageReadyCalliope)
+			} else if case let .data(callData)? = dict[PlaygroundValueKeys.apiRequestKey],
+				let call = ApiRequest(data: callData) {
+				LogNotify.log("live view received api request \(call)")
+				TeachingApiImplementation.instance.handleApiRequest(call, calliope: connectionView.usageReadyCalliope)
+			} else {
+				LogNotify.log("live view cannot handle call \(dict)")
+			}
 		} else {
 			LogNotify.log("live view receive unknown message: \(message)")
 			delay(time: 1.0) { [weak self] in

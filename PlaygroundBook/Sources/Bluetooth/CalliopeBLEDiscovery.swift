@@ -9,7 +9,7 @@ import UIKit
 import CoreBluetooth
 import PlaygroundSupport
 
-class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
+class CalliopeBLEDiscovery<C: CalliopeBLEDevice>: NSObject, CBCentralManagerDelegate {
 
 	enum CalliopeDiscoveryState {
 		case initialized //no discovered calliopes, doing nothing
@@ -31,7 +31,7 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		}
 	}
 
-	private(set) var discoveredCalliopes : [String : CalliopeBLEDevice] = [:] {
+	private(set) var discoveredCalliopes : [String : C] = [:] {
 		didSet {
 			LogNotify.log("discovered: \(discoveredCalliopes)")
 			redetermineState()
@@ -40,7 +40,7 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 
 	private var discoveredCalliopeUUIDNameMap : [UUID : String] = [:]
 
-	private(set) var connectingCalliope: CalliopeBLEDevice? {
+	private(set) var connectingCalliope: C? {
 		didSet {
 			LogNotify.log("connecting: \(String(describing: connectingCalliope))")
 			if let connectingCalliope = self.connectingCalliope {
@@ -57,7 +57,7 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		}
 	}
 
-	private(set) var connectedCalliope: CalliopeBLEDevice? {
+	private(set) var connectedCalliope: C? {
 		didSet {
 			LogNotify.log("connected: \(String(describing: connectedCalliope))")
 			if connectedCalliope != nil {
@@ -68,8 +68,8 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 				lastConnected = (uuid, name)
 			}
 			redetermineState()
-			oldValue?.state = .discovered
-			connectedCalliope?.state = .connected
+			oldValue?.hasDisconnected()
+			connectedCalliope?.hasConnected()
 		}
 	}
 
@@ -124,7 +124,8 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		let lastCalliope = centralManager.retrievePeripherals(withIdentifiers: [lastConnectedUUID]).first
 		else { return }
 
-		let calliope = CalliopeBLEDevice(peripheral: lastCalliope, name: lastConnectedName)
+		let calliope = C(peripheral: lastCalliope, name: lastConnectedName)
+
 		self.discoveredCalliopes.updateValue(calliope, forKey: lastConnectedName)
 		self.discoveredCalliopeUUIDNameMap.updateValue(lastConnectedName, forKey: lastCalliope.identifier)
 		//auto-reconnect
@@ -164,12 +165,12 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 			BluetoothConstants.deviceNames.map({ lowerName.contains($0) }).contains(true),
 			let friendlyName = Matrix.full2Friendly(fullName: lowerName) {
 			//FIXME: hard-coded name for testing
-//			let friendlyName = Optional("gepeg") {
+			//let friendlyName = Optional("gepeg") {
 			//never create a calliope twice, since this would clear its state
 			if discoveredCalliopes[friendlyName] == nil {
 				//we found a calliope device (or one that pretends to be a calliope at least)
-				discoveredCalliopes.updateValue(CalliopeBLEDevice(peripheral: peripheral, name: friendlyName),
-												forKey: friendlyName)
+				let calliope = C(peripheral: peripheral, name: friendlyName)
+				discoveredCalliopes.updateValue(calliope, forKey: friendlyName)
 				discoveredCalliopeUUIDNameMap.updateValue(friendlyName, forKey: peripheral.identifier)
 			}
 		}
@@ -177,7 +178,7 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 
 	// MARK: connection
 
-	func connectToCalliope(_ calliope: CalliopeBLEDevice) {
+	func connectToCalliope(_ calliope: C) {
 		//when we first connect, we stop searching further
 		stopCalliopeDiscovery()
 		//do not connect twice
@@ -205,6 +206,7 @@ class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 	}
 
 	func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+		LogNotify.log("disconnected from \(String(describing: peripheral.name))")
 		connectingCalliope = nil
 		connectedCalliope = nil
 		lastConnected = nil

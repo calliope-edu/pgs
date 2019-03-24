@@ -21,9 +21,10 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		case evaluateMode //connected, looking for services and characteristics
 		case playgroundReady //all required services and characteristics have been found, calliope ready to be programmed
 		case notPlaygroundReady //required services and characteristics not available, put into right mode
+		case willReset //when a reset is done to enable or disable services
 	}
 
-	var state : CalliopeBLEDeviceState = .discovered { //TODO: make setter private
+	private(set) var state : CalliopeBLEDeviceState = .discovered {
 		didSet {
 			LogNotify.log("\(self)")
 			handleStateUpdate()
@@ -60,11 +61,23 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		}
 	}
 
-	init(peripheral: CBPeripheral, name: String) {
+	required init(peripheral: CBPeripheral, name: String) {
 		self.peripheral = peripheral
 		self.name = name
 		super.init()
 		peripheral.delegate = self
+	}
+
+	public func hasConnected() {
+		if state == .discovered {
+			state = .connected
+		}
+	}
+
+	public func hasDisconnected() {
+		if state != .discovered {
+			state = .discovered
+		}
 	}
 
 	// MARK: Services discovery
@@ -73,12 +86,12 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	private func evaluateMode() {
 		//immediately continue with service discovery
 		state = .evaluateMode
-		peripheral.discoverServices(Array(requiredServicesUUIDs))
+		peripheral.discoverServices(requiredServicesUUIDs + [CalliopeService.master.uuid])
 	}
 
 	func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
 		guard error == nil else {
-			//TODO: log failure cause
+			LogNotify.log(error!.localizedDescription)
 			state = .notPlaygroundReady
 			return
 		}
@@ -93,14 +106,16 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		//evaluate whether all required services were found. If not, Calliope is not ready for programs from the playground
 		if uuidSet.isSuperset(of: requiredServicesUUIDs) {
 			//discover the characteristics of all required services, just to be thorough
-			services.forEach { service in
-				if requiredServicesUUIDs.contains(service.uuid) {
-					peripheral.discoverCharacteristics(CalliopeBLEProfile.serviceCharacteristicUUIDMap[service.uuid], for: service)
-				}
+			services.filter { requiredServicesUUIDs.contains($0.uuid) }.forEach { service in
+				peripheral.discoverCharacteristics(CalliopeBLEProfile.serviceCharacteristicUUIDMap[service.uuid], for: service)
 			}
 		} else if (hasMasterService) {
-			//TODO: activate missing services, retry connect and evaluation
-			//in the future, just activate services on the fly
+			//activate missing services, retry connect and evaluation
+			guard let masterService = services.first(where: { $0.uuid == CalliopeService.master.uuid }) else {
+				state = .notPlaygroundReady
+				return
+			}
+			peripheral.discoverCharacteristics([CalliopeCharacteristic.services.uuid], for: masterService)
 		} else {
 			state = .notPlaygroundReady
 		}
@@ -110,6 +125,22 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	// MARK: Characteristics discovery
 
 	func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+
+		if service.uuid == CalliopeService.master.uuid {
+			//since calliope is reset, to signal to attempt reconnect
+			self.state = .willReset
+			//we searched the master service characteristics because we did not have all required characteristics
+			do { try write((requiredServices.reduce(0, { $0 | $1 }) | 1 << 31).littleEndianData, for: .services) }
+			catch {
+				if state == .evaluateMode {
+					state = .notPlaygroundReady
+				}
+				LogNotify.log("was not able to enable services through master service")
+				//return
+			}
+			//in the future, just activate services on the fly
+		}
+
 		let requiredCharacteristicsUUIDs = Set(CalliopeBLEProfile.serviceCharacteristicUUIDMap[service.uuid] ?? [])
 
 		let characteristics = service.characteristics ?? []
@@ -127,7 +158,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	func getCBCharacteristic(_ characteristic: CalliopeCharacteristic) -> CBCharacteristic? {
-		guard state == .playgroundReady,
+		guard state == .playgroundReady || characteristic == .services,
 			let serviceUuid = CalliopeBLEProfile.characteristicServiceMap[characteristic]?.uuid
 			else { return nil }
 		let uuid = characteristic.uuid
@@ -135,14 +166,11 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	func getCBCharacteristic(_ serviceUuid: CBUUID, _ uuid: CBUUID) -> CBCharacteristic? {
-		return peripheral.services?.filter { $0.uuid == serviceUuid }.first?
-			.characteristics?.filter { $0.uuid == uuid }.first
+		return peripheral.services?.first { $0.uuid == serviceUuid }?
+			.characteristics?.first { $0.uuid == uuid }
 	}
 
 	//MARK: reading and writing characteristics (asynchronously/ scheduled/ synchronously)
-
-	var timeoutRead: DispatchTimeInterval = DispatchTimeInterval.milliseconds(2000)
-	var timeoutWrite: DispatchTimeInterval = DispatchTimeInterval.milliseconds(2000)
 
 	//to sequentialize reads and writes
 
@@ -163,7 +191,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	var updateListeners: [CalliopeCharacteristic: Any] = [:]
 
 	func write (_ data: Data, for characteristic: CalliopeCharacteristic) throws {
-		guard state == .playgroundReady
+		guard state == .playgroundReady || characteristic == .services
 			else { throw "Not ready to write to characteristic \(characteristic)" }
 		guard let cbCharacteristic = getCBCharacteristic(characteristic) else { throw "characteristic \(characteristic) not available" }
 
@@ -179,7 +207,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			self.writeGroup.enter()
 			self.peripheral.writeValue(data, for: characteristic, type: .withResponse)
 
-			if self.writeGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
+			if self.writeGroup.wait(timeout: DispatchTime.now() + BluetoothConstants.writeTimeout) == .timedOut {
 				LogNotify.log("write to \(characteristic) timed out")
 				self.writeError = CBError(.connectionTimeout)
 			}
@@ -211,7 +239,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			//read value and wait for delegate call (or error)
 			self.readGroup.enter()
 			self.peripheral.readValue(for: characteristic)
-			if self.readGroup.wait(timeout: DispatchTime.now() + 10) == .timedOut {
+			if self.readGroup.wait(timeout: DispatchTime.now() + BluetoothConstants.readTimeout) == .timedOut {
 				LogNotify.log("read from \(characteristic) timed out")
 				self.readError = CBError(.connectionTimeout)
 			}

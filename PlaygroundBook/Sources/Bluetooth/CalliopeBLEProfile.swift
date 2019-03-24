@@ -13,11 +13,11 @@ enum CalliopeService: String {
 
 	//MARK: master service
 
-	case master = "CA11FF01-251D-470A-A062FA1922DFA9A8"
+	case master = "CA11FF01-251D-470A-A062-FA1922DFA9A8"
 
 	//MARK: service for interpreter
 
-	case interpreter = "FF44DDEE-251D-470A-A062FA1922DFA9A8"
+	case interpreter = "FF44DDEE-251D-470A-A062-FA1922DFA9A8"
 
 	//MARK: services for interpreter (legacy)
 
@@ -26,13 +26,13 @@ enum CalliopeService: String {
 
 	//MARK: custom calliope services
 
-	case rgbLed = "CA110101-251D-470A-A062FA1922DFA9A8"
+	case rgbLed = "CA110101-251D-470A-A062-FA1922DFA9A8"
 
-	case microphone = "CA110201-251D-470A-A062FA1922DFA9A8"
+	case microphone = "CA110201-251D-470A-A062-FA1922DFA9A8"
 
-	case speaker = "CA110401-251D-470A-A062FA1922DFA9A8"
+	case speaker = "CA110401-251D-470A-A062-FA1922DFA9A8"
 
-	case brightness = "CA110301-251D-470A-A062FA1922DFA9A8"
+	case brightness = "CA110301-251D-470A-A062-FA1922DFA9A8"
 
 	//MARK: services from BLE Profile of Microbit from Lancester University
 	//https://lancaster-university.github.io/microbit-docs/resources/bluetooth/bluetooth_profile.html
@@ -117,7 +117,7 @@ enum CalliopeCharacteristic: String, CaseIterable {
 
 	//MARK: master service characteristic
 
-	case services = "CA11FF02-251D-470A-A062FA1922DFA9A8"
+	case services = "CA11FF02-251D-470A-A062-FA1922DFA9A8"
 
 	//MARK: interpreter characteristics (current + legacy)
 	case notify = "FF55DDEE-251D-470A-A062-FA1922DFA9A8"
@@ -125,13 +125,13 @@ enum CalliopeCharacteristic: String, CaseIterable {
 
 	//MARK: custom calliope service characteristics
 
-	case color = "CA110102-251D-470A-A062FA1922DFA9A8"
+	case color = "CA110102-251D-470A-A062-FA1922DFA9A8"
 
-	case noise = "CA110203-251D-470A-A062FA1922DFA9A8"
+	case noise = "CA110203-251D-470A-A062-FA1922DFA9A8"
 
-	case playTone = "CA110402-251D-470A-A062FA1922DFA9A8"
+	case playTone = "CA110402-251D-470A-A062-FA1922DFA9A8"
 
-	case brightness = "CA110303-251D-470A-A062FA1922DFA9A8"
+	case brightness = "CA110303-251D-470A-A062-FA1922DFA9A8"
 
 	//MARK: characteristics from microbit ble profile
 
@@ -297,6 +297,32 @@ struct CalliopeBLEProfile {
 	///To quickly access the characteristic with the corresponding uuid
 	static let uuidCharacteristicMap = Dictionary(uniqueKeysWithValues:
 		CalliopeCharacteristic.allCases.map { ($0.uuid, $0) })
+}
+
+extension CalliopeService {
+	static func &(lhs: CalliopeService, rhs: CalliopeService) -> UInt32 {
+		return lhs & rhs.bitPattern
+	}
+
+	static func &(lhs: UInt32, rhs: CalliopeService) -> UInt32 {
+		return lhs & rhs.bitPattern
+	}
+
+	static func &(lhs: CalliopeService, rhs: UInt32) -> UInt32 {
+		return lhs.bitPattern & rhs
+	}
+
+	static func |(lhs: CalliopeService, rhs: CalliopeService) -> UInt32 {
+		return lhs | rhs.bitPattern
+	}
+
+	static func |(lhs: UInt32, rhs: CalliopeService) -> UInt32 {
+		return lhs | rhs.bitPattern
+	}
+
+	static func |(lhs: CalliopeService, rhs: UInt32) -> UInt32 {
+		return lhs.bitPattern | rhs
+	}
 }
 
 extension String {

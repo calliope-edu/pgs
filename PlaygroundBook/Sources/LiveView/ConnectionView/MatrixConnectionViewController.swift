@@ -8,13 +8,7 @@
 import UIKit
 import PlaygroundSupport
 
-@objc
-class MatrixConnectionViewController: UIViewController
-{
-	private let collapsedWidth: CGFloat = 28
-	private let collapsedHeight: CGFloat = 28
-	private let expandedWidth: CGFloat = 275
-	private let expandedHeight: CGFloat = 500
+class MatrixConnectionViewController<C: CalliopeBLEDevice>: UIViewController {
 
 	/// button to toggle whether connection view is open or not
 	@IBOutlet var collapseButton: CollapseButton!
@@ -33,28 +27,24 @@ class MatrixConnectionViewController: UIViewController
 	/// constraint to collapse view vertically
 	@IBOutlet var collapseHeightConstraint: NSLayoutConstraint!
 
-	///TODO: review if these asynchronized do any harm
+	private let collapsedWidth: CGFloat = 28
+	private let collapsedHeight: CGFloat = 28
+	private let expandedWidth: CGFloat = 275
+	private let expandedHeight: CGFloat = 500
+
 	private let queue = DispatchQueue(label: "bluetooth")
 
-	private let connector = CalliopeBLEDiscovery()
-	public var calliopeWithCurrentMatrix: CalliopeBLEDevice? {
+	private let connector = CalliopeBLEDiscovery<C>()
+
+	public var calliopeWithCurrentMatrix: C? {
 		return connector.discoveredCalliopes[Matrix.matrix2friendly(matrixView.matrix) ?? ""]
 	}
 
-	public var programmingReadyCalliope: ProgrammableCalliope? {
+	public var usageReadyCalliope: C? {
 		guard let calliope = connector.connectedCalliope,
-		calliope.state == .playgroundReady,
-		let programmableCalliope = calliope as? ProgrammableCalliope
-		else { return nil }
-		return programmableCalliope
-	}
-
-	public var apiReadyCalliope: ApiCalliope? {
-		guard let calliope = connector.connectedCalliope,
-			calliope.state == .playgroundReady,
-			let apiCalliope = calliope as? ApiCalliope
+			calliope.state == .playgroundReady
 			else { return nil }
-		return apiCalliope
+		return calliope
 	}
 
 	@IBAction func toggleOpen(_ sender: Any) {
@@ -123,22 +113,22 @@ class MatrixConnectionViewController: UIViewController
 			self.view.superview?.layoutIfNeeded()
 		}, completion: completion)
 	}
-}
 
-// MARK: calliope connection
+	// MARK: calliope connection
 
-extension MatrixConnectionViewController {
-	@IBAction func connect(_ sender: Any) {
-		//TODO: implement connection logic
+	private var attemptReconnect = false
+
+	@IBAction func connect() {
 		if self.connector.state == .initialized
 			|| self.calliopeWithCurrentMatrix == nil && self.connector.state == .discoveredAll {
 			connector.startCalliopeDiscovery()
-		} else if let calliope = self.calliopeWithCurrentMatrix, calliope.state == .discovered {
+		} else if let calliope = self.calliopeWithCurrentMatrix,
+			calliope.state == .discovered || calliope.state == .willReset {
 			connector.stopCalliopeDiscovery()
 			calliope.updateBlock = updateDiscoveryState
 			connector.connectToCalliope(calliope)
 		} else {
-			fatalError("connect button must not be enabled in this state")
+			LogNotify.log("connect button should not be enabled in this state (\(self.connector.state), \(String(describing: self.calliopeWithCurrentMatrix?.state)))")
 		}
 	}
 
@@ -183,7 +173,7 @@ extension MatrixConnectionViewController {
 		}
 	}
 
-	private func evaluateCalliopeState(_ calliope: CalliopeBLEDevice) {
+	private func evaluateCalliopeState(_ calliope: C) {
 
 		if calliope.state == .notPlaygroundReady || calliope.state == .discovered {
 			self.collapseButton.connectionState = .disconnected
@@ -193,11 +183,19 @@ extension MatrixConnectionViewController {
 			self.collapseButton.connectionState = .connecting
 		}
 
+		if calliope.state == .discovered && attemptReconnect {
+			//start reconnection attempt
+			queue.asyncAfter(deadline: DispatchTime.now() + BluetoothConstants.restartDuration, execute: connect)
+			attemptReconnect = false
+			return
+		}
+
 		switch calliope.state {
 		case .discovered:
 			matrixView.isUserInteractionEnabled = true
 			connectButton.connectionState = .readyToConnect
 		case .connected:
+			attemptReconnect = false
 			matrixView.isUserInteractionEnabled = false
 		case .evaluateMode:
 			matrixView.isUserInteractionEnabled = false
@@ -208,18 +206,22 @@ extension MatrixConnectionViewController {
 		case .notPlaygroundReady:
 			matrixView.isUserInteractionEnabled = true
 			connectButton.connectionState = .wrongProgram
+		case .willReset:
+			matrixView.isUserInteractionEnabled = false
+			connectButton.connectionState = .wrongProgram
+			attemptReconnect = true
 		}
 	}
 }
 
 //MARK: calliope communications
 
-extension MatrixConnectionViewController {
+extension MatrixConnectionViewController where C == ProgrammableCalliope {
 
 	func uploadProgram(program: ProgramBuildResult) -> Worker<String>  {
 		return Worker { [weak self] resolve in
 			guard let queue = self?.queue else { LogNotify.log("no object to work on...)"); return }
-			guard let device = self?.programmingReadyCalliope else {
+			guard let device = self?.usageReadyCalliope else {
 				resolve(Result("result.upload.missing".localized, false))
 				return
 			}
@@ -239,7 +241,6 @@ extension MatrixConnectionViewController {
 		}
 	}
 }
-
 
 //MARK: playground specifics
 

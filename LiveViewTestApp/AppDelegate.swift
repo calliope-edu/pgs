@@ -20,7 +20,14 @@ class AppDelegate: LiveViewHost.AppDelegate {
             [.ButtonA, .ButtonB, .Pin, .Shake],
             [.Thermometer, .Noise, .Brightness]
         )
-        
+
+//		let dashBoardController: ApiCalliopeDashboardViewController = ApiCalliopeDashboardViewController(
+//		    "1-1",
+//		    [.Display, .RGB, .Sound],
+//		    [.ButtonA, .ButtonB, .Pin, .Shake],
+//		    [.Thermometer, .Noise, .Brightness]
+//		)
+
         return dashBoardController
     }
 

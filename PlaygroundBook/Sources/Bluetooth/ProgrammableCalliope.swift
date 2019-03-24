@@ -26,8 +26,7 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 	// MARK: Uploading programs via program characteristic
 
 	func upload(program: ProgramBuildResult) throws {
-		guard requiredServices.contains(.notify)
-			&& state == .playgroundReady else { throw "Not ready to receive programs yet" }
+		guard state == .playgroundReady else { throw "Not ready to receive programs yet" }
 
 		//code of the program
 		let code : [UInt8] = program.code
@@ -35,7 +34,7 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 		let methods : [UInt16] = program.methods
 
 		//never crashes because we made sure we are ready for the playground, i.e. we have all required services
-		guard let programCharacteristic = getCBCharacteristic(.program) else { throw "Program characteristic not available" }
+		guard let programCharacteristic = getCBCharacteristic(programOrNotify: .program) else { throw "Program characteristic not available" }
 
 		// transfer code in parts
 
@@ -80,8 +79,11 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 	}
 
 	override func handleStateUpdate() {
-		do { try readSensors(true) }
-		catch { LogNotify.log("\(self)\ncannot start sensor readings") }
+		super.handleStateUpdate()
+		if state == .playgroundReady {
+			do { try readSensors(true) }
+			catch { LogNotify.log("\(self)\ncannot start sensor readings") }
+		}
 	}
 
 	override func handleValueUpdate(_ characteristic: CalliopeCharacteristic, _ value: Data) {
@@ -93,12 +95,12 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 		}
 	}
 
-	override func getCBCharacteristic(_ calliopeCharacteristic: CalliopeCharacteristic) -> CBCharacteristic? {
+	func getCBCharacteristic(programOrNotify calliopeCharacteristic: CalliopeCharacteristic) -> CBCharacteristic? {
 		let characteristic: CBCharacteristic?
 		if hasMasterService {
 			characteristic = getCBCharacteristic(CalliopeService.interpreter.uuid, calliopeCharacteristic.uuid)
 		} else {
-			characteristic = getCBCharacteristic(CalliopeService.notify.uuid, calliopeCharacteristic.uuid)
+			characteristic = getCBCharacteristic(calliopeCharacteristic.uuid, calliopeCharacteristic.uuid)
 		}
 		return characteristic
 	}
@@ -111,11 +113,10 @@ extension ProgrammableCalliope {
 	// MARK: Receiving sensor values via notify characteristic
 
 	func readSensors(_ enabled: Bool) throws {
-		guard requiredServices.contains(.notify)
-			&& state == .playgroundReady else { throw "Not ready to read sensor values" }
+		guard state == .playgroundReady else { throw "Not ready to read sensor values" }
 		//never throws because we made sure we are ready for the playground, i.e. we have all required services
 
-		guard let cbCharacteristic = getCBCharacteristic(.notify) else { throw "Notify characteristic not available" }
+		guard let cbCharacteristic = getCBCharacteristic(programOrNotify: .notify) else { throw "Notify characteristic not available" }
 
 		peripheral.setNotifyValue(enabled, for: cbCharacteristic)
 	}
