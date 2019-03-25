@@ -96,7 +96,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			calliope?.displayLedText(text)
 		case .soundOff:
 			resetSoundFreq()
-			calliope?.setSound(frequency: 440, duration: 0)
+			calliope?.setSound(frequency: 0, duration: 100)
 		case .soundOnNote(let note):
 			soundFreq = note.rawValue
 			calliope?.setSound(frequency: soundFreq)

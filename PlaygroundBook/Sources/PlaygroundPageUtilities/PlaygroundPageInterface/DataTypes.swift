@@ -98,11 +98,11 @@ public enum miniSound: UInt16, CaseIterable {
 	case F2 = 87
 	case Gb2 = 93
 	case G2 = 98
-	case Ab1 = 104
-	case A1 = 110
-	case Bb1 = 117
-	case B1 = 123
-	case C1 = 131
+	case Ab2 = 104
+	case A2 = 110
+	case Bb2 = 117
+	case H2 = 123
+	case C = 131
 	case Db = 139
 	case D = 147
 	case Eb = 156
@@ -113,7 +113,7 @@ public enum miniSound: UInt16, CaseIterable {
 	case Ab = 208
 	case A = 220
 	case Bb = 233
-	case B = 247
+	case H = 247
 	case c´ = 262
 	case db´ = 277
 	case d´ = 294
