@@ -4,7 +4,6 @@ import Foundation
 //MARK: protocol to implement for receiving signals from calliope
 
 public extension Calliope {
-
 	/// called whenever button A is pressed
 	func onButtonA() {}
 	/// called whenever button B is pressed
@@ -21,8 +20,6 @@ public extension Calliope {
 	func onPin(pin: UInt16) {}
 	/// called when the calliope is shook
 	func onShake() {}
-	/// called when the microphone registers a clap
-	func onClap() {}
 	/// called at the start of the program
 	func start() {}
 	/// called in an endless loop
@@ -31,74 +28,90 @@ public extension Calliope {
 
 //MARK: special sleep function
 
-public class mini {
+public struct mini {
 	/// blocks calling method for the specified time in ms
 	/// - Parameter time: the sleep time in ms
-	public class func sleep(_ time: UInt16) {
+	public static func sleep(_ time: UInt16) {
 		sendCommand(apiCall: .sleep(time: time))
 	}
 }
 
 //MARK: visual output from RGB Led
 
-public class rgb {
+public struct rgb {
 
 	/// sets the calliope rgb LED to a specified color
 	/// - Parameter color: one of the colors predefined in the miniColor enum
-	public class func on(color: miniColor) {
-		sendCommand(apiCall: .rgbOn(color: color))
+	public static func on(color: miniColor) {
+		sendCommand(apiCall: .rgbOnColor(color: color))
+	}
+	public static func on(r: UInt8, g: UInt8, b: UInt8) {
+		sendCommand(apiCall: .rgbOnValues(r: r, g: g, b: b))
 	}
 	/// switches off the rgb LED
-	public class func off() {
+	public static func off() {
 		sendCommand(apiCall: .rgbOff())
 	}
 }
 
 //MARK: visual output on LED matrix
 
-public class display {
+public struct display {
 	/// the currently visible led matrix
-	public var currentGrid: [UInt8] {
+	public static var currentGrid: [UInt8] {
 		get { return sendRequest(apiCall: .requestDisplay())! }
 		set { sendCommand(apiCall: .displayShowGrid(grid: newValue)) }
 	}
 
 	/// switches off all leds in the matrix
-	public class func clear() {
+	public static func clear() {
 		sendCommand(apiCall: .displayClear())
 	}
 	/// shows one of the predifined images in enum miniImage
-	public class func show(image: miniImage) {
+	public static func show(image: miniImage) {
 		sendCommand(apiCall: .displayShowImage(image: image))
 	}
 	/// scrolls a text over the display
-	public class func show(text: String) {
+	public static func show(text: String) {
 		sendCommand(apiCall: .displayShowText(text: text))
 	}
 	/// scrolls a number over the display
-	public class func show(number: UInt16) {
+	public static func show(number: UInt16) {
 		sendCommand(apiCall: .displayShowText(text: String(number)))
 	}
 	/// switches on the leds where there is 1 in the array
 	/// (leds numbered left to right, top to bottom)
-	public class func show(grid: [UInt8]) {
+	public static func show(grid: [UInt8]) {
 		sendCommand(apiCall: .displayShowGrid(grid: grid))
+	}
+
+	/// all leds for which true is set are switched on, all others off
+	/// - Parameter leds: five tuples of five values, one tuple for each row and one value per column
+	public static func show(leds: (
+		(Bool, Bool, Bool, Bool, Bool),
+		(Bool, Bool, Bool, Bool, Bool),
+		(Bool, Bool, Bool, Bool, Bool),
+		(Bool, Bool, Bool, Bool, Bool),
+		(Bool, Bool, Bool, Bool, Bool))) {
+		let toInt = { (b: Bool) -> UInt8 in b ? 1 : 0 }
+		let rowToInt = { (b: (Bool, Bool, Bool, Bool, Bool)) -> [UInt8] in [toInt(b.0), toInt(b.1), toInt(b.2), toInt(b.3), toInt(b.4)] }
+		sendCommand(apiCall: .displayShowGrid(grid: rowToInt(leds.0) + rowToInt(leds.1) + rowToInt(leds.2) + rowToInt(leds.3) + rowToInt(leds.4)))
 	}
 }
 
 //MARK: sound output
 
-public class sound {
+public struct sound {
 	/// switches on speaker with note predefined in miniSound
-	public class func on(note: miniSound) {
+	public static func on(note: miniSound) {
 		sendCommand(apiCall: .soundOnNote(note: note))
 	}
 	/// switches on speaker with arbitrary frequency
-	public class func on(frequency: UInt16) {
+	public static func on(frequency: UInt16) {
 		sendCommand(apiCall: .soundOnFreq(freq: frequency))
 	}
 	/// switches speaker off
-	public class func off() {
+	public static func off() {
 		sendCommand(apiCall: .soundOff())
 	}
 }

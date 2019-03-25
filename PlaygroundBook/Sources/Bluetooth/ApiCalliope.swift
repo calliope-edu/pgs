@@ -383,8 +383,8 @@ extension CalliopeCharacteristic {
 			guard let (r, g, b, a) = object as? (UInt8, UInt8, UInt8, UInt8) else { return nil }
 			return r.littleEndianData + g.littleEndianData + b.littleEndianData + a.littleEndianData
 		case .playTone:
-			guard let (tone, duration) = object as? (UInt16, UInt16) else { return nil }
-			return tone.littleEndianData + duration.littleEndianData
+			guard let (freq, duration) = object as? (UInt16, UInt16) else { return nil }
+			return freq.littleEndianData + duration.littleEndianData
 		default:
 			return nil
 		}

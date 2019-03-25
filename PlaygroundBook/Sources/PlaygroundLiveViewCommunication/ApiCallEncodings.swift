@@ -48,13 +48,16 @@ extension ApiCommand: ApiCall {
 
 	init(_ container: KeyedDecodingContainer<Key>, _ enumValue: Int) throws {
 		switch enumValue {
-			//OUTPUT
-			//rgb
-			/*case 12100:
-			let color = try container.decode(miniColor.self, forKey: .rgbColor)
-			self = .rgbOn(color: color)
-			case 12101:
-			self = .rgbOff()*/
+		//OUTPUT
+		//rgb
+		case 12100:
+			let color = try container.decode(miniColor.self, forKey: .parameterValue)
+			self = .rgbOnColor(color: color)
+		case 12101:
+			self = .rgbOff()
+		case 12102:
+			let colorData = try container.decode([UInt8].self, forKey: .parameterValue)
+			self = .rgbOnValues(r: colorData[0], g: colorData[1], b: colorData[2])
 		//display
 		case 12200:
 			self = .displayClear()
@@ -67,15 +70,15 @@ extension ApiCommand: ApiCall {
 		case 12203:
 			let text = try container.decode(String.self, forKey: .parameterValue)
 			self = .displayShowText(text: text)
-			//sound
-			/*case 12300:
+		//sound
+		case 12300:
 			self = .soundOff()
-			case 12301:
-			let note = try container.decode(miniSound.self, forKey: .soundNote)
+		case 12301:
+			let note = try container.decode(miniSound.self, forKey: .parameterValue)
 			self = .soundOnNote(note: note)
-			case 12302:
-			let freq = try container.decode(UInt16.self, forKey: .soundFreq)
-			self = .soundOnFreq(freq: freq)*/
+		case 12302:
+			let freq = try container.decode(UInt16.self, forKey: .parameterValue)
+			self = .soundOnFreq(freq: freq)
 
 		//CONTROL
 		case 19100:
@@ -95,11 +98,14 @@ extension ApiCommand: ApiCall {
 
 		//OUTPUT
 		//rgb
-		case .rgbOn(let color):
+		case .rgbOnColor(let color):
 			try container.encode(12100, forKey: .enumValue)
 			try container.encode(color, forKey: .parameterValue)
 		case .rgbOff:
 			try container.encode(12101, forKey: .enumValue)
+		case .rgbOnValues(let r, let g, let b):
+			try container.encode(12102, forKey: .enumValue)
+			try container.encode([r, g, b], forKey: .parameterValue)
 		//display
 		case .displayClear:
 			try container.encode(12200, forKey: .enumValue)
@@ -289,9 +295,6 @@ extension ApiCallback: ApiCall {
 		//accelerometer
 		case 11300:
 			self = .shake()
-		//microphone
-		case 11400:
-			self = .clap()
 
 		//CONTROL
 		case 19200:
@@ -328,9 +331,6 @@ extension ApiCallback: ApiCall {
 		//accelerometer
 		case .shake:
 			try container.encode(11300, forKey: .enumValue)
-		//microphone
-		case .clap:
-			try container.encode(11400, forKey: .enumValue)
 
 		//CONTROL
 		case .start:

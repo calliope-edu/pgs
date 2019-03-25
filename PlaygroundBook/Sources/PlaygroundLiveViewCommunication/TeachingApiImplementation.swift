@@ -12,11 +12,6 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	static let instance = TeachingApiImplementation()
 
-	private var rgbState: miniColor = .black
-
-	private var soundFreq: UInt16 = 0
-
-
 	//MARK: Variables mirroring calliope state
 
 	private var buttonAState: BLEDataTypes.ButtonPressAction = .Up
@@ -24,18 +19,19 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	private var pinPressed = [false, false, false, false]
 
-	private var noiseLevel: UInt16 = 0
+	private var rgbState: (UInt8, UInt8, UInt8) = (0, 0, 0)
+
+	private var soundFreq: UInt16 = 0
 
 	private func resetVars() {
 		resetRgbState()
 		resetSoundFreq()
 		resetButtonState()
 		resetPinState()
-		resetNoiseLevel()
 	}
 
 	private func resetRgbState() {
-		rgbState = .black
+		rgbState = (0, 0, 0)
 	}
 
 	private func resetSoundFreq() {
@@ -49,10 +45,6 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	private func resetPinState() {
 		pinPressed = [false, false, false, false]
-	}
-
-	private func resetNoiseLevel() {
-		noiseLevel = 0
 	}
 
 	private let displayOffState = [[false, false, false, false, false],
@@ -76,56 +68,47 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 		//respond with a message back (either with value or just as a kind of "return" call)
 
-		let response: ApiResponse
 		var t = 0.0
 
 		switch apiCall {
 		case .registerCallbacks():
 			registerCallbacks(calliope)
-			response = .finished()
-		case .rgbOn(let color):
-			rgbState = color
-			let (rf, gf, bf, af) = color.color.components
-			let (r, g, b, a) = (UInt8(rf * 255), UInt8(gf * 255), UInt8(bf * 255), UInt8(af * 255))
+		case .rgbOnColor(let color):
+			//alpha has no effect so far
+			let (rf, gf, bf, _) = color.color.components
+			let (r, g, b) = (UInt8(rf * 255), UInt8(gf * 255), UInt8(bf * 255))
+			rgbState = (r, g, b)
 			calliope?.setColor(r: r, g: g, b: b)
-			//, a: a) (this might not lead to correct result: alpha = 1 when color opaque -> a = 255 always
-			response = .finished()
+		case .rgbOnValues(let r, let g, let b):
+			rgbState = (r, g, b)
+			calliope?.setColor(r: r, g: g, b: b)
 		case .rgbOff:
 			resetRgbState()
 			calliope?.setColor(r: 0, g: 0, b: 0)
-			response = .finished()
 		case .displayClear:
 			calliope?.ledMatrixState = displayOffState
-			response = .finished()
 		case .displayShowGrid(let grid):
 			calliope?.ledMatrixState = convertGrid(grid)
-			response = .finished()
 		case .displayShowImage(let image):
 			calliope?.ledMatrixState = convertGrid(image.grid)
-			response = .finished()
 		case .displayShowText(let text):
 			//TODO: is display state in this case working?
 			calliope?.displayLedText(text)
-			response = .finished()
-			case .soundOff:
+		case .soundOff:
 			resetSoundFreq()
-			calliope?.setSound(frequency: 0)
-			response = .finished()
+			calliope?.setSound(frequency: 440, duration: 0)
 		case .soundOnNote(let note):
 			soundFreq = note.rawValue
 			calliope?.setSound(frequency: soundFreq)
-			response = .finished()
 		case .soundOnFreq(let freq):
 			soundFreq = freq
 			calliope?.setSound(frequency: freq)
-			response = .finished()
 		case .sleep(let time):
-			response = .finished()
 			t = Double(time) / 1000.0
 		}
 
 		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + t) {
-			self.send(apiCall: response)
+			self.send(apiCall: .finished())
 		}
 	}
 
@@ -135,7 +118,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 		switch apiCall {
 		case .requestButtonState(let button):
-			response = .respondButtonState(isPressed: buttonPressState(button, calliope) == true)
+			response = .respondButtonState(isPressed: buttonPressState(button))
 		case .requestPinState(let pin):
 			if pin < 4 {
 				response = .respondPinState(isPressed: pinPressed[Int(pin)])
@@ -143,7 +126,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 				response = .respondPinState(isPressed: false)
 			}
 		case .requestNoise:
-			response = .respondNoise(level: noiseLevel)
+			response = .respondNoise(level: calliope?.noiseLevel ?? 0)
 		case .requestTemperature:
 			response = .respondTemperature(degrees: Int16(calliope?.temperature ?? 42))
 		case .requestBrightness:
@@ -236,7 +219,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		//TODO: other callbacks to calliope
 	}
 
-	private func buttonPressState(_ button: buttonType, _ calliope: CalliopeBLEDevice?) -> Bool {
+	private func buttonPressState(_ button: buttonType) -> Bool {
 		if button == .A {
 			let buttonState = buttonAState
 			return buttonState == .Down || buttonState == .Long

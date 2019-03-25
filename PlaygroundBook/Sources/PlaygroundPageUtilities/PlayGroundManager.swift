@@ -218,8 +218,6 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 				myCalliope?.onPin(pin: pin)
 			case .shake():
 				myCalliope?.onShake()
-			case .clap():
-				myCalliope?.onClap()
 			case .start:
 				myCalliope?.start()
 			case .forever:

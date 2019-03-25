@@ -30,10 +30,6 @@ public protocol Calliope {
 	/// when calliope is shook (not implemented yet)
 	func onShake()
 
-	//Sound
-	/// when calliope recognizes loud sound (not implemented yet)
-	func onClap()
-
 	//control flow
 	/// executed when calliope is connected
 	func start()

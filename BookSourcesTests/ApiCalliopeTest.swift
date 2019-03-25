@@ -30,7 +30,32 @@ class BluetoothApiTest: XCTestCase {
 
 	func testSoundApi() {
 		bluetoothApiTest { calliope in
+			//play short sound
 			calliope.setSound(frequency: 440, duration: 250)
+			sleep(1)
+			//switch sound off although should be off already
+			calliope.setSound(frequency: 0, duration: 0)
+			sleep(1)
+			//switch off with duration
+			calliope.setSound(frequency: 0, duration: 250)
+			sleep(1)
+			//play sound after switched off
+			calliope.setSound(frequency: 440, duration: 2000)
+			sleep(1)
+			//change sound while playing other sound
+			calliope.setSound(frequency: 523, duration: 2000)
+			sleep(1)
+			//switch off while playing sound
+			calliope.setSound(frequency: 0, duration: 0)
+			sleep(1)
+			//play another sound after forcefully interrupting play
+			calliope.setSound(frequency: 440, duration: 2000)
+			sleep(1)
+			//interrupt once again with frequency 0 with duration
+			calliope.setSound(frequency: 0, duration: 1000)
+			usleep(500000)
+			//interrupt with sound of duration 0
+			calliope.setSound(frequency: 440, duration: 0)
 			self.soundTestExpectation.fulfill()
 		}
 		wait(for: [soundTestExpectation], timeout: 20)

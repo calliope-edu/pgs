@@ -9,7 +9,8 @@ import Foundation
 
 public enum ApiCommand {
 	//outputs
-	case rgbOn(color: miniColor)
+	case rgbOnColor(color: miniColor)
+	case rgbOnValues(r: UInt8, g: UInt8, b: UInt8)
 	case rgbOff()
 
 	case displayClear()
@@ -59,7 +60,6 @@ public enum ApiCallback {
 	case pin(pin: UInt16)
 
 	case shake()
-	case clap()
 
 	//internally handled
 	case start()
