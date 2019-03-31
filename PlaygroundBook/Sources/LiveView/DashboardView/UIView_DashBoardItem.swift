@@ -76,8 +76,8 @@ public class UIView_DashboardItem: UIView {
         symbolBackgroundLayer.fillColor = UIColor(white: 1.0, alpha: DebugConstants.debugSymbolBgAlpha).cgColor
         return symbolBackgroundLayer
     }()
-    private var container:UIView_DashboardItemAnimation!
-    private var observer_animation:NotificationToken!
+    private var container: UIView_DashboardItemAnimation!
+    private var observer_animation: NotificationToken!
     private var isAnimating:Bool = false
     
     private var bg_color:UIColor {
@@ -133,63 +133,66 @@ public class UIView_DashboardItem: UIView {
             ])
         
         // ping notification
-        observer_animation = NotificationCenter.default.observe(name: UIView_DashboardItem.Ping, object: nil, queue: .main, using: { [weak self] (note) in
-            guard let this = self,
-				let userInfo = note.userInfo,
-				let typeValue = userInfo["type"] as? UInt16,
-				let type = DashboardItemType(rawValue: typeValue),
-				this.type == type,
-				let ani = this.container
-			else {
-                //LogNotify.log("No userInfo found in notification")
-                return
-            }
-
-			// LogNotify.log("before ani: \(this.type!) : isAnimating: \(this.isAnimating)")
-			
-			if let value = userInfo["value"] as? Int8 {
-				LogNotify.log("update label of \(self!.type!) to \(value)")
-				DispatchQueue.main.async {
-					ani.updateLabel(value: value)
-				}
-			} else {
-				LogNotify.log("cannot read value for dashboard item label of \(self!.type!)")
-			}
-
-			guard !this.isAnimating else { return }
-
-			this.isAnimating = true
-			ani.run({ (finished) in
-				DispatchQueue.main.async {
-					this.isAnimating = false
-					//LogNotify.log("after ani: \(this.type!)")
-				}
-			})
-            
-        })
+        observer_animation = subscribeToUiUpdateNotifications()
     }
-    
+
     override public func layoutSubviews() {
         super.layoutSubviews()
-        
+
         for view in subviews {
             if view is UIView_DashboardItemAnimation {
                 view.setNeedsLayout()
                 view.layoutIfNeeded()
-                
+
                 self.symbolBackgroundLayer.frame = view.frame
                 let symbol_bg_path = UIBezierPath(ovalIn: view.bounds.insetBy(percentage: LayoutHelper.symbolInsetByPercentage))
                 self.symbolBackgroundLayer.path = symbol_bg_path.cgPath
             }
         }
-        
+
     }
-    
+
+	func subscribeToUiUpdateNotifications() -> NotificationToken {
+		return NotificationCenter.default.observe(name: UIView_DashboardItem.Ping, object: nil, queue: .main)
+		{ [weak self] (note) in
+			guard let this = self,
+				let userInfo = note.userInfo,
+				let typeValue = userInfo["type"] as? UInt16,
+				let type = DashboardItemType(rawValue: typeValue),
+				this.type == type,
+				let ani = this.container
+				else {
+					//LogNotify.log("No userInfo found in notification")
+					return
+			}
+
+			// LogNotify.log("before ani: \(this.type!) : isAnimating: \(this.isAnimating)")
+
+			if let value = userInfo["value"] as? Int {
+				LogNotify.log("update label of \(type) to \(value)")
+				DispatchQueue.main.async {
+					ani.updateLabel(value: value)
+				}
+			} else {
+				LogNotify.log("cannot read value for dashboard item label of \(type)")
+			}
+
+			guard !this.isAnimating else { return }
+
+			this.isAnimating = true
+			ani.run { finished in
+				DispatchQueue.main.async {
+					this.isAnimating = false
+					//LogNotify.log("after ani: \(this.type!)")
+				}
+			}
+		}
+	}
 }
 
 protocol UIView_DashboardItemAnimation_Animator {
     func run(_ completionBlock:  @escaping ((_ finished: Bool) -> Void))
-    func updateLabel(value: Int8)
+    func updateLabel(value: Int)
 }
 
 public class UIView_DashboardItemAnimation: UIView, UIView_DashboardItemAnimation_Animator {
@@ -213,12 +216,12 @@ public class UIView_DashboardItemAnimation: UIView, UIView_DashboardItemAnimatio
     }()
     
     var textLabel:UILabel?
-    var textLabelXConstraint:NSLayoutConstraint?
-    var textLabelYConstraint:NSLayoutConstraint?
-    var swoosh:Swoosh?
+    var textLabelXConstraint: NSLayoutConstraint?
+    var textLabelYConstraint: NSLayoutConstraint?
+    var swoosh: Swoosh?
     var completionBlock: ((Bool) -> Void)?
-    var canUpdateLabel:Bool = true
-    
+    var canUpdateLabel: Bool = true
+
     convenience init() {
         self.init(frame:CGRect())
     }
@@ -265,8 +268,8 @@ public class UIView_DashboardItemAnimation: UIView, UIView_DashboardItemAnimatio
     
     func run(_ completionBlock:  @escaping ((_ finished: Bool) -> Void)) {
     }
-    
-    func updateLabel(value: Int8) {
+
+    func updateLabel(value: Int) {
         guard let lbl = textLabel else { return }
         guard canUpdateLabel else { return }
         

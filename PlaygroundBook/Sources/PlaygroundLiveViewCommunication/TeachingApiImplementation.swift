@@ -126,11 +126,26 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 				response = .respondPinState(isPressed: false)
 			}
 		case .requestNoise:
-			response = .respondNoise(level: calliope?.noiseLevel ?? 0)
+			let noise = calliope?.noiseLevel
+			if let noise = noise {
+			response = .respondNoise(level: UInt16(noise))
+			} else {
+				response = .respondNoise(level: 999)
+			}
 		case .requestTemperature:
-			response = .respondTemperature(degrees: Int16(calliope?.temperature ?? 42))
+			let temperature = calliope?.temperature
+			if let temperature = temperature {
+				response = .respondTemperature(degrees: Int16(temperature))
+			} else {
+				response = .respondTemperature(degrees: 999)
+			}
 		case .requestBrightness:
-			response = .respondBrightness(level: 42)
+			let brightness = calliope?.brightness
+			if let brightness = brightness {
+				response = .respondBrightness(level: UInt16(brightness))
+			} else {
+				response = .respondBrightness(level: 999)
+			}
 		case .requestDisplay():
 			response = .respondDisplay(grid: encodeMatrix(calliope?.ledMatrixState))
 		}

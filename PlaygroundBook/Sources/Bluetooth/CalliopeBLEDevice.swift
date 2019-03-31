@@ -12,7 +12,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	//the services required for the playground
 	var requiredServices : Set<CalliopeService> {
-		return []
+		fatalError("The CalliopeBLEDevice Class is abstract! At least requiredServices variable must be overridden by subclass.")
 	}
 
 	enum CalliopeBLEDeviceState {
@@ -68,6 +68,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		self.name = name
 		super.init()
 		peripheral.delegate = self
+		_ = requiredServices
 	}
 
 	public func hasConnected() {
@@ -188,9 +189,6 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	var readError : Error? = nil
 	var readingCharacteristic : CBCharacteristic? = nil
 	var readValue : Data? = nil
-
-	///listeners for periodic data updates (max. one for each)
-	var updateListeners: [CalliopeCharacteristic: Any] = [:]
 
 	func write (_ data: Data, for characteristic: CalliopeCharacteristic) throws {
 		guard state == .playgroundReady || characteristic == .services
@@ -321,20 +319,20 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 //MARK: notifications for ui updates
 
 extension CalliopeBLEDevice {
-	func postButtonANotification(_ value: Int8) {
+	func postButtonANotification(_ value: Int) {
 		postSensorUpdateNotification(DashboardItemType.ButtonA, value)
 	}
 
-	func postButtonBNotification(_ value: Int8) {
+	func postButtonBNotification(_ value: Int) {
 		postSensorUpdateNotification(DashboardItemType.ButtonB, value)
 	}
 
-	func postThermometerNotification(_ value: Int8) {
+	func postThermometerNotification(_ value: Int) {
 		postSensorUpdateNotification(DashboardItemType.Thermometer, value)
 	}
 
-	func postSensorUpdateNotification(_ type: DashboardItemType, _ value: Int8) {
-		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type.rawValue, "value":value])
+	func postSensorUpdateNotification(_ type: DashboardItemType, _ value: Int) {
+		NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type": type.rawValue, "value": value])
 	}
 }
 

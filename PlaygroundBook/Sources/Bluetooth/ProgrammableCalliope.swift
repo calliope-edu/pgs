@@ -108,8 +108,6 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 
 extension ProgrammableCalliope {
 
-
-
 	// MARK: Receiving sensor values via notify characteristic
 
 	func readSensors(_ enabled: Bool) throws {
@@ -130,12 +128,12 @@ extension ProgrammableCalliope {
 			//TODO: do not use notification center, but let observers subscribe directly to sensorReadings´ value
 			//TODO: subscription to swift dictionaries via didSet works.
 			if(type == DashboardItemType.ButtonAB) {
-				postButtonANotification(value)
-				postButtonBNotification(value)
+				postButtonANotification(Int(value))
+				postButtonBNotification(Int(value))
 			} else if type == DashboardItemType.Thermometer {
-				postThermometerNotification(Int8(ValueLocalizer.current.localizeTemperature(unlocalized: Double(value))))
+				postThermometerNotification(Int(ValueLocalizer.current.localizeTemperature(unlocalized: Double(value))))
 			} else {
-				postSensorUpdateNotification(type, value)
+				postSensorUpdateNotification(type, Int(value))
 			}
 		}
 	}

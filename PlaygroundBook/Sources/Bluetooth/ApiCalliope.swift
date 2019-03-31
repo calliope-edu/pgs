@@ -9,9 +9,12 @@ import Foundation
 
 class ApiCalliope: CalliopeBLEDevice {
 
+	///listeners for periodic data updates (max. one for each)
+	private var updateListeners: [CalliopeCharacteristic: Any] = [:]
+
 	static let apiServices: Set<CalliopeService> =
 		[.rgbLed, .microphone, .speaker, .brightness,
-		 .accelerometer, .button, .led, .temperature, .event]
+		 .button, .led, .temperature, .event] //, .accelerometer, ] TODO: seems to work, but can lead to memory issues
 
 
 	override var requiredServices: Set<CalliopeService> {
@@ -49,7 +52,10 @@ class ApiCalliope: CalliopeBLEDevice {
 	/// ledMatrixState[2][3] gives led 3 in row 2
 	public var ledMatrixState: [[Bool]]? {
 		get { return read(.ledMatrixState) }
-		set { write(newValue, .ledMatrixState) }
+		set {
+			write(newValue, .ledMatrixState)
+			postSensorUpdateNotification(.Display, 0)
+		}
 	}
 
 
@@ -58,6 +64,7 @@ class ApiCalliope: CalliopeBLEDevice {
 	///                     can contain all latin letters and some symbols
 	public func displayLedText(_ string: String) {
 		write(string, .ledText)
+		postSensorUpdateNotification(.Display, 0)
 	}
 
 
@@ -128,6 +135,8 @@ class ApiCalliope: CalliopeBLEDevice {
 
 	/// temperature reading in celsius
 	public var temperature: Int8? {
+		guard let temperature: Int8? = read(.temperature) else { return nil }
+		postSensorUpdateNotification(.Thermometer, Int(temperature ?? 0))
 		return read(.temperature)
 	}
 
@@ -157,18 +166,24 @@ class ApiCalliope: CalliopeBLEDevice {
 
 	public func setSound(frequency: UInt16, duration: UInt16 = 30000) {
 		write((frequency, duration), .playTone)
+		postSensorUpdateNotification(.Sound, Int(frequency))
 	}
 
 	public func setColor(r: UInt8, g: UInt8, b: UInt8, a: UInt8 = 0) {
 		write((r, g, b, a), .color)
+		postSensorUpdateNotification(.RGB, (Int(r) << 16) + (Int(g) << 8) + Int(b))
 	}
 
-	public var noiseLevel: UInt16? {
-		return read(.noise)
+	public var noiseLevel: Int32? {
+		guard let level: Int32 = read(.noise) else { return nil }
+		postSensorUpdateNotification(.Noise, Int(level))
+		return level
 	}
 
 	public var brightness: UInt8? {
-		return read(.brightness)
+		guard let light: UInt8 = read(.brightness) else { return nil }
+		postSensorUpdateNotification(.Brightness, Int(light))
+		return light
 	}
 
 	// TODO: the pin api is not safely useable on any pin, since on-board components connected to it need very specific inputs.
@@ -184,8 +199,8 @@ class ApiCalliope: CalliopeBLEDevice {
 
 	/// notification called when pinData value is changed
 	private var pinDataNotification: (([UInt8:UInt8]?) -> ())? {
-	set { setNotifyListener(for: .pinData, newValue) }
-	get { return getNotifyListener(for: .pinData) }
+		set { setNotifyListener(for: .pinData, newValue) }
+		get { return getNotifyListener(for: .pinData) }
 	}
 
 	/// Pins can be analogue or digital
@@ -193,8 +208,8 @@ class ApiCalliope: CalliopeBLEDevice {
 	/// Only some pins have the capability to be analogue.
 	/// Array holds one entry for each pin.
 	private var pinADConfiguration: [BLEDataTypes.PinConfiguration]? {
-	get { return read(.pinADConfiguration) }
-	set { write(newValue, .pinADConfiguration) }
+		get { return read(.pinADConfiguration) }
+		set { write(newValue, .pinADConfiguration) }
 	}
 
 	/// Pins can be configured as input or output.
@@ -202,8 +217,8 @@ class ApiCalliope: CalliopeBLEDevice {
 	/// Input means, the pin delivers read values via bluetooth.
 	/// Array holds one entry for each pin.
 	private var pinIOConfiguration: [Bool]? {
-	get { return read(.pinIOConfiguration) }
-	set { write(newValue, .pinIOConfiguration) }
+		get { return read(.pinIOConfiguration) }
+		set { write(newValue, .pinIOConfiguration) }
 	}
 
 
@@ -261,21 +276,33 @@ class ApiCalliope: CalliopeBLEDevice {
 			magnetometerNotification?(characteristic.interpret(dataBytes: value))
 		case .magnetometerBearing:
 			magnetometerBearingNotification?(characteristic.interpret(dataBytes: value))
-		/*case .pinData:
+		case .pinData:
 			pinDataNotification?(characteristic.interpret(dataBytes: value))
-			postSensorUpdateNotification(DashboardItemType.Pin, 0)*/
 		case .buttonAState:
-			buttonAActionNotification?(characteristic.interpret(dataBytes: value))
-			postSensorUpdateNotification(DashboardItemType.ButtonA, 0)
+			guard let buttonAAction: BLEDataTypes.ButtonPressAction = characteristic.interpret(dataBytes: value) else { return }
+			buttonAActionNotification?(buttonAAction)
+			postSensorUpdateNotification(DashboardItemType.ButtonA, Int(buttonAAction.rawValue))
 		case .buttonBState:
-			buttonBActionNotification?(characteristic.interpret(dataBytes: value))
-			postSensorUpdateNotification(DashboardItemType.ButtonB, 0)
+			guard let buttonBAction: BLEDataTypes.ButtonPressAction = characteristic.interpret(dataBytes: value) else { return }
+			buttonBActionNotification?(buttonBAction)
+			postSensorUpdateNotification(DashboardItemType.ButtonB, Int(buttonBAction.rawValue))
 		case .microBitEvent:
-			eventNotification?(characteristic.interpret(dataBytes: value))
+			guard let (source, value): (BLEDataTypes.EventSource, BLEDataTypes.EventValue) = characteristic.interpret(dataBytes: value)
+				else { return }
+			eventNotification?((source, value))
+			if (source == .MICROBIT_ID_IO_P0) {
+				postSensorUpdateNotification(.Pin, 0)
+			} else if (source == .MICROBIT_ID_IO_P1) {
+				postSensorUpdateNotification(.Pin, 1)
+			} else if (source == .MICROBIT_ID_IO_P2) {
+				postSensorUpdateNotification(.Pin, 2)
+			} else if (source == .MICROBIT_ID_IO_P3) {
+				postSensorUpdateNotification(.Pin, 3)
+			}
 		case .temperature:
 			let temperature: Int8? = characteristic.interpret(dataBytes: value)
 			temperatureNotification?(temperature)
-			postThermometerNotification(temperature ?? 0)
+			postThermometerNotification(Int(temperature ?? 0))
 		default:
 			return
 		}
@@ -336,7 +363,7 @@ extension CalliopeCharacteristic {
 		case .brightness:
 			return UInt8(littleEndianData: dataBytes) as? T
 		case .noise:
-			return UInt16(littleEndianData: dataBytes) as? T
+			return Int32(littleEndianData: dataBytes) as? T
 		default:
 			return nil
 		}
