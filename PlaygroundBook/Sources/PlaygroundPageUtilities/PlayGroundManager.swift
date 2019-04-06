@@ -125,7 +125,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
     }
 
 
-	//MARK: sending and receiving API calls
+	//MARK: API interface
 
 	public func startForever() {
 		PlaygroundPage.current.needsIndefiniteExecution = true
@@ -134,7 +134,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 
 	private func foreverCall() {
 		myCalliope?.forever()
-		//execute again with delay of 0.1s
+		//execute again with delay of 0.1s (otherwise it might turn ipad into an oven)
 		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
 			self.foreverCall()
 		}

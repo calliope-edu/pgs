@@ -3,25 +3,23 @@ public final class BookProgramOutputGrid: ProgramBase, Program {
 	
 	public static let assessment: AssessmentBlock = { values in
 		
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramOutputGrid.success".localized
+		let solution = "bookProgramOutputGrid.solution".localized
 		
 		let grid:[UInt8] = values.compactMap { UInt8($0) }
 		
 		guard grid.count == 25 else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: ["bookProgramOutputGrid.tooManyOrFewEntries"], solution: solution), nil)
+		}
+
+		guard grid.reduce(true, { (isGrid, entry) in isGrid && entry < 2 }) else {
+			return (.fail(hints: ["bookProgramOutputGrid.otherThanZeroOrOne"], solution: solution), nil)
 		}
 		
 		let p = BookProgramOutputGrid()
 		p.image = grid
 		
-		//return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 	
 	public var image: [UInt8] = [

@@ -3,22 +3,19 @@ public final class BookProgramInputShake: ProgramBase, Program {
 
 	public static let assessment: AssessmentBlock = { values in
 
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramInputShake.success".localized
+		let solution = "bookProgramInputShake.solution".localized
 
-		guard values.count > 0 else {
-			return (.fail(hints: hints, solution: solution), nil)
+		let s = values[0]
+
+		guard s.unicodeScalars.reduce(true, { (isAscii, char) in isAscii && char.isASCII }) else {
+			//user can accidentially input characters that cannot be displayed
+			return (.fail(hints: ["bookProgramInputShake.hintNoAscii".localized], solution: solution), nil)
 		}
 
 		let p = BookProgramInputShake()
-		p.s = values[0]
-		//return (.pass(message: success), p)
-		return (nil, p)
+		p.s = s
+		return (.pass(message: success), p)
 	}
 
 	public var s: String = "shake"

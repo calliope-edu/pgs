@@ -3,23 +3,17 @@ public final class BookProgramOutputImage: ProgramBase, Program {
 	
 	public static let assessment: AssessmentBlock = { values in
 		
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramOutputImage.success".localized
 		
 		guard let img = miniImage(from: values[0]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			//static type checker should prevent this from happening
+			return (.fail(hints: [], solution: ""), nil)
 		}
 		
 		let p = BookProgramOutputImage()
 		p.image = img
 		
-		// return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 	
 	public var image: miniImage = .smiley

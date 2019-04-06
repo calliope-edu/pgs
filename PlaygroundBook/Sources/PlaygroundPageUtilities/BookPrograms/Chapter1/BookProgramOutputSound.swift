@@ -3,23 +3,17 @@ public final class BookProgramOutputSound: ProgramBase, Program {
 	
 	public static let assessment: AssessmentBlock = { values in
 		
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramOutputSound.success".localized
 		
 		guard let freq = miniSound(from: values[0]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			//static type checker will prevent this
+			return (.fail(hints: [], solution: ""), nil)
 		}
 		
 		let p = BookProgramOutputSound()
 		p.frequency = Int16(freq.rawValue)
 		
-		//return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 	
 	public var frequency: Int16 = 2000

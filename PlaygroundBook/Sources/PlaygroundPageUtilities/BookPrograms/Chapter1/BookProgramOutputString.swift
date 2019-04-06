@@ -3,22 +3,24 @@ public final class BookProgramOutputString: ProgramBase, Program {
 	
 	public static let assessment: AssessmentBlock = { values in
 		
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramOutputString.success".localized
+
+		let solution = "bookProgramOutputString.solution".localized
 		
 		guard values.count > 0 else {
-			return (.fail(hints: hints, solution: solution), nil)
+			//this only happens if chapter is not designed correctly
+			return (.fail(hints: [], solution: ""), nil)
+		}
+		
+		guard values[0].unicodeScalars.reduce(true, { (isAscii, char) in isAscii && char.isASCII }) else {
+			//user can accidentially input characters that cannot be displayed
+			return (.fail(hints: ["bookProgramOutputString.hintNoAscii".localized], solution: solution), nil)
 		}
 		
 		let p = BookProgramOutputString()
 		p.s = values[0]
 		
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 	
 	public var s: String = "foo"

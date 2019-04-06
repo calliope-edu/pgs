@@ -5,44 +5,25 @@ public final class BookProgramOutputCombination: ProgramBase, Program {
 
 	public static let assessment: AssessmentBlock = { values in
 
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramOutputCombination.success".localized
+		let solution = "bookProgramOutputCombination.solution".localized
 
-		guard let freq1 = miniSound(from: values[0]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+		guard let freq1 = miniSound(from: values[0]),
+			let mColor1 = miniColor(from: values[1]),
+			let freq2 = miniSound(from: values[2]),
+			let mColor2 = miniColor(from: values[3]),
+			let freq3 = miniSound(from: values[4]),
+			let mColor3 = miniColor(from: values[5]),
+			values.count > 6,
+			let img = miniImage(from: values[7]) else {
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
-		guard let mColor1 = miniColor(from: values[1]) else {
-			return (.fail(hints: hints, solution: solution), nil)
-		}
+		let s = values[6]
 
-		guard let freq2 = miniSound(from: values[2]) else {
-			return (.fail(hints: hints, solution: solution), nil)
-		}
-
-		guard let mColor2 = miniColor(from: values[3]) else {
-			return (.fail(hints: hints, solution: solution), nil)
-		}
-
-		guard let freq3 = miniSound(from: values[4]) else {
-			return (.fail(hints: hints, solution: solution), nil)
-		}
-
-		guard let mColor3 = miniColor(from: values[5]) else {
-			return (.fail(hints: hints, solution: solution), nil)
-		}
-
-		guard values.count > 6 else {
-			return (.fail(hints: hints, solution: solution), nil)
-		}
-
-		guard let img = miniImage(from: values[7]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+		guard s.unicodeScalars.reduce(true, { (isAscii, char) in isAscii && char.isASCII }) else {
+			//user can accidentially input characters that cannot be displayed
+			return (.fail(hints: ["bookProgramOutputCombination.hintNoAscii".localized], solution: solution), nil)
 		}
 
 		let p = BookProgramOutputCombination()
@@ -52,10 +33,9 @@ public final class BookProgramOutputCombination: ProgramBase, Program {
 		p.color2 = mColor2.color
 		p.frequency3 = Int16(freq3.rawValue)
 		p.color3 = mColor3.color
-		p.s = values[6]
+		p.s = s
 		p.image = img
-		// return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 
 	public var frequency1: Int16 = 2000
