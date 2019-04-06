@@ -219,7 +219,7 @@ extension ApiResponse: ApiCall {
 			self = .respondTemperature(degrees: degrees)
 
 		case 13501:
-			let level = try container.decode(UInt16.self, forKey: .parameterValue)
+			let level = try container.decode(UInt8.self, forKey: .parameterValue)
 			self = .respondBrightness(level: level)
 
 		case 13601:

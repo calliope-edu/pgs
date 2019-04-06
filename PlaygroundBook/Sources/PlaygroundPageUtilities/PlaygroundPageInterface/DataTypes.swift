@@ -9,31 +9,31 @@
 
 public protocol Calliope {
 	//Buttons
-	/// when button A gets pressed
+	/// called whenever button A is pressed
 	func onButtonA()
-	/// when button B gets pressed
+	/// called whenever button B is pressed
 	func onButtonB()
-	/// when button A and B are pressed together
+	/// called whenever button A and B are pressed together
 	func onButtonAB()
-	/// when button A is pressed for some seconds
+	/// called whenever button A is pressed long (1s)
 	func onButtonALongPress()
-	/// when button B is pressed for some seconds
+	/// called whenever button B is pressed long (1s)
 	func onButtonBLongPress()
-	/// when button A and B are pressed for some seconds
+	/// called whenever button A and B are pressed together (for 1s)
 	func onButtonABLongPress()
 
 	//Pins
-	/// when minus and any of pins 0-3 are connected
+	/// called whenever a touch pin is touched (pin numbers 0-3)
 	func onPin(pin: UInt16)
 
-	//Motion
-	/// when calliope is shook (not implemented yet)
+	//Accelerometer
+	/// called when the calliope is shook
 	func onShake()
 
-	//control flow
-	/// executed when calliope is connected
+	//Program flow
+	/// called at the start of the program, as first method.
 	func start()
-	/// executed over and over again
+	/// called over and over again, like a while(true) loop.
 	func forever()
 }
 
@@ -87,33 +87,30 @@ public enum miniImage: Int16 {
 // MARK: - miniSound
 
 public enum miniSound: UInt16, CaseIterable {
-	case A3 = 55
-	case Bb3 = 58
-	case B3 = 62
-	case C2 = 65
-	case Db2 = 69
-	case D2 = 73
-	case Eb2 = 78
-	case E2 = 82
-	case F2 = 87
-	case Gb2 = 93
-	case G2 = 98
-	case Ab2 = 104
-	case A2 = 110
-	case Bb2 = 117
-	case H2 = 123
-	case C = 131
-	case Db = 139
-	case D = 147
-	case Eb = 156
-	case E = 165
-	case F = 175
-	case Gb = 185
-	case G = 196
-	case Ab = 208
-	case A = 220
-	case Bb = 233
-	case H = 247
+	case C = 65
+	case Db = 69
+	case D = 73
+	case Eb = 78
+	case E = 82
+	case F = 87
+	case Gb = 93
+	case G = 98
+	case Ab = 104
+	case A = 110
+	case B = 117
+	case H = 123
+	case c = 131
+	case db = 139
+	case d = 147
+	case eb = 156
+	case e = 165
+	case f = 175
+	case gb = 185
+	case g = 196
+	case ab = 208
+	case a = 220
+	case b = 233
+	case h = 247
 	case c´ = 262
 	case db´ = 277
 	case d´ = 294
@@ -124,7 +121,7 @@ public enum miniSound: UInt16, CaseIterable {
 	case g´ = 392
 	case ab´ = 415
 	case a´ = 440
-	case bb´ = 466
+	case b´ = 466
 	case h´ = 494
 	case c´´ = 523
 	case db´´ = 554
@@ -136,7 +133,7 @@ public enum miniSound: UInt16, CaseIterable {
 	case g´´ = 784
 	case ab´´ = 831
 	case a´´ = 880
-	case bb´´ = 932
+	case b´´ = 932
 	case h´´ = 988
 	case c´´´ = 1047
 	case db´´´ = 1109
@@ -148,4 +145,7 @@ public enum miniSound: UInt16, CaseIterable {
 	case g´´´ = 1568
 	case ab´´´ = 1661
 	case a´´´ = 1760
+	case b´´´ = 1865
+	case h´´´ = 1976
+	case c´´´´ = 2093
 }

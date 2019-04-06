@@ -4,6 +4,7 @@ import Foundation
 //MARK: protocol to implement for receiving signals from calliope
 
 public extension Calliope {
+	//Buttons
 	/// called whenever button A is pressed
 	func onButtonA() {}
 	/// called whenever button B is pressed
@@ -16,13 +17,19 @@ public extension Calliope {
 	func onButtonBLongPress() {}
 	/// called whenever button A and B are pressed together (for 1s)
 	func onButtonABLongPress() {}
+
+	//Pins
 	/// called whenever a touch pin is touched (pin numbers 0-3)
 	func onPin(pin: UInt16) {}
+
+	//Accelerometer
 	/// called when the calliope is shook
 	func onShake() {}
-	/// called at the start of the program
+
+	//Program flow
+	/// called at the start of the program, as first method.
 	func start() {}
-	/// called in an endless loop
+	/// called over and over again, like a while(true) loop.
 	func forever() { sleep(1) }
 }
 
@@ -30,7 +37,7 @@ public extension Calliope {
 
 public struct mini {
 	/// blocks calling method for the specified time in ms
-	/// - Parameter time: the sleep time in ms
+	/// - Parameter time: the sleep time in ms. 1 second is 1000 ms
 	public static func sleep(_ time: UInt16) {
 		sendCommand(apiCall: .sleep(time: time))
 	}
@@ -45,6 +52,13 @@ public struct rgb {
 	public static func on(color: miniColor) {
 		sendCommand(apiCall: .rgbOnColor(color: color))
 	}
+
+	/// switches the rgb LED on with an arbitrary color.
+	/// For example for purple, pass r: 255, g: 0, b: 255 as parameters.
+	/// - Parameters:
+	///   - r: the intensity of the red part in the light (0-255)
+	///   - g: the intensity of the green part in the light (0-255)
+	///   - b: the intensity of the blue part in the light (0-255)
 	public static func on(r: UInt8, g: UInt8, b: UInt8) {
 		sendCommand(apiCall: .rgbOnValues(r: r, g: g, b: b))
 	}
@@ -57,30 +71,39 @@ public struct rgb {
 //MARK: visual output on LED matrix
 
 public struct display {
-	/// the currently visible led matrix
+	/// the current status of the leds on the matrix display
 	public static var currentGrid: [UInt8] {
 		get { return sendRequest(apiCall: .requestDisplay())! }
 		set { sendCommand(apiCall: .displayShowGrid(grid: newValue)) }
 	}
 
-	/// switches off all leds in the matrix
+	/// switches off all leds in the matrix display
 	public static func clear() {
 		sendCommand(apiCall: .displayClear())
 	}
+
 	/// shows one of the predifined images in enum miniImage
+	/// - Parameter image: the image to show
 	public static func show(image: miniImage) {
 		sendCommand(apiCall: .displayShowImage(image: image))
 	}
-	/// scrolls a text over the display
+
+	/// scrolls a text over the display.
+	/// Program does not wait until text finished scrolling! Wait manually with sleep(...)
+	/// - Parameter text: the text to show (max. 20 letters)
 	public static func show(text: String) {
 		sendCommand(apiCall: .displayShowText(text: text))
 	}
+
 	/// scrolls a number over the display
+	/// - Parameter number: the number to show (in decimal notation)
 	public static func show(number: UInt16) {
 		sendCommand(apiCall: .displayShowText(text: String(number)))
 	}
-	/// switches on the leds where there is 1 in the array
+
+	/// switches on all leds where there is 1 in the array
 	/// (leds numbered left to right, top to bottom)
+	/// - Parameter grid: an array with 0 or 1 entries
 	public static func show(grid: [UInt8]) {
 		sendCommand(apiCall: .displayShowGrid(grid: grid))
 	}
@@ -102,14 +125,20 @@ public struct display {
 //MARK: sound output
 
 public struct sound {
+
 	/// switches on speaker with note predefined in miniSound
+	/// - Parameter note: a note in German Helmholtz notation (e.g. C, c´, c´´...).
+	///                   For #-notes, use the enharmonic equivalent (e.g. Db instead of C#)
 	public static func on(note: miniSound) {
 		sendCommand(apiCall: .soundOnNote(note: note))
 	}
-	/// switches on speaker with arbitrary frequency
+
+	/// switches on speaker with arbitrary frequency. Best between 50 and 5000
+	/// - Parameter frequency: the frequency of the sound to play
 	public static func on(frequency: UInt16) {
 		sendCommand(apiCall: .soundOnFreq(freq: frequency))
 	}
+
 	/// switches speaker off
 	public static func off() {
 		sendCommand(apiCall: .soundOff())
@@ -122,28 +151,46 @@ public struct io {
 	/// creates a button with the state that
 	/// the corresponding button on the calliope has at instanciation time
 	public class button {
-		public var isPressed: Bool = false
+		let type: buttonType
+
+		/// Whether the button is currently pressed
+		public var isPressed: Bool {
+			return sendRequest(apiCall: .requestButtonState(button: type))!
+		}
+
+		/// Creates a button mirroring a button (or button combination) of the calliope.
+		/// - Parameter type: the button type (A, B or AB)
 		public init(_ type: buttonType) {
-			isPressed = sendRequest(apiCall: .requestButtonState(button: type))!
+			self.type = type
 		}
 	}
-	/// creates a button with the state that
-	/// the corresponding pin on the calliope has at instanciation time
+
+	/// A pin of the calliope
 	public class pin {
-		public var isPressed: Bool = false
-		public init(_ type: UInt16) {
-			isPressed = sendRequest(apiCall: .requestPinState(pin: type))!
+		let number: UInt16
+
+		/// Whether the button is currently pressed
+		public var isPressed: Bool {
+			return sendRequest(apiCall: .requestPinState(pin: type))!
+		}
+
+		/// Creates a pin mirroring a touchpin on the calliope
+		/// - Parameter number: the pin number (0-3)
+		init(_ number: UInt16) {
+			self.number = number
 		}
 	}
-	/// requests how loud the sound is that the microphone receives
+	/// how loud the sound is that the microphone receives
 	public static var noise: UInt16 {
 		return sendRequest(apiCall: .requestNoise())!
 	}
-	/// requests how bright the light is shining onto the calliope
-	public static var brightness: UInt16 {
+
+	/// how bright the light is shining onto the calliope
+	public static var brightness: UInt8 {
 		return sendRequest(apiCall: .requestBrightness())!
 	}
-	/// requests the temperature that the calliope measures
+
+	/// the temperature that the calliope measures
 	public static var temperature: Int16 {
 		return sendRequest(apiCall: .requestTemperature())!
 	}

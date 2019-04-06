@@ -41,7 +41,7 @@ public enum ApiResponse {
 	case respondPinState(isPressed: Bool)
 	case respondNoise(level: UInt16)
 	case respondTemperature(degrees: Int16)
-	case respondBrightness(level: UInt16)
+	case respondBrightness(level: UInt8)
 	case respondDisplay(grid: [UInt8])
 
 	//empty response

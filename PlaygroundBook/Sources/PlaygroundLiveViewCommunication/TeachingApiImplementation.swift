@@ -59,12 +59,12 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	func handleApiCommand(_ apiCall: ApiCommand, calliope: ApiCalliope?) {
 		//DONE: button notifications, button state requests, sleep, forever, start, led matrix calls, temperature request.
 		//DONE: AB/A/B besser unterscheiden,
-
-		//TODO: erweitern mit Lage/Beschleunigungsapi
+		//DONE: brightness, rgb led
 
 		//FIXME: pins, shake callback
-		//FIXME: micro clap callback, noise request
-		//FIXME: brightness request, rgb led, sound api
+		//FIXME: noise request, sound api
+
+		//TODO: erweitern mit Lage/Beschleunigungsapi
 
 		//respond with a message back (either with value or just as a kind of "return" call)
 
@@ -142,9 +142,9 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		case .requestBrightness:
 			let brightness = calliope?.brightness
 			if let brightness = brightness {
-				response = .respondBrightness(level: UInt16(brightness))
+				response = .respondBrightness(level: brightness)
 			} else {
-				response = .respondBrightness(level: 999)
+				response = .respondBrightness(level: 0)
 			}
 		case .requestDisplay():
 			response = .respondDisplay(grid: encodeMatrix(calliope?.ledMatrixState))
