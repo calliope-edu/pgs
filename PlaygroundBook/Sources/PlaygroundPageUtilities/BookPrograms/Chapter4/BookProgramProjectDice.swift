@@ -3,28 +3,34 @@ public final class BookProgramProjectDice: ProgramBase, Program {
 
 	public static let assessment: AssessmentBlock = { values in
 
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramProjectDice.success".localized
+		let solution = "bookProgramProjectDice.solution".localized
 
 		guard let start = Int(values[0]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
+		}
+
+		guard start == 1 else {
+			return (.fail(hints: ["bookProgramProjectDice.startNotOneFirstHint", "bookProgramProjectDice.startNotOneSecondHint"], solution: solution), nil)
 		}
 
 		guard let stop = Int(values[1]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let freq = miniSound(from: values[2]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let delay = Int(values[3]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
+		}
+
+		guard delay > 100 else {
+			return (.fail(hints: ["bookProgramProjectDice.hintTooShortSleep"], solution: solution), nil)
+		}
+		guard delay < 30000 else {
+			return (.fail(hints: ["bookProgramProjectDice.hintTooLongSleep"], solution: solution), nil)
 		}
 
 		let p = BookProgramProjectDice()
@@ -33,8 +39,7 @@ public final class BookProgramProjectDice: ProgramBase, Program {
 		p.frequency = Int16(freq.rawValue)
 		p.delay = Int16(delay)
 
-		// return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 
     public var start: Int16 = 1

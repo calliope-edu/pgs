@@ -3,28 +3,43 @@ public final class BookProgramCommandRandom: ProgramBase, Program {
 
 	public static let assessment: AssessmentBlock = { values in
 
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramCommandRandom.success".localized
+		let solution = "bookProgramCommandRandom.solution".localized
 
 		guard let start = Int(values[0]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: solution), nil)
 		}
 
 		guard let stop = Int(values[1]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: solution), nil)
 		}
+
+		guard start > Int16.min else {
+			return (.fail(hints: ["bookProgramCommandRandom.hintTooLowStart"], solution: solution), nil)
+		}
+
+		guard start < Int16.max - 1 else {
+			return (.fail(hints: ["bookProgramCommandRandom.hintTooHighStart"], solution: solution), nil)
+		}
+
+		guard stop > Int16.min + 1 else {
+			return (.fail(hints: ["bookProgramCommandRandom.hintTooLowStop"], solution: solution), nil)
+		}
+
+		guard stop < Int16.max else {
+			return (.fail(hints: ["bookProgramCommandRandom.hintTooHighStop"], solution: solution), nil)
+		}
+
+		guard start < stop else {
+			return (.fail(hints: ["bookProgramCommandRandom.startNotLowerStop"], solution: solution), nil)
+		}
+
 
 		let p = BookProgramCommandRandom()
 		p.start = Int16(start)
 		p.stop = Int16(stop)
 
-		//return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 
 	public var start: Int16 = 1

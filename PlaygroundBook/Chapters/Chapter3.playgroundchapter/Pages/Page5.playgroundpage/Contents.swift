@@ -11,10 +11,10 @@ playgroundPrologue()
 
 //#-code-completion(everything, hide)
 func start() {
-    let name:String = "/*#-editable-code*/<#T##string##String#>/*#-end-editable-code*/"
+    let name: String = "/*#-editable-code*/<#T##string##String#>/*#-end-editable-code*/"
     display.show(text: name)
-    
-    let age:UInt16 = /*#-editable-code*/<#T##number##UInt#>/*#-end-editable-code*/
+	
+    let age: UInt16 = /*#-editable-code*/<#T##number##UInt#>/*#-end-editable-code*/
     display.show(number: age)
 }
 

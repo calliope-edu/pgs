@@ -5,44 +5,38 @@ public final class BookProgramProjectPiano: ProgramBase, Program {
 
 	public static let assessment: AssessmentBlock = { values in
 
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramProjectPiano.success".localized
 
 		guard let freq0 = miniSound(from: values[0]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let mColor0 = miniColor(from: values[1]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let freq1 = miniSound(from: values[2]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let mColor1 = miniColor(from: values[3]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let freq2 = miniSound(from: values[4]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let mColor2 = miniColor(from: values[5]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let freq3 = miniSound(from: values[6]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let mColor3 = miniColor(from: values[7]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		let p = BookProgramProjectPiano()
@@ -55,8 +49,7 @@ public final class BookProgramProjectPiano: ProgramBase, Program {
 		p.color3 = mColor3.color
 		p.frequency3 = Int16(freq3.rawValue)
 
-		// return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 
 	public var color0: UIColor = .red

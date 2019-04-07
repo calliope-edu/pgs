@@ -3,45 +3,39 @@ public final class BookProgramProjectRockPaperScissors: ProgramBase, Program {
 
 	public static let assessment: AssessmentBlock = { values in
 
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramProjectRockPaperScissors.success".localized
+		let solution = "bookProgramProjectRockPaperScissors.solution".localized
 
-		let time_hint = [ "page.hint.time".localized ]
-		let time_solution = "page.solution.time".localized
-
-		guard let speed = UInt16(values[0]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+		guard let delay = UInt16(values[0]) else {
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
-		//if speed < 100 {
-		//return (.fail(hints: time_hint, solution: time_solution), nil)
-		//}
+		guard delay > 100 else {
+			return (.fail(hints: ["bookProgramProjectRockPaperScissors.hintTooShortSleep"], solution: solution), nil)
+		}
+		guard delay < 30000 else {
+			return (.fail(hints: ["bookProgramProjectRockPaperScissors.hintTooLongSleep"], solution: solution), nil)
+		}
 
 		guard let img1 = miniImage(from: values[1]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let img2 = miniImage(from: values[2]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let img3 = miniImage(from: values[3]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		let p = BookProgramProjectRockPaperScissors()
-		p.speed = Int16(speed)
+		p.speed = Int16(delay)
 		p.image1 = img1
 		p.image2 = img2
 		p.image3 = img3
 
-		// return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 
 	public var speed: Int16 = 10

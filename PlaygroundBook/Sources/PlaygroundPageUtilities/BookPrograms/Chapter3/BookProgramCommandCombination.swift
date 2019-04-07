@@ -4,36 +4,30 @@ public final class BookProgramCommandCombination: ProgramBase, Program {
 
 	public static let assessment: AssessmentBlock = { values in
 
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramCommandCombination.success".localized
 
 		guard let mColor0 = miniColor(from: values[0]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let mColor1 = miniColor(from: values[1]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let mColor2 = miniColor(from: values[2]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let mColor3 = miniColor(from: values[3]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let correct = miniImage(from: values[4]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let wrong = miniImage(from: values[5]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		let p = BookProgramCommandCombination()
@@ -44,8 +38,7 @@ public final class BookProgramCommandCombination: ProgramBase, Program {
 		p.correct = correct
 		p.wrong = wrong
 
-		//return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 
 	public var color0: UIColor = .red

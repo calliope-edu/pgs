@@ -3,29 +3,29 @@ public final class BookProgramCommandSleep: ProgramBase, Program {
 
 	public static let assessment: AssessmentBlock = { values in
 
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramCommandSleep.success".localized
+		let solution = "bookProgramCommandSleep.solution".localized
 
 		guard let img1 = miniImage(from: values[0]) else {
-			LogNotify.log("img1")
-			return (.fail(hints: hints, solution: solution), nil)
+			//will not happen
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let delay = UInt16(values[1]) else {
-			LogNotify.log("delay")
-			return (.fail(hints: hints, solution: solution), nil)
+			//will not happen
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
-		LogNotify.log("img2 \(values[2])")
+		guard delay > 100 else {
+			return (.fail(hints: ["bookProgramCommandSleep.hintTooShortSleep"], solution: solution), nil)
+		}
+		guard delay < 30000 else {
+			return (.fail(hints: ["bookProgramCommandSleep.hintTooLongSleep"], solution: solution), nil)
+		}
 
 		guard let img2 = miniImage(from: values[2]) else {
-			LogNotify.log("img2")
-			return (.fail(hints: hints, solution: solution), nil)
+			//will not happen
+			return (.fail(hints: [], solution: solution), nil)
 		}
 
 		let p = BookProgramCommandSleep()
@@ -33,8 +33,7 @@ public final class BookProgramCommandSleep: ProgramBase, Program {
 		p.delay = Int16(delay)
 		p.image2 = img2
 
-		//return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 
 	public var image1: miniImage = .sad

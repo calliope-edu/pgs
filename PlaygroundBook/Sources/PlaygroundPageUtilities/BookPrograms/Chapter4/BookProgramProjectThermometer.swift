@@ -5,50 +5,54 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
 
 	public static let assessment: AssessmentBlock = { values in
 
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramProjectThermometer.success".localized
+		let solution = "bookProgramProjectThermometer.solution".localized
 
 		guard let temp_cold = UInt16(values[0]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let color_cold = miniColor(from: values[1]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let image_cold = miniImage(from: values[2]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let temp_normal = UInt16(values[3]),
 			temp_normal > temp_cold else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let color_normal = miniColor(from: values[4]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let image_normal = miniImage(from: values[5]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let color_hot = miniColor(from: values[6]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		guard let image_hot = miniImage(from: values[7]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: ""), nil)
 		}
 
 		//convert units
 		let temp_cold_converted = ValueLocalizer.current.delocalizeTemperature(localized: Double(temp_cold))
 		let temp_normal_converted = ValueLocalizer.current.delocalizeTemperature(localized: Double(temp_normal))
+
+		guard temp_cold_converted >= 0 && temp_cold_converted <= 100,
+			temp_normal_converted >= 0 && temp_normal_converted <= 100 else {
+				return (.fail(hints: ["bookProgramProjectThermometer.hintTemperatureNotBetween0And100"], solution: solution), nil)
+		}
+
+		guard temp_cold < temp_normal else {
+			return (.fail(hints: ["bookProgramProjectThermometer.hintColdNotLowerNormalTemp"], solution: solution), nil)
+		}
 
 		let p = BookProgramProjectThermometer()
 		p.temp_cold = Int16(temp_cold_converted)
@@ -60,8 +64,7 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
 		p.image_normal = image_normal
 		p.image_hot = image_hot
 
-		// return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 
     public var temp_cold: Int16 = 15

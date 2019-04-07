@@ -5,28 +5,29 @@ public final class BookProgramCommandForever: ProgramBase, Program {
 
 	public static let assessment: AssessmentBlock = { values in
 
-		let success = "page.success".localized
-		let hints = [
-			"page.hint1".localized,
-			"page.hint2".localized,
-			"page.hint3".localized
-		]
-		let solution = "page.solution".localized
+		let success = "bookProgramCommandForever.success".localized
+		let solution = "bookProgramCommandForever.solution".localized
 
 		guard let mColor = miniColor(from: values[0]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: solution), nil)
 		}
 
 		guard let delay = UInt16(values[1]) else {
-			return (.fail(hints: hints, solution: solution), nil)
+			return (.fail(hints: [], solution: solution), nil)
+		}
+
+		guard delay > 100 else {
+			return (.fail(hints: ["bookProgramCommandForever.hintTooShortSleep"], solution: solution), nil)
+		}
+		guard delay < 30000 else {
+			return (.fail(hints: ["bookProgramCommandForever.hintTooLongSleep"], solution: solution), nil)
 		}
 
 		let p = BookProgramCommandForever()
 		p.color = mColor.color
 		p.delay = Int16(delay)
 
-		//return (.pass(message: success), p)
-		return (nil, p)
+		return (.pass(message: success), p)
 	}
 
 	public var color: UIColor = .red
