@@ -171,7 +171,7 @@ public struct io {
 
 		/// Whether the button is currently pressed
 		public var isPressed: Bool {
-			return sendRequest(apiCall: .requestPinState(pin: type))!
+			return sendRequest(apiCall: .requestPinState(pin: number))!
 		}
 
 		/// Creates a pin mirroring a touchpin on the calliope
