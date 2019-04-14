@@ -34,6 +34,8 @@ enum CalliopeService: String {
 
 	case brightness = "CA110301-251D-470A-A062-FA1922DFA9A8"
 
+	case touchPin = "CA110501-251D-470A-A062-FA1922DFA9A8"
+
 	//MARK: services from BLE Profile of Microbit from Lancester University
 	//https://lancaster-university.github.io/microbit-docs/resources/bluetooth/bluetooth_profile.html
 
@@ -74,44 +76,9 @@ enum CalliopeService: String {
 	/// This is an implementation of Nordic Semicondutor's UART/Serial Port Emulation over Bluetooth low energy.
 	/// See https://developer.nordicsemi.com/nRF5_SDK/nRF51_SDK_v8.x.x/doc/8.0.0/s110/html/a00072.html for the original Nordic Semiconductor documentation by way of background.
 	case uart = "6E400001B5A3F393E0A9E50E24DCCA9E"
-
-	var uuid: CBUUID {
-		return rawValue.uuid
-	}
-
-	var bitPattern: UInt32 {
-		switch self {
-		case .interpreter:
-			return 1 << 28
-		case .notify:
-			return 1 << 30
-		case .program:
-			return 1 << 29
-		case .rgbLed:
-			return 1 << 0
-		case .microphone:
-			return 1 << 1
-		case .speaker:
-			return 1 << 3
-		case .brightness:
-			return 1 << 2
-		case .accelerometer:
-			return 1 << 8
-		case .magnetometer:
-			return 1 << 7
-		case .button:
-			return 1 << 6
-		case .led:
-			return 1 << 4
-		case .event:
-			return 1 << 24
-		case .temperature:
-			return 1 << 5
-		default:
-			return 0
-		}
-	}
 }
+
+
 
 enum CalliopeCharacteristic: String, CaseIterable {
 
@@ -132,6 +99,8 @@ enum CalliopeCharacteristic: String, CaseIterable {
 	case playTone = "CA110402-251D-470A-A062-FA1922DFA9A8"
 
 	case brightness = "CA110303-251D-470A-A062-FA1922DFA9A8"
+
+	case touchPin = "CA110503-251D-470A-A062-FA1922DFA9A8"
 
 	//MARK: characteristics from microbit ble profile
 
@@ -253,6 +222,47 @@ enum CalliopeCharacteristic: String, CaseIterable {
 	}
 }
 
+extension CalliopeService {
+	var uuid: CBUUID {
+		return rawValue.uuid
+	}
+
+	var bitPattern: UInt32 {
+		switch self {
+		case .interpreter:
+			return 1 << 28
+		case .notify:
+			return 1 << 30
+		case .program:
+			return 1 << 29
+		case .rgbLed:
+			return 1 << 0
+		case .microphone:
+			return 1 << 1
+		case .speaker:
+			return 1 << 3
+		case .brightness:
+			return 1 << 2
+		case .touchPin:
+			return 1 << 9
+		case .accelerometer:
+			return 1 << 8
+		case .magnetometer:
+			return 1 << 7
+		case .button:
+			return 1 << 6
+		case .led:
+			return 1 << 4
+		case .event:
+			return 1 << 24
+		case .temperature:
+			return 1 << 5
+		default:
+			return 0
+		}
+	}
+}
+
 struct CalliopeBLEProfile {
 
 	///standard bluetooth profile of any device: Peripherials contain services which contain characteristics
@@ -273,6 +283,7 @@ struct CalliopeBLEProfile {
 		.microphone : [.noise],
 		.speaker : [.playTone],
 		.brightness : [.brightness],
+		.touchPin : [.touchPin],
 
 		//microbit profile
 		.accelerometer: [.accelerometerData, .accelerometerPeriod],

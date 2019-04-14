@@ -95,8 +95,8 @@ public class DashBoardViewController: ViewController_Base {
 			NSLayoutConstraint.activate([
 				logger.leftAnchor.constraint(equalTo: view.leftAnchor, constant: top_const),
 				logger.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -top_const),
-				logger.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 0.0),
-				logger.heightAnchor.constraint(equalToConstant: 240.0)
+				logger.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 40.0),
+				logger.heightAnchor.constraint(equalToConstant: 220.0)
 				])
 		}
 	}

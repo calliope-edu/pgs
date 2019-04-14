@@ -117,18 +117,25 @@ class MatrixConnectionViewController<C: CalliopeBLEDevice>: UIViewController {
 	// MARK: calliope connection
 
 	private var attemptReconnect = false
+	private var reconnecting = false
 
 	@IBAction func connect() {
 		if self.connector.state == .initialized
 			|| self.calliopeWithCurrentMatrix == nil && self.connector.state == .discoveredAll {
 			connector.startCalliopeDiscovery()
-		} else if let calliope = self.calliopeWithCurrentMatrix,
-			calliope.state == .discovered || calliope.state == .willReset {
-			connector.stopCalliopeDiscovery()
-			calliope.updateBlock = updateDiscoveryState
-			connector.connectToCalliope(calliope)
+		} else if let calliope = self.calliopeWithCurrentMatrix {
+			if calliope.state == .discovered || calliope.state == .willReset {
+				connector.stopCalliopeDiscovery()
+				calliope.updateBlock = updateDiscoveryState
+				LogNotify.log("Matrix view connecting to \(calliope)")
+				connector.connectToCalliope(calliope)
+			} else if calliope.state == .connected {
+				calliope.evaluateMode()
+			} else {
+				LogNotify.log("Connect button should not be enabled in this state (\(self.connector.state), \(String(describing: self.calliopeWithCurrentMatrix?.state)))")
+			}
 		} else {
-			LogNotify.log("connect button should not be enabled in this state (\(self.connector.state), \(String(describing: self.calliopeWithCurrentMatrix?.state)))")
+			LogNotify.log("Connect button should not be enabled in this state (\(self.connector.state), \(String(describing: self.calliopeWithCurrentMatrix?.state)))")
 		}
 	}
 
@@ -161,6 +168,8 @@ class MatrixConnectionViewController<C: CalliopeBLEDevice>: UIViewController {
 			}
 		case .connecting:
 			matrixView.isUserInteractionEnabled = false
+			attemptReconnect = false
+			reconnecting = false
 			connectButton.connectionState = .connecting
 			self.collapseButton.connectionState = .connecting
 		case .connected:
@@ -176,7 +185,7 @@ class MatrixConnectionViewController<C: CalliopeBLEDevice>: UIViewController {
 	private func evaluateCalliopeState(_ calliope: C) {
 
 		if calliope.state == .notPlaygroundReady || calliope.state == .discovered {
-			self.collapseButton.connectionState = .disconnected
+			self.collapseButton.connectionState = attemptReconnect || reconnecting ? .connecting : .disconnected
 		} else if calliope.state == .playgroundReady {
 			self.collapseButton.connectionState = .connected
 		} else {
@@ -186,17 +195,20 @@ class MatrixConnectionViewController<C: CalliopeBLEDevice>: UIViewController {
 		if calliope.state == .discovered && attemptReconnect {
 			//start reconnection attempt
 			queue.asyncAfter(deadline: DispatchTime.now() + BluetoothConstants.restartDuration, execute: connect)
+			reconnecting = true
 			attemptReconnect = false
 			return
 		}
 
 		switch calliope.state {
 		case .discovered:
-			matrixView.isUserInteractionEnabled = true
-			connectButton.connectionState = .readyToConnect
+			matrixView.isUserInteractionEnabled = !reconnecting
+			connectButton.connectionState = reconnecting ? .testingMode : .readyToConnect
 		case .connected:
+			reconnecting = false
 			attemptReconnect = false
 			matrixView.isUserInteractionEnabled = false
+			connectButton.connectionState = .testingMode
 		case .evaluateMode:
 			matrixView.isUserInteractionEnabled = false
 			connectButton.connectionState = .testingMode
@@ -208,8 +220,8 @@ class MatrixConnectionViewController<C: CalliopeBLEDevice>: UIViewController {
 			connectButton.connectionState = .wrongProgram
 		case .willReset:
 			matrixView.isUserInteractionEnabled = false
-			connectButton.connectionState = .wrongProgram
 			attemptReconnect = true
+			connectButton.connectionState = .testingMode
 		}
 	}
 }

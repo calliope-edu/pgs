@@ -13,10 +13,11 @@ struct BluetoothConstants {
 	static let readTimeout = 2.0
 	static let writeTimeout = 2.0
 
-	//TODO: set this to 0 as soon as coupling is not necessary any more
-	static let couplingDelay = 2.0
-
-	static let restartDuration = 4.0
+	//set this to 0 of coupling is not necessary
+	static let couplingDelay = 0.0
+	//this should be a little longer than the duration (in seconds)
+	//that the calliope needs for restarting in program 5
+	static let restartDuration = 2.0
 
 	static let lastConnectedKey = "cc.calliope.latestDeviceKey"
 	static let lastConnectedNameKey = "name"

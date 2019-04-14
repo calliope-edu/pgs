@@ -13,8 +13,7 @@ class ApiCalliope: CalliopeBLEDevice {
 	private var updateListeners: [CalliopeCharacteristic: Any] = [:]
 
 	static let apiServices: Set<CalliopeService> =
-		[.rgbLed, .microphone, .speaker, .brightness,
-		 .button, .led, .temperature, .event] //, .accelerometer, ] TODO: seems to work, but can lead to memory issues
+		[.rgbLed, .microphone, .speaker, .brightness, .button, .led, .temperature] //, .touchPin, .event, .accelerometer ] TODO: seems to work, but can lead to memory issues
 
 
 	override var requiredServices: Set<CalliopeService> {
@@ -33,8 +32,8 @@ class ApiCalliope: CalliopeBLEDevice {
 
 	/// notification called when Button A value is updated
 	public var buttonAActionNotification: ((BLEDataTypes.ButtonPressAction?) -> ())? {
-		set { setNotifyListener(for: .buttonAState, newValue) }
 		get { return getNotifyListener(for: .buttonAState) }
+		set { setNotifyListener(for: .buttonAState, newValue) }
 	}
 
 	/// action that is done to button B
@@ -44,8 +43,8 @@ class ApiCalliope: CalliopeBLEDevice {
 
 	/// notification called when Button B value is updated
 	public var buttonBActionNotification: ((BLEDataTypes.ButtonPressAction?) -> ())? {
-		set { setNotifyListener(for: .buttonBState, newValue) }
 		get { return getNotifyListener(for: .buttonBState) }
+		set { setNotifyListener(for: .buttonBState, newValue) }
 	}
 
 	/// which leds are on and which off.
@@ -81,8 +80,8 @@ class ApiCalliope: CalliopeBLEDevice {
 
 	/// notification called when accelerometer value is being requested periodically
 	public var accelerometerNotification: (((Int16, Int16, Int16)?) -> ())? {
-		set { setNotifyListener(for: .accelerometerData, newValue) }
 		get { return getNotifyListener(for: .accelerometerData) }
+		set { setNotifyListener(for: .accelerometerData, newValue) }
 	}
 
 	/// frequency with which the accelerometer data is read
@@ -99,8 +98,8 @@ class ApiCalliope: CalliopeBLEDevice {
 
 	/// notification called when magnetometer value is being requested periodically
 	public var magnetometerNotification: (((Int16, Int16, Int16)?) -> ())? {
-		set { setNotifyListener(for: .magnetometerData, newValue) }
 		get { return getNotifyListener(for: .magnetometerData) }
+		set { setNotifyListener(for: .magnetometerData, newValue) }
 	}
 
 	/// frequency with which the magnetometer data is read
@@ -117,8 +116,8 @@ class ApiCalliope: CalliopeBLEDevice {
 
 	/// notification called when magnetometer bearing value is changed
 	public var magnetometerBearingNotification: ((Int16?) -> ())? {
-		set { setNotifyListener(for: .magnetometerBearing, newValue) }
 		get { return getNotifyListener(for: .magnetometerBearing) }
+		set { setNotifyListener(for: .magnetometerBearing, newValue) }
 	}
 
 	/// (event, value) to be received via messagebus.
@@ -129,8 +128,8 @@ class ApiCalliope: CalliopeBLEDevice {
 
 	/// notification called when event is raised
 	public var eventNotification: (((BLEDataTypes.EventSource, BLEDataTypes.EventValue)?) -> ())? {
-		set { setNotifyListener(for: .microBitEvent, newValue) }
 		get { return getNotifyListener(for: .microBitEvent) }
+		set { setNotifyListener(for: .microBitEvent, newValue) }
 	}
 
 	/// temperature reading in celsius
@@ -142,14 +141,14 @@ class ApiCalliope: CalliopeBLEDevice {
 
 	/// notification called when tx value is being requested periodically
 	public var temperatureNotification: ((Int8?) -> ())? {
-		set { setNotifyListener(for: .temperature, newValue) }
 		get { return getNotifyListener(for: .temperature) }
+		set { setNotifyListener(for: .temperature, newValue) }
 	}
 
 	/// frequency with which the temperature is updated
 	var temperatureUpdateFrequency: UInt16? {
-		get { return read(.temperaturePeriod) }
 		set { write(newValue, .temperaturePeriod) }
+		get { return read(.temperaturePeriod) }
 	}
 
 	/// data received via UART, 20 bytes max.
@@ -184,6 +183,31 @@ class ApiCalliope: CalliopeBLEDevice {
 		guard let light: UInt8 = read(.brightness) else { return nil }
 		postSensorUpdateNotification(.Brightness, Int(light))
 		return light
+	}
+
+	public var touchPin0Action: BLEDataTypes.ButtonPressAction {
+		guard let state: (UInt8, BLEDataTypes.ButtonPressAction) = read(.touchPin) else { return .Up }
+		return state.0 == 0 ? state.1 : .Up
+	}
+
+	public var touchPin1Action: BLEDataTypes.ButtonPressAction {
+		guard let state: (UInt8, BLEDataTypes.ButtonPressAction) = read(.touchPin) else { return .Up }
+		return state.0 == 1 ? state.1 : .Up
+	}
+
+	public var touchPin2Action: BLEDataTypes.ButtonPressAction {
+		guard let state: (UInt8, BLEDataTypes.ButtonPressAction) = read(.touchPin) else { return .Up }
+		return state.0 == 2 ? state.1 : .Up
+	}
+
+	public var touchPin3Action: BLEDataTypes.ButtonPressAction {
+		guard let state: (UInt8, BLEDataTypes.ButtonPressAction) = read(.touchPin) else { return .Up }
+		return state.0 == 3 ? state.1 : .Up
+	}
+
+	public var touchPinNotification: (((UInt8, BLEDataTypes.ButtonPressAction)?) -> ())? {
+		get { return getNotifyListener(for: .touchPin) }
+		set { setNotifyListener(for: .touchPin, newValue) }
 	}
 
 	// TODO: the pin api is not safely useable on any pin, since on-board components connected to it need very specific inputs.
@@ -262,6 +286,7 @@ class ApiCalliope: CalliopeBLEDevice {
 	}
 
 	override func handleValueUpdate(_ characteristic: CalliopeCharacteristic, _ value: Data) {
+		super.handleValueUpdate(characteristic, value)
 		//TODO: if we have all the sensor characteristics, and one updates, we can as well update the dashboard using it
 		updateQueue.async {
 			self.notifyListener(for: characteristic, value: value)
@@ -286,18 +311,17 @@ class ApiCalliope: CalliopeBLEDevice {
 			guard let buttonBAction: BLEDataTypes.ButtonPressAction = characteristic.interpret(dataBytes: value) else { return }
 			buttonBActionNotification?(buttonBAction)
 			postSensorUpdateNotification(DashboardItemType.ButtonB, Int(buttonBAction.rawValue))
+		case .touchPin:
+			guard let state: (UInt8, BLEDataTypes.ButtonPressAction) = characteristic.interpret(dataBytes: value) else { return }
+			if state.1 != .Up {
+				postSensorUpdateNotification(.Pin, Int(state.0))
+			}
 		case .microBitEvent:
 			guard let (source, value): (BLEDataTypes.EventSource, BLEDataTypes.EventValue) = characteristic.interpret(dataBytes: value)
 				else { return }
 			eventNotification?((source, value))
-			if (source == .MICROBIT_ID_IO_P0) {
-				postSensorUpdateNotification(.Pin, 0)
-			} else if (source == .MICROBIT_ID_IO_P1) {
-				postSensorUpdateNotification(.Pin, 1)
-			} else if (source == .MICROBIT_ID_IO_P2) {
-				postSensorUpdateNotification(.Pin, 2)
-			} else if (source == .MICROBIT_ID_IO_P3) {
-				postSensorUpdateNotification(.Pin, 3)
+			if (source == .MICROBIT_ID_ACCELEROMETER) {
+				postSensorUpdateNotification(.Shake, 0)
 			}
 		case .temperature:
 			let temperature: Int8? = characteristic.interpret(dataBytes: value)
@@ -314,21 +338,21 @@ extension CalliopeCharacteristic {
 		guard let dataBytes = dataBytes else { return nil }
 
 		switch self {
-		//case .pinData:
-		//	var values = [UInt8:UInt8]()
-		//	let sequence = stride(from: 0, to: dataBytes.count, by: 2)
-		//	for element in sequence {
-		//		values[dataBytes[element]] = dataBytes[element + 1]
-		//	}
-		//	return values as? T
-		//case .pinADConfiguration, .pinIOConfiguration:
-		//	let config = Array(dataBytes.flatMap { (byte) -> [Bool] in
-		//		(0..<8).map { offset in (byte & (1 << offset)) == 0 ? false : true }
-		//		}.prefix(19))
-		//	if self == .pinADConfiguration {
-		//		return config.map { b -> BLEDataTypes.PinConfiguration in b ? .Digital : .Analogue } as? T
-		//	}
-		//	return config as? T //TODO: hopefully the order is right...
+		case .pinData:
+			var values = [UInt8:UInt8]()
+			let sequence = stride(from: 0, to: dataBytes.count, by: 2)
+			for element in sequence {
+				values[dataBytes[element]] = dataBytes[element + 1]
+			}
+			return values as? T
+		case .pinADConfiguration, .pinIOConfiguration:
+			let config = Array(dataBytes.flatMap { (byte) -> [Bool] in
+				(0..<8).map { offset in (byte & (1 << offset)) == 0 ? false : true }
+				}.prefix(19))
+			if self == .pinADConfiguration {
+				return config.map { b -> BLEDataTypes.PinConfiguration in b ? .Digital : .Analogue } as? T
+			}
+			return config as? T //TODO: hopefully the order is right...
 		case .ledMatrixState:
 			return dataBytes.map { (byte) -> [Bool] in
 				return (1...5).map { offset in (byte & (1 << (5 - offset))) != 0 }
@@ -364,6 +388,9 @@ extension CalliopeCharacteristic {
 			return UInt8(littleEndianData: dataBytes) as? T
 		case .noise:
 			return Int32(littleEndianData: dataBytes) as? T
+		case .touchPin:
+			return (UInt8(littleEndian: dataBytes[0]),
+					BLEDataTypes.ButtonPressAction(rawValue: UInt8(littleEndian: dataBytes[1]))) as? T
 		default:
 			return nil
 		}
@@ -374,7 +401,7 @@ extension CalliopeCharacteristic {
 		case .accelerometerPeriod, .magnetometerPeriod, .temperaturePeriod:
 			guard let period = object as? UInt16 else { return nil }
 			return period.littleEndianData
-		/*case .pinData:
+		case .pinData:
 			guard let pinValues = object as? [UInt8: UInt8] else { return nil }
 			return Data(bytes: pinValues.flatMap { [$0, $1] })
 		case .pinADConfiguration, .pinIOConfiguration:
@@ -385,7 +412,7 @@ extension CalliopeCharacteristic {
 				obj = (object as? [Bool])?.enumerated().map { $0.element ? (1 << $0.offset) : 0 }
 			}
 			guard var asBitmap = (obj?.reduce(0) { $0 | $1 }) else { return nil }
-			return Data(bytes: &asBitmap, count: MemoryLayout.size(ofValue: asBitmap))*/
+			return Data(bytes: &asBitmap, count: MemoryLayout.size(ofValue: asBitmap))
 		case .ledMatrixState:
 			guard let ledArray = object as? [[Bool]] else { return nil }
 			let bitmapArray = ledArray.map {

@@ -189,11 +189,11 @@ class CalliopeBLEDiscovery<C: CalliopeBLEDevice>: NSObject, CBCentralManagerDele
 	}
 
 	func disconnectFromCalliope() {
-		//preemptively update connected calliope, in case delegate call does not happen
-		self.connectedCalliope = nil
 		if let connectedCalliope = self.connectedCalliope {
 			self.centralManager.cancelPeripheralConnection(connectedCalliope.peripheral)
 		}
+		//preemptively update connected calliope, in case delegate call does not happen
+		self.connectedCalliope = nil
 	}
 
 	func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {

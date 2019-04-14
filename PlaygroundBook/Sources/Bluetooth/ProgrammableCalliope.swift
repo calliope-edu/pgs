@@ -18,9 +18,7 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 
 
 	override var requiredServices: Set<CalliopeService> {
-		return hasMasterService
-			? ProgrammableCalliope.programmingServices
-			: ProgrammableCalliope.programmingServicesLegacy
+		return ProgrammableCalliope.programmingServices //ProgrammableCalliope.programmingServicesLegacy
 	}
 
 	// MARK: Uploading programs via program characteristic
@@ -87,6 +85,7 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 	}
 
 	override func handleValueUpdate(_ characteristic: CalliopeCharacteristic, _ value: Data) {
+		super.handleValueUpdate(characteristic, value)
 		if characteristic == .notify {
 			updateSensorReading(value)
 		} else {
@@ -97,11 +96,12 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 
 	func getCBCharacteristic(programOrNotify calliopeCharacteristic: CalliopeCharacteristic) -> CBCharacteristic? {
 		let characteristic: CBCharacteristic?
-		if hasMasterService {
-			characteristic = getCBCharacteristic(CalliopeService.interpreter.uuid, calliopeCharacteristic.uuid)
-		} else {
-			characteristic = getCBCharacteristic(calliopeCharacteristic.uuid, calliopeCharacteristic.uuid)
-		}
+		let service = CalliopeBLEProfile.characteristicServiceMap[calliopeCharacteristic]!
+		characteristic = requiredServices.contains(service)
+			? (calliopeCharacteristic == .program
+				? getCBCharacteristic(CalliopeService.program.uuid, calliopeCharacteristic.uuid)
+				: getCBCharacteristic(CalliopeService.notify.uuid, calliopeCharacteristic.uuid))
+			: getCBCharacteristic(CalliopeService.interpreter.uuid, calliopeCharacteristic.uuid)
 		return characteristic
 	}
 }
