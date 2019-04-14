@@ -293,7 +293,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	func handleValueUpdate(_ characteristic: CalliopeCharacteristic, _ value: Data) {
-		LogNotify.log("Value for \(characteristic) updated (\(value))")
+		LogNotify.log("Value for \(characteristic) updated (\(value.hexEncodedString()))")
 	}
 
 	private func explicitWriteResponse(_ error: Error?) {
@@ -316,8 +316,8 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			readError = error
 			LogNotify.log(error.localizedDescription)
 		} else {
-			LogNotify.log("received read response from \(characteristic)")
 			readValue = characteristic.value
+			LogNotify.log("received read response from \(characteristic): \(String(describing: readValue?.hexEncodedString()))")
 		}
 		readGroup.leave()
 	}

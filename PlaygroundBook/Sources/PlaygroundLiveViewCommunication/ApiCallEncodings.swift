@@ -203,11 +203,11 @@ extension ApiResponse: ApiCall {
 
 		//REQUEST/RESPONSE
 		case 13101:
-			let isPressed = try container.decode(Bool.self, forKey: .parameterValue)
+			let isPressed = try container.decode(UInt8.self, forKey: .parameterValue)
 			self = .respondButtonState(isPressed: isPressed)
 
 		case 13201:
-			let isPressed = try container.decode(Bool.self, forKey: .parameterValue)
+			let isPressed = try container.decode(UInt8.self, forKey: .parameterValue)
 			self = .respondPinState(isPressed: isPressed)
 
 		case 13301:
@@ -292,6 +292,9 @@ extension ApiCallback: ApiCall {
 		case 11200:
 			let pinNumber = try container.decode(UInt16.self, forKey: .parameterValue)
 			self = .pin(pin: pinNumber)
+		case 11201:
+			let pinNumber = try container.decode(UInt16.self, forKey: .parameterValue)
+			self = .pinLongTouch(pin: pinNumber)
 		//accelerometer
 		case 11300:
 			self = .shake()
@@ -324,10 +327,15 @@ extension ApiCallback: ApiCall {
 			try container.encode(11104, forKey: .enumValue)
 		case .buttonABLongPress():
 			try container.encode(11105, forKey: .enumValue)
+
 		//pin
 		case .pin(let pinNumber):
 			try container.encode(11200, forKey: .enumValue)
 			try container.encode(pinNumber, forKey: .parameterValue)
+		case .pinLongTouch(let pinNumber):
+			try container.encode(11201, forKey: .enumValue)
+			try container.encode(pinNumber, forKey: .parameterValue)
+
 		//accelerometer
 		case .shake:
 			try container.encode(11300, forKey: .enumValue)

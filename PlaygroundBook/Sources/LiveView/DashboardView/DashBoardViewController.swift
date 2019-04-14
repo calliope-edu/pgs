@@ -168,17 +168,17 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
 	public func receive(_ message: PlaygroundValue) {
 
 		if case let .string(msg) = message {
-			LogNotify.log("live view receive string: \(msg)")
+			LogNotify.log("live view received string: \(msg)")
 		} else if case let .dictionary(msg) = message,
 			case let .data(program)? = msg[PlaygroundValueKeys.programKey] {
-			//LogNotify.log("live view receive data: \(data)")
+			LogNotify.log("live view receive program: \(program.hexEncodedString())")
 			upload(program)
+		} else if case let .dictionary(msg) = message,
+			case let .dictionary(notificationInfo)? = msg[DebugConstants.logNotifyName],
+			case let .string(text)? = notificationInfo["message"] {
+			LogNotify.log(text)
 		} else {
-			LogNotify.log("live view receive unknown message: \(message)")
-			delay(time: 1.0) { [weak self] in
-				let message: PlaygroundValue = .string("ping from liveview")
-				self?.send(message)
-			}
+			LogNotify.log("live view received unknown message: \(message)")
 		}
 	}
 }

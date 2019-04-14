@@ -152,7 +152,7 @@ extension ApiCalliopeDashboardViewController: PlaygroundLiveViewMessageHandler {
 	public func receive(_ message: PlaygroundValue) {
 
 		if case let .string(msg) = message {
-			LogNotify.log("live view receive string: \(msg)")
+			LogNotify.log("live view received string: \(msg)")
 		} else if case let .dictionary(dict) = message {
 			if case let .data(callData)? = dict[PlaygroundValueKeys.apiCommandKey],
 				let call = ApiCommand(data: callData) {
@@ -162,6 +162,10 @@ extension ApiCalliopeDashboardViewController: PlaygroundLiveViewMessageHandler {
 				let call = ApiRequest(data: callData) {
 				LogNotify.log("live view received api request \(call)")
 				TeachingApiImplementation.instance.handleApiRequest(call, calliope: connectionView.usageReadyCalliope)
+			} else if case let .dictionary(msg) = message,
+				case let .dictionary(notificationInfo)? = msg[DebugConstants.logNotifyName],
+				case let .string(text)? = notificationInfo["message"] {
+				LogNotify.log(text)
 			} else {
 				LogNotify.log("live view cannot handle call \(dict)")
 			}

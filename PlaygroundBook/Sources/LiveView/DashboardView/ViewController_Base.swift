@@ -34,7 +34,7 @@ public class ViewController_Base: UIViewController, PlaygroundLiveViewSafeAreaCo
     func addObservers() {
         let nc = NotificationCenter.default
         
-        let observer_logNotify = nc.observe(name:LogNotify.logNotifyName, object: nil, queue: .main, using: notificationLogNotify)
+        let observer_logNotify = nc.observe(name: LogNotify.logNotifyName, object: nil, queue: .main, using: notificationLogNotify)
         observerTockens.append(observer_logNotify)
         
 		let observer_enterBackground = nc.observe(name:UIApplication.didEnterBackgroundNotification, object: nil, queue: .main, using: appDidEnterBackground)

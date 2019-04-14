@@ -37,8 +37,8 @@ public enum ApiRequest {
 }
 
 public enum ApiResponse {
-	case respondButtonState(isPressed: Bool)
-	case respondPinState(isPressed: Bool)
+	case respondButtonState(isPressed: UInt8)
+	case respondPinState(isPressed: UInt8)
 	case respondNoise(level: UInt16)
 	case respondTemperature(degrees: Int16)
 	case respondBrightness(level: UInt8)
@@ -58,6 +58,7 @@ public enum ApiCallback {
 	case buttonABLongPress()
 
 	case pin(pin: UInt16)
+	case pinLongTouch(pin: UInt16)
 
 	case shake()
 

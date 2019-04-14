@@ -17,7 +17,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	private var buttonAState: BLEDataTypes.ButtonPressAction = .Up
 	private var buttonBState: BLEDataTypes.ButtonPressAction = .Up
 
-	private var pinPressed = [false, false, false, false]
+	private var pinState: [UInt8] = [0, 0, 0, 0]
 
 	private var rgbState: (UInt8, UInt8, UInt8) = (0, 0, 0)
 
@@ -44,7 +44,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	}
 
 	private func resetPinState() {
-		pinPressed = [false, false, false, false]
+		pinState = [0, 0, 0, 0]
 	}
 
 	private let displayOffState = [[false, false, false, false, false],
@@ -121,9 +121,9 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			response = .respondButtonState(isPressed: buttonPressState(button))
 		case .requestPinState(let pin):
 			if pin < 4 {
-				response = .respondPinState(isPressed: pinPressed[Int(pin)])
+				response = .respondPinState(isPressed: pinState[Int(pin)])
 			} else {
-				response = .respondPinState(isPressed: false)
+				response = .respondPinState(isPressed: 0)
 			}
 		case .requestNoise:
 			let noise = calliope?.noiseLevel
@@ -200,12 +200,13 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			self.buttonApiNotification(action, .B)
 		}
 
-		/* TODO: this is not working so far
 		//TOUCH PINS
-		let pins: [BLEDataTypes.EventSource] = [.MICROBIT_ID_IO_P0, .MICROBIT_ID_IO_P1, .MICROBIT_ID_IO_P2, .MICROBIT_ID_IO_P3]
-		for pinSource in pins {
-			calliope.startNotifying(from: pinSource)
+		calliope.touchPinNotification = { action in
+			guard let (pin, value) = action else { return }
+			self.pinTouchNotification(pin, value)
 		}
+
+		/* TODO: this is not working so far
 
 		//SHAKE
 		let accelerometerSource: BLEDataTypes.EventSource = .MICROBIT_ID_ACCELEROMETER
@@ -234,19 +235,22 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		//TODO: other callbacks to calliope
 	}
 
-	private func buttonPressState(_ button: buttonType) -> Bool {
+	private func buttonPressState(_ button: buttonType) -> UInt8 {
 		if button == .A {
 			let buttonState = buttonAState
-			return buttonState == .Down || buttonState == .Long
+			return buttonState.rawValue
 		} else if button == .B {
 			let buttonState = buttonBState
-			return buttonState == .Down || buttonState == .Long
+			return buttonState.rawValue
 		} else {
 			let buttonState1 = buttonAState
 			let buttonState2 = buttonBState
-			let buttonPressed1 = buttonState1 == .Down || buttonState1 == .Long
-			let buttonPressed2 = buttonState2 == .Down || buttonState2 == .Long
-			return buttonPressed1 && buttonPressed2
+			if buttonState1 == .Down && buttonState2 == .Down
+				|| buttonState1 == .Long && buttonState2 == .Long {
+				return buttonState1.rawValue
+			} else {
+				return 0
+			}
 		}
 	}
 
@@ -357,39 +361,13 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		}
 	}
 
-	private func pinTouchNotification(_ source: BLEDataTypes.EventSource, _ value: BLEDataTypes.EventValue) {
-		guard let touchType: BLEDataTypes.TouchPinEvent = BLEDataTypes.TouchPinEvent(rawValue: value) else {
-			LogNotify.log("could not decipher pin touch value \(value)")
-			return
-		}
-
-		LogNotify.log("\(source): \(touchType)")
-
-		let index: Int
-		switch source {
-		case .MICROBIT_ID_IO_P0:
-			index = 0
-		case .MICROBIT_ID_IO_P1:
-			index = 1
-		case .MICROBIT_ID_IO_P2:
-			index = 2
-		case .MICROBIT_ID_IO_P3:
-			index = 3
-		default:
-			LogNotify.log("Some pin sent a pressed notification without being a pin")
-			return
-		}
-
-		LogNotify.log("Pin \(index) event \(touchType)")
-
-		switch touchType {
-		case .MICROBIT_BUTTON_EVT_DOWN, .MICROBIT_BUTTON_EVT_HOLD:
-			self.pinPressed[index] = true
-		case .MICROBIT_BUTTON_EVT_UP:
-			self.pinPressed[index] = false
-		default:
-			LogNotify.log("Pin sent message that is not valid")
-			return
+	private func pinTouchNotification(_ pin: UInt8, _ value: BLEDataTypes.ButtonPressAction) {
+		LogNotify.log("pin notification: \(pin) \(value)")
+		pinState[Int(pin)] = value.rawValue
+		if (value == .Down) {
+			self.send(apiCall: ApiCallback.pin(pin: UInt16(pin)))
+		} else if (value == .Long) {
+			self.send(apiCall: ApiCallback.pinLongTouch(pin: UInt16(pin)))
 		}
 	}
 

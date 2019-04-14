@@ -313,6 +313,7 @@ class ApiCalliope: CalliopeBLEDevice {
 			postSensorUpdateNotification(DashboardItemType.ButtonB, Int(buttonBAction.rawValue))
 		case .touchPin:
 			guard let state: (UInt8, BLEDataTypes.ButtonPressAction) = characteristic.interpret(dataBytes: value) else { return }
+			touchPinNotification?(state)
 			if state.1 != .Up {
 				postSensorUpdateNotification(.Pin, Int(state.0))
 			}
@@ -335,18 +336,18 @@ class ApiCalliope: CalliopeBLEDevice {
 
 extension CalliopeCharacteristic {
 	fileprivate func interpret<T>(dataBytes: Data?) -> T? {
-		guard let dataBytes = dataBytes else { return nil }
+		guard let data = dataBytes else { return nil }
 
 		switch self {
 		case .pinData:
 			var values = [UInt8:UInt8]()
-			let sequence = stride(from: 0, to: dataBytes.count, by: 2)
+			let sequence = stride(from: 0, to: data.count, by: 2)
 			for element in sequence {
-				values[dataBytes[element]] = dataBytes[element + 1]
+				values[data[element]] = data[element + 1]
 			}
 			return values as? T
 		case .pinADConfiguration, .pinIOConfiguration:
-			let config = Array(dataBytes.flatMap { (byte) -> [Bool] in
+			let config = Array(data.flatMap { (byte) -> [Bool] in
 				(0..<8).map { offset in (byte & (1 << offset)) == 0 ? false : true }
 				}.prefix(19))
 			if self == .pinADConfiguration {
@@ -354,43 +355,42 @@ extension CalliopeCharacteristic {
 			}
 			return config as? T //TODO: hopefully the order is right...
 		case .ledMatrixState:
-			return dataBytes.map { (byte) -> [Bool] in
+			return data.map { (byte) -> [Bool] in
 				return (1...5).map { offset in (byte & (1 << (5 - offset))) != 0 }
 				} as? T
 		case .scrollingDelay:
-			return UInt16(littleEndianData: dataBytes) as? T
+			return UInt16(littleEndianData: data) as? T
 		case .buttonAState, .buttonBState:
-			return BLEDataTypes.ButtonPressAction(rawValue: dataBytes[0]) as? T
+			return BLEDataTypes.ButtonPressAction(rawValue: data[0]) as? T
 		case .accelerometerData, .magnetometerData:
-			return dataBytes.withUnsafeBytes {
+			return data.withUnsafeBytes {
 				(int16Ptr: UnsafePointer<Int16>) -> (Int16, Int16, Int16) in
 				return (Int16(littleEndian: int16Ptr[0]), //X
 					Int16(littleEndian: int16Ptr[1]), //y
 					Int16(littleEndian: int16Ptr[2])) //z
 				} as? T
 		case .accelerometerPeriod, .magnetometerPeriod, .temperaturePeriod:
-			return UInt16(littleEndianData: dataBytes) as? T
+			return UInt16(littleEndianData: data) as? T
 		case .magnetometerBearing:
-			return UInt16(littleEndianData: dataBytes) as? T
+			return UInt16(littleEndianData: data) as? T
 		case .microBitEvent:
-			return dataBytes.withUnsafeBytes { (uint16ptr:UnsafePointer<UInt16>) -> (BLEDataTypes.EventSource, BLEDataTypes.EventValue)? in
+			return data.withUnsafeBytes { (uint16ptr:UnsafePointer<UInt16>) -> (BLEDataTypes.EventSource, BLEDataTypes.EventValue)? in
 				guard let event = BLEDataTypes.EventSource(rawValue: UInt16(littleEndian:uint16ptr[0]))
 					else { return nil }
 				let value = BLEDataTypes.EventValue(integerLiteral: UInt16(littleEndian:uint16ptr[1]))
 				return (event, value)
 				} as? T
 		case .txCharacteristic:
-			return dataBytes as? T
+			return data as? T
 		case .temperature:
-			let localized = Int8(ValueLocalizer.current.localizeTemperature(unlocalized: Double(Int8(littleEndianData: dataBytes) ?? 42)))
+			let localized = Int8(ValueLocalizer.current.localizeTemperature(unlocalized: Double(Int8(littleEndianData: data) ?? 42)))
 			return localized as? T
 		case .brightness:
-			return UInt8(littleEndianData: dataBytes) as? T
+			return UInt8(littleEndianData: data) as? T
 		case .noise:
-			return Int32(littleEndianData: dataBytes) as? T
+			return Int32(littleEndianData: data) as? T
 		case .touchPin:
-			return (UInt8(littleEndian: dataBytes[0]),
-					BLEDataTypes.ButtonPressAction(rawValue: UInt8(littleEndian: dataBytes[1]))) as? T
+			return (UInt8(littleEndian: data[1]), BLEDataTypes.ButtonPressAction(rawValue: UInt8(littleEndian: data[0]))) as? T
 		default:
 			return nil
 		}

@@ -25,6 +25,8 @@ public protocol Calliope {
 	//Pins
 	/// called whenever a touch pin is touched (pin numbers 0-3)
 	func onPin(pin: UInt16)
+	/// called whenever a touch pin stays touched for some time
+	func onPinLongPress(pin: UInt16)
 
 	//Accelerometer
 	/// called when the calliope is shook

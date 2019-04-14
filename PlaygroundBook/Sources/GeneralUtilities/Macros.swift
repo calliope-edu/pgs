@@ -13,7 +13,7 @@ func LOG(_ message: Any, fileName: String = #file, lineNumber: Int = #line) {
 	let filenameOnly = lastPathComponent.components(separatedBy: ".")[0]
 	let extendedMessage = "\(filenameOnly):\(lineNumber)| \(message)"
 
-	print(extendedMessage)
+	LogNotify.log(extendedMessage)
 }
 
 func ERR(_ message: Any, fileName: String = #file, lineNumber: Int = #line) {
@@ -21,5 +21,5 @@ func ERR(_ message: Any, fileName: String = #file, lineNumber: Int = #line) {
 	let filenameOnly = lastPathComponent.components(separatedBy: ".")[0]
 	let extendedMessage = "\(filenameOnly):\(lineNumber) \(message)"
 
-	print(extendedMessage)
+	LogNotify.log(extendedMessage)
 }

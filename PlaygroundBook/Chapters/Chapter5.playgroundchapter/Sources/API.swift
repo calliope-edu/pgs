@@ -18,9 +18,14 @@ public extension Calliope {
 	/// called whenever button A and B are pressed together (for 1s)
 	func onButtonABLongPress() {}
 
-	//Pins
-	/// called whenever a touch pin is touched (pin numbers 0-3)
+	//Touch Pins (Pins 0-3)
+	/// called whenever a touch pin is touched
+	/// - Parameter pin: the pin number (0-3)
 	func onPin(pin: UInt16) {}
+
+	/// called when a touch pin stays touched for some time
+	/// - Parameter pin: the pin number (0-3)
+	func onPinLongPress(pin: UInt16) {}
 
 	//Accelerometer
 	/// called when the calliope is shook
@@ -155,7 +160,11 @@ public struct io {
 
 		/// Whether the button is currently pressed
 		public var isPressed: Bool {
-			return sendRequest(apiCall: .requestButtonState(button: type))!
+			return sendRequest(apiCall: .requestButtonState(button: type))! > 0
+		}
+
+		public var isLong: Bool {
+			return sendRequest(apiCall: .requestButtonState(button: type))! > 1
 		}
 
 		/// Creates a button mirroring a button (or button combination) of the calliope.
@@ -171,7 +180,11 @@ public struct io {
 
 		/// Whether the button is currently pressed
 		public var isPressed: Bool {
-			return sendRequest(apiCall: .requestPinState(pin: number))!
+			return sendRequest(apiCall: .requestPinState(pin: number))! > 0
+		}
+
+		public var isLong: Bool {
+			return sendRequest(apiCall: .requestPinState(pin: number))! > 1
 		}
 
 		/// Creates a pin mirroring a touchpin on the calliope
