@@ -36,6 +36,8 @@ enum CalliopeService: String {
 
 	case touchPin = "CA110501-251D-470A-A062-FA1922DFA9A8"
 
+	case gesture = "CA110601-251D-470A-A062-FA1922DFA9A8"
+
 	//MARK: services from BLE Profile of Microbit from Lancester University
 	//https://lancaster-university.github.io/microbit-docs/resources/bluetooth/bluetooth_profile.html
 
@@ -101,6 +103,8 @@ enum CalliopeCharacteristic: String, CaseIterable {
 	case brightness = "CA110303-251D-470A-A062-FA1922DFA9A8"
 
 	case touchPin = "CA110503-251D-470A-A062-FA1922DFA9A8"
+
+	case gesture = "CA110603-251D-470A-A062-FA1922DFA9A8"
 
 	//MARK: characteristics from microbit ble profile
 
@@ -245,6 +249,8 @@ extension CalliopeService {
 			return 1 << 2
 		case .touchPin:
 			return 1 << 9
+		case .gesture:
+			return 1 << 10
 		case .accelerometer:
 			return 1 << 8
 		case .magnetometer:
@@ -284,6 +290,7 @@ struct CalliopeBLEProfile {
 		.speaker : [.playTone],
 		.brightness : [.brightness],
 		.touchPin : [.touchPin],
+		.gesture : [.gesture],
 
 		//microbit profile
 		.accelerometer: [.accelerometerData, .accelerometerPeriod],

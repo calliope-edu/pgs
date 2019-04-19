@@ -14,9 +14,27 @@ struct BLEDataTypes {
 	}
 
 	enum ButtonPressAction: UInt8 {
-		case Up
+		case Up = 0
 		case Down
 		case Long
+	}
+
+	enum AccelerometerGesture: UInt8 {
+		case tiltUp = 0
+		case tiltDown
+		case tiltLeft
+		case tiltRight
+		
+		case faceUp
+		case faceDown
+
+		case freefall
+
+		case acceleration4g
+		case acceleration6g
+		case acceleration8g
+
+		case shake
 	}
 
 	//Identifiers used in the firmware for sending via event message bus

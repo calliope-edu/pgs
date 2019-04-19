@@ -13,7 +13,7 @@ class ApiCalliope: CalliopeBLEDevice {
 	private var updateListeners: [CalliopeCharacteristic: Any] = [:]
 
 	static let apiServices: Set<CalliopeService> =
-		[.rgbLed, .microphone, .speaker, .brightness, .button, .led, .temperature] //, .touchPin, .event, .accelerometer ] TODO: seems to work, but can lead to memory issues
+		[.led, .touchPin, .rgbLed, .microphone, .speaker, .brightness, .button, .temperature, .gesture]
 
 
 	override var requiredServices: Set<CalliopeService> {
@@ -210,6 +210,11 @@ class ApiCalliope: CalliopeBLEDevice {
 		set { setNotifyListener(for: .touchPin, newValue) }
 	}
 
+	public var gestureNotification: ((BLEDataTypes.AccelerometerGesture?) -> ())? {
+		get { return getNotifyListener(for: .gesture) }
+		set { setNotifyListener(for: .gesture, newValue) }
+	}
+
 	// TODO: the pin api is not safely useable on any pin, since on-board components connected to it need very specific inputs.
 	/// data read from input I/O Pins
 	private func readPinData() -> [UInt8:UInt8]? {
@@ -317,6 +322,9 @@ class ApiCalliope: CalliopeBLEDevice {
 			if state.1 != .Up {
 				postSensorUpdateNotification(.Pin, Int(state.0))
 			}
+		case .gesture:
+			guard let gesture: BLEDataTypes.AccelerometerGesture = characteristic.interpret(dataBytes: value) else { return }
+			gestureNotification?(gesture)
 		case .microBitEvent:
 			guard let (source, value): (BLEDataTypes.EventSource, BLEDataTypes.EventValue) = characteristic.interpret(dataBytes: value)
 				else { return }
@@ -391,6 +399,8 @@ extension CalliopeCharacteristic {
 			return Int32(littleEndianData: data) as? T
 		case .touchPin:
 			return (UInt8(littleEndian: data[1]), BLEDataTypes.ButtonPressAction(rawValue: UInt8(littleEndian: data[0]))) as? T
+		case .gesture:
+			return BLEDataTypes.AccelerometerGesture(rawValue: data[0]) as? T
 		default:
 			return nil
 		}

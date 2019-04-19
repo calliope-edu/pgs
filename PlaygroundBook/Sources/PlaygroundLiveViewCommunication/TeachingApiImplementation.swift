@@ -206,33 +206,10 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			self.pinTouchNotification(pin, value)
 		}
 
-		/* TODO: this is not working so far
-
-		//SHAKE
-		let accelerometerSource: BLEDataTypes.EventSource = .MICROBIT_ID_ACCELEROMETER
-		let accelerometerEvents: [BLEDataTypes.AccelerometerEventValue] =
-			[.MICROBIT_ACCELEROMETER_EVT_SHAKE,
-			 .MICROBIT_ACCELEROMETER_EVT_FACE_DOWN, .MICROBIT_ACCELEROMETER_EVT_FACE_UP,
-			 .MICROBIT_ACCELEROMETER_EVT_TILT_LEFT,  .MICROBIT_ACCELEROMETER_EVT_TILT_RIGHT, .MICROBIT_ACCELEROMETER_EVT_TILT_UP, .MICROBIT_ACCELEROMETER_EVT_TILT_DOWN]
-		for accelValue in accelerometerEvents {
-			calliope.startNotifying(from: accelerometerSource, for: accelValue.rawValue)
+		calliope.gestureNotification = { action in
+			guard let gesture = action else { return }
+			self.gestureNotification(gesture)
 		}
-
-		calliope.eventNotification = { tuple in
-			guard let (source, value) = tuple else { return }
-			LogNotify.log("received event \(tuple)")
-			if source == accelerometerSource {
-				self.accelerometerNotification(value)
-			} else if pins.contains(source) {
-				self.pinTouchNotification(source, value)
-			}
-		}
-
-		//NOISE / CLAP
-
-		*/
-
-		//TODO: other callbacks to calliope
 	}
 
 	private func buttonPressState(_ button: buttonType) -> UInt8 {
@@ -371,46 +348,31 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		}
 	}
 
-	private func accelerometerNotification(_ value: BLEDataTypes.EventValue) {
-		guard let accelValue = BLEDataTypes.AccelerometerEventValue(rawValue: value) else {
-			LogNotify.log("could not decipher accelerometer event \(value)")
-			return
-		}
-
-		switch accelValue {
-		case .MICROBIT_ACCELEROMETER_EVT_TILT_UP:
-			//TODO
-			return
-		case .MICROBIT_ACCELEROMETER_EVT_TILT_DOWN:
-			//TODO
-			return
-		case .MICROBIT_ACCELEROMETER_EVT_TILT_LEFT:
-			//TODO
-			return
-		case .MICROBIT_ACCELEROMETER_EVT_TILT_RIGHT:
-			//TODO
-			return
-		case .MICROBIT_ACCELEROMETER_EVT_FACE_UP:
-			//TODO
-			return
-		case .MICROBIT_ACCELEROMETER_EVT_FACE_DOWN:
-			//TODO
-			return
-		case .MICROBIT_ACCELEROMETER_EVT_FREEFALL:
-			//TODO
-			return
-		case .MICROBIT_ACCELEROMETER_EVT_2G:
-			//TODO
-			return
-		case .MICROBIT_ACCELEROMETER_EVT_3G:
-			//TODO
-			return
-		case .MICROBIT_ACCELEROMETER_EVT_6G:
-			//TODO
-			return
-		case .MICROBIT_ACCELEROMETER_EVT_SHAKE:
+	private func gestureNotification(_ gesture: BLEDataTypes.AccelerometerGesture) {
+		switch gesture {
+		case .shake:
 			self.send(apiCall: .shake())
+		//TODO: add callbacks for other
+		case .tiltUp:
+			break
+		case .tiltDown:
+			break
+		case .tiltLeft:
+			break
+		case .tiltRight:
+			break
+		case .faceUp:
+			break
+		case .faceDown:
+			break
+		case .freefall:
+			break
+		case .acceleration4g:
+			break
+		case .acceleration6g:
+			break
+		case .acceleration8g:
+			break
 		}
 	}
-
 }
