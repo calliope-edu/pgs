@@ -350,9 +350,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	private func gestureNotification(_ gesture: BLEDataTypes.AccelerometerGesture) {
 		switch gesture {
-		case .shake:
-			self.send(apiCall: .shake())
-		//TODO: add callbacks for other
+		//TODO: add callbacks for other gestures
 		case .tiltUp:
 			break
 		case .tiltDown:
@@ -367,12 +365,14 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			break
 		case .freefall:
 			break
-		case .acceleration4g:
+		case .acceleration3g:
 			break
 		case .acceleration6g:
 			break
 		case .acceleration8g:
 			break
+		case .shake:
+			self.send(apiCall: .shake())
 		}
 	}
 }

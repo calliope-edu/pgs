@@ -325,6 +325,9 @@ class ApiCalliope: CalliopeBLEDevice {
 		case .gesture:
 			guard let gesture: BLEDataTypes.AccelerometerGesture = characteristic.interpret(dataBytes: value) else { return }
 			gestureNotification?(gesture)
+			if gesture == .shake {
+				postSensorUpdateNotification(.Shake, 0)
+			}
 		case .microBitEvent:
 			guard let (source, value): (BLEDataTypes.EventSource, BLEDataTypes.EventValue) = characteristic.interpret(dataBytes: value)
 				else { return }
@@ -400,7 +403,7 @@ extension CalliopeCharacteristic {
 		case .touchPin:
 			return (UInt8(littleEndian: data[1]), BLEDataTypes.ButtonPressAction(rawValue: UInt8(littleEndian: data[0]))) as? T
 		case .gesture:
-			return BLEDataTypes.AccelerometerGesture(rawValue: data[0]) as? T
+			return BLEDataTypes.AccelerometerGesture(rawValue: UInt8(littleEndian: data[0])) as? T
 		default:
 			return nil
 		}

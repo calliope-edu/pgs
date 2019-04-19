@@ -18,7 +18,7 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 
 
 	override var requiredServices: Set<CalliopeService> {
-		return ProgrammableCalliope.programmingServices //ProgrammableCalliope.programmingServicesLegacy
+		return ProgrammableCalliope.programmingServices
 	}
 
 	// MARK: Uploading programs via program characteristic
