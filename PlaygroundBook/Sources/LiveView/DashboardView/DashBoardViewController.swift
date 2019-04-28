@@ -38,7 +38,7 @@ public class DashBoardViewController: ViewController_Base {
 
 	public override func viewDidLoad() {
 		super.viewDidLoad()
-		//LogNotify.log("ProgrammableCalliopeDashboardViewController loaded")
+		LogNotify.log("ProgrammableCalliopeDashboardViewController loaded")
 	}
 
 	func UISetup(_ output:[DashboardItemGroup.Output], _ input:[DashboardItemGroup.Input], _ sensor:[DashboardItemGroup.Sensor],

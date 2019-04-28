@@ -26,7 +26,7 @@ class CalliopeBLEDiscovery<C: CalliopeBLEDevice>: NSObject, CBCentralManagerDele
 
 	private(set) var state : CalliopeDiscoveryState = .initialized {
 		didSet {
-			LogNotify.log("discovery state: \(state)")
+			LogNotify.log("calliope discovery state: \(state)")
 			updateQueue.async { self.updateBlock() }
 		}
 	}
@@ -42,7 +42,6 @@ class CalliopeBLEDiscovery<C: CalliopeBLEDevice>: NSObject, CBCentralManagerDele
 
 	private(set) var connectingCalliope: C? {
 		didSet {
-			LogNotify.log("connecting: \(String(describing: connectingCalliope))")
 			if let connectingCalliope = self.connectingCalliope {
 				connectedCalliope = nil
 				self.centralManager.connect(connectingCalliope.peripheral, options: nil)
@@ -59,7 +58,6 @@ class CalliopeBLEDiscovery<C: CalliopeBLEDevice>: NSObject, CBCentralManagerDele
 
 	private(set) var connectedCalliope: C? {
 		didSet {
-			LogNotify.log("connected: \(String(describing: connectedCalliope))")
 			if connectedCalliope != nil {
 				connectingCalliope = nil
 			}
@@ -206,7 +204,7 @@ class CalliopeBLEDiscovery<C: CalliopeBLEDevice>: NSObject, CBCentralManagerDele
 	}
 
 	func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-		LogNotify.log("disconnected from \(String(describing: peripheral.name))")
+		LogNotify.log("disconnected from \(peripheral.name ?? "unknown device"))")
 		connectingCalliope = nil
 		connectedCalliope = nil
 		lastConnected = nil

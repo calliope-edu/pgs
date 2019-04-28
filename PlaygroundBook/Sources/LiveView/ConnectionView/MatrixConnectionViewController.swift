@@ -132,10 +132,10 @@ class MatrixConnectionViewController<C: CalliopeBLEDevice>: UIViewController {
 			} else if calliope.state == .connected {
 				calliope.evaluateMode()
 			} else {
-				LogNotify.log("Connect button should not be enabled in this state (\(self.connector.state), \(String(describing: self.calliopeWithCurrentMatrix?.state)))")
+				LogNotify.log("Connect button of matrix view should not be enabled in this state (\(self.connector.state), \(String(describing: self.calliopeWithCurrentMatrix?.state)))")
 			}
 		} else {
-			LogNotify.log("Connect button should not be enabled in this state (\(self.connector.state), \(String(describing: self.calliopeWithCurrentMatrix?.state)))")
+			LogNotify.log("Connect button of matrix view should not be enabled in this state (\(self.connector.state), \(String(describing: self.calliopeWithCurrentMatrix?.state)))")
 		}
 	}
 
@@ -232,7 +232,7 @@ extension MatrixConnectionViewController where C == ProgrammableCalliope {
 
 	func uploadProgram(program: ProgramBuildResult) -> Worker<String>  {
 		return Worker { [weak self] resolve in
-			guard let queue = self?.queue else { LogNotify.log("no object to work on...)"); return }
+			guard let queue = self?.queue else { return }
 			guard let device = self?.usageReadyCalliope else {
 				resolve(Result("result.upload.missing".localized, false))
 				return

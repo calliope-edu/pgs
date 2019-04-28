@@ -30,14 +30,17 @@ public func playgroundEpilogue(_ block: AssessmentBlock? = nil) {
 ///calliope for receiving signals (e.g. when button is pressed, temperature changed, ...)
 public var myCalliope: Calliope? {
 	didSet {
+		PlaygroundPage.current.needsIndefiniteExecution = true
 		//register for callbacks
-		PlayGroundManager.shared.sendCommand(apiCall: .registerCallbacks())
+		PlayGroundManager.shared.sendCommand(apiCall: .setUp())
 		//execute start once
 		myCalliope?.start()
 		//start the calls to "forever" after a slight delay
-		PlayGroundManager.shared.startForever()
+		PlayGroundManager.shared.foreverCall()
 	}
 }
+
+public var stopForever = false
 
 public func sendCommand(apiCall: ApiCommand) {
 	PlayGroundManager.shared.sendCommand(apiCall: apiCall)

@@ -82,7 +82,7 @@ extension ApiCommand: ApiCall {
 
 		//CONTROL
 		case 19100:
-			self = .registerCallbacks()
+			self = .setUp()
 		case 19400:
 			let time = try container.decode(UInt16.self, forKey: .parameterValue)
 			self = .sleep(time: time)
@@ -129,7 +129,7 @@ extension ApiCommand: ApiCall {
 			try container.encode(freq, forKey: .parameterValue)
 
 		//CONTROL
-		case .registerCallbacks():
+		case .setUp():
 			try container.encode(19100, forKey: .enumValue)
 		case .sleep(let time):
 			try container.encode(19400, forKey: .enumValue)

@@ -35,7 +35,7 @@ public extension Calliope {
 	/// called at the start of the program, as first method.
 	func start() {}
 	/// called over and over again, like a while(true) loop.
-	func forever() { sleep(1) }
+	func forever() { stopForever = true }
 }
 
 //MARK: special sleep function
@@ -115,7 +115,7 @@ public struct display {
 
 	/// all leds for which true is set are switched on, all others off
 	/// - Parameter leds: five tuples of five values, one tuple for each row and one value per column
-	public static func show(leds: (
+	/*public static func show(leds: (
 		(Bool, Bool, Bool, Bool, Bool),
 		(Bool, Bool, Bool, Bool, Bool),
 		(Bool, Bool, Bool, Bool, Bool),
@@ -124,7 +124,7 @@ public struct display {
 		let toInt = { (b: Bool) -> UInt8 in b ? 1 : 0 }
 		let rowToInt = { (b: (Bool, Bool, Bool, Bool, Bool)) -> [UInt8] in [toInt(b.0), toInt(b.1), toInt(b.2), toInt(b.3), toInt(b.4)] }
 		sendCommand(apiCall: .displayShowGrid(grid: rowToInt(leds.0) + rowToInt(leds.1) + rowToInt(leds.2) + rowToInt(leds.3) + rowToInt(leds.4)))
-	}
+	}*/
 }
 
 //MARK: sound output
@@ -160,11 +160,13 @@ public struct io {
 
 		/// Whether the button is currently pressed
 		public var isPressed: Bool {
-			return sendRequest(apiCall: .requestButtonState(button: type))! > 0
+			let state: UInt8 = sendRequest(apiCall: .requestButtonState(button: type))!
+			return state > 0
 		}
 
-		public var isLong: Bool {
-			return sendRequest(apiCall: .requestButtonState(button: type))! > 1
+		public var pressedLong: Bool {
+			let state: UInt8 = sendRequest(apiCall: .requestButtonState(button: type))!
+			return state > 0
 		}
 
 		/// Creates a button mirroring a button (or button combination) of the calliope.
@@ -180,16 +182,18 @@ public struct io {
 
 		/// Whether the button is currently pressed
 		public var isPressed: Bool {
-			return sendRequest(apiCall: .requestPinState(pin: number))! > 0
+			let state: UInt8 = sendRequest(apiCall: .requestPinState(pin: number))!
+			return state > 0
 		}
 
-		public var isLong: Bool {
-			return sendRequest(apiCall: .requestPinState(pin: number))! > 1
+		public var pressedLong: Bool {
+			let state: UInt8 = sendRequest(apiCall: .requestPinState(pin: number))!
+			return state > 1
 		}
 
 		/// Creates a pin mirroring a touchpin on the calliope
 		/// - Parameter number: the pin number (0-3)
-		init(_ number: UInt16) {
+		public init(_ number: UInt16) {
 			self.number = number
 		}
 	}

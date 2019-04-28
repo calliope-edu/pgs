@@ -85,6 +85,7 @@
 		2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* Encodings.swift */; };
 		2F9FAACC21FF4CB40076B737 /* ApiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */; };
 		2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133C21C3E25F00500EC1 /* MatrixView.swift */; };
+		2FCEEBE42275A40600F22146 /* Calliope mini.playgroundbook in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */; };
 		2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */; };
 		2FDC68E921C6B426001163D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68E821C6B426001163D3 /* Assets.xcassets */; };
 		2FDC68EA21C6B436001163D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68E821C6B426001163D3 /* Assets.xcassets */; };
@@ -184,6 +185,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		2FCEEBE22275A13200F22146 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$HOME/Library/Mobile Documents/iCloud~com~apple~Playgrounds/Documents";
+			dstSubfolderSpec = 0;
+			files = (
+				2FCEEBE42275A40600F22146 /* Calliope mini.playgroundbook in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5E086DD22051E35D004D8D25 /* Copy Book Contents */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -253,7 +264,7 @@
 		2FEC8C6321A1ACCF004C27B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2FEC8C6A21A1AD57004C27B8 /* ValueLocalizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueLocalizerTests.swift; sourceTree = "<group>"; };
 		2FF83D9421BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDeviceTest.swift; sourceTree = "<group>"; };
-		5E086DC02051C5A7004D8D25 /* CalliopePlaybook.playgroundbook */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalliopePlaybook.playgroundbook; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Calliope mini.playgroundbook"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E086DC72051DD03004D8D25 /* BookOverridingBuildSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BookOverridingBuildSettings.xcconfig; sourceTree = "<group>"; };
 		5E086DCF2051DF0F004D8D25 /* Manifest.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Manifest.plist; sourceTree = "<group>"; };
 		5E0E37522065981C008FA4BE /* BuildSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BuildSettings.xcconfig; sourceTree = "<group>"; };
@@ -500,7 +511,7 @@
 		5E086DA4204F706E004D8D25 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5E086DC02051C5A7004D8D25 /* CalliopePlaybook.playgroundbook */,
+				5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */,
 				5EF2F9AB2054BBF300191409 /* libBook_Sources.a */,
 				5EA2E3BD2056F35A00416A35 /* LiveViewTestApp.app */,
 				2FEC8C5F21A1ACCF004C27B8 /* BookSourcesTests.xctest */,
@@ -811,6 +822,7 @@
 			buildPhases = (
 				5E086DD22051E35D004D8D25 /* Copy Book Contents */,
 				5E086DC62051DB17004D8D25 /* Resources */,
+				2FCEEBE22275A13200F22146 /* CopyFiles */,
 			);
 			buildRules = (
 				5E086DD42051E415004D8D25 /* PBXBuildRule */,
@@ -820,7 +832,7 @@
 			);
 			name = PlaygroundBook;
 			productName = PlaygroundBook;
-			productReference = 5E086DC02051C5A7004D8D25 /* CalliopePlaybook.playgroundbook */;
+			productReference = 5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */;
 			productType = "com.apple.product-type.bundle";
 		};
 		5EA2E3BC2056F35A00416A35 /* LiveViewTestApp */ = {

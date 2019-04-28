@@ -1,5 +1,3 @@
-//:#localized(key: "cc.calliope.miniplaygroundbook.Advanced.FreeProgramming")
-
 //#-hidden-code
 import Foundation
 import PlaygroundSupport
@@ -19,23 +17,8 @@ playgroundPrologue()
 //#-end-hidden-code
 
 class MyCalliope: Calliope {
-	//#-editable-code
-	func start() {
-		display.show(image: .heart)
-		sound.on(note: .g´´)
-		mini.sleep(100)
-		sound.on(note: .c´´´)
-		mini.sleep(500)
-		sound.off()
-	}
-
-	var i = UInt16(1)
-
-	func forever() {
-		display.show(number: i)
-		i += 1
-		mini.sleep(1000)
-	}
+	//#-editable-code cc.calliope.miniplaygroundbook.Advanced.EditableCalliope
+	
 	//#-end-editable-code
 }
 

@@ -12,6 +12,8 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	static let instance = TeachingApiImplementation()
 
+	private static let scrollingDelay = 100 //TODO: make constant in some config file
+
 	//MARK: Variables mirroring calliope state
 
 	private var buttonAState: BLEDataTypes.ButtonPressAction = .Up
@@ -56,7 +58,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	//MARK: handling commandas and requests from playground page
 
-	func handleApiCommand(_ apiCall: ApiCommand, calliope: ApiCalliope?) {
+	func handleApiCommand(_ command: ApiCommand, calliope: ApiCalliope?) {
 		//DONE: button notifications, button state requests, sleep, forever, start, led matrix calls, temperature request.
 		//DONE: AB/A/B besser unterscheiden,
 		//DONE: brightness, rgb led
@@ -70,9 +72,9 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 		var t = 0.0
 
-		switch apiCall {
-		case .registerCallbacks():
-			registerCallbacks(calliope)
+		switch command {
+		case .setUp():
+			setUp(calliope)
 		case .rgbOnColor(let color):
 			//alpha has no effect so far
 			let (rf, gf, bf, _) = color.color.components
@@ -92,8 +94,7 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		case .displayShowImage(let image):
 			calliope?.ledMatrixState = convertGrid(image.grid)
 		case .displayShowText(let text):
-			//TODO: is display state in this case working?
-			calliope?.displayLedText(text)
+			cleanSplitAndPrint(text, calliope)
 		case .soundOff:
 			resetSoundFreq()
 			calliope?.setSound(frequency: 0, duration: 100)
@@ -112,11 +113,11 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		}
 	}
 
-	func handleApiRequest(_ apiCall: ApiRequest, calliope: ApiCalliope?) {
+	func handleApiRequest(_ request: ApiRequest, calliope: ApiCalliope?) {
 
 		let response: ApiResponse
 
-		switch apiCall {
+		switch request {
 		case .requestButtonState(let button):
 			response = .respondButtonState(isPressed: buttonPressState(button))
 		case .requestPinState(let pin):
@@ -174,21 +175,13 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 
 	//MARK: helper methods
 
-	func convertGrid(_ grid: [UInt8]) -> [[Bool]] {
-		return (0..<5).map { row in (0..<5).map { column in grid[row * 5 + column] == 1 } }
-	}
-
-	func encodeMatrix(_ matrix: [[Bool]]?) -> [UInt8] {
-		guard let matrix = matrix else { return encodeNonoptionalMatrix(displayOffState) }
-		return encodeNonoptionalMatrix(matrix)
-	}
-
-	func encodeNonoptionalMatrix(_ matrix: [[Bool]]) -> [UInt8] {
-		return matrix.flatMap { row in row.map { on in on ? 1 : 0 } }
-	}
-
-	func registerCallbacks(_ calliope: ApiCalliope?) {
+	func setUp(_ calliope: ApiCalliope?) {
 		guard let calliope = calliope else { return }
+
+		//give calliope reliable and swift text scroll speed
+		calliope.scrollingDelay = UInt16(TeachingApiImplementation.scrollingDelay)
+
+		//register callbacks for calliope sensors
 
 		// BUTTONS
 		calliope.buttonAActionNotification = { action in
@@ -210,6 +203,83 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			guard let gesture = action else { return }
 			self.gestureNotification(gesture)
 		}
+	}
+
+	func convertGrid(_ grid: [UInt8]) -> [[Bool]] {
+		return (0..<5).map { row in (0..<5).map { column in grid[row * 5 + column] == 1 } }
+	}
+
+	func encodeMatrix(_ matrix: [[Bool]]?) -> [UInt8] {
+		guard let matrix = matrix else { return encodeNonoptionalMatrix(displayOffState) }
+		return encodeNonoptionalMatrix(matrix)
+	}
+
+	func encodeNonoptionalMatrix(_ matrix: [[Bool]]) -> [UInt8] {
+		return matrix.flatMap { row in row.map { on in on ? 1 : 0 } }
+	}
+
+	var stringsPending: [DispatchWorkItem] = []
+	let stringOutputQueue = DispatchQueue(label: "StringOutput")
+
+	private func cleanSplitAndPrint(_ text: String, _ calliope: ApiCalliope?) {
+
+		//all string pieces not yet output are overridden
+		LogNotify.log("cancelling \(stringsPending.count) pending string outputs")
+		for dwi in stringsPending {
+			dwi.cancel()
+		}
+		stringsPending.removeAll()
+
+		let cleanedText = String(text.unicodeScalars.filter({ char in char.isASCII })).components(separatedBy: " ")
+
+		guard cleanedText.count > 0 else { return }
+
+		var stringSizeSoFar = 0
+		var nextString = cleanedText[0]
+		for text in cleanedText[1...] {
+			if nextString.count + text.count + 1 < 20 {
+				nextString += " \(text)"
+			} else {
+				let toPrint = nextString //somehow the string is not captured otherwise oO
+				stringsPending.append(
+					delay(queue: stringOutputQueue, time: calculateDelay(stringSizeSoFar)) {
+						self.chopAndPrint(toPrint, calliope)
+					}
+				)
+				stringSizeSoFar += (nextString.count + 1)
+				nextString = text
+			}
+		}
+		stringsPending.append(
+			delay(time: calculateDelay(stringSizeSoFar)) {
+				self.chopAndPrint(nextString, calliope)
+			}
+		)
+	}
+
+	private func chopAndPrint(_ cleanedText: String, _ calliope: ApiCalliope?) {
+
+		let sliceSize = 20
+
+		//chop up text
+		var currentPosition = cleanedText.startIndex
+		for i in 0...((cleanedText.count - 1) / sliceSize) {
+			let endIndex = ((i+1)*sliceSize < cleanedText.count
+				? cleanedText.index(currentPosition, offsetBy: sliceSize)
+				: cleanedText.endIndex)
+			let substring = String(cleanedText[currentPosition..<endIndex])
+			stringsPending.append(
+				delay(queue: stringOutputQueue, time: calculateDelay(i * sliceSize)) {
+					calliope?.displayLedText(substring)
+				}
+			)
+			currentPosition = endIndex
+		}
+	}
+
+	private func calculateDelay(_ stringSizeSoFar: Int) -> Double {
+		let additionalDelay = 22
+		return Double(stringSizeSoFar * 5 * (TeachingApiImplementation.scrollingDelay + additionalDelay)) / 1000.0
 	}
 
 	private func buttonPressState(_ button: buttonType) -> UInt8 {
@@ -339,7 +409,6 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	}
 
 	private func pinTouchNotification(_ pin: UInt8, _ value: BLEDataTypes.ButtonPressAction) {
-		LogNotify.log("pin notification: \(pin) \(value)")
 		pinState[Int(pin)] = value.rawValue
 		if (value == .Down) {
 			self.send(apiCall: ApiCallback.pin(pin: UInt16(pin)))

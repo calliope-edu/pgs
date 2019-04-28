@@ -101,7 +101,6 @@ public class UIStackView_Dashboard: UIStackView {
     override public func layoutSubviews() {
         super.layoutSubviews()
         if let view = superview {
-            //LogNotify.log("layoutSubviews \(view)")
             self.axis = axis(from: view)
         }
     }

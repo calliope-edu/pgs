@@ -38,7 +38,7 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 
 	public override func viewDidLoad() {
 		super.viewDidLoad()
-		//LogNotify.log("ApiCalliopeDashboardViewController loaded")
+		LogNotify.log("ApiCalliopeDashboardViewController loaded")
 	}
 
 	func UISetup(_ output:[DashboardItemGroup.Output], _ input:[DashboardItemGroup.Input], _ sensor:[DashboardItemGroup.Sensor],
@@ -151,9 +151,9 @@ extension ApiCalliopeDashboardViewController: PlaygroundLiveViewMessageHandler {
 
 	public func receive(_ message: PlaygroundValue) {
 
-		if case let .string(msg) = message {
-			LogNotify.log("live view received string: \(msg)")
-		} else if case let .dictionary(dict) = message {
+		LogNotify.log("live view received: \(message)")
+
+		if case let .dictionary(dict) = message {
 			if case let .data(callData)? = dict[PlaygroundValueKeys.apiCommandKey],
 				let call = ApiCommand(data: callData) {
 				LogNotify.log("live view received api command \(call)")
@@ -168,12 +168,6 @@ extension ApiCalliopeDashboardViewController: PlaygroundLiveViewMessageHandler {
 				LogNotify.log(text)
 			} else {
 				LogNotify.log("live view cannot handle call \(dict)")
-			}
-		} else {
-			LogNotify.log("live view receive unknown message: \(message)")
-			delay(time: 1.0) { [weak self] in
-				let message: PlaygroundValue = .string("ping from liveview")
-				self?.send(message)
 			}
 		}
 	}

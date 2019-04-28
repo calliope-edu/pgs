@@ -24,7 +24,7 @@ public enum ApiCommand {
 
 	//other controls
 	case sleep(time: UInt16)
-	case registerCallbacks()
+	case setUp()
 }
 
 public enum ApiRequest {

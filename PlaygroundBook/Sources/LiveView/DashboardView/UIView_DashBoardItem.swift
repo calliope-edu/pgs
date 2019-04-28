@@ -162,11 +162,8 @@ public class UIView_DashboardItem: UIView {
 				this.type == type,
 				let ani = this.container
 				else {
-					//LogNotify.log("No userInfo found in notification")
 					return
 			}
-
-			// LogNotify.log("before ani: \(this.type!) : isAnimating: \(this.isAnimating)")
 
 			if let value = userInfo["value"] as? Int {
 				LogNotify.log("update label of \(type) to \(value)")

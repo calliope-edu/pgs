@@ -26,7 +26,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	private(set) var state : CalliopeBLEDeviceState = .discovered {
 		didSet {
-			LogNotify.log("\(self)")
+			LogNotify.log("calliope state: \(state)")
 			handleStateUpdate()
 		}
 	}
@@ -97,7 +97,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 		//evaluate whether all required services were found. If not, Calliope is not ready for programs from the playground
 		if uuidSet.isSuperset(of: requiredServicesUUIDs) {
-			LogNotify.log("found all (\(requiredServicesUUIDs.count)) required services!")
+			LogNotify.log("found all (\(requiredServicesUUIDs.count)) required services:\n\(requiredServices)")
 			//discover the characteristics of all required services, just to be thorough
 			services.filter { requiredServicesUUIDs.contains($0.uuid) }.forEach { service in
 				peripheral.discoverCharacteristics(CalliopeBLEProfile.serviceCharacteristicUUIDMap[service.uuid], for: service)
@@ -122,7 +122,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			if state == .evaluateMode {
 				state = .notPlaygroundReady
 			}
-			LogNotify.log("was not able to enable services through master service")
+			LogNotify.log("was not able to enable services \(requiredServices) through master service")
 		}
 	}
 
@@ -179,11 +179,11 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 
 	let readWriteSem = DispatchSemaphore(value: 1)
 
-	let writeGroup = DispatchGroup()
+	var readWriteGroup: DispatchGroup? = nil
+
 	var writeError : Error? = nil
 	var writingCharacteristic : CBCharacteristic? = nil
 
-	let readGroup = DispatchGroup()
 	var readError : Error? = nil
 	var readingCharacteristic : CBCharacteristic? = nil
 	var readValue : Data? = nil
@@ -197,30 +197,30 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	func write(_ data: Data, for characteristic: CBCharacteristic) throws {
-		readWriteSem.wait()
-		writingCharacteristic = characteristic
+		try applySemaphore(readWriteSem) {
+			writingCharacteristic = characteristic
 
-		asyncAndWait(on: readWriteQueue) {
-			//write value and wait for delegate call (or error)
-			self.writeGroup.enter()
-			self.peripheral.writeValue(data, for: characteristic, type: .withResponse)
+			asyncAndWait(on: readWriteQueue) {
+				//write value and wait for delegate call (or error)
+				self.readWriteGroup = DispatchGroup()
+				self.readWriteGroup!.enter()
+				self.peripheral.writeValue(data, for: characteristic, type: .withResponse)
 
-			if self.writeGroup.wait(timeout: DispatchTime.now() + BluetoothConstants.writeTimeout) == .timedOut {
-				LogNotify.log("write to \(characteristic) timed out")
-				self.writeError = CBError(.connectionTimeout)
+				if self.readWriteGroup!.wait(timeout: DispatchTime.now() + BluetoothConstants.writeTimeout) == .timedOut {
+					LogNotify.log("write to \(characteristic) timed out")
+					self.writeError = CBError(.connectionTimeout)
+				}
 			}
-		}
 
-		guard writeError == nil else {
-			LogNotify.log("write resulted in error: \(writeError!)")
-			let error = writeError!
-			//prepare for next write
-			writeError = nil
-			readWriteSem.signal()
-			throw error
+			guard writeError == nil else {
+				LogNotify.log("write resulted in error: \(writeError!)")
+				let error = writeError!
+				//prepare for next write
+				writeError = nil
+				throw error
+			}
+			LogNotify.log("wrote \(characteristic)")
 		}
-		LogNotify.log("wrote \(characteristic)")
-		readWriteSem.signal()
 	}
 
 	func read(characteristic: CalliopeCharacteristic) throws -> Data? {
@@ -232,33 +232,33 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	func read(characteristic: CBCharacteristic) throws -> Data? {
-		readWriteSem.wait()
-		readingCharacteristic = characteristic
+		return try applySemaphore(readWriteSem) {
+			readingCharacteristic = characteristic
 
-		asyncAndWait(on: readWriteQueue) {
-			//read value and wait for delegate call (or error)
-			self.readGroup.enter()
-			self.peripheral.readValue(for: characteristic)
-			if self.readGroup.wait(timeout: DispatchTime.now() + BluetoothConstants.readTimeout) == .timedOut {
-				LogNotify.log("read from \(characteristic) timed out")
-				self.readError = CBError(.connectionTimeout)
+			asyncAndWait(on: readWriteQueue) {
+				//read value and wait for delegate call (or error)
+				self.readWriteGroup = DispatchGroup();
+				self.readWriteGroup!.enter()
+				self.peripheral.readValue(for: characteristic)
+				if self.readWriteGroup!.wait(timeout: DispatchTime.now() + BluetoothConstants.readTimeout) == .timedOut {
+					LogNotify.log("read from \(characteristic) timed out")
+					self.readError = CBError(.connectionTimeout)
+				}
 			}
-		}
 
-		guard readError == nil else {
-			LogNotify.log("read resulted in error: \(readError!)")
-			let error = readError!
-			//prepare for next read
-			readError = nil
-			readWriteSem.signal()
-			throw error
-		}
+			guard readError == nil else {
+				LogNotify.log("read resulted in error: \(readError!)")
+				let error = readError!
+				//prepare for next read
+				readError = nil
+				throw error
+			}
 
-		let data = readValue
-		LogNotify.log("read \(String(describing: data)) from \(characteristic)")
-		readValue = nil
-		readWriteSem.signal()
-		return data
+			let data = readValue
+			LogNotify.log("read \(String(describing: data)) from \(characteristic)")
+			readValue = nil
+			return data
+		}
 	}
 
 	func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -293,7 +293,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 	}
 
 	func handleValueUpdate(_ characteristic: CalliopeCharacteristic, _ value: Data) {
-		LogNotify.log("Value for \(characteristic) updated (\(value.hexEncodedString()))")
+		LogNotify.log("value for \(characteristic) updated (\(value.hexEncodedString()))")
 	}
 
 	private func explicitWriteResponse(_ error: Error?) {
@@ -305,7 +305,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		} else {
 			LogNotify.log("received write success message")
 		}
-		writeGroup.leave()
+		readWriteGroup?.leave()
 	}
 
 	private func explicitReadResponse(for characteristic: CBCharacteristic, error: Error?) {
@@ -319,7 +319,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 			readValue = characteristic.value
 			LogNotify.log("received read response from \(characteristic): \(String(describing: readValue?.hexEncodedString()))")
 		}
-		readGroup.leave()
+		readWriteGroup?.leave()
 	}
 }
 

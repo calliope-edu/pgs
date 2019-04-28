@@ -13,7 +13,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
     }
     
     public func setup() {
-        // LogNotify.log("PlayGroundManager setup")
+        LogNotify.log("PlayGroundManager setup")
         
         let page = PlaygroundPage.current
 
@@ -30,21 +30,20 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
     }
     
     public func run() {
-        // LogNotify.log("PlayGroundManager run")
-        Extractor(PlaygroundPage.current.text) { [weak self] (report) in
-            LogNotify.log("inside extractor report: \(report)")
+        LogNotify.log("PlayGroundManager run")
+
+		Extractor(PlaygroundPage.current.text) { [weak self] (report) in
+            LogNotify.log("extractor report: \(report)")
             
             guard let assessment = self?.assessment else {
                 self?.closeLiveViewProxy("no assessment...?")
                 return
             }
             
-            // LogNotify.log("inside extractor assessment: \(String(describing:assessment))")
+            LogNotify.log("assessment: \(String(describing:assessment))")
             
             let result_tuple = assessment(report)
-            
-            // LogNotify.log("assessment: \(String(describing: result_tuple))")
-            
+
             //let result = result_tuple.result ?? .fail(hints: ["no result default... result"], solution: nil)
             if let result = result_tuple.result {
                 self?.showStatus(result)
@@ -60,7 +59,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
             return
         }
         
-        proxyLog("program: \(prog)")
+        LogNotify.log("program: \(prog)")
         let build_result:ProgramBuildResult = prog.build()
         
         let encoder = PropertyListEncoder()
@@ -86,15 +85,6 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
         //PlaygroundPage.current.assessmentStatus = .fail(hints: ["total fail... result"], solution: nil)
         PlaygroundPage.current.finishExecution()
     }
-    
-    //TODO: is this needed? or was it just for logging-view
-    private func proxyLog(_ msg: String) {
-        let page = PlaygroundPage.current
-        if let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy {
-            let message: PlaygroundValue = .string(msg)
-            proxy.send(message)
-        }
-    }
 
 
 	//MARK: receiving messages from live view
@@ -107,9 +97,8 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
     
     //Receive message from live view
     public func remoteLiveViewProxy(_ remoteLiveViewProxy: PlaygroundRemoteLiveViewProxy, received message: PlaygroundValue) {
-        if case let .string(msg) = message {
-            LogNotify.log("remoteLiveViewProxy: \(msg)")
-		} else if case let .dictionary(dict) = message {
+		LogNotify.log("page received \(message)")
+        if case let .dictionary(dict) = message {
 			if case let .data(callData)? = dict[PlaygroundValueKeys.apiResponseKey],
 				let apiCall = ApiResponse(data: callData) {
 				processApiResponse(apiCall: apiCall)
@@ -127,15 +116,11 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 
 	//MARK: API interface
 
-	public func startForever() {
-		PlaygroundPage.current.needsIndefiniteExecution = true
-		foreverCall()
-	}
-
-	private func foreverCall() {
+	public func foreverCall() {
+		guard !stopForever else { return } //never execute forever again.
 		myCalliope?.forever()
-		//execute again with delay of 0.1s (otherwise it might turn ipad into an oven)
-		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+		//execute again with delay of 0.02s (otherwise it might turn ipad into an oven if no sleep time is set)
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.02) {
 			self.foreverCall()
 		}
 	}
@@ -146,24 +131,25 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 	private var apiResponse: ApiResponse?
 
 	public func sendCommand(apiCall: ApiCommand) {
-		semaphore.wait()
-		sendPlaygroundMessageAndWait(.dictionary([PlaygroundValueKeys.apiCommandKey: .data(apiCall.data)]))
-		let value: Bool? = extractApiResponseValue()
-		if value == nil || value! == false {
-			LogNotify.log("api command \(apiCall) failed")
+		applySemaphore(semaphore) {
+			sendRequestOrCommandAndWait(.dictionary([PlaygroundValueKeys.apiCommandKey: .data(apiCall.data)]))
+			let value: Bool? = extractApiResponseValue()
+			if value == nil || value! == false {
+				LogNotify.log("api command \(apiCall) failed")
+			}
 		}
-		semaphore.signal()
 	}
 
 	public func sendRequest<T>(apiCall: ApiRequest) -> T? {
-		semaphore.wait()
-		sendPlaygroundMessageAndWait(.dictionary([PlaygroundValueKeys.apiRequestKey: .data(apiCall.data)]))
-		let value: T? = extractApiResponseValue()
-		semaphore.signal()
-		return value
+		return applySemaphore(semaphore) {
+			sendRequestOrCommandAndWait(.dictionary([PlaygroundValueKeys.apiRequestKey: .data(apiCall.data)]))
+			let value: T? = extractApiResponseValue()
+			return value
+		}
 	}
 
-	private func sendPlaygroundMessageAndWait(_ message: PlaygroundValue) {
+	private func sendRequestOrCommandAndWait(_ message: PlaygroundValue) {
+		LogNotify.log("sending \(message) to liveview")
 		let page = PlaygroundPage.current
 		guard let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy else {
 			LogNotify.log("cannot send \(message) because there is no liveview")
@@ -176,7 +162,13 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 		}
 	}
 
+	public func processApiResponse(apiCall: ApiResponse) {
+		apiResponse = apiCall
+		deparallelizationGroup.leave()
+	}
+
 	private func sendPlaygroundMessage(_ message: PlaygroundValue) {
+		//NO LOGNOTIFY HERE (leads to endless cycle)
 		let page = PlaygroundPage.current
 		guard let proxy = page.liveView as? PlaygroundRemoteLiveViewProxy else {
 			LogNotify.log("cannot send \(message) because there is no liveview")
@@ -188,17 +180,17 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 	private func extractApiResponseValue<T>() -> T? {
 		guard let apiResponse = self.apiResponse else { return nil }
 		self.apiResponse = nil
-		LogNotify.log("Page received response \(apiResponse)")
+		LogNotify.log("page received response \(apiResponse)")
 
 		switch apiResponse {
 		case .respondTemperature(let degrees):
 			return degrees as? T
 		case .respondNoise(let level):
 			return level as? T
-		case .respondPinState(let isPressed):
-			return isPressed as? T
-		case .respondButtonState(let isPressed):
-			return isPressed as? T
+		case .respondPinState(let buttonState):
+			return buttonState as? T
+		case .respondButtonState(let buttonState):
+			return buttonState as? T
 		case .respondBrightness(let level):
 			return level as? T
 		case .respondDisplay(let grid):
@@ -209,7 +201,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 	}
 
 	public func processApiCallback(_ apiCall: ApiCallback) {
-		LogNotify.log("playground page received api notification \(apiCall)")
+		LogNotify.log("page received api notification \(apiCall)")
 		DispatchQueue.main.async {
 			switch apiCall {
 			case .buttonA():
@@ -236,11 +228,6 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 				myCalliope?.forever()
 			}
 		}
-	}
-
-	public func processApiResponse(apiCall: ApiResponse) {
-		apiResponse = apiCall
-		deparallelizationGroup.leave()
 	}
 
 	//MARK: debug messages

@@ -18,7 +18,7 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 
 
 	override var requiredServices: Set<CalliopeService> {
-		return ProgrammableCalliope.programmingServices
+		return ProgrammableCalliope.programmingServicesLegacy
 	}
 
 	// MARK: Uploading programs via program characteristic
@@ -79,8 +79,9 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 	override func handleStateUpdate() {
 		super.handleStateUpdate()
 		if state == .playgroundReady {
+			LogNotify.log("starting sensor readings")
 			do { try readSensors(true) }
-			catch { LogNotify.log("\(self)\ncannot start sensor readings") }
+			catch { LogNotify.log("cannot start sensor readings (\(error))") }
 		}
 	}
 
@@ -94,15 +95,16 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 		}
 	}
 
-	func getCBCharacteristic(programOrNotify calliopeCharacteristic: CalliopeCharacteristic) -> CBCharacteristic? {
-		let characteristic: CBCharacteristic?
-		let service = CalliopeBLEProfile.characteristicServiceMap[calliopeCharacteristic]!
-		characteristic = requiredServices.contains(service)
-			? (calliopeCharacteristic == .program
-				? getCBCharacteristic(CalliopeService.program.uuid, calliopeCharacteristic.uuid)
-				: getCBCharacteristic(CalliopeService.notify.uuid, calliopeCharacteristic.uuid))
-			: getCBCharacteristic(CalliopeService.interpreter.uuid, calliopeCharacteristic.uuid)
-		return characteristic
+	func getCBCharacteristic(programOrNotify characteristic: CalliopeCharacteristic) -> CBCharacteristic? {
+		if requiredServices == ProgrammableCalliope.programmingServicesLegacy {
+			return getCBCharacteristic(
+				characteristic == .program
+					? CalliopeService.program.uuid
+					: CalliopeService.notify.uuid,
+				characteristic.uuid)
+		} else {
+			return getCBCharacteristic(CalliopeService.interpreter.uuid, characteristic.uuid)
+		}
 	}
 }
 
@@ -122,7 +124,7 @@ extension ProgrammableCalliope {
 	func updateSensorReading(_ value: Data) {
 
 		if let type = DashboardItemType(rawValue:UInt16(value[1])) {
-			LogNotify.log("\(self) received value \(String(describing: UInt16(littleEndianData: value.subdata(in: 2..<value.count))))) for \(type)")
+			LogNotify.log("received value \(value.subdata(in: 2..<value.count).hexEncodedString()) for \(type)")
 			let value = int8(Int(value[3]))
 
 			//TODO: do not use notification center, but let observers subscribe directly to sensorReadings´ value

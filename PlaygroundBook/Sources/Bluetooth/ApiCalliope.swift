@@ -260,11 +260,16 @@ class ApiCalliope: CalliopeBLEDevice {
 	///   - value: some value to be written
 	///   - characteristic: some characteristic to write to. Type of value needs to match type taken by characteristic
 	private func write<T>(_ value: T, _ characteristic: CalliopeCharacteristic) {
+		LogNotify.log("attempt to write \(value) to \(characteristic)")
 		do {
-			guard let data = characteristic.encode(object: value) else { throw "could not convert \(value) for \(characteristic)" }
+			guard let data = characteristic.encode(object: value) else {
+				LogNotify.log("could not convert \(value) to data")
+				throw "could not convert \(value) to data for \(characteristic)"
+			}
+			LogNotify.log("encoded \(value) to \(data.hexEncodedString())")
 			try write(data, for: characteristic)
 		}
-		catch { LogNotify.log("failed writing to \(characteristic), value \(value)") }
+		catch { LogNotify.log("failed writing to \(characteristic) with error \(error)") }
 	}
 
 	/// reads a value from some calliope characteristic and adds type information to the parsed value
@@ -272,7 +277,9 @@ class ApiCalliope: CalliopeBLEDevice {
 	/// - Parameters:
 	///   - characteristic: some characteristic to read from. Required type needs to match value read by characteristic
 	private func read<T>(_ characteristic: CalliopeCharacteristic) -> T? {
-		guard let dataBytes = try? read(characteristic: characteristic) else { return nil }
+		guard let dataBytes = try? read(characteristic: characteristic) else {
+			return nil }
+			LogNotify.log("read \(dataBytes?.hexEncodedString() ?? "no data") from \(characteristic)")
 		return characteristic.interpret(dataBytes: dataBytes)
 	}
 
@@ -438,7 +445,7 @@ extension CalliopeCharacteristic {
 			return (object as? String)?.data(using: .utf8)
 		case .scrollingDelay:
 			guard let delay = object as? UInt16 else { return nil }
-			return delay.bigEndianData
+			return delay.littleEndianData
 		case .rxCharacteristic:
 			return object as? Data
 		case .clientRequirements:
