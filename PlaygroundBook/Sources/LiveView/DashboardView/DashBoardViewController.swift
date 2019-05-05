@@ -54,8 +54,8 @@ public class DashBoardViewController: ViewController_Base {
 		self.view.addSubview(stack)
 
 		NSLayoutConstraint.activate([
-			stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-			stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+			stack.topAnchor.constraint(equalTo: liveViewSafeAreaGuide.topAnchor, constant: 0),
+			stack.bottomAnchor.constraint(equalTo: liveViewSafeAreaGuide.bottomAnchor, constant: 0),
 			stack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
 			stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
 			])

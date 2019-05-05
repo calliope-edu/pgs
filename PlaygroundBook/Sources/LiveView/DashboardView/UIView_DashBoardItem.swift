@@ -8,8 +8,8 @@ public struct DashboardItemType: Hashable {
 		switch self {
 		case .ButtonA, .ButtonB:
 			return CGSize(width: 100, height: 50)
-		case .Thermometer, .Noise, .Brightness:
-			return CGSize(width: 150, height: 150)
+		//case .Thermometer, .Noise, .Brightness:
+		//	return CGSize(width: 150, height: 150)
 		default:
 			return CGSize(width: 100, height: 100)
 		}

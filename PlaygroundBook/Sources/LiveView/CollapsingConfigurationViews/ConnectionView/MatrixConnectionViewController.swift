@@ -33,7 +33,7 @@ class MatrixConnectionViewController<C: CalliopeBLEDevice>: UIViewController, Co
 	let collapsedWidth: CGFloat = 28
 	let collapsedHeight: CGFloat = 28
 	let expandedWidth: CGFloat = 274
-	let expandedHeight: CGFloat = 500
+	let expandedHeight: CGFloat = 430
 
 	private let queue = DispatchQueue(label: "bluetooth")
 

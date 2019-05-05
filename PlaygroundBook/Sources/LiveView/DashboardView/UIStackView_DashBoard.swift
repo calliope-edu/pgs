@@ -27,6 +27,7 @@ public class UIStackView_Dashboard: UIStackView {
     convenience init(_ output: [DashboardItemType.Output], _ input: [DashboardItemType.Input], _ sensor: [DashboardItemType.Sensor]) {
         self.init(frame: CGRect())
 
+		self.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 		self.distribution = .fillProportionally
 		self.alignment = .fill
 		self.spacing = 0
@@ -127,6 +128,7 @@ extension UIStackView_Dashboard {
                 if input_stack.arrangedSubviews.isEmpty && output_stack.arrangedSubviews.isEmpty {
                     sensor_stack.axis = .horizontal
                 }
+
             case .vertical:
                 output_stack.axis = .horizontal
                 input_stack.axis = .horizontal
@@ -154,6 +156,7 @@ extension UIStackView_Dashboard {
         stackView.distribution = .fillProportionally
         stackView.alignment = .fill
         stackView.spacing = 0
+		stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         stackView.isLayoutMarginsRelativeArrangement = true

@@ -21,7 +21,7 @@ class DashBoardConfigurationViewController: UIViewController, CollapsingViewCont
 	let collapsedWidth: CGFloat = 50
 	let collapsedHeight: CGFloat = 50
 	let expandedWidth: CGFloat = 274
-	let expandedHeight: CGFloat = 450
+	let expandedHeight: CGFloat = 430
 
 	@IBOutlet weak var displayToggleButton: UIButton!
 	@IBOutlet weak var rgbToggleButton: UIButton!
