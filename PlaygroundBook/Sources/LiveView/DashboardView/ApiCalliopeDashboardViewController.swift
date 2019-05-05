@@ -83,11 +83,12 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 	}
 
 	func reconfigure(items: [DashboardItemType]) {
-		collapseViews()
-		configureDashboardItems(
-			items.compactMap { DashboardItemType.Output(rawValue: $0.rawValue) },
-			items.compactMap { DashboardItemType.Input(rawValue: $0.rawValue) },
-			items.compactMap { DashboardItemType.Sensor(rawValue: $0.rawValue) })
+		UIView.transition(with: self.view, duration: 0.3, options: [.transitionCrossDissolve], animations: {
+			self.configureDashboardItems(
+				items.compactMap { DashboardItemType.Output(rawValue: $0.rawValue) },
+				items.compactMap { DashboardItemType.Input(rawValue: $0.rawValue) },
+				items.compactMap { DashboardItemType.Sensor(rawValue: $0.rawValue) })
+		}, completion: nil )
 	}
 
 	private func configureDashboardItems(_ output: [DashboardItemType.Output], _ input: [DashboardItemType.Input], _ sensor: [DashboardItemType.Sensor]) {
