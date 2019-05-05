@@ -49,7 +49,7 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 	func UISetup(_ output: [DashboardItemType.Output], _ input: [DashboardItemType.Input], _ sensor: [DashboardItemType.Sensor],
 				 chapter: Int = 0, pageNumber: Int = 0) {
 
-		self.view.backgroundColor = UIColor.gray
+		self.view.backgroundColor = UIColor.clear
 
 		configureDashboardItems(output, input, sensor)
 
