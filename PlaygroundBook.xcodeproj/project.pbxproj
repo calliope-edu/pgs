@@ -44,14 +44,20 @@
 		2F09855B2207103D0075A5DB /* ProgramBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8920A064C4009646CC /* ProgramBase.swift */; };
 		2F09855D220711550075A5DB /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F09855C220711550075A5DB /* DataTypes.swift */; };
 		2F098561220718310075A5DB /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F098560220718310075A5DB /* Runtime.swift */; };
+		2F102763227E1B79004B8BA1 /* DashBoardConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F102762227E1B79004B8BA1 /* DashBoardConfigurationViewController.swift */; };
+		2F102765227E238F004B8BA1 /* CollapsingViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F102764227E238F004B8BA1 /* CollapsingViewControllerProtocol.swift */; };
+		2F102766227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F102768227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib */; };
+		2F102774227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F102772227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard */; };
+		2F102778227E3373004B8BA1 /* CollapseButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F102777227E3373004B8BA1 /* CollapseButtonProtocol.swift */; };
+		2F10277A227E33C9004B8BA1 /* ConnectionViewCollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F102779227E33C9004B8BA1 /* ConnectionViewCollapseButton.swift */; };
+		2F10277C227E35ED004B8BA1 /* DashBoardConfigurationViewCollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10277B227E35ED004B8BA1 /* DashBoardConfigurationViewCollapseButton.swift */; };
 		2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */; };
 		2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */; };
 		2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */; };
 		2F1C9A9F220F3A8800E05DD1 /* TeachingApiImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */; };
 		2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27131021FC8B80007A1584 /* DataExtensionTest.swift */; };
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
-		2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3874B521CFD07F0011A85A /* CollapseButton.swift */; };
-		2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewControllerWrapper.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewControllerWrapper.xib */; };
+		2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */; };
 		2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
 		2F666BFA222149BE00533040 /* ApiCallEncodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666BF9222149BE00533040 /* ApiCallEncodings.swift */; };
 		2F666BFC22214B0F00533040 /* BluetoothConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666BFB22214B0F00533040 /* BluetoothConstants.swift */; };
@@ -101,7 +107,6 @@
 		2FF83D9521BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF83D9421BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift */; };
 		5E086DD32051E3A3004D8D25 /* Manifest.plist in Copy Book Contents */ = {isa = PBXBuildFile; fileRef = 5E086DCF2051DF0F004D8D25 /* Manifest.plist */; };
 		5EA2E3C02056F35A00416A35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA2E3BF2056F35A00416A35 /* AppDelegate.swift */; };
-		5EA2E3CA2056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5EA2E3C82056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard */; };
 		5EA2E3D42056F36800416A35 /* libBook_Sources.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF2F9AB2054BBF300191409 /* libBook_Sources.a */; };
 		5EA2E3DA2056F8D100416A35 /* PlaygroundBluetooth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5EA2E3D82056F88700416A35 /* PlaygroundBluetooth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5EA2E3DB2056F8D100416A35 /* PlaygroundSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5EA2E3D72056F88700416A35 /* PlaygroundSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -226,17 +231,25 @@
 /* Begin PBXFileReference section */
 		2F09855C220711550075A5DB /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
 		2F098560220718310075A5DB /* Runtime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Runtime.swift; sourceTree = "<group>"; };
+		2F102762227E1B79004B8BA1 /* DashBoardConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardConfigurationViewController.swift; sourceTree = "<group>"; };
+		2F102764227E238F004B8BA1 /* CollapsingViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsingViewControllerProtocol.swift; sourceTree = "<group>"; };
+		2F10276A227E2A3F004B8BA1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/DashBoardConfigurationViewController.strings; sourceTree = "<group>"; };
+		2F10276E227E2AB1004B8BA1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
+		2F102777227E3373004B8BA1 /* CollapseButtonProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButtonProtocol.swift; sourceTree = "<group>"; };
+		2F102779227E33C9004B8BA1 /* ConnectionViewCollapseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionViewCollapseButton.swift; sourceTree = "<group>"; };
+		2F10277B227E35ED004B8BA1 /* DashBoardConfigurationViewCollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardConfigurationViewCollapseButton.swift; sourceTree = "<group>"; };
+		2F10277D227E3EC3004B8BA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DashBoardConfigurationViewController.xib; sourceTree = "<group>"; };
+		2F10277E227E3EC3004B8BA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MatrixConnectionViewController.xib; sourceTree = "<group>"; };
+		2F10277F227E3EC3004B8BA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LiveViewTestAppLaunchScreen.storyboard; sourceTree = "<group>"; };
+		2F102789227E4401004B8BA1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/DashBoardConfigurationViewController.strings; sourceTree = "<group>"; };
+		2F10278D227E440E004B8BA1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
 		2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscovery.swift; sourceTree = "<group>"; };
 		2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscoveryTest.swift; sourceTree = "<group>"; };
 		2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDevice.swift; sourceTree = "<group>"; };
 		2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeachingApiImplementation.swift; sourceTree = "<group>"; };
 		2F27131021FC8B80007A1584 /* DataExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTest.swift; sourceTree = "<group>"; };
 		2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_CBUUID.swift; sourceTree = "<group>"; };
-		2F3874B521CFD07F0011A85A /* CollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButton.swift; sourceTree = "<group>"; };
 		2F44603E21CEA403002D15DF /* ConnectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionButton.swift; sourceTree = "<group>"; };
-		2F4DE3C42247E06C00ED3B01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MatrixConnectionViewControllerWrapper.xib; sourceTree = "<group>"; };
-		2F4DE3C72247E09200ED3B01 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MatrixConnectionViewControllerWrapper.strings; sourceTree = "<group>"; };
-		2F4DE3C92247E09300ED3B01 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MatrixConnectionViewControllerWrapper.strings; sourceTree = "<group>"; };
 		2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundValueKeys.swift; sourceTree = "<group>"; };
 		2F666BF9222149BE00533040 /* ApiCallEncodings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCallEncodings.swift; sourceTree = "<group>"; };
 		2F666BFB22214B0F00533040 /* BluetoothConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothConstants.swift; sourceTree = "<group>"; };
@@ -273,7 +286,6 @@
 		5E2A7AE6204F630600F4E17A /* BaseBuildSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BaseBuildSettings.xcconfig; sourceTree = "<group>"; };
 		5EA2E3BD2056F35A00416A35 /* LiveViewTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveViewTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EA2E3BF2056F35A00416A35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5EA2E3C92056F35B00416A35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LiveViewTestAppLaunchScreen.storyboard; sourceTree = "<group>"; };
 		5EA2E3CB2056F35B00416A35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5EA2E3D72056F88700416A35 /* PlaygroundSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PlaygroundSupport.framework; sourceTree = PLAYGROUNDS_FRAMEWORKS_DIR; };
 		5EA2E3D82056F88700416A35 /* PlaygroundBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PlaygroundBluetooth.framework; sourceTree = PLAYGROUNDS_FRAMEWORKS_DIR; };
@@ -377,6 +389,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F102761227E1B52004B8BA1 /* DashboardConfigurationView */ = {
+			isa = PBXGroup;
+			children = (
+				2F102762227E1B79004B8BA1 /* DashBoardConfigurationViewController.swift */,
+				2F10277B227E35ED004B8BA1 /* DashBoardConfigurationViewCollapseButton.swift */,
+			);
+			path = DashboardConfigurationView;
+			sourceTree = "<group>";
+		};
+		2F102776227E332C004B8BA1 /* CollapsingConfigurationViews */ = {
+			isa = PBXGroup;
+			children = (
+				2F102764227E238F004B8BA1 /* CollapsingViewControllerProtocol.swift */,
+				2F102777227E3373004B8BA1 /* CollapseButtonProtocol.swift */,
+				2F102761227E1B52004B8BA1 /* DashboardConfigurationView */,
+				9DA7FD3A20A1B1140080A6FF /* ConnectionView */,
+			);
+			path = CollapsingConfigurationViews;
+			sourceTree = "<group>";
+		};
 		2F666BF82221496000533040 /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
@@ -460,8 +492,8 @@
 		2F9FAAC521FE56F90076B737 /* LiveView */ = {
 			isa = PBXGroup;
 			children = (
+				2F102776227E332C004B8BA1 /* CollapsingConfigurationViews */,
 				2F666C002221702300533040 /* DashboardView */,
-				9DA7FD3A20A1B1140080A6FF /* ConnectionView */,
 				8855BA8F20A064C4009646CC /* DashboardAnimation */,
 				2F9FAAC721FE57660076B737 /* View */,
 				2F9FAAC621FE574F0076B737 /* Auxiliary */,
@@ -585,7 +617,7 @@
 			isa = PBXGroup;
 			children = (
 				5EA2E3BF2056F35A00416A35 /* AppDelegate.swift */,
-				5EA2E3C82056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard */,
+				2F102772227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard */,
 				5EA2E3CB2056F35B00416A35 /* Info.plist */,
 			);
 			path = LiveViewTestApp;
@@ -620,7 +652,8 @@
 		5EF2F9792054B64800191409 /* PrivateResources */ = {
 			isa = PBXGroup;
 			children = (
-				2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewControllerWrapper.xib */,
+				2F102768227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib */,
+				2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */,
 				9DFC63B9214F9DAA002FCB75 /* localizations */,
 				2FDC68ED21C6C050001163D3 /* bg.png */,
 				2FDC68EF21C6C0FD001163D3 /* icon.png */,
@@ -760,7 +793,7 @@
 				2FCB133C21C3E25F00500EC1 /* MatrixView.swift */,
 				2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */,
 				2F44603E21CEA403002D15DF /* ConnectionButton.swift */,
-				2F3874B521CFD07F0011A85A /* CollapseButton.swift */,
+				2F102779227E33C9004B8BA1 /* ConnectionViewCollapseButton.swift */,
 			);
 			path = ConnectionView;
 			sourceTree = "<group>";
@@ -900,12 +933,12 @@
 			};
 			buildConfigurationList = 5E2A7AE0204F611300F4E17A /* Build configuration list for PBXProject "PlaygroundBook" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = de;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 				de,
+				Base,
 			);
 			mainGroup = 5E2A7ADC204F611300F4E17A;
 			productRefGroup = 5E086DA4204F706E004D8D25 /* Products */;
@@ -932,8 +965,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F102766227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib in Resources */,
 				2FDC68EE21C6C050001163D3 /* bg.png in Resources */,
-				2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewControllerWrapper.xib in Resources */,
+				2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewController.xib in Resources */,
 				9DFC63AA214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				9DFC63B4214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				9DFC63AC214F9CFC002FCB75 /* EditableFields.strings in Resources */,
@@ -953,10 +987,10 @@
 				9DFC63B7214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 				9DFC63AB214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				9DFC63B3214F9CFC002FCB75 /* Localizable.strings in Resources */,
-				5EA2E3CA2056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard in Resources */,
 				9DFC63AD214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				2FDC68F221C6EA66001163D3 /* icon.png in Resources */,
 				9DFC63AF214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
+				2F102774227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard in Resources */,
 				2FDC68EA21C6B436001163D3 /* Assets.xcassets in Resources */,
 				9DFC63B5214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 			);
@@ -1019,7 +1053,6 @@
 				2F9FAA3621FE43FE0076B737 /* DebugConstants.swift in Sources */,
 				8855BAC520A064C4009646CC /* Dashboard_ThermometerAnimation.swift in Sources */,
 				2F098544220710300075A5DB /* BookProgramCommandForever.swift in Sources */,
-				2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */,
 				8855BAC220A064C4009646CC /* Dashboard_RGBAnimation.swift in Sources */,
 				2F098548220710300075A5DB /* BookProgramCommandConditionals.swift in Sources */,
 				2F9FAA3F21FE43FE0076B737 /* Swoosh.swift in Sources */,
@@ -1052,6 +1085,7 @@
 				2F9FAAB021FE47190076B737 /* Ext.swift in Sources */,
 				2F09853D2207102D0075A5DB /* BookProgramProjectPiano.swift in Sources */,
 				2F09853B2207102D0075A5DB /* BookProgramProjectDice.swift in Sources */,
+				2F102763227E1B79004B8BA1 /* DashBoardConfigurationViewController.swift in Sources */,
 				8855BABF20A064C4009646CC /* Dashboard_DisplayAnimation.swift in Sources */,
 				2F09854B220710330075A5DB /* BookProgramInputButtonB.swift in Sources */,
 				2F666C0622217B1000533040 /* CalliopeBLEProfile.swift in Sources */,
@@ -1061,6 +1095,7 @@
 				2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */,
 				2F098542220710300075A5DB /* BookProgramCommandSleep.swift in Sources */,
 				2F0985592207103D0075A5DB /* ProgramBuilder.swift in Sources */,
+				2F10277C227E35ED004B8BA1 /* DashBoardConfigurationViewCollapseButton.swift in Sources */,
 				2F9FAAAC21FE45900076B737 /* Extension_Data.swift in Sources */,
 				2F09854C220710330075A5DB /* BookProgramInputButtonAB.swift in Sources */,
 				2F90F5552247C090001885B5 /* DashBoardViewController.swift in Sources */,
@@ -1073,6 +1108,7 @@
 				8855BABD20A064C4009646CC /* Dashboard_ButtonAAnimation.swift in Sources */,
 				2F9FAA3E21FE43FE0076B737 /* Matrix.swift in Sources */,
 				2F09854E220710330075A5DB /* BookProgramInputShake.swift in Sources */,
+				2F102778227E3373004B8BA1 /* CollapseButtonProtocol.swift in Sources */,
 				2F9FAA3B21FE43FE0076B737 /* Extension_UIColor.swift in Sources */,
 				2F666C082221BB1500533040 /* BLEDataTypes.swift in Sources */,
 				2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */,
@@ -1093,8 +1129,10 @@
 				2F098561220718310075A5DB /* Runtime.swift in Sources */,
 				2F666BFF22216F1E00533040 /* LayoutHelper.swift in Sources */,
 				8855BAC320A064C4009646CC /* Dashboard_ShakeAnimation.swift in Sources */,
+				2F102765227E238F004B8BA1 /* CollapsingViewControllerProtocol.swift in Sources */,
 				2F098543220710300075A5DB /* BookProgramCommandClear.swift in Sources */,
 				2F09853C2207102D0075A5DB /* BookProgramProjectRockPaperScissors.swift in Sources */,
+				2F10277A227E33C9004B8BA1 /* ConnectionViewCollapseButton.swift in Sources */,
 				8855BAC020A064C4009646CC /* Dashboard_NoiseAnimation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1130,22 +1168,32 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewControllerWrapper.xib */ = {
+		2F102768227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2F4DE3C42247E06C00ED3B01 /* Base */,
-				2F4DE3C72247E09200ED3B01 /* en */,
-				2F4DE3C92247E09300ED3B01 /* de */,
+				2F10276A227E2A3F004B8BA1 /* en */,
+				2F10277D227E3EC3004B8BA1 /* Base */,
+				2F102789227E4401004B8BA1 /* de */,
 			);
-			name = MatrixConnectionViewControllerWrapper.xib;
+			name = DashBoardConfigurationViewController.xib;
 			sourceTree = "<group>";
 		};
-		5EA2E3C82056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard */ = {
+		2F102772227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5EA2E3C92056F35B00416A35 /* Base */,
+				2F10277F227E3EC3004B8BA1 /* Base */,
 			);
 			name = LiveViewTestAppLaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F10276E227E2AB1004B8BA1 /* en */,
+				2F10277E227E3EC3004B8BA1 /* Base */,
+				2F10278D227E440E004B8BA1 /* de */,
+			);
+			name = MatrixConnectionViewController.xib;
 			sourceTree = "<group>";
 		};
 		9DFC6399214F9CFC002FCB75 /* Localizable.strings */ = {

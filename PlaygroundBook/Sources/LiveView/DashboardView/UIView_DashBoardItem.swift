@@ -1,49 +1,66 @@
 import UIKit
 
-public enum DashboardItemType : UInt16 {
-    case Display = 0x0000
-    case ButtonA = 0x0001
-    case ButtonB = 0x0002
-    case ButtonAB = 0x0003
-    case RGB = 0x004
-    case Sound = 0x005
-    case Pin = 0x006
-    case Shake = 0x007
-    case Thermometer = 0x008
-    case Noise = 0x009
-    case Brightness = 0x00a
-    
-    static func random() -> DashboardItemType {
-        let types:[DashboardItemType] = [.Display, .RGB, .Sound, .ButtonA, .ButtonB, .Pin, .Shake, .Noise, .Brightness, .Thermometer]
-        let index = Int(arc4random_uniform(UInt32(types.count)))
-        return types[index]
-    }
-}
+public struct DashboardItemType: Hashable {
 
-//enum DashboardItemGroup {
-//    static let Input:[DashboardItemType] = [.Display, .RGB, .Sound]
-//    static let Output:[DashboardItemType] = [.ButtonA, .ButtonB, .Pin, .Shake]
-//    static let Sensor:[DashboardItemType] = [.Thermometer, .Noise, .Brightness]
-//}
+	let rawValue: UInt16
 
-//FIXME: not nice to repeat enum...
-public enum DashboardItemGroup {
-    public enum Output : UInt16 {
-        case Display = 0x01
-        case RGB = 0x02
-        case Sound = 0x03
-    }
-    public enum Input : UInt16 {
-        case ButtonA = 0x04
-        case ButtonB = 0x05
-        case Pin = 0x06
-        case Shake = 0x07
-    }
-    public enum Sensor : UInt16 {
-        case Noise = 0x08
-        case Brightness = 0x09
-        case Thermometer = 0x10
-    }
+	var intrinsicContentSize: CGSize {
+		switch self {
+		case .ButtonA, .ButtonB:
+			return CGSize(width: 100, height: 50)
+		case .Thermometer, .Noise, .Brightness:
+			return CGSize(width: 150, height: 150)
+		default:
+			return CGSize(width: 100, height: 100)
+		}
+	}
+
+	static let Display = DashboardItemType(rawValue: Output.Display.rawValue)
+	static let RGB = DashboardItemType(rawValue: Output.RGB.rawValue)
+	static let Sound = DashboardItemType(rawValue: Output.Sound.rawValue)
+
+	static let ButtonA = DashboardItemType(rawValue: Input.ButtonA.rawValue)
+	static let ButtonB = DashboardItemType(rawValue: Input.ButtonB.rawValue)
+	static let ButtonAB = DashboardItemType(rawValue: Input.ButtonA.rawValue + Input.ButtonB.rawValue)
+	static let Pin = DashboardItemType(rawValue: Input.Pin.rawValue)
+	static let Shake = DashboardItemType(rawValue: Input.Shake.rawValue)
+
+	static let Thermometer = DashboardItemType(rawValue: Sensor.Thermometer.rawValue)
+	static let Noise = DashboardItemType(rawValue: Sensor.Noise.rawValue)
+	static let Brightness = DashboardItemType(rawValue: Sensor.Brightness.rawValue)
+
+	static let types: [DashboardItemType] = [.Display, .RGB, .Sound, .ButtonA, .ButtonB, .Pin, .Shake, .Noise, .Brightness, .Thermometer]
+
+	static func random() -> DashboardItemType {
+		let index = Int(arc4random_uniform(UInt32(types.count)))
+		return types[index]
+	}
+
+	private init(rawValue: UInt16) {
+		self.rawValue = rawValue
+	}
+
+	init?(value: UInt16) {
+		guard (DashboardItemType.types.map { $0.rawValue }).contains(value) else { return nil }
+		self.init(rawValue: value)
+	}
+
+	public enum Output: UInt16, CaseIterable {
+		case Display = 0x0000
+		case RGB = 0x004
+		case Sound = 0x005
+	}
+	public enum Input: UInt16, CaseIterable {
+		case ButtonA = 0x0001
+		case ButtonB = 0x0002
+		case Pin = 0x006
+		case Shake = 0x007
+	}
+	public enum Sensor: UInt16, CaseIterable {
+		case Thermometer = 0x008
+		case Noise = 0x009
+		case Brightness = 0x00a
+	}
 }
 
 typealias DashboardItemStyle = [ DashboardItemType : [String:String] ]
@@ -79,6 +96,10 @@ public class UIView_DashboardItem: UIView {
     private var container: UIView_DashboardItemAnimation!
     private var observer_animation: NotificationToken!
     private var isAnimating:Bool = false
+
+	public override var intrinsicContentSize: CGSize {
+		return type.intrinsicContentSize
+	}
     
     private var bg_color:UIColor {
         if let bg_color = dashboardItemStyles[self.type]?["color"] {
@@ -158,12 +179,10 @@ public class UIView_DashboardItem: UIView {
 			guard let this = self,
 				let userInfo = note.userInfo,
 				let typeValue = userInfo["type"] as? UInt16,
-				let type = DashboardItemType(rawValue: typeValue),
+				let type = DashboardItemType(value: typeValue),
 				this.type == type,
 				let ani = this.container
-				else {
-					return
-			}
+				else { return }
 
 			if let value = userInfo["value"] as? Int {
 				LogNotify.log("update label of \(type) to \(value)")

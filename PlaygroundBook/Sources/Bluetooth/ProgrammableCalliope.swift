@@ -21,6 +21,40 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 		return ProgrammableCalliope.programmingServicesLegacy
 	}
 
+	override func handleStateUpdate() {
+		super.handleStateUpdate()
+		if state == .playgroundReady {
+			LogNotify.log("starting sensor readings")
+			do { try readSensors(true) }
+			catch { LogNotify.log("cannot start sensor readings (\(error))") }
+		}
+	}
+
+	override func handleValueUpdate(_ characteristic: CalliopeCharacteristic, _ value: Data) {
+		super.handleValueUpdate(characteristic, value)
+		if characteristic == .notify {
+			updateSensorReading(value)
+		} else {
+			LogNotify.log("programmable calliope received value for characteristic other than notify:\n \(characteristic), \(value)")
+			return
+		}
+	}
+
+	func getCBCharacteristic(programOrNotify characteristic: CalliopeCharacteristic) -> CBCharacteristic? {
+		if requiredServices == ProgrammableCalliope.programmingServicesLegacy {
+			return getCBCharacteristic(
+				characteristic == .program
+					? CalliopeService.program.uuid
+					: CalliopeService.notify.uuid,
+				characteristic.uuid)
+		} else {
+			return getCBCharacteristic(CalliopeService.interpreter.uuid, characteristic.uuid)
+		}
+	}
+}
+
+extension ProgrammableCalliope {
+
 	// MARK: Uploading programs via program characteristic
 
 	func upload(program: ProgramBuildResult) throws {
@@ -75,37 +109,6 @@ class ProgrammableCalliope: CalliopeBLEDevice {
 			data.subdata(in: $0 ..< Swift.min($0 + size, data.count))
 		}
 	}
-
-	override func handleStateUpdate() {
-		super.handleStateUpdate()
-		if state == .playgroundReady {
-			LogNotify.log("starting sensor readings")
-			do { try readSensors(true) }
-			catch { LogNotify.log("cannot start sensor readings (\(error))") }
-		}
-	}
-
-	override func handleValueUpdate(_ characteristic: CalliopeCharacteristic, _ value: Data) {
-		super.handleValueUpdate(characteristic, value)
-		if characteristic == .notify {
-			updateSensorReading(value)
-		} else {
-			LogNotify.log("programmable calliope received value for characteristic other than notify:\n \(characteristic), \(value)")
-			return
-		}
-	}
-
-	func getCBCharacteristic(programOrNotify characteristic: CalliopeCharacteristic) -> CBCharacteristic? {
-		if requiredServices == ProgrammableCalliope.programmingServicesLegacy {
-			return getCBCharacteristic(
-				characteristic == .program
-					? CalliopeService.program.uuid
-					: CalliopeService.notify.uuid,
-				characteristic.uuid)
-		} else {
-			return getCBCharacteristic(CalliopeService.interpreter.uuid, characteristic.uuid)
-		}
-	}
 }
 
 extension ProgrammableCalliope {
@@ -123,7 +126,7 @@ extension ProgrammableCalliope {
 
 	func updateSensorReading(_ value: Data) {
 
-		if let type = DashboardItemType(rawValue:UInt16(value[1])) {
+		if let type = DashboardItemType(value: UInt16(value[1])) {
 			LogNotify.log("received value \(value.subdata(in: 2..<value.count).hexEncodedString()) for \(type)")
 			let value = int8(Int(value[3]))
 

@@ -16,7 +16,7 @@ public class DashBoardViewController: ViewController_Base {
 	var identifier:String = ""
 
 	var stack: UIStackView_Dashboard!
-	var connectionView = MatrixConnectionViewController<ProgrammableCalliope>(nibName: "MatrixConnectionViewControllerWrapper", bundle: nil)
+	var connectionView = MatrixConnectionViewController<ProgrammableCalliope>(nibName: "MatrixConnectionViewController", bundle: nil)
 
 	public required init(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -27,13 +27,13 @@ public class DashBoardViewController: ViewController_Base {
 	}
 
 	public convenience init(_ ident:String = "",
-							_ output:[DashboardItemGroup.Output],
-							_ input:[DashboardItemGroup.Input],
-							_ sensor:[DashboardItemGroup.Sensor]) {
+							_ output: [DashboardItemType.Output],
+							_ input: [DashboardItemType.Input],
+							_ sensor: [DashboardItemType.Sensor]) {
 		self.init(nibName: nil, bundle: nil)
 		self.identifier = ident
 
-		UISetup(output, input, sensor)
+		self.setUpUI(output, input, sensor)
 	}
 
 	public override func viewDidLoad() {
@@ -41,15 +41,13 @@ public class DashBoardViewController: ViewController_Base {
 		LogNotify.log("ProgrammableCalliopeDashboardViewController loaded")
 	}
 
-	func UISetup(_ output:[DashboardItemGroup.Output], _ input:[DashboardItemGroup.Input], _ sensor:[DashboardItemGroup.Sensor],
+	func setUpUI(_ output: [DashboardItemType.Output], _ input: [DashboardItemType.Input], _ sensor: [DashboardItemType.Sensor],
 				 chapter: Int = 0, pageNumber: Int = 0) {
 		self.view.backgroundColor = UIColor.gray
 
+		let top_const: CGFloat = 20.0
+
 		stack = UIStackView_Dashboard(output, input, sensor)
-		stack.distribution = .fillEqually
-		stack.alignment = .fill
-		stack.spacing = 0
-		stack.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		stack.translatesAutoresizingMaskIntoConstraints = false
 		stack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 		stack.isLayoutMarginsRelativeArrangement = true
@@ -61,9 +59,6 @@ public class DashBoardViewController: ViewController_Base {
 			stack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
 			stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
 			])
-
-		// button
-		let top_const:CGFloat = 20.0
 
 		let matrixViewController = self.connectionView
 		matrixViewController.willMove(toParent: self)
@@ -77,7 +72,7 @@ public class DashBoardViewController: ViewController_Base {
 		matrixViewController.didMove(toParent: self)
 
 		//set up gesture recognizer to collapse connection view
-		let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(collapseConnectionViewController))
+		let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(collapseViews))
 		gestureRecognizer.delegate = self
 		self.view.addGestureRecognizer(gestureRecognizer)
 
@@ -137,7 +132,7 @@ public class DashBoardViewController: ViewController_Base {
 		})
 	}
 
-	@objc private func collapseConnectionViewController() {
+	@objc private func collapseViews() {
 		self.connectionView.animate(expand: false)
 	}
 }

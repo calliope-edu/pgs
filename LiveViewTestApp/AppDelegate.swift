@@ -14,19 +14,19 @@ import Book_Sources
 class AppDelegate: LiveViewHost.AppDelegate {
     override func setUpLiveView() -> PlaygroundLiveViewable {
 
-        let dashBoardController: DashBoardViewController = DashBoardViewController(
-            "1-1",
-            [.Display, .RGB, .Sound],
-            [.ButtonA, .ButtonB, .Pin, .Shake],
-            [.Thermometer, .Noise, .Brightness]
-        )
+//        let dashBoardController: DashBoardViewController = DashBoardViewController(
+//            "1-1",
+//            [.Display, .RGB, .Sound],
+//            [.ButtonA, .ButtonB, .Pin, .Shake],
+//            [.Thermometer, .Noise, .Brightness]
+//        )
 
-//		let dashBoardController: ApiCalliopeDashboardViewController = ApiCalliopeDashboardViewController(
-//		    "1-1",
-//		    [.Display, .RGB, .Sound],
-//		    [.ButtonA, .ButtonB, .Pin, .Shake],
-//		    [.Thermometer, .Noise, .Brightness]
-//		)
+		let dashBoardController: ApiCalliopeDashboardViewController = ApiCalliopeDashboardViewController(
+		    "1-1",
+		    [.Display, .RGB, .Sound],
+		    [.ButtonA, .ButtonB, .Pin, .Shake],
+		    [.Thermometer, .Noise, .Brightness]
+		)
 
         return dashBoardController
     }

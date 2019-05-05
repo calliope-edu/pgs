@@ -16,7 +16,12 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 	var identifier:String = ""
 
 	var stack: UIStackView_Dashboard!
-	var connectionView = MatrixConnectionViewController<ApiCalliope>(nibName: "MatrixConnectionViewControllerWrapper", bundle: nil)
+	var connectionView = MatrixConnectionViewController<ApiCalliope>(nibName: "MatrixConnectionViewController", bundle: nil)
+	var configurationView = DashBoardConfigurationViewController(nibName: "DashBoardConfigurationViewController", bundle: nil)
+
+	//size constants
+	let topMargin: CGFloat = 20.0
+	let buttonSize: CGFloat = 50.0
 
 	public required init(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -27,9 +32,9 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 	}
 
 	public convenience init(_ ident:String = "",
-							_ output:[DashboardItemGroup.Output],
-							_ input:[DashboardItemGroup.Input],
-							_ sensor:[DashboardItemGroup.Sensor]) {
+							_ output: [DashboardItemType.Output],
+							_ input: [DashboardItemType.Input],
+							_ sensor: [DashboardItemType.Sensor]) {
 		self.init(nibName: nil, bundle: nil)
 		self.identifier = ident
 
@@ -41,43 +46,19 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 		LogNotify.log("ApiCalliopeDashboardViewController loaded")
 	}
 
-	func UISetup(_ output:[DashboardItemGroup.Output], _ input:[DashboardItemGroup.Input], _ sensor:[DashboardItemGroup.Sensor],
+	func UISetup(_ output: [DashboardItemType.Output], _ input: [DashboardItemType.Input], _ sensor: [DashboardItemType.Sensor],
 				 chapter: Int = 0, pageNumber: Int = 0) {
+
 		self.view.backgroundColor = UIColor.gray
 
-		stack = UIStackView_Dashboard(output, input, sensor)
-		stack.distribution = .fillEqually
-		stack.alignment = .fill
-		stack.spacing = 0
-		stack.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		stack.translatesAutoresizingMaskIntoConstraints = false
-		stack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-		stack.isLayoutMarginsRelativeArrangement = true
-		self.view.addSubview(stack)
+		configureDashboardItems(output, input, sensor)
 
-		NSLayoutConstraint.activate([
-			stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-			stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
-			stack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
-			stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
-			])
+		addConfigurationView()
 
-		// button
-		let top_const:CGFloat = 20.0
-
-		let matrixViewController = self.connectionView
-		matrixViewController.willMove(toParent: self)
-		self.addChild(matrixViewController)
-		let matrixView = matrixViewController.view!
-		matrixView.translatesAutoresizingMaskIntoConstraints = false
-		self.view.addSubview(matrixView)
-		NSLayoutConstraint.activate([
-			matrixView.topAnchor.constraint(equalTo: liveViewSafeAreaGuide.topAnchor, constant: top_const),
-			matrixView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -top_const)])
-		matrixViewController.didMove(toParent: self)
+		addConnectionView()
 
 		//set up gesture recognizer to collapse connection view
-		let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(collapseConnectionViewController))
+		let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(collapseViews))
 		gestureRecognizer.delegate = self
 		self.view.addGestureRecognizer(gestureRecognizer)
 
@@ -93,11 +74,73 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 			self.view.addSubview(logger)
 
 			NSLayoutConstraint.activate([
-				logger.leftAnchor.constraint(equalTo: view.leftAnchor, constant: top_const),
-				logger.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -top_const),
+				logger.leftAnchor.constraint(equalTo: view.leftAnchor, constant: topMargin),
+				logger.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -topMargin),
 				logger.topAnchor.constraint(equalTo: view.centerYAnchor, constant: 40.0),
 				logger.heightAnchor.constraint(equalToConstant: 220.0)
 				])
+		}
+	}
+
+	func reconfigure(items: [DashboardItemType]) {
+		collapseViews()
+		configureDashboardItems(
+			items.compactMap { DashboardItemType.Output(rawValue: $0.rawValue) },
+			items.compactMap { DashboardItemType.Input(rawValue: $0.rawValue) },
+			items.compactMap { DashboardItemType.Sensor(rawValue: $0.rawValue) })
+	}
+
+	private func configureDashboardItems(_ output: [DashboardItemType.Output], _ input: [DashboardItemType.Input], _ sensor: [DashboardItemType.Sensor]) {
+
+		if stack != nil {
+			stack.removeFromSuperview()
+		}
+
+		stack = UIStackView_Dashboard(output, input, sensor)
+		stack.translatesAutoresizingMaskIntoConstraints = false
+		stack.isLayoutMarginsRelativeArrangement = true
+		stack.insetsLayoutMarginsFromSafeArea = true
+		self.view.insertSubview(stack, at: 0)
+
+		NSLayoutConstraint.activate([
+			stack.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+			stack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+			stack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0),
+			stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
+			])
+	}
+
+	private func addConfigurationView() {
+		let dashBoardConfigController = self.configurationView
+		dashBoardConfigController.willMove(toParent: self)
+		self.addChild(dashBoardConfigController)
+		let dashBoardConfigView = dashBoardConfigController.view!
+		dashBoardConfigView.translatesAutoresizingMaskIntoConstraints = false
+		self.view.addSubview(dashBoardConfigView)
+		NSLayoutConstraint.activate([
+			dashBoardConfigView.topAnchor.constraint(equalTo: liveViewSafeAreaGuide.topAnchor, constant: topMargin),
+			dashBoardConfigView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -topMargin*2 - buttonSize)])
+		dashBoardConfigController.didMove(toParent: self)
+
+		dashBoardConfigController.selectionCallback = reconfigure
+	}
+
+	private func addConnectionView() {
+		let matrixViewController = self.connectionView
+		matrixViewController.willMove(toParent: self)
+		self.addChild(matrixViewController)
+		let matrixView = matrixViewController.view!
+		matrixView.translatesAutoresizingMaskIntoConstraints = false
+		self.view.addSubview(matrixView)
+		NSLayoutConstraint.activate([
+			matrixView.topAnchor.constraint(equalTo: liveViewSafeAreaGuide.topAnchor, constant: topMargin),
+			matrixView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -topMargin)])
+		matrixViewController.didMove(toParent: self)
+	}
+
+	func setStackViewInsets() {
+		if stack != nil {
+			//TODO: set property so subviews can be layouted
 		}
 	}
 
@@ -111,7 +154,7 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 
 		guard let stackView = stack else { return }
 
-		coordinator.animate(alongsideTransition:{ _ in
+		coordinator.animate(alongsideTransition: { _ in
 			stackView.transform = CGAffineTransform(scaleX: 0.96, y: 0.96)
 		}, completion: { _ in
 			let ani = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.5, animations: {
@@ -121,8 +164,17 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 		})
 	}
 
-	@objc private func collapseConnectionViewController() {
+	@objc private func collapseViews() {
 		self.connectionView.animate(expand: false)
+		self.configurationView.animate(expand: false)
+	}
+}
+
+//MARK: live view safe area changes
+
+extension ApiCalliopeDashboardViewController {
+	public override func viewLayoutMarginsDidChange() {
+		self.setStackViewInsets()
 	}
 }
 
