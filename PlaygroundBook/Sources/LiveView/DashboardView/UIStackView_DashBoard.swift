@@ -43,82 +43,100 @@ public class UIStackView_Dashboard: UIStackView {
 		self.alignment = .fill
 		self.spacing = 0
 
-        if !output.isEmpty {
-            for type in output {
-                let item: UIView_DashboardItem = {
-                    switch type {
-                    case .Display:
-                        return input_display
-                    case .RGB:
-                        return input_rgb
-                    case .Sound:
-                        return input_sound
-                    }
-                }()
-                output_stack.addArrangedSubview(item)
-            }
-			addArrangedSubview(output_stack)
-        }
+		if !output.isEmpty {
+			let outputDashboardElement = { (type: DashboardItemType.Output) -> UIView_DashboardItem in
+				switch type {
+				case .Display:
+					return self.input_display
+				case .RGB:
+					return self.input_rgb
+				case .Sound:
+					return self.input_sound
+				}
+			}
+			if output.count > 1 {
+				for type in output {
+					let item: UIView_DashboardItem = outputDashboardElement(type)
+					output_stack.addArrangedSubview(item)
+				}
+				addArrangedSubview(output_stack)
+			} else {
+				addArrangedSubview(outputDashboardElement(output[0]))
+			}
+		}
         
         if !input.isEmpty {
-			var buttons: [UIView_DashboardItem] = []
-			var pinShake: [UIView_DashboardItem] = []
-            for type in input {
-                let item: UIView_DashboardItem = {
-                    switch type {
-                    case .ButtonA:
-                        return output_buttonA
-                    case .ButtonB:
-                        return output_buttonB
-                    case .Pin:
-                        return output_pin
-                    case .Shake:
-                        return output_shake
-                    }
-                }()
-                if item.type == .ButtonA || item.type == .ButtonB {
-					buttons.append(item)
-                } else {
-					pinShake.append(item)
-                }
-            }
-			if buttons.count == 1 {
-				input_stack.addArrangedSubview(buttons[0])
-			} else if buttons.count > 1 {
-				for item in buttons {
-					button_stack.addArrangedSubview(item)
+			let inputDashboardElement = { (type: DashboardItemType.Input) -> UIView_DashboardItem in
+				switch type {
+				case .ButtonA:
+					return self.output_buttonA
+				case .ButtonB:
+					return self.output_buttonB
+				case .Pin:
+					return self.output_pin
+				case .Shake:
+					return self.output_shake
 				}
-				input_stack.addArrangedSubview(button_stack)
 			}
+			if input.count > 1 {
+				var buttons: [UIView_DashboardItem] = []
+				var pinShake: [UIView_DashboardItem] = []
+				for type in input {
+					let item: UIView_DashboardItem = inputDashboardElement(type)
+					if item.type == .ButtonA || item.type == .ButtonB {
+						buttons.append(item)
+					} else {
+						pinShake.append(item)
+					}
+				}
+				if buttons.count == 1 {
+					input_stack.addArrangedSubview(buttons[0])
+				} else if buttons.count > 1 {
+					for item in buttons {
+						button_stack.addArrangedSubview(item)
+					}
+					input_stack.addArrangedSubview(button_stack)
+				}
 
-			if pinShake.count == 1 {
-				input_stack.addArrangedSubview(pinShake[0])
-			} else {
-				for item in pinShake {
-					pin_shake_stack.addArrangedSubview(item)
+				if pinShake.count == 1 {
+					input_stack.addArrangedSubview(pinShake[0])
+				} else {
+					for item in pinShake {
+						pin_shake_stack.addArrangedSubview(item)
+					}
+					input_stack.addArrangedSubview(pin_shake_stack)
 				}
-				input_stack.addArrangedSubview(pin_shake_stack)
+
+				input_stack.distribution = .fillProportionally
+				addArrangedSubview(input_stack)
+
+			} else {
+				addArrangedSubview(inputDashboardElement(input[0]))
 			}
-			addArrangedSubview(input_stack)
-        }
-        
-        if !sensor.isEmpty {
-            for type in sensor {
-                let item: UIView_DashboardItem = {
-                    switch type {
-                    case .Noise:
-                        return sensor_noise
-                    case .Brightness:
-                        return sensor_brightness
-                    case .Thermometer:
-                        return sensor_thermometer
-                    }
-                }()
-                sensor_stack.addArrangedSubview(item)
-            }
-            addArrangedSubview(sensor_stack)
-        }
-    }
+		}
+
+		if !sensor.isEmpty {
+			let sensorDashboardElement = { (type: DashboardItemType.Sensor) -> UIView_DashboardItem in
+				switch type {
+				case .Noise:
+					return self.sensor_noise
+				case .Brightness:
+					return self.sensor_brightness
+				case .Thermometer:
+					return self.sensor_thermometer
+				}
+			}
+			if sensor.count > 1 {
+				for type in sensor {
+					let item: UIView_DashboardItem = sensorDashboardElement(type)
+					sensor_stack.addArrangedSubview(item)
+				}
+				addArrangedSubview(sensor_stack)
+			} else {
+				addArrangedSubview(sensorDashboardElement(sensor[0]))
+			}
+		}
+	}
     
     public required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -145,7 +163,7 @@ extension UIStackView_Dashboard {
 	}
 
 	func layoutOutputs(_ mainAxis: NSLayoutConstraint.Axis, _ otherAxis: NSLayoutConstraint.Axis, _ numSlotsOnMainAxis: Int) {
-		guard !output.isEmpty else { return }
+		guard output.count > 1 else { return }
 		if numSlotsOnMainAxis == 1 {
 			output_stack.axis = mainAxis
 		} else {
@@ -154,14 +172,13 @@ extension UIStackView_Dashboard {
 	}
 
 	func layoutInputs(_ mainAxis: NSLayoutConstraint.Axis, _ otherAxis: NSLayoutConstraint.Axis, _ numSlotsOnMainAxis: Int) {
-		guard !input.isEmpty else { return }
+		guard input.count > 1 else { return }
 		let hasButton = input.contains(.ButtonA) || input.contains(.ButtonB)
 		let hasButtonStack = input.contains(.ButtonA) && input.contains(.ButtonB)
 		let hasPinOrShake = input.contains(.Pin) || input.contains(.Shake)
 		let hasPinShakeStack = input.contains(.Pin) && input.contains(.Shake)
 
 		if numSlotsOnMainAxis == 1 {
-			input_stack.distribution = .fillProportionally
 			input_stack.axis = mainAxis
 			if hasButtonStack {
 				button_stack.axis = mainAxis
@@ -170,6 +187,7 @@ extension UIStackView_Dashboard {
 				pin_shake_stack.axis = mainAxis
 			}
 		} else if numSlotsOnMainAxis == 2 {
+			input_stack.distribution = .fillProportionally
 			input_stack.axis = otherAxis
 			if hasButtonStack {
 				button_stack.axis = hasPinOrShake ? mainAxis : otherAxis
@@ -181,7 +199,7 @@ extension UIStackView_Dashboard {
 			input_stack.distribution = .fillProportionally
 			input_stack.axis = otherAxis
 			if hasButtonStack {
-				button_stack.axis = .vertical
+				button_stack.axis = hasPinShakeStack ? .vertical : otherAxis
 			}
 			if hasPinShakeStack {
 				pin_shake_stack.axis = otherAxis
@@ -190,7 +208,7 @@ extension UIStackView_Dashboard {
 	}
 
 	func layoutSensors(_ mainAxis: NSLayoutConstraint.Axis, _ otherAxis: NSLayoutConstraint.Axis, _ numSlotsOnMainAxis: Int) {
-		guard !sensor.isEmpty else { return }
+		guard sensor.count > 1 else { return }
 		if numSlotsOnMainAxis == 1 {
 			sensor_stack.axis = mainAxis
 		} else {
