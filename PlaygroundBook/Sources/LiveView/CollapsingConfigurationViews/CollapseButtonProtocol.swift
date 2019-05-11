@@ -5,7 +5,7 @@
 //  Created by Tassilo Karge on 04.05.19.
 //
 
-import Foundation
+import UIKit
 
 enum ExpansionState: Int {
 	case open

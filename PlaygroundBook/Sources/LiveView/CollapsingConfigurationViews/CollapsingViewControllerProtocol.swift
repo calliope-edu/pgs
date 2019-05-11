@@ -25,7 +25,6 @@ protocol CollapsingViewControllerProtocol: class {
 }
 
 extension CollapsingViewControllerProtocol {
-
 	func toggleOpen() {
 		if collapseButtonView.expansionState == .open {
 			//button state open --> collapse!
@@ -38,6 +37,11 @@ extension CollapsingViewControllerProtocol {
 
 	public func animate(expand: Bool) {
 
+		view.layer.masksToBounds = false
+		view.layer.shadowColor = UIColor.darkGray.cgColor
+		view.layer.shadowOpacity = 0.5
+		view.layer.shadowOffset = CGSize(width: 0, height: 0)
+
 		//do not animate anything if no change will happen
 		guard expand && collapseButtonView.expansionState == .closed || collapseButtonView.expansionState == .open else { return }
 
@@ -47,6 +51,7 @@ extension CollapsingViewControllerProtocol {
 		if expand {
 			self.zoomView.isHidden = false
 			animations = {
+				self.view.layer.shadowRadius = 10
 				self.collapseHeightConstraint.constant = self.expandedHeight
 				self.collapseWidthConstraint.constant = self.expandedWidth
 				self.collapseButtonView.alpha = 0.0
@@ -58,6 +63,7 @@ extension CollapsingViewControllerProtocol {
 		} else {
 			self.collapseButtonView.alpha = 0.0
 			animations = {
+				self.view.layer.shadowRadius = 5
 				self.collapseHeightConstraint.constant = self.collapsedHeight
 				self.collapseWidthConstraint.constant = self.collapsedWidth
 				self.collapseButtonView.expansionState = .closed

@@ -26,7 +26,7 @@ class ProgrammableCalliopeTest: XCTestCase {
 
 	fileprivate func waitForNotification(_ type: DashboardItemType, _ fulfilled: @escaping () -> () = {}) {
 		self.notificationTokens.append(
-			NotificationCenter.default.observe(name: UIView_DashboardItem.Ping, using: { (notification) in
+			NotificationCenter.default.observe(name: UIView_DashboardItem.ValueUpdateNotification, using: { (notification) in
 				DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: DispatchTime.now(), execute: {
 					if notification.userInfo?["type"] as? DashboardItemType == type {
 						fulfilled()
@@ -81,7 +81,7 @@ class ProgrammableCalliopeTest: XCTestCase {
 				}
 			}
 		}
-		NotificationCenter.default.addObserver(forName: UIView_DashboardItem.Ping, object: nil, queue: nil) { notification in
+		NotificationCenter.default.addObserver(forName: UIView_DashboardItem.ValueUpdateNotification, object: nil, queue: nil) { notification in
 			if notification.userInfo?["type"] as? DashboardItemType == DashboardItemType.Thermometer {
 				self.notificationExpectation.fulfill()
 			}

@@ -7,11 +7,13 @@ public struct DashboardItemType: Hashable {
 	var intrinsicContentSize: CGSize {
 		switch self {
 		case .ButtonA, .ButtonB:
-			return CGSize(width: 100, height: 50)
-		//case .Thermometer, .Noise, .Brightness:
-		//	return CGSize(width: 150, height: 150)
+			return CGSize(width: 100, height: 70)
+		case .Thermometer, .Noise, .Brightness:
+			return CGSize(width: 120, height: 140)
+		case .Pin, .Shake:
+			return CGSize(width: 100, height: 120)
 		default:
-			return CGSize(width: 100, height: 100)
+			return CGSize(width: 100, height: 140)
 		}
 	}
 
@@ -83,7 +85,7 @@ fileprivate let dashboardItemStyles:DashboardItemStyle = [
 
 public class UIView_DashboardItem: UIView {
     
-    static let Ping = Notification.Name("cc.calliope.mini.dashboardnotification")
+    static let ValueUpdateNotification = Notification.Name("cc.calliope.mini.dashboardnotification")
     
     public var type:DashboardItemType!
     private var highlight:UIView!
@@ -174,7 +176,7 @@ public class UIView_DashboardItem: UIView {
     }
 
 	func subscribeToUiUpdateNotifications() -> NotificationToken {
-		return NotificationCenter.default.observe(name: UIView_DashboardItem.Ping, object: nil, queue: .main)
+		return NotificationCenter.default.observe(name: UIView_DashboardItem.ValueUpdateNotification, object: nil, queue: .main)
 		{ [weak self] (note) in
 			guard let this = self,
 				let userInfo = note.userInfo,

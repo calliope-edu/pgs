@@ -99,6 +99,7 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 
 		stack = UIStackView_Dashboard(output, input, sensor)
 		stack.translatesAutoresizingMaskIntoConstraints = false
+		stack.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 		stack.isLayoutMarginsRelativeArrangement = true
 		stack.insetsLayoutMarginsFromSafeArea = true
 		self.view.insertSubview(stack, at: 0)
@@ -120,7 +121,7 @@ public class ApiCalliopeDashboardViewController: ViewController_Base {
 		self.view.addSubview(dashBoardConfigView)
 		NSLayoutConstraint.activate([
 			dashBoardConfigView.topAnchor.constraint(equalTo: liveViewSafeAreaGuide.topAnchor, constant: topMargin),
-			dashBoardConfigView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -topMargin*2 - buttonSize)])
+			dashBoardConfigView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: topMargin)])
 		dashBoardConfigController.didMove(toParent: self)
 
 		dashBoardConfigController.selectionCallback = reconfigure

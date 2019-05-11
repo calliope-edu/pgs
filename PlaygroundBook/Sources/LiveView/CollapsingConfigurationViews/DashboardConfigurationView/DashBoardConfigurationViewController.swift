@@ -67,7 +67,9 @@ class DashBoardConfigurationViewController: UIViewController, CollapsingViewCont
 	}
 
 	@IBAction func confirmSelection(_ sender: Any) {
-		let types = selectedViews.filter({$0.1}).map({$0.0})
+		let types = selectedViews.filter({$0.1}).map({$0.0}).sorted { (d1, d2) -> Bool in
+			d1.rawValue < d2.rawValue
+		}
 		selectionCallback(types)
 	}
 

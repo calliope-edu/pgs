@@ -18,14 +18,25 @@ public class UIStackView_Dashboard: UIStackView {
     lazy var input_stack: UIStackView =  self.stackview(.horizontal)
     lazy var output_stack: UIStackView = self.stackview(.horizontal)
     lazy var button_stack: UIStackView = self.stackview(.vertical)
+	lazy var pin_shake_stack: UIStackView = self.stackview(.horizontal)
     lazy var sensor_stack: UIStackView = self.stackview(.horizontal)
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+	var output: [DashboardItemType.Output]
+	var input: [DashboardItemType.Input]
+	var sensor: [DashboardItemType.Sensor]
+
+
+	override convenience init(frame: CGRect) {
+        self.init(DashboardItemType.Output.allCases, DashboardItemType.Input.allCases, DashboardItemType.Sensor.allCases)
     }
     
-    convenience init(_ output: [DashboardItemType.Output], _ input: [DashboardItemType.Input], _ sensor: [DashboardItemType.Sensor]) {
-        self.init(frame: CGRect())
+    init(_ output: [DashboardItemType.Output], _ input: [DashboardItemType.Input], _ sensor: [DashboardItemType.Sensor]) {
+
+		self.input = input
+		self.output = output
+		self.sensor = sensor
+
+        super.init(frame: CGRect())
 
 		self.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 		self.distribution = .fillProportionally
@@ -50,6 +61,8 @@ public class UIStackView_Dashboard: UIStackView {
         }
         
         if !input.isEmpty {
+			var buttons: [UIView_DashboardItem] = []
+			var pinShake: [UIView_DashboardItem] = []
             for type in input {
                 let item: UIView_DashboardItem = {
                     switch type {
@@ -64,14 +77,28 @@ public class UIStackView_Dashboard: UIStackView {
                     }
                 }()
                 if item.type == .ButtonA || item.type == .ButtonB {
-                    button_stack.addArrangedSubview(item)
+					buttons.append(item)
                 } else {
-                    input_stack.addArrangedSubview(item)
+					pinShake.append(item)
                 }
             }
-            if !button_stack.arrangedSubviews.isEmpty {
-                input_stack.insertArrangedSubview(button_stack, at: 0)
-            }
+			if buttons.count == 1 {
+				input_stack.addArrangedSubview(buttons[0])
+			} else if buttons.count > 1 {
+				for item in buttons {
+					button_stack.addArrangedSubview(item)
+				}
+				input_stack.addArrangedSubview(button_stack)
+			}
+
+			if pinShake.count == 1 {
+				input_stack.addArrangedSubview(pinShake[0])
+			} else {
+				for item in pinShake {
+					pin_shake_stack.addArrangedSubview(item)
+				}
+				input_stack.addArrangedSubview(pin_shake_stack)
+			}
 			addArrangedSubview(input_stack)
         }
         
@@ -109,66 +136,86 @@ public class UIStackView_Dashboard: UIStackView {
 //MARK: - layout sub-stacks axis
 extension UIStackView_Dashboard {
 	override public var axis: NSLayoutConstraint.Axis {
-        didSet {
-            switch axis {
-            case .horizontal:
-                output_stack.axis = .vertical
-                input_stack.axis = .vertical
-                sensor_stack.axis = .vertical
+		didSet {
+			let numSlots = (input.isEmpty ? 0 : 1) + (output.isEmpty ? 0 : 1) + (sensor.isEmpty ? 0 : 1)
+			layoutOutputs(axis, axis == .vertical ? .horizontal : .vertical, numSlots)
+			layoutInputs(axis, axis == .vertical ? .horizontal : .vertical, numSlots)
+			layoutSensors(axis, axis == .vertical ? .horizontal : .vertical, numSlots)
+		}
+	}
 
-                if sensor_stack.arrangedSubviews.isEmpty {
-                    button_stack.axis = .horizontal
-                }
-                if input_stack.arrangedSubviews.isEmpty && sensor_stack.arrangedSubviews.isEmpty {
-                    output_stack.axis = .horizontal
-                }
-                if output_stack.arrangedSubviews.isEmpty && sensor_stack.arrangedSubviews.isEmpty {
-                    input_stack.axis = .horizontal
-                }
-                if input_stack.arrangedSubviews.isEmpty && output_stack.arrangedSubviews.isEmpty {
-                    sensor_stack.axis = .horizontal
-                }
+	func layoutOutputs(_ mainAxis: NSLayoutConstraint.Axis, _ otherAxis: NSLayoutConstraint.Axis, _ numSlotsOnMainAxis: Int) {
+		guard !output.isEmpty else { return }
+		if numSlotsOnMainAxis == 1 {
+			output_stack.axis = mainAxis
+		} else {
+			output_stack.axis = otherAxis
+		}
+	}
 
-            case .vertical:
-                output_stack.axis = .horizontal
-                input_stack.axis = .horizontal
-                sensor_stack.axis = .horizontal
-                button_stack.axis = .vertical
-                if input_stack.arrangedSubviews.isEmpty && sensor_stack.arrangedSubviews.isEmpty {
-                    output_stack.axis = .vertical
-                }
-                if output_stack.arrangedSubviews.isEmpty && sensor_stack.arrangedSubviews.isEmpty {
-                    input_stack.axis = .vertical
-                }
-                if input_stack.arrangedSubviews.isEmpty && output_stack.arrangedSubviews.isEmpty {
-                    sensor_stack.axis = .vertical
-                }
-            }
-        }
-    }
+	func layoutInputs(_ mainAxis: NSLayoutConstraint.Axis, _ otherAxis: NSLayoutConstraint.Axis, _ numSlotsOnMainAxis: Int) {
+		guard !input.isEmpty else { return }
+		let hasButton = input.contains(.ButtonA) || input.contains(.ButtonB)
+		let hasButtonStack = input.contains(.ButtonA) && input.contains(.ButtonB)
+		let hasPinOrShake = input.contains(.Pin) || input.contains(.Shake)
+		let hasPinShakeStack = input.contains(.Pin) && input.contains(.Shake)
+
+		if numSlotsOnMainAxis == 1 {
+			input_stack.distribution = .fillProportionally
+			input_stack.axis = mainAxis
+			if hasButtonStack {
+				button_stack.axis = mainAxis
+			}
+			if hasPinShakeStack {
+				pin_shake_stack.axis = mainAxis
+			}
+		} else if numSlotsOnMainAxis == 2 {
+			input_stack.axis = otherAxis
+			if hasButtonStack {
+				button_stack.axis = hasPinOrShake ? mainAxis : otherAxis
+			}
+			if hasPinShakeStack {
+				pin_shake_stack.axis = hasButton ? mainAxis : otherAxis
+			}
+		} else {
+			input_stack.distribution = .fillProportionally
+			input_stack.axis = otherAxis
+			if hasButtonStack {
+				button_stack.axis = .vertical
+			}
+			if hasPinShakeStack {
+				pin_shake_stack.axis = otherAxis
+			}
+		}
+	}
+
+	func layoutSensors(_ mainAxis: NSLayoutConstraint.Axis, _ otherAxis: NSLayoutConstraint.Axis, _ numSlotsOnMainAxis: Int) {
+		guard !sensor.isEmpty else { return }
+		if numSlotsOnMainAxis == 1 {
+			sensor_stack.axis = mainAxis
+		} else {
+			sensor_stack.axis = otherAxis
+		}
+	}
 }
 
 //MARK: - helper
 extension UIStackView_Dashboard {
 	func stackview(_ axis: NSLayoutConstraint.Axis) -> UIStackView {
         let stackView = UIStackView(frame: self.bounds)
+		stackView.translatesAutoresizingMaskIntoConstraints = false
+		stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+		stackView.isLayoutMarginsRelativeArrangement = true
+
         stackView.axis = axis
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fillEqually
         stackView.alignment = .fill
         stackView.spacing = 0
-		stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }
     
 	func axis(from: UIView) -> NSLayoutConstraint.Axis {
         return (from.bounds.size.width > from.bounds.size.height) ? .horizontal : .vertical
-    }
-    
-    func howMany() -> Int {
-        return Int(arc4random_uniform(3)+1)
     }
 }
 
