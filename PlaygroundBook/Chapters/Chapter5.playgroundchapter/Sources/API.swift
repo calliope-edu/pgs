@@ -112,19 +112,6 @@ public struct display {
 	public static func show(grid: [UInt8]) {
 		sendCommand(apiCall: .displayShowGrid(grid: grid))
 	}
-
-	/// all leds for which true is set are switched on, all others off
-	/// - Parameter leds: five tuples of five values, one tuple for each row and one value per column
-	/*public static func show(leds: (
-		(Bool, Bool, Bool, Bool, Bool),
-		(Bool, Bool, Bool, Bool, Bool),
-		(Bool, Bool, Bool, Bool, Bool),
-		(Bool, Bool, Bool, Bool, Bool),
-		(Bool, Bool, Bool, Bool, Bool))) {
-		let toInt = { (b: Bool) -> UInt8 in b ? 1 : 0 }
-		let rowToInt = { (b: (Bool, Bool, Bool, Bool, Bool)) -> [UInt8] in [toInt(b.0), toInt(b.1), toInt(b.2), toInt(b.3), toInt(b.4)] }
-		sendCommand(apiCall: .displayShowGrid(grid: rowToInt(leds.0) + rowToInt(leds.1) + rowToInt(leds.2) + rowToInt(leds.3) + rowToInt(leds.4)))
-	}*/
 }
 
 //MARK: sound output
@@ -218,6 +205,6 @@ public struct io {
 /// Generates a uniformly distributed integer random number
 /// - Parameter range: the range (start and end inclusive) for the random number
 /// - Returns: a random integer number in the specified range
-public func random(_ range:CountableClosedRange<UInt16>) -> UInt16 {
+public func random(_ range: CountableClosedRange<UInt16>) -> UInt16 {
 	return UInt16( arc4random_uniform(UInt32(range.upperBound)) + UInt32(range.lowerBound) )
 }

@@ -19,31 +19,9 @@ playgroundPrologue()
 //#-end-hidden-code
 
 class MyCalliope: Calliope {
-
-	//#-editable-code
+	//#-editable-code cc.calliope.miniplaygroundbook.Advanced.EditableCalliope
 
 	//#-end-editable-code
-
-	//#-hidden-code
-	//this could be added as example:
-	/*
-	func start() {
-	display.show(image: .heart)
-	sound.on(note: .g´´)
-	mini.sleep(100)
-	sound.on(note: .c´´´)
-	mini.sleep(500)
-	sound.off()
-	}
-
-	var i = UInt16(1)
-
-	func forever() {
-	display.show(number: i)
-	i += 1
-	mini.sleep(1000)
-	}*/
-	//#-end-hidden-code
 }
 
 //#-hidden-code
