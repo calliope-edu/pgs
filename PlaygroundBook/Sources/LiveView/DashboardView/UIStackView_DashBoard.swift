@@ -173,9 +173,7 @@ extension UIStackView_Dashboard {
 
 	func layoutInputs(_ mainAxis: NSLayoutConstraint.Axis, _ otherAxis: NSLayoutConstraint.Axis, _ numSlotsOnMainAxis: Int) {
 		guard input.count > 1 else { return }
-		let hasButton = input.contains(.ButtonA) || input.contains(.ButtonB)
 		let hasButtonStack = input.contains(.ButtonA) && input.contains(.ButtonB)
-		let hasPinOrShake = input.contains(.Pin) || input.contains(.Shake)
 		let hasPinShakeStack = input.contains(.Pin) && input.contains(.Shake)
 
 		if numSlotsOnMainAxis == 1 {
@@ -190,10 +188,10 @@ extension UIStackView_Dashboard {
 			input_stack.distribution = .fillProportionally
 			input_stack.axis = otherAxis
 			if hasButtonStack {
-				button_stack.axis = hasPinOrShake ? mainAxis : otherAxis
+				button_stack.axis = hasPinShakeStack ? mainAxis : otherAxis
 			}
 			if hasPinShakeStack {
-				pin_shake_stack.axis = hasButton ? mainAxis : otherAxis
+				pin_shake_stack.axis = hasButtonStack ? mainAxis : otherAxis
 			}
 		} else {
 			input_stack.distribution = .fillProportionally
