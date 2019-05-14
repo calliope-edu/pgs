@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Subtitle</key>
-	<string>Program with me!</string>
 	<key>SwiftVersion</key>
 	<string>4.2.1</string>
 	<key>ImageReference</key>
