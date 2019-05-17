@@ -138,11 +138,9 @@ extension miniImage {
 }
 
 extension miniSound: RawRepresentable {
-	static var all: [miniSound] = [ .C, .D, .E, .F, .G, .A, .H, .C5]
-
 	public init?(from: String) {
 		// adding "." instead of removing from input, so we know its an enum and not some "..."
-		guard let type = miniSound.all.first(where: { "."+String(describing:$0) == from }) else { return nil }
+		guard let type = miniSound.allCases.first(where: { "."+String(describing:$0) == from }) else { return nil }
 		self = type
 	}
 }

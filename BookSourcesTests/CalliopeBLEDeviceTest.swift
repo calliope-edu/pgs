@@ -8,23 +8,18 @@
 import XCTest
 @testable import Book_Sources
 
-class CalliopeBLEDeviceTest: XCTestCase {
+class CalliopeBLEDeviceTest<C: CalliopeBLEDevice>: XCTestCase {
 
-	//public let calliopeNameInMode5 = "zavig"
-	public let calliopeNameInMode5 = "gepeg"
-	public let calliopeNameNotInMode5 = "povig"
+	public let calliopeNameInMode5 = "povig"
+	public let calliopeNameNotInMode5 = "zavig"
 
-	public lazy var notMode5DiscoveryExpectation = XCTestExpectation(description: "connect to zavig (not in mode 5)")
-	public lazy var mode5DiscoveryExpectation = XCTestExpectation(description: "connect to povig (is in mode 5)")
+	public lazy var notMode5DiscoveryExpectation = XCTestExpectation(description: "connect to \(calliopeNameNotInMode5) (not in mode 5)")
+	public lazy var mode5DiscoveryExpectation = XCTestExpectation(description: "connect to \(calliopeNameInMode5) (is in mode 5)")
 
-	public lazy var programUploadExpectation = XCTestExpectation(description: "upload program to povig")
+	let discoveryTest = CalliopeBLEDiscoveryTest<C>()
 
-	public lazy var notificationExpectation = XCTestExpectation(description: "temperature value read")
-
-	let discoveryTest = CalliopeBLEDiscoveryTest()
-
-	var calliopeNotInMode5 : CalliopeBLEDevice?
-	var calliopeInMode5 : CalliopeBLEDevice?
+	var calliopeNotInMode5 : C?
+	var calliopeInMode5 : C?
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -45,35 +40,6 @@ class CalliopeBLEDeviceTest: XCTestCase {
 			}
 		}
 		wait(for: [mode5DiscoveryExpectation, notMode5DiscoveryExpectation], timeout: TimeInterval(30))
-	}
-
-	func testProgramUpload() {
-		//NEEDS ONE CALLIOPE SET TO MODE 5. SET NAME AT BEGINNING OF THE CLASS ACCORDINGLY!
-		discoveryTest.discover {
-			self.connectToCalliopeInMode5() {
-				self.uploadProgram() {
-					self.programUploadExpectation.fulfill()
-				}
-			}
-		}
-		wait(for: [programUploadExpectation], timeout: TimeInterval(30))
-	}
-
-	func testNotifications() {
-		//NEEDS ONE CALLIOPE SET TO MODE 5. SET NAME AT BEGINNING OF THE CLASS ACCORDINGLY!
-		discoveryTest.discover {
-			self.connectToCalliopeInMode5() {
-				self.uploadProgram() {
-					self.programUploadExpectation.fulfill()
-				}
-			}
-		}
-		NotificationCenter.default.addObserver(forName: UIView_DashboardItem.Ping, object: nil, queue: nil) { notification in
-			if notification.userInfo?["type"] as? DashboardItemType == DashboardItemType.Thermometer {
-				self.notificationExpectation.fulfill()
-			}
-		}
-		wait(for: [notificationExpectation, programUploadExpectation], timeout: TimeInterval(50))
 	}
 
 	func connectToCalliopeNotInMode5(fulfilled: @escaping () -> () = {}) {
@@ -103,20 +69,5 @@ class CalliopeBLEDeviceTest: XCTestCase {
 			discoveryTest.connect(calliopeInMode5)
 		}
 	}
-
-	func uploadProgram(fulfilled: @escaping () -> () = {}) {
-		let program = BookProgramProjectThermometer()
-		do {
-			try self.calliopeInMode5!.upload(program: program.build())
-			fulfilled()
-		} catch {}
-	}
-
-    /*func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }*/
 
 }

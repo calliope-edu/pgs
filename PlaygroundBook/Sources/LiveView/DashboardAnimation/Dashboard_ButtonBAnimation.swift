@@ -72,7 +72,7 @@ class Dashboard_ButtonBAnimation: UIView_DashboardItemAnimation, CAAnimationDele
             dot_view.centerYAnchor.constraint(equalTo: bg_view.centerYAnchor)
             ])
         
-        let charA = Layout.buttonLabel(in: container_view)
+        let charA = LayoutHelper.buttonLabel(in: container_view)
         charA.text = button_name
         NSLayoutConstraint.activate([
             charA.heightAnchor.constraint(equalTo: container_view.heightAnchor, multiplier: 0.84),
@@ -82,7 +82,7 @@ class Dashboard_ButtonBAnimation: UIView_DashboardItemAnimation, CAAnimationDele
             ])
         self.button_labelA = charA
         
-        let charB = Layout.buttonLabel(in: container_view)
+        let charB = LayoutHelper.buttonLabel(in: container_view)
         charB.text = button_name
         charB.textColor = UIColor(named: "calliope-brightturquoise")
         charB.alpha = 0.0

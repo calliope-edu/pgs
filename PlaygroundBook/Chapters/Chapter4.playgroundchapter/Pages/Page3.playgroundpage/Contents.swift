@@ -11,7 +11,7 @@ playgroundPrologue()
 
 //#-code-completion(everything, hide)
 //#-code-completion(identifier, show, .)
-//#-code-completion(identifier, show, C, D, E, F, G, A, H, C5)
+//#-code-completion(identifier, show, c´, d´, e´, f´, g´, a´, h´, c´´)
 //#-code-completion(identifier, show, red, green, blue, yellow, black, darkGray, lightGray, white, cyan, magenta, orange, purple)
 
 func note(pin: UInt,

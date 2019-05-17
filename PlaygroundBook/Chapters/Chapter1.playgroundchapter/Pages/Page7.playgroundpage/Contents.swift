@@ -11,7 +11,7 @@ playgroundPrologue()
 
 //#-code-completion(everything, hide)
 //#-code-completion(identifier, show, .)
-//#-code-completion(identifier, show, C, D, E, F, G, A, H, C5)
+//#-code-completion(identifier, show, c´, d´, e´, f´, g´, a´, h´, c´´)
 //#-code-completion(identifier, show, smiley, sad, heart, arrow_left, arrow_right, arrow_left_right, full, dot, small_rect, large_rect, double_row, tick, rock, scissors, well, flash, wave)
 //#-code-completion(identifier, show, red, green, blue, yellow, black, darkGray, lightGray, white, cyan, magenta, orange, purple)
 

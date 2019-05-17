@@ -44,17 +44,33 @@
 		2F09855B2207103D0075A5DB /* ProgramBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8920A064C4009646CC /* ProgramBase.swift */; };
 		2F09855D220711550075A5DB /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F09855C220711550075A5DB /* DataTypes.swift */; };
 		2F098561220718310075A5DB /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F098560220718310075A5DB /* Runtime.swift */; };
+		2F102763227E1B79004B8BA1 /* DashBoardConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F102762227E1B79004B8BA1 /* DashBoardConfigurationViewController.swift */; };
+		2F102765227E238F004B8BA1 /* CollapsingViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F102764227E238F004B8BA1 /* CollapsingViewControllerProtocol.swift */; };
+		2F102766227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F102768227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib */; };
+		2F102774227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F102772227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard */; };
+		2F102778227E3373004B8BA1 /* CollapseButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F102777227E3373004B8BA1 /* CollapseButtonProtocol.swift */; };
+		2F10277A227E33C9004B8BA1 /* ConnectionViewCollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F102779227E33C9004B8BA1 /* ConnectionViewCollapseButton.swift */; };
+		2F10277C227E35ED004B8BA1 /* DashBoardConfigurationViewCollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F10277B227E35ED004B8BA1 /* DashBoardConfigurationViewCollapseButton.swift */; };
 		2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */; };
 		2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */; };
 		2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */; };
+		2F1C9A9F220F3A8800E05DD1 /* TeachingApiImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */; };
 		2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27131021FC8B80007A1584 /* DataExtensionTest.swift */; };
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
-		2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3874B521CFD07F0011A85A /* CollapseButton.swift */; };
+		2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */; };
 		2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
+		2F666BFA222149BE00533040 /* ApiCallEncodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666BF9222149BE00533040 /* ApiCallEncodings.swift */; };
+		2F666BFC22214B0F00533040 /* BluetoothConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666BFB22214B0F00533040 /* BluetoothConstants.swift */; };
+		2F666BFF22216F1E00533040 /* LayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666BFE22216F1E00533040 /* LayoutHelper.swift */; };
+		2F666C022221786900533040 /* ProgrammableCalliope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C012221786900533040 /* ProgrammableCalliope.swift */; };
+		2F666C04222179BE00533040 /* ApiCalliope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C03222179BE00533040 /* ApiCalliope.swift */; };
+		2F666C0622217B1000533040 /* CalliopeBLEProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C0522217B1000533040 /* CalliopeBLEProfile.swift */; };
+		2F666C082221BB1500533040 /* BLEDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666C072221BB1500533040 /* BLEDataTypes.swift */; };
+		2F90F5552247C090001885B5 /* DashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90F5542247C090001885B5 /* DashBoardViewController.swift */; };
+		2F90F5572247C0AC001885B5 /* ApiCalliopeDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F90F5562247C0AC001885B5 /* ApiCalliopeDashboardViewController.swift */; };
 		2F9FAA3421FE43FE0076B737 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3C20A06490009646CC /* ActivityView.swift */; };
 		2F9FAA3521FE43FE0076B737 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3920A06490009646CC /* Async.swift */; };
-		2F9FAA3621FE43FE0076B737 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4320A06491009646CC /* Constants.swift */; };
-		2F9FAA3721FE43FE0076B737 /* DashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4A20A06491009646CC /* DashBoardViewController.swift */; };
+		2F9FAA3621FE43FE0076B737 /* DebugConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4320A06491009646CC /* DebugConstants.swift */; };
 		2F9FAA3821FE43FE0076B737 /* Extension_CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4020A06490009646CC /* Extension_CGRect.swift */; };
 		2F9FAA3921FE43FE0076B737 /* Extension_NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */; };
 		2F9FAA3A21FE43FE0076B737 /* Extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4B20A06491009646CC /* Extension_String.swift */; };
@@ -75,24 +91,22 @@
 		2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* Encodings.swift */; };
 		2F9FAACC21FF4CB40076B737 /* ApiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */; };
 		2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133C21C3E25F00500EC1 /* MatrixView.swift */; };
+		2FCEEBE42275A40600F22146 /* Calliope mini.playgroundbook in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */; };
 		2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */; };
-		2FDC68D721C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */; };
-		2FDC68D821C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */; };
 		2FDC68E921C6B426001163D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68E821C6B426001163D3 /* Assets.xcassets */; };
 		2FDC68EA21C6B436001163D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68E821C6B426001163D3 /* Assets.xcassets */; };
 		2FDC68EE21C6C050001163D3 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68ED21C6C050001163D3 /* bg.png */; };
 		2FDC68F021C6C0FE001163D3 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68EF21C6C0FD001163D3 /* icon.png */; };
 		2FDC68F121C6EA64001163D3 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68ED21C6C050001163D3 /* bg.png */; };
 		2FDC68F221C6EA66001163D3 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68EF21C6C0FD001163D3 /* icon.png */; };
-		2FEB5D9A21EB641300FCBF7D /* NotificationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEB5D9921EB641300FCBF7D /* NotificationTest.swift */; };
-		2FEB5D9C21EB79E900FCBF7D /* BluetoothApiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEB5D9B21EB79E900FCBF7D /* BluetoothApiTest.swift */; };
+		2FEB5D9A21EB641300FCBF7D /* ProgrammableCalliopeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEB5D9921EB641300FCBF7D /* ProgrammableCalliopeTest.swift */; };
+		2FEB5D9C21EB79E900FCBF7D /* ApiCalliopeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEB5D9B21EB79E900FCBF7D /* ApiCalliopeTest.swift */; };
 		2FEC8C6221A1ACCF004C27B8 /* BookSourcesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEC8C6121A1ACCF004C27B8 /* BookSourcesTests.swift */; };
 		2FEC8C6421A1ACCF004C27B8 /* libBook_Sources.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF2F9AB2054BBF300191409 /* libBook_Sources.a */; };
 		2FEC8C6B21A1AD57004C27B8 /* ValueLocalizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEC8C6A21A1AD57004C27B8 /* ValueLocalizerTests.swift */; };
 		2FF83D9521BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF83D9421BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift */; };
 		5E086DD32051E3A3004D8D25 /* Manifest.plist in Copy Book Contents */ = {isa = PBXBuildFile; fileRef = 5E086DCF2051DF0F004D8D25 /* Manifest.plist */; };
 		5EA2E3C02056F35A00416A35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA2E3BF2056F35A00416A35 /* AppDelegate.swift */; };
-		5EA2E3CA2056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5EA2E3C82056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard */; };
 		5EA2E3D42056F36800416A35 /* libBook_Sources.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF2F9AB2054BBF300191409 /* libBook_Sources.a */; };
 		5EA2E3DA2056F8D100416A35 /* PlaygroundBluetooth.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5EA2E3D82056F88700416A35 /* PlaygroundBluetooth.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5EA2E3DB2056F8D100416A35 /* PlaygroundSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5EA2E3D72056F88700416A35 /* PlaygroundSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -176,6 +190,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		2FCEEBE22275A13200F22146 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$HOME/Library/Mobile Documents/iCloud~com~apple~Playgrounds/Documents";
+			dstSubfolderSpec = 0;
+			files = (
+				2FCEEBE42275A40600F22146 /* Calliope mini.playgroundbook in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5E086DD22051E35D004D8D25 /* Copy Book Contents */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,35 +231,53 @@
 /* Begin PBXFileReference section */
 		2F09855C220711550075A5DB /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
 		2F098560220718310075A5DB /* Runtime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Runtime.swift; sourceTree = "<group>"; };
+		2F102762227E1B79004B8BA1 /* DashBoardConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardConfigurationViewController.swift; sourceTree = "<group>"; };
+		2F102764227E238F004B8BA1 /* CollapsingViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapsingViewControllerProtocol.swift; sourceTree = "<group>"; };
+		2F10276A227E2A3F004B8BA1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/DashBoardConfigurationViewController.strings; sourceTree = "<group>"; };
+		2F10276E227E2AB1004B8BA1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
+		2F102777227E3373004B8BA1 /* CollapseButtonProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButtonProtocol.swift; sourceTree = "<group>"; };
+		2F102779227E33C9004B8BA1 /* ConnectionViewCollapseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionViewCollapseButton.swift; sourceTree = "<group>"; };
+		2F10277B227E35ED004B8BA1 /* DashBoardConfigurationViewCollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardConfigurationViewCollapseButton.swift; sourceTree = "<group>"; };
+		2F10277D227E3EC3004B8BA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DashBoardConfigurationViewController.xib; sourceTree = "<group>"; };
+		2F10277E227E3EC3004B8BA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MatrixConnectionViewController.xib; sourceTree = "<group>"; };
+		2F10277F227E3EC3004B8BA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LiveViewTestAppLaunchScreen.storyboard; sourceTree = "<group>"; };
+		2F102789227E4401004B8BA1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/DashBoardConfigurationViewController.strings; sourceTree = "<group>"; };
+		2F10278D227E440E004B8BA1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
 		2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscovery.swift; sourceTree = "<group>"; };
 		2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscoveryTest.swift; sourceTree = "<group>"; };
 		2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDevice.swift; sourceTree = "<group>"; };
+		2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeachingApiImplementation.swift; sourceTree = "<group>"; };
 		2F27131021FC8B80007A1584 /* DataExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTest.swift; sourceTree = "<group>"; };
 		2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_CBUUID.swift; sourceTree = "<group>"; };
-		2F3874B521CFD07F0011A85A /* CollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButton.swift; sourceTree = "<group>"; };
 		2F44603E21CEA403002D15DF /* ConnectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionButton.swift; sourceTree = "<group>"; };
 		2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundValueKeys.swift; sourceTree = "<group>"; };
+		2F666BF9222149BE00533040 /* ApiCallEncodings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCallEncodings.swift; sourceTree = "<group>"; };
+		2F666BFB22214B0F00533040 /* BluetoothConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothConstants.swift; sourceTree = "<group>"; };
+		2F666BFE22216F1E00533040 /* LayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutHelper.swift; sourceTree = "<group>"; };
+		2F666C012221786900533040 /* ProgrammableCalliope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammableCalliope.swift; sourceTree = "<group>"; };
+		2F666C03222179BE00533040 /* ApiCalliope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCalliope.swift; sourceTree = "<group>"; };
+		2F666C0522217B1000533040 /* CalliopeBLEProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEProfile.swift; sourceTree = "<group>"; };
+		2F666C072221BB1500533040 /* BLEDataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDataTypes.swift; sourceTree = "<group>"; };
+		2F90F5542247C090001885B5 /* DashBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardViewController.swift; sourceTree = "<group>"; };
+		2F90F5562247C0AC001885B5 /* ApiCalliopeDashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCalliopeDashboardViewController.swift; sourceTree = "<group>"; };
 		2F9FAAAD21FE46490076B737 /* Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext.swift; sourceTree = "<group>"; };
 		2F9FAAB321FE48080076B737 /* Macros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
 		2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBuildResult.swift; sourceTree = "<group>"; };
 		2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCalls.swift; sourceTree = "<group>"; };
 		2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixConnectionViewController.swift; sourceTree = "<group>"; };
 		2FCB133C21C3E25F00500EC1 /* MatrixView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixView.swift; sourceTree = "<group>"; };
-		2FDC68DC21C56513001163D3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
-		2FDC68DD21C56842001163D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MatrixConnectionViewController.xib; sourceTree = "<group>"; };
-		2FDC68DE21C5685C001163D3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
 		2FDC68E821C6B426001163D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2FDC68ED21C6C050001163D3 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		2FDC68EF21C6C0FD001163D3 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		2FE507AF219D925B008686F4 /* ValueLocalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueLocalizer.swift; sourceTree = "<group>"; };
-		2FEB5D9921EB641300FCBF7D /* NotificationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTest.swift; sourceTree = "<group>"; };
-		2FEB5D9B21EB79E900FCBF7D /* BluetoothApiTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothApiTest.swift; sourceTree = "<group>"; };
+		2FEB5D9921EB641300FCBF7D /* ProgrammableCalliopeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammableCalliopeTest.swift; sourceTree = "<group>"; };
+		2FEB5D9B21EB79E900FCBF7D /* ApiCalliopeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCalliopeTest.swift; sourceTree = "<group>"; };
 		2FEC8C5F21A1ACCF004C27B8 /* BookSourcesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BookSourcesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FEC8C6121A1ACCF004C27B8 /* BookSourcesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSourcesTests.swift; sourceTree = "<group>"; };
 		2FEC8C6321A1ACCF004C27B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2FEC8C6A21A1AD57004C27B8 /* ValueLocalizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueLocalizerTests.swift; sourceTree = "<group>"; };
 		2FF83D9421BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDeviceTest.swift; sourceTree = "<group>"; };
-		5E086DC02051C5A7004D8D25 /* CalliopePlaybook.playgroundbook */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalliopePlaybook.playgroundbook; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Calliope mini.playgroundbook"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E086DC72051DD03004D8D25 /* BookOverridingBuildSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BookOverridingBuildSettings.xcconfig; sourceTree = "<group>"; };
 		5E086DCF2051DF0F004D8D25 /* Manifest.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Manifest.plist; sourceTree = "<group>"; };
 		5E0E37522065981C008FA4BE /* BuildSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BuildSettings.xcconfig; sourceTree = "<group>"; };
@@ -244,7 +286,6 @@
 		5E2A7AE6204F630600F4E17A /* BaseBuildSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BaseBuildSettings.xcconfig; sourceTree = "<group>"; };
 		5EA2E3BD2056F35A00416A35 /* LiveViewTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiveViewTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EA2E3BF2056F35A00416A35 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5EA2E3C92056F35B00416A35 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LiveViewTestAppLaunchScreen.storyboard; sourceTree = "<group>"; };
 		5EA2E3CB2056F35B00416A35 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5EA2E3D72056F88700416A35 /* PlaygroundSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PlaygroundSupport.framework; sourceTree = PLAYGROUNDS_FRAMEWORKS_DIR; };
 		5EA2E3D82056F88700416A35 /* PlaygroundBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PlaygroundBluetooth.framework; sourceTree = PLAYGROUNDS_FRAMEWORKS_DIR; };
@@ -261,12 +302,11 @@
 		8855BA3F20A06490009646CC /* Swoosh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swoosh.swift; sourceTree = "<group>"; };
 		8855BA4020A06490009646CC /* Extension_CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_CGRect.swift; sourceTree = "<group>"; };
 		8855BA4120A06490009646CC /* ViewController_Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController_Base.swift; sourceTree = "<group>"; };
-		8855BA4320A06491009646CC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8855BA4320A06491009646CC /* DebugConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugConstants.swift; sourceTree = "<group>"; };
 		8855BA4420A06491009646CC /* Extension_Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_Data.swift; sourceTree = "<group>"; };
 		8855BA4520A06491009646CC /* PlayGroundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayGroundManager.swift; sourceTree = "<group>"; };
 		8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView_DashBoardItem.swift; sourceTree = "<group>"; };
 		8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_NotificationCenter.swift; sourceTree = "<group>"; };
-		8855BA4A20A06491009646CC /* DashBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardViewController.swift; sourceTree = "<group>"; };
 		8855BA4B20A06491009646CC /* Extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_String.swift; sourceTree = "<group>"; };
 		8855BA4D20A06491009646CC /* Extension_UILayoutPriority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_UILayoutPriority.swift; sourceTree = "<group>"; };
 		8855BA4E20A06491009646CC /* Extractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extractor.swift; sourceTree = "<group>"; };
@@ -349,15 +389,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2F9FAA1121FE41340076B737 /* API */ = {
+		2F102761227E1B52004B8BA1 /* DashboardConfigurationView */ = {
 			isa = PBXGroup;
 			children = (
-				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
-				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
+				2F102762227E1B79004B8BA1 /* DashBoardConfigurationViewController.swift */,
+				2F10277B227E35ED004B8BA1 /* DashBoardConfigurationViewCollapseButton.swift */,
+			);
+			path = DashboardConfigurationView;
+			sourceTree = "<group>";
+		};
+		2F102776227E332C004B8BA1 /* CollapsingConfigurationViews */ = {
+			isa = PBXGroup;
+			children = (
+				2F102764227E238F004B8BA1 /* CollapsingViewControllerProtocol.swift */,
+				2F102777227E3373004B8BA1 /* CollapseButtonProtocol.swift */,
+				2F102761227E1B52004B8BA1 /* DashboardConfigurationView */,
+				9DA7FD3A20A1B1140080A6FF /* ConnectionView */,
+			);
+			path = CollapsingConfigurationViews;
+			sourceTree = "<group>";
+		};
+		2F666BF82221496000533040 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				2F666BFB22214B0F00533040 /* BluetoothConstants.swift */,
+				2F666C072221BB1500533040 /* BLEDataTypes.swift */,
+				2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */,
+				2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */,
+				2F666C0522217B1000533040 /* CalliopeBLEProfile.swift */,
+				2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */,
+				2F666C012221786900533040 /* ProgrammableCalliope.swift */,
+				2F666C03222179BE00533040 /* ApiCalliope.swift */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		2F666BFD22216E3C00533040 /* PlaygroundPageInterface */ = {
+			isa = PBXGroup;
+			children = (
 				2F09855C220711550075A5DB /* DataTypes.swift */,
 				2F098560220718310075A5DB /* Runtime.swift */,
 			);
-			path = API;
+			path = PlaygroundPageInterface;
+			sourceTree = "<group>";
+		};
+		2F666C002221702300533040 /* DashboardView */ = {
+			isa = PBXGroup;
+			children = (
+				8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */,
+				8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */,
+				8855BA4120A06490009646CC /* ViewController_Base.swift */,
+				2F90F5542247C090001885B5 /* DashBoardViewController.swift */,
+				2F90F5562247C0AC001885B5 /* ApiCalliopeDashboardViewController.swift */,
+			);
+			path = DashboardView;
 			sourceTree = "<group>";
 		};
 		2F9FAA7721FE44B00076B737 /* Frameworks */ = {
@@ -367,14 +452,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		2F9FAAB221FE47280076B737 /* PlaygroundLiveViewShared */ = {
+		2F9FAAB221FE47280076B737 /* GeneralUtilities */ = {
 			isa = PBXGroup;
 			children = (
+				8855BA3920A06490009646CC /* Async.swift */,
+				8855BA4420A06491009646CC /* Extension_Data.swift */,
 				2FE507AF219D925B008686F4 /* ValueLocalizer.swift */,
 				8855BA4F20A06491009646CC /* LogNotify.swift */,
+				2F9FAAB321FE48080076B737 /* Macros.swift */,
 				2F9FAAAD21FE46490076B737 /* Ext.swift */,
 			);
-			path = PlaygroundLiveViewShared;
+			path = GeneralUtilities;
 			sourceTree = "<group>";
 		};
 		2F9FAAB521FE497A0076B737 /* PlaygroundLiveViewCommunication */ = {
@@ -382,29 +470,30 @@
 			children = (
 				8855BA3B20A06490009646CC /* Encodings.swift */,
 				2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */,
+				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
+				2F666BF9222149BE00533040 /* ApiCallEncodings.swift */,
+				2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */,
+				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
 			);
 			path = PlaygroundLiveViewCommunication;
 			sourceTree = "<group>";
 		};
-		2F9FAAC421FE56B80076B737 /* Playground */ = {
+		2F9FAAC421FE56B80076B737 /* PlaygroundPageUtilities */ = {
 			isa = PBXGroup;
 			children = (
 				8855BA4E20A06491009646CC /* Extractor.swift */,
 				8855BA4520A06491009646CC /* PlayGroundManager.swift */,
-				2F9FAA1121FE41340076B737 /* API */,
+				2F666BFD22216E3C00533040 /* PlaygroundPageInterface */,
 				8855BA6C20A064C4009646CC /* BookPrograms */,
 			);
-			path = Playground;
+			path = PlaygroundPageUtilities;
 			sourceTree = "<group>";
 		};
 		2F9FAAC521FE56F90076B737 /* LiveView */ = {
 			isa = PBXGroup;
 			children = (
-				8855BA4A20A06491009646CC /* DashBoardViewController.swift */,
-				8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */,
-				8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */,
-				8855BA4120A06490009646CC /* ViewController_Base.swift */,
-				9DA7FD3A20A1B1140080A6FF /* Connectivity */,
+				2F102776227E332C004B8BA1 /* CollapsingConfigurationViews */,
+				2F666C002221702300533040 /* DashboardView */,
 				8855BA8F20A064C4009646CC /* DashboardAnimation */,
 				2F9FAAC721FE57660076B737 /* View */,
 				2F9FAAC621FE574F0076B737 /* Auxiliary */,
@@ -415,16 +504,13 @@
 		2F9FAAC621FE574F0076B737 /* Auxiliary */ = {
 			isa = PBXGroup;
 			children = (
-				8855BA3920A06490009646CC /* Async.swift */,
-				8855BA4320A06491009646CC /* Constants.swift */,
+				8855BA4320A06491009646CC /* DebugConstants.swift */,
 				8855BA4020A06490009646CC /* Extension_CGRect.swift */,
-				8855BA4420A06491009646CC /* Extension_Data.swift */,
 				8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */,
 				8855BA4B20A06491009646CC /* Extension_String.swift */,
 				8855BA3D20A06490009646CC /* Extension_UIColor.swift */,
 				8855BA4D20A06491009646CC /* Extension_UILayoutPriority.swift */,
-				2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */,
-				2F9FAAB321FE48080076B737 /* Macros.swift */,
+				2F666BFE22216F1E00533040 /* LayoutHelper.swift */,
 			);
 			path = Auxiliary;
 			sourceTree = "<group>";
@@ -447,8 +533,8 @@
 				2FEC8C6A21A1AD57004C27B8 /* ValueLocalizerTests.swift */,
 				2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */,
 				2FF83D9421BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift */,
-				2FEB5D9921EB641300FCBF7D /* NotificationTest.swift */,
-				2FEB5D9B21EB79E900FCBF7D /* BluetoothApiTest.swift */,
+				2FEB5D9921EB641300FCBF7D /* ProgrammableCalliopeTest.swift */,
+				2FEB5D9B21EB79E900FCBF7D /* ApiCalliopeTest.swift */,
 				2F27131021FC8B80007A1584 /* DataExtensionTest.swift */,
 			);
 			path = BookSourcesTests;
@@ -457,7 +543,7 @@
 		5E086DA4204F706E004D8D25 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5E086DC02051C5A7004D8D25 /* CalliopePlaybook.playgroundbook */,
+				5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */,
 				5EF2F9AB2054BBF300191409 /* libBook_Sources.a */,
 				5EA2E3BD2056F35A00416A35 /* LiveViewTestApp.app */,
 				2FEC8C5F21A1ACCF004C27B8 /* BookSourcesTests.xctest */,
@@ -531,7 +617,7 @@
 			isa = PBXGroup;
 			children = (
 				5EA2E3BF2056F35A00416A35 /* AppDelegate.swift */,
-				5EA2E3C82056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard */,
+				2F102772227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard */,
 				5EA2E3CB2056F35B00416A35 /* Info.plist */,
 			);
 			path = LiveViewTestApp;
@@ -566,7 +652,8 @@
 		5EF2F9792054B64800191409 /* PrivateResources */ = {
 			isa = PBXGroup;
 			children = (
-				2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */,
+				2F102768227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib */,
+				2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */,
 				9DFC63B9214F9DAA002FCB75 /* localizations */,
 				2FDC68ED21C6C050001163D3 /* bg.png */,
 				2FDC68EF21C6C0FD001163D3 /* icon.png */,
@@ -578,10 +665,11 @@
 		5EF2F9A22054BB3E00191409 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				2F666BF82221496000533040 /* Bluetooth */,
 				2F9FAAC521FE56F90076B737 /* LiveView */,
 				2F9FAAB521FE497A0076B737 /* PlaygroundLiveViewCommunication */,
-				2F9FAAB221FE47280076B737 /* PlaygroundLiveViewShared */,
-				2F9FAAC421FE56B80076B737 /* Playground */,
+				2F9FAAB221FE47280076B737 /* GeneralUtilities */,
+				2F9FAAC421FE56B80076B737 /* PlaygroundPageUtilities */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -699,17 +787,15 @@
 			path = Chapter3;
 			sourceTree = "<group>";
 		};
-		9DA7FD3A20A1B1140080A6FF /* Connectivity */ = {
+		9DA7FD3A20A1B1140080A6FF /* ConnectionView */ = {
 			isa = PBXGroup;
 			children = (
-				2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */,
-				2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */,
 				2FCB133C21C3E25F00500EC1 /* MatrixView.swift */,
 				2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */,
 				2F44603E21CEA403002D15DF /* ConnectionButton.swift */,
-				2F3874B521CFD07F0011A85A /* CollapseButton.swift */,
+				2F102779227E33C9004B8BA1 /* ConnectionViewCollapseButton.swift */,
 			);
-			path = Connectivity;
+			path = ConnectionView;
 			sourceTree = "<group>";
 		};
 		9DFC6396214F9CFC002FCB75 /* en.lproj */ = {
@@ -769,6 +855,7 @@
 			buildPhases = (
 				5E086DD22051E35D004D8D25 /* Copy Book Contents */,
 				5E086DC62051DB17004D8D25 /* Resources */,
+				2FCEEBE22275A13200F22146 /* CopyFiles */,
 			);
 			buildRules = (
 				5E086DD42051E415004D8D25 /* PBXBuildRule */,
@@ -778,7 +865,7 @@
 			);
 			name = PlaygroundBook;
 			productName = PlaygroundBook;
-			productReference = 5E086DC02051C5A7004D8D25 /* CalliopePlaybook.playgroundbook */;
+			productReference = 5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */;
 			productType = "com.apple.product-type.bundle";
 		};
 		5EA2E3BC2056F35A00416A35 /* LiveViewTestApp */ = {
@@ -846,12 +933,12 @@
 			};
 			buildConfigurationList = 5E2A7AE0204F611300F4E17A /* Build configuration list for PBXProject "PlaygroundBook" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = de;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 				de,
+				Base,
 			);
 			mainGroup = 5E2A7ADC204F611300F4E17A;
 			productRefGroup = 5E086DA4204F706E004D8D25 /* Products */;
@@ -878,14 +965,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F102766227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib in Resources */,
 				2FDC68EE21C6C050001163D3 /* bg.png in Resources */,
+				2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewController.xib in Resources */,
 				9DFC63AA214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				9DFC63B4214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				9DFC63AC214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				9DFC63AE214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 				2FDC68F021C6C0FE001163D3 /* icon.png in Resources */,
 				9DFC63B2214F9CFC002FCB75 /* Localizable.strings in Resources */,
-				2FDC68D721C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */,
 				2FDC68E921C6B426001163D3 /* Assets.xcassets in Resources */,
 				9DFC63B6214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 			);
@@ -899,11 +987,10 @@
 				9DFC63B7214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 				9DFC63AB214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				9DFC63B3214F9CFC002FCB75 /* Localizable.strings in Resources */,
-				5EA2E3CA2056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard in Resources */,
 				9DFC63AD214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				2FDC68F221C6EA66001163D3 /* icon.png in Resources */,
-				2FDC68D821C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */,
 				9DFC63AF214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
+				2F102774227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard in Resources */,
 				2FDC68EA21C6B436001163D3 /* Assets.xcassets in Resources */,
 				9DFC63B5214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 			);
@@ -936,11 +1023,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FEC8C6221A1ACCF004C27B8 /* BookSourcesTests.swift in Sources */,
-				2FEB5D9C21EB79E900FCBF7D /* BluetoothApiTest.swift in Sources */,
+				2FEB5D9C21EB79E900FCBF7D /* ApiCalliopeTest.swift in Sources */,
 				2FEC8C6B21A1AD57004C27B8 /* ValueLocalizerTests.swift in Sources */,
 				2FF83D9521BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift in Sources */,
 				2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */,
-				2FEB5D9A21EB641300FCBF7D /* NotificationTest.swift in Sources */,
+				2FEB5D9A21EB641300FCBF7D /* ProgrammableCalliopeTest.swift in Sources */,
 				2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -963,10 +1050,9 @@
 				2F9FAAB121FE471D0076B737 /* LogNotify.swift in Sources */,
 				2F09854D220710330075A5DB /* BookProgramInputPin.swift in Sources */,
 				2F098554220710370075A5DB /* BookProgramOutputRGB.swift in Sources */,
-				2F9FAA3621FE43FE0076B737 /* Constants.swift in Sources */,
+				2F9FAA3621FE43FE0076B737 /* DebugConstants.swift in Sources */,
 				8855BAC520A064C4009646CC /* Dashboard_ThermometerAnimation.swift in Sources */,
 				2F098544220710300075A5DB /* BookProgramCommandForever.swift in Sources */,
-				2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */,
 				8855BAC220A064C4009646CC /* Dashboard_RGBAnimation.swift in Sources */,
 				2F098548220710300075A5DB /* BookProgramCommandConditionals.swift in Sources */,
 				2F9FAA3F21FE43FE0076B737 /* Swoosh.swift in Sources */,
@@ -990,6 +1076,7 @@
 				2F0985402207102D0075A5DB /* BookProgramProjectThermometer.swift in Sources */,
 				2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */,
 				8855BAC420A064C4009646CC /* Dashboard_SoundAnimation.swift in Sources */,
+				2F666BFA222149BE00533040 /* ApiCallEncodings.swift in Sources */,
 				8855BABE20A064C4009646CC /* Dashboard_ButtonBAnimation.swift in Sources */,
 				2F0985572207103A0075A5DB /* ProgramBlink.swift in Sources */,
 				2F098546220710300075A5DB /* BookProgramCommandLoops.swift in Sources */,
@@ -998,41 +1085,54 @@
 				2F9FAAB021FE47190076B737 /* Ext.swift in Sources */,
 				2F09853D2207102D0075A5DB /* BookProgramProjectPiano.swift in Sources */,
 				2F09853B2207102D0075A5DB /* BookProgramProjectDice.swift in Sources */,
+				2F102763227E1B79004B8BA1 /* DashBoardConfigurationViewController.swift in Sources */,
 				8855BABF20A064C4009646CC /* Dashboard_DisplayAnimation.swift in Sources */,
 				2F09854B220710330075A5DB /* BookProgramInputButtonB.swift in Sources */,
+				2F666C0622217B1000533040 /* CalliopeBLEProfile.swift in Sources */,
 				2F098553220710370075A5DB /* BookProgramOutputGrid.swift in Sources */,
 				2F9FAA3921FE43FE0076B737 /* Extension_NotificationCenter.swift in Sources */,
 				2F9FAA3821FE43FE0076B737 /* Extension_CGRect.swift in Sources */,
 				2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */,
 				2F098542220710300075A5DB /* BookProgramCommandSleep.swift in Sources */,
 				2F0985592207103D0075A5DB /* ProgramBuilder.swift in Sources */,
+				2F10277C227E35ED004B8BA1 /* DashBoardConfigurationViewCollapseButton.swift in Sources */,
 				2F9FAAAC21FE45900076B737 /* Extension_Data.swift in Sources */,
 				2F09854C220710330075A5DB /* BookProgramInputButtonAB.swift in Sources */,
+				2F90F5552247C090001885B5 /* DashBoardViewController.swift in Sources */,
 				2F09855A2207103D0075A5DB /* ProgramBaseInstructions.swift in Sources */,
+				2F1C9A9F220F3A8800E05DD1 /* TeachingApiImplementation.swift in Sources */,
 				2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */,
 				2F0985582207103A0075A5DB /* ProgramNotifyPing.swift in Sources */,
 				2F098549220710300075A5DB /* BookProgramCommandCombination.swift in Sources */,
 				2F9FAA4221FE43FE0076B737 /* ViewController_Base.swift in Sources */,
 				8855BABD20A064C4009646CC /* Dashboard_ButtonAAnimation.swift in Sources */,
-				2F9FAA3721FE43FE0076B737 /* DashBoardViewController.swift in Sources */,
 				2F9FAA3E21FE43FE0076B737 /* Matrix.swift in Sources */,
 				2F09854E220710330075A5DB /* BookProgramInputShake.swift in Sources */,
+				2F102778227E3373004B8BA1 /* CollapseButtonProtocol.swift in Sources */,
 				2F9FAA3B21FE43FE0076B737 /* Extension_UIColor.swift in Sources */,
+				2F666C082221BB1500533040 /* BLEDataTypes.swift in Sources */,
 				2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */,
 				2F098545220710300075A5DB /* BookProgramCommandVariables.swift in Sources */,
 				2F098552220710370075A5DB /* BookProgramOutputImage.swift in Sources */,
+				2F90F5572247C0AC001885B5 /* ApiCalliopeDashboardViewController.swift in Sources */,
 				2F9FAAB421FE48080076B737 /* Macros.swift in Sources */,
 				2F09853E2207102D0075A5DB /* BookProgramProjectClap.swift in Sources */,
 				2F9FAA3C21FE43FE0076B737 /* Extension_UILayoutPriority.swift in Sources */,
+				2F666C04222179BE00533040 /* ApiCalliope.swift in Sources */,
 				2F09855B2207103D0075A5DB /* ProgramBase.swift in Sources */,
+				2F666BFC22214B0F00533040 /* BluetoothConstants.swift in Sources */,
 				2F09853722070FE00075A5DB /* PlayGroundManager.swift in Sources */,
 				2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */,
+				2F666C022221786900533040 /* ProgrammableCalliope.swift in Sources */,
 				2F098550220710370075A5DB /* BookProgramOutputString.swift in Sources */,
 				2F098551220710370075A5DB /* BookProgramOutputNumber.swift in Sources */,
 				2F098561220718310075A5DB /* Runtime.swift in Sources */,
+				2F666BFF22216F1E00533040 /* LayoutHelper.swift in Sources */,
 				8855BAC320A064C4009646CC /* Dashboard_ShakeAnimation.swift in Sources */,
+				2F102765227E238F004B8BA1 /* CollapsingViewControllerProtocol.swift in Sources */,
 				2F098543220710300075A5DB /* BookProgramCommandClear.swift in Sources */,
 				2F09853C2207102D0075A5DB /* BookProgramProjectRockPaperScissors.swift in Sources */,
+				2F10277A227E33C9004B8BA1 /* ConnectionViewCollapseButton.swift in Sources */,
 				8855BAC020A064C4009646CC /* Dashboard_NoiseAnimation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1068,22 +1168,32 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */ = {
+		2F102768227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2FDC68DC21C56513001163D3 /* de */,
-				2FDC68DD21C56842001163D3 /* Base */,
-				2FDC68DE21C5685C001163D3 /* en */,
+				2F10276A227E2A3F004B8BA1 /* en */,
+				2F10277D227E3EC3004B8BA1 /* Base */,
+				2F102789227E4401004B8BA1 /* de */,
 			);
-			name = MatrixConnectionViewController.xib;
+			name = DashBoardConfigurationViewController.xib;
 			sourceTree = "<group>";
 		};
-		5EA2E3C82056F35B00416A35 /* LiveViewTestAppLaunchScreen.storyboard */ = {
+		2F102772227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5EA2E3C92056F35B00416A35 /* Base */,
+				2F10277F227E3EC3004B8BA1 /* Base */,
 			);
 			name = LiveViewTestAppLaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F10276E227E2AB1004B8BA1 /* en */,
+				2F10277E227E3EC3004B8BA1 /* Base */,
+				2F10278D227E440E004B8BA1 /* de */,
+			);
+			name = MatrixConnectionViewController.xib;
 			sourceTree = "<group>";
 		};
 		9DFC6399214F9CFC002FCB75 /* Localizable.strings */ = {
