@@ -21,6 +21,6 @@ display.show(image: /*#-editable-code*/.<#T##miniImage##miniImage#>/*#-end-edita
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramOutputImage.assessment )
 //#-end-hidden-code
 

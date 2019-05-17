@@ -9,7 +9,7 @@ import UIKit
 import CoreBluetooth
 import PlaygroundSupport
 
-public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
+class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 
 	public enum CalliopeDiscoveryState {
 		case initialized //no discovered calliopes, doing nothing
@@ -38,6 +38,8 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		}
 	}
 
+	private var discoveredCalliopeUUIDNameMap : [UUID : String] = [:]
+
 	public private(set) var connectingCalliope: CalliopeBLEDevice? {
 		didSet {
 			LogNotify.log("connecting: \(String(describing: connectingCalliope))")
@@ -61,28 +63,41 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 			if connectedCalliope != nil {
 				connectingCalliope = nil
 			}
-			lastConnected = connectedCalliope?.peripheral.identifier
+			if let uuid = connectedCalliope?.peripheral.identifier,
+				let name = discoveredCalliopeUUIDNameMap[uuid] {
+				lastConnected = (uuid, name)
+			}
 			redetermineState()
 			oldValue?.state = .discovered
 			connectedCalliope?.state = .connected
 		}
 	}
 
-	private let centralManager = CBCentralManager(delegate: nil, queue: DispatchQueue.global(qos: DispatchQoS.utility.qosClass))
+	private let bluetoothQueue = DispatchQueue(label: "bluetoothQueue", qos: .userInitiated, attributes: .concurrent)
+	private lazy var centralManager: CBCentralManager = {
+		return CBCentralManager(delegate: nil, queue: bluetoothQueue)
+	}()
 
-	private var lastConnected: UUID? {
+	private var lastConnected: (UUID, String)? {
 		get {
 			let store = PlaygroundKeyValueStore.current
-			guard case let .string(uuidString)? = store[BLE.lastConnectedKey] else { return nil }
-			return UUID(uuidString: uuidString)
+			guard case let .dictionary(dict)? = store[BLE.lastConnectedKey],
+				case let .string(name)? = dict[BLE.lastConnectedNameKey],
+				case let .string(uuidString)? = dict[BLE.lastConnectedUUIDKey],
+				let uuid = UUID(uuidString: uuidString)
+			else { return nil }
+			return (uuid, name)
 		}
 		set {
 			let store = PlaygroundKeyValueStore.current
-			guard let newUUIDString = newValue?.uuidString else {
+			guard let newUUIDString = newValue?.0.uuidString,
+				let newName = newValue?.1
+			else {
 				store[BLE.lastConnectedKey] = nil
 				return
 			}
-			store[BLE.lastConnectedKey] = .string(newUUIDString)
+			store[BLE.lastConnectedKey] = .dictionary([BLE.lastConnectedNameKey: .string(newName),
+													   BLE.lastConnectedUUIDKey: .string(newUUIDString)])
 		}
 	}
 
@@ -105,14 +120,13 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 
 	private func attemptReconnect() {
 		LogNotify.log("attempt reconnect")
-		guard let lastConnected = self.lastConnected,
-		let lastCalliope = centralManager.retrievePeripherals(withIdentifiers: [lastConnected]).first,
-		let name = lastCalliope.name,
-		let friendlyName = Matrix.full2Friendly(fullName: name)
+		guard let (lastConnectedUUID, lastConnectedName) = self.lastConnected,
+		let lastCalliope = centralManager.retrievePeripherals(withIdentifiers: [lastConnectedUUID]).first
 		else { return }
 
-		let calliope = CalliopeBLEDevice(peripheral: lastCalliope)
-		self.discoveredCalliopes.updateValue(calliope, forKey: friendlyName)
+		let calliope = CalliopeBLEDevice(peripheral: lastCalliope, name: lastConnectedName)
+		self.discoveredCalliopes.updateValue(calliope, forKey: lastConnectedName)
+		self.discoveredCalliopeUUIDNameMap.updateValue(lastConnectedName, forKey: lastCalliope.identifier)
 		//auto-reconnect
 		LogNotify.log("reconnect to: \(calliope)")
 		connectingCalliope = calliope
@@ -143,15 +157,20 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 	}
 
 	public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-		//TODO: This currently only considers calliopes, so it is not compatible to the microbit
-		if let connectable = advertisementData[CBAdvertisementDataIsConnectable] as? NSNumber, connectable.boolValue == true,
-			let name = peripheral.name?.lowercased(), BLE.deviceNames.map({ name.contains($0) }).contains(true),
-			let friendlyName = Matrix.full2Friendly(fullName: name) {
+		if let connectable = advertisementData[CBAdvertisementDataIsConnectable] as? NSNumber,
+			connectable.boolValue == true,
+			let localName = advertisementData[CBAdvertisementDataLocalNameKey],
+			let lowerName = (localName as? String)?.lowercased(),
+			BLE.deviceNames.map({ lowerName.contains($0) }).contains(true),
+			let friendlyName = Matrix.full2Friendly(fullName: lowerName) {
+			//FIXME: hard-coded name for testing
+//			let friendlyName = Optional("gepeg") {
 			//never create a calliope twice, since this would clear its state
 			if discoveredCalliopes[friendlyName] == nil {
 				//we found a calliope device (or one that pretends to be a calliope at least)
-				discoveredCalliopes.updateValue(CalliopeBLEDevice(peripheral: peripheral),
+				discoveredCalliopes.updateValue(CalliopeBLEDevice(peripheral: peripheral, name: friendlyName),
 												forKey: friendlyName)
+				discoveredCalliopeUUIDNameMap.updateValue(friendlyName, forKey: peripheral.identifier)
 			}
 		}
 	}
@@ -163,6 +182,8 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		stopCalliopeDiscovery()
 		//do not connect twice
 		guard calliope != connectedCalliope else { return }
+		//reset last connected, we attempt to connect to a new callipoe now
+		lastConnected = nil
 		connectingCalliope = calliope
 	}
 
@@ -175,9 +196,8 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 	}
 
 	public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-		guard let name = peripheral.name,
-			let parsed = Matrix.full2Friendly(fullName: name),
-			let calliope = discoveredCalliopes[parsed] else {
+		guard let name = discoveredCalliopeUUIDNameMap[peripheral.identifier],
+			let calliope = discoveredCalliopes[name] else {
 				//TODO: log that we encountered unexpected behavior
 				return
 		}
@@ -207,6 +227,7 @@ public class CalliopeBLEDiscovery: NSObject, CBCentralManagerDelegate {
 		case .unknown, .resetting, .unsupported, .unauthorized, .poweredOff:
 			//bluetooth is in a state where we cannot do anything
 			discoveredCalliopes = [:]
+			discoveredCalliopeUUIDNameMap = [:]
 			state = .initialized
 		}
 	}

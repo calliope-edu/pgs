@@ -24,5 +24,5 @@ display.show(grid: [
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramOutputGrid.assessment )
 //#-end-hidden-code

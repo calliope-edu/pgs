@@ -12,9 +12,15 @@ playgroundPrologue()
 //#-code-completion(everything, hide)
 
 func forever() {
-  let frequency:UInt16 = io.brightness * /*#-editable-code*/<#T##number##UInt#>/*#-end-editable-code*/ + /*#-editable-code*/<#T##number##UInt#>/*#-end-editable-code*/
-  sound.on(frequency: frequency)
-  sleep(100)
+	let brightness = io.brightness
+	if brightness > 0 {
+		let frequency: UInt16 = /*#-editable-code*/<#T##number##UInt#>/*#-end-editable-code*/
+			+ (/*#-editable-code*/<#T##number##UInt#>/*#-end-editable-code*/ * brightness)
+		sound.on(frequency: frequency)
+	} else {
+		sound.off()
+	}
+	sleep(100)
 }
 
 //#-hidden-code
@@ -23,5 +29,5 @@ func forever() {
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramProjectTheremin.assessment )
 //#-end-hidden-code

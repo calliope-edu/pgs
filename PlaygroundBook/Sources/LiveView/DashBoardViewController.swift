@@ -15,7 +15,7 @@ public class DashBoardViewController: ViewController_Base {
 
     var identifier:String = ""
     
-    var stack:UIStackView_Dashboard!
+    var stack: UIStackView_Dashboard!
     var connectionView: MatrixConnectionViewController?
 
     public required init(coder aDecoder: NSCoder) {
@@ -60,63 +60,6 @@ public class DashBoardViewController: ViewController_Base {
         
         // button
         let top_const:CGFloat = 20.0
-
-        /*
-        public enum DashboardItemType : UInt16 {
-            case Display = 0x0000
-            case ButtonA = 0x0001
-            case ButtonB = 0x0002
-            case ButtonAB = 0x0003
-            case RGB = 0x004
-            case Sound = 0x005
-            case Pin = 0x006
-            case Shake = 0x007
-            case Thermometer = 0x008
-            case Noise = 0x009
-            case Brightness = 0x00a
-        */
-
-		/*
-        let connectionView = DevicesConnectionView({ (state, data) in
-            let array = [UInt8](data)
-            //LogNotify.log("notify array: \(array)")
-            if state == DevicesConnectionState.notify {
-                if let type = DashboardItemType(rawValue:UInt16(array[1])) {
-                    let value:UInt8 = array[3]
-                    //LogNotify.log("notify_type: \(type)")
-                    //LogNotify.log("notify: \(type.rawValue) : \(value)")
-                    if(type == DashboardItemType.ButtonAB)
-                    {
-                        NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonA, "value":value])
-                        NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":DashboardItemType.ButtonB, "value":value])
-                    }
-                    else if type == DashboardItemType.Thermometer {
-                        let localizedValue = UInt8( ValueLocalizer.current.localizeTemperature(unlocalized: Double(value)) )
-                        NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":localizedValue])
-                    }
-                    else
-                    {
-                        NotificationCenter.default.post(name:UIView_DashboardItem.Ping, object: nil, userInfo:["type":type, "value":value])
-                    }
-                }
-            }
-        })
-        connectionView.safeAreaBlock = { [weak self] in
-            if let me = self {
-                return me.liveViewSafeAreaGuide
-            }
-            return nil
-        }
-        // on notify ??
-        self.view.addSubview(connectionView)
-
-        NSLayoutConstraint.activate([
-            connectionView.topAnchor.constraint(equalTo: liveViewSafeAreaGuide.topAnchor, constant: top_const),
-            connectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -top_const)
-        ])
-
-        self.connectionView = connectionView
-		*/
 
 		let matrixViewController = MatrixConnectionViewController()
 		connectionView = matrixViewController
@@ -222,25 +165,156 @@ extension DashBoardViewController: PlaygroundLiveViewMessageHandler {
         LogNotify.log("live view connection closed")
     }
 
-    public func receive(_ message: PlaygroundValue) {
-        
-//        if case let .string(msg) = message {
-//            //LogNotify.log("live view receive string: \(msg)")
-//        } else
-        if case let .data(data) = message {
+	public func receive(_ message: PlaygroundValue) {
+
+        if case let .string(msg) = message {
+            LogNotify.log("live view receive string: \(msg)")
+		} else if case let .dictionary(msg) = message,
+			case let .data(program)? = msg[PlaygroundValueKeys.programKey] {
             //LogNotify.log("live view receive data: \(data)")
-            upload(data)
+            upload(program)
             delay(time: 1.0) { [weak self] in
                 let message: PlaygroundValue = .string(Keys.closeLiveProxyKey)
                 self?.send(message)
             }
-            return
-        }
-        
-        delay(time: 1.0) { [weak self] in
-            let message: PlaygroundValue = .string("ping from liveview")
-            self?.send(message)
-        }
+		} else if case let .dictionary(msg) = message,
+			case let .data(callData)? = msg[PlaygroundValueKeys.apiCallKey] {
+			//this is the case where we call the api of the calliope
+			//TODO: the api call must only be invoked on certain pages.
+			let call = ApiCall(data: callData)
+
+			guard let apiCall = call else {
+				LogNotify.log("live view received undecodable api call")
+				return
+			}
+			LogNotify.log("live view received api call \(apiCall)")
+
+			handleApiCall(apiCall)
+		} else {
+			delay(time: 1.0) { [weak self] in
+				let message: PlaygroundValue = .string("ping from liveview")
+				self?.send(message)
+			}
+		}
     }
+
+	private func handleApiCall(_ apiCall: ApiCall) {
+		//TODO: working so far is button notifications, button state requests, sleep, forever, start, led matrix calls, temperature request.
+		//TODO: not working: rgb led, pins, shake callback, clap callback, sound api, noise request, brightness request
+
+		//respond with a message back (either with value or just as a kind of "return" call)
+		let calliope = connectionView?.apiReadyCalliope
+
+		if case .registerCallbacks() = apiCall {
+			calliope?.buttonAActionNotification = { action in
+				guard let action = action else { return }
+				let other = calliope?.buttonBAction
+				if action == .Down {
+					let bothButtons = other == .Down || other == .Long
+					self.sendResponse(bothButtons ? .buttonAB() : .buttonA())
+				} else if action == .Long {
+					let bothButtons = other == .Long
+					self.sendResponse(bothButtons ? .buttonABLongPress() : .buttonALongPress())
+				}
+			}
+			calliope?.buttonBActionNotification = { action in
+				guard let action = action else { return }
+				let other = calliope?.buttonAAction
+				if action == .Down {
+					let bothButtons = other == .Down || other == .Long
+					self.sendResponse(bothButtons ? .buttonAB() : .buttonB())
+				} else if action == .Long {
+					let bothButtons = other == .Long
+					self.sendResponse(bothButtons ? .buttonABLongPress() : .buttonBLongPress())
+				}
+			}
+			//TODO: other callbacks to calliope
+			sendResponse(.finished())
+			return
+		}
+
+		let response: ApiCall
+		switch apiCall {
+		case .rgbOn(let color):
+			response = .finished()
+		case .rgbOff:
+			response = .finished()
+		case .displayClear:
+			calliope?.ledMatrixState = [[false, false, false, false, false],
+										[false, false, false, false, false],
+										[false, false, false, false, false],
+										[false, false, false, false, false],
+										[false, false, false, false, false]]
+			response = .finished()
+		case .displayShowGrid(let grid):
+			//TODO: decode grid
+			calliope?.ledMatrixState = interpretGrid(grid)
+			response = .finished()
+		case .displayShowImage(let image):
+			calliope?.ledMatrixState = interpretGrid(image.grid)
+			response = .finished()
+		case .displayShowText(let text):
+			calliope?.displayLedText(text)
+			response = .finished()
+		case .soundOff:
+			response = .finished()
+		case .soundOnNote(let note):
+			response = .finished()
+		case .soundOnFreq(let freq):
+			response = .finished()
+		case .requestButtonState(let button):
+			var buttonPressed: Bool?
+			if button == .A {
+				let buttonState = calliope?.buttonAAction
+				buttonPressed = buttonState == .Down || buttonState == .Long
+			} else if button == .B {
+				let buttonState = calliope?.buttonBAction
+				buttonPressed = buttonState == .Down || buttonState == .Long
+			} else {
+				let buttonState1 = calliope?.buttonAAction
+				let buttonState2 = calliope?.buttonBAction
+				let buttonPressed1 = buttonState1 == .Down || buttonState1 == .Long
+				let buttonPressed2 = buttonState2 == .Down || buttonState2 == .Long
+				buttonPressed = buttonPressed1 && buttonPressed2
+			}
+			response = .respondButtonState(isPressed: buttonPressed == true)
+		case .requestPinState(let pin):
+			response = .respondPinState(isPressed: false)
+		case .requestNoise:
+			response = .respondNoise(level: 42)
+		case .requestTemperature:
+			response = .respondTemperature(degrees: Int16(calliope?.temperature ?? 42))
+		case .requestBrightness:
+			response = .respondBrightness(level: 42)
+		default:
+			if case .sleep(_) = apiCall {
+			} else {
+				LogNotify.log("cannot handle this api call")
+			}
+			response = .finished()
+		}
+
+		let t: Double
+		if case .sleep(let time) = apiCall {
+			t = Double(time)
+		} else {
+			t = 0.0
+		}
+
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + t) {
+			self.sendResponse(response)
+		}
+	}
+
+	func interpretGrid(_ grid: [UInt8]) -> [[Bool]] {
+		return (0..<5).map { row in (0..<5).map { column in grid[row * 5 + column] == 1 } }
+	}
+
+	func sendResponse(_ apiCall: ApiCall) {
+		LogNotify.log("responding with \(apiCall)")
+		let data = apiCall.data
+		let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiCallKey: .data(data)])
+		self.send(message)
+	}
 }
 

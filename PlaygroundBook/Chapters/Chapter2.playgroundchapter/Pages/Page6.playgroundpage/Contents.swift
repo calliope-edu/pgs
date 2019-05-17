@@ -58,5 +58,5 @@ func onShake() {
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramInputCombination.assessment )
 //#-end-hidden-code

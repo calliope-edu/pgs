@@ -18,5 +18,5 @@ display.show(number: /*#-editable-code*/<#T##number##UInt#>/*#-end-editable-code
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramOutputNumber.assessment )
 //#-end-hidden-code

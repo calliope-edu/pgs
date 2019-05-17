@@ -9,7 +9,7 @@ import UIKit
 import PlaygroundSupport
 
 @objc
-public class MatrixConnectionViewController: UIViewController
+class MatrixConnectionViewController: UIViewController
 {
 	private let collapsedWidth: CGFloat = 28
 	private let collapsedHeight: CGFloat = 28
@@ -41,6 +41,22 @@ public class MatrixConnectionViewController: UIViewController
 		return connector.discoveredCalliopes[Matrix.matrix2friendly(matrixView.matrix) ?? ""]
 	}
 
+	public var programmingReadyCalliope: CalliopeBLEDevice? {
+		guard let calliope = connector.connectedCalliope,
+		calliope.state == .playgroundReady,
+		CalliopeBLEDevice.requiredServices.isSuperset(of: CalliopeBLEDevice.programmingRequirements)
+		else { return nil }
+		return calliope
+	}
+
+	public var apiReadyCalliope: CalliopeBLEDevice? {
+		guard let calliope = connector.connectedCalliope,
+			calliope.state == .playgroundReady,
+			CalliopeBLEDevice.requiredServices.isSuperset(of: CalliopeBLEDevice.apiRequirements)
+			else { return nil }
+		return calliope
+	}
+
 	@IBAction func toggleOpen(_ sender: Any) {
 		if collapseButton.expansionState == .open {
 			//button state open --> collapse!
@@ -64,6 +80,9 @@ public class MatrixConnectionViewController: UIViewController
 	}
 
 	public func animate(expand: Bool) {
+
+		//do not animate anything if no change will happen
+		guard expand && collapseButton.expansionState == .closed || collapseButton.expansionState == .open else { return }
 
 		let animations: () -> ()
 		let completion: (_ completed: Bool) -> ()
@@ -108,7 +127,7 @@ public class MatrixConnectionViewController: UIViewController
 
 // MARK: calliope connection
 
-public extension MatrixConnectionViewController {
+extension MatrixConnectionViewController {
 	@IBAction func connect(_ sender: Any) {
 		//TODO: implement connection logic
 		if self.connector.state == .initialized
@@ -153,9 +172,9 @@ public extension MatrixConnectionViewController {
 		case .connecting:
 			matrixView.isUserInteractionEnabled = false
 			connectButton.connectionState = .connecting
-			self.collapseButton.connectionState = .disconnected
+			self.collapseButton.connectionState = .connecting
 		case .connected:
-			if let connectedCalliope = connector.connectedCalliope {
+			if let connectedCalliope = connector.connectedCalliope, calliopeWithCurrentMatrix != connector.connectedCalliope {
 				//set matrix in case of auto-reconnect, where we do not have corresponding matrix yet
 				matrixView.matrix = Matrix.friendly2Matrix(Matrix.full2Friendly(fullName: connectedCalliope.peripheral.name!)!)
 				connectedCalliope.updateBlock = updateDiscoveryState
@@ -166,10 +185,12 @@ public extension MatrixConnectionViewController {
 
 	private func evaluateCalliopeState(_ calliope: CalliopeBLEDevice) {
 
-		if calliope.state == .playgroundReady {
+		if calliope.state == .notPlaygroundReady || calliope.state == .discovered {
+			self.collapseButton.connectionState = .disconnected
+		} else if calliope.state == .playgroundReady {
 			self.collapseButton.connectionState = .connected
 		} else {
-			self.collapseButton.connectionState = .disconnected
+			self.collapseButton.connectionState = .connecting
 		}
 
 		switch calliope.state {
@@ -193,12 +214,12 @@ public extension MatrixConnectionViewController {
 
 //MARK: calliope communications
 
-public extension MatrixConnectionViewController {
+extension MatrixConnectionViewController {
 
-	public func uploadProgram(program: ProgramBuildResult) -> Worker<String>  {
+	func uploadProgram(program: ProgramBuildResult) -> Worker<String>  {
 		return Worker { [weak self] resolve in
 			guard let queue = self?.queue else { LogNotify.log("no object to work on...)"); return }
-			guard let device = self?.connector.connectedCalliope, device.state == .playgroundReady else {
+			guard let device = self?.programmingReadyCalliope else {
 				resolve(Result("result.upload.missing".localized, false))
 				return
 			}

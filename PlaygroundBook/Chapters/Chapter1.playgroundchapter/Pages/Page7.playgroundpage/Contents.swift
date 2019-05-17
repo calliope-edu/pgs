@@ -31,5 +31,5 @@ display.show(image: /*#-editable-code*/.<#T##miniImage##miniImage#>/*#-end-edita
 
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramOutputCombination.assessment )
 //#-end-hidden-code

@@ -26,5 +26,5 @@ func forever() {
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramCommandForever.assessment )
 //#-end-hidden-code

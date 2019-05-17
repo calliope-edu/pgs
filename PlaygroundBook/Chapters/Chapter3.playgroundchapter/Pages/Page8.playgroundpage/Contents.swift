@@ -26,5 +26,5 @@ func onShake() {
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramCommandConditionals.assessment )
 //#-end-hidden-code

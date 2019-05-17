@@ -36,5 +36,5 @@ func forever() {
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramProjectThermometer.assessment )
 //#-end-hidden-code

@@ -7,11 +7,73 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F09853622070FE00075A5DB /* Extractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4E20A06491009646CC /* Extractor.swift */; };
+		2F09853722070FE00075A5DB /* PlayGroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4520A06491009646CC /* PlayGroundManager.swift */; };
+		2F09853B2207102D0075A5DB /* BookProgramProjectDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8420A064C4009646CC /* BookProgramProjectDice.swift */; };
+		2F09853C2207102D0075A5DB /* BookProgramProjectRockPaperScissors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8620A064C4009646CC /* BookProgramProjectRockPaperScissors.swift */; };
+		2F09853D2207102D0075A5DB /* BookProgramProjectPiano.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8520A064C4009646CC /* BookProgramProjectPiano.swift */; };
+		2F09853E2207102D0075A5DB /* BookProgramProjectClap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8320A064C4009646CC /* BookProgramProjectClap.swift */; };
+		2F09853F2207102D0075A5DB /* BookProgramProjectTheremin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8720A064C4009646CC /* BookProgramProjectTheremin.swift */; };
+		2F0985402207102D0075A5DB /* BookProgramProjectThermometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8820A064C4009646CC /* BookProgramProjectThermometer.swift */; };
+		2F098541220710300075A5DB /* BookProgramCommandStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7420A064C4009646CC /* BookProgramCommandStart.swift */; };
+		2F098542220710300075A5DB /* BookProgramCommandSleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7320A064C4009646CC /* BookProgramCommandSleep.swift */; };
+		2F098543220710300075A5DB /* BookProgramCommandClear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6D20A064C4009646CC /* BookProgramCommandClear.swift */; };
+		2F098544220710300075A5DB /* BookProgramCommandForever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7020A064C4009646CC /* BookProgramCommandForever.swift */; };
+		2F098545220710300075A5DB /* BookProgramCommandVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7520A064C4009646CC /* BookProgramCommandVariables.swift */; };
+		2F098546220710300075A5DB /* BookProgramCommandLoops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7120A064C4009646CC /* BookProgramCommandLoops.swift */; };
+		2F098547220710300075A5DB /* BookProgramCommandRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7220A064C4009646CC /* BookProgramCommandRandom.swift */; };
+		2F098548220710300075A5DB /* BookProgramCommandConditionals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6F20A064C4009646CC /* BookProgramCommandConditionals.swift */; };
+		2F098549220710300075A5DB /* BookProgramCommandCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6E20A064C4009646CC /* BookProgramCommandCombination.swift */; };
+		2F09854A220710330075A5DB /* BookProgramInputButtonA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7620A064C4009646CC /* BookProgramInputButtonA.swift */; };
+		2F09854B220710330075A5DB /* BookProgramInputButtonB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7820A064C4009646CC /* BookProgramInputButtonB.swift */; };
+		2F09854C220710330075A5DB /* BookProgramInputButtonAB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7720A064C4009646CC /* BookProgramInputButtonAB.swift */; };
+		2F09854D220710330075A5DB /* BookProgramInputPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7A20A064C4009646CC /* BookProgramInputPin.swift */; };
+		2F09854E220710330075A5DB /* BookProgramInputShake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7B20A064C4009646CC /* BookProgramInputShake.swift */; };
+		2F09854F220710330075A5DB /* BookProgramInputCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7920A064C4009646CC /* BookProgramInputCombination.swift */; };
+		2F098550220710370075A5DB /* BookProgramOutputString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8220A064C4009646CC /* BookProgramOutputString.swift */; };
+		2F098551220710370075A5DB /* BookProgramOutputNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7F20A064C4009646CC /* BookProgramOutputNumber.swift */; };
+		2F098552220710370075A5DB /* BookProgramOutputImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7E20A064C4009646CC /* BookProgramOutputImage.swift */; };
+		2F098553220710370075A5DB /* BookProgramOutputGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7D20A064C4009646CC /* BookProgramOutputGrid.swift */; };
+		2F098554220710370075A5DB /* BookProgramOutputRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8020A064C4009646CC /* BookProgramOutputRGB.swift */; };
+		2F098555220710370075A5DB /* BookProgramOutputSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8120A064C4009646CC /* BookProgramOutputSound.swift */; };
+		2F098556220710370075A5DB /* BookProgramOutputCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7C20A064C4009646CC /* BookProgramOutputCombination.swift */; };
+		2F0985572207103A0075A5DB /* ProgramBlink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8B20A064C4009646CC /* ProgramBlink.swift */; };
+		2F0985582207103A0075A5DB /* ProgramNotifyPing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8D20A064C4009646CC /* ProgramNotifyPing.swift */; };
+		2F0985592207103D0075A5DB /* ProgramBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8C20A064C4009646CC /* ProgramBuilder.swift */; };
+		2F09855A2207103D0075A5DB /* ProgramBaseInstructions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8A20A064C4009646CC /* ProgramBaseInstructions.swift */; };
+		2F09855B2207103D0075A5DB /* ProgramBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8920A064C4009646CC /* ProgramBase.swift */; };
+		2F09855D220711550075A5DB /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F09855C220711550075A5DB /* DataTypes.swift */; };
+		2F098561220718310075A5DB /* Runtime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F098560220718310075A5DB /* Runtime.swift */; };
 		2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */; };
 		2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */; };
 		2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */; };
+		2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27131021FC8B80007A1584 /* DataExtensionTest.swift */; };
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
 		2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3874B521CFD07F0011A85A /* CollapseButton.swift */; };
+		2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
+		2F9FAA3421FE43FE0076B737 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3C20A06490009646CC /* ActivityView.swift */; };
+		2F9FAA3521FE43FE0076B737 /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3920A06490009646CC /* Async.swift */; };
+		2F9FAA3621FE43FE0076B737 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4320A06491009646CC /* Constants.swift */; };
+		2F9FAA3721FE43FE0076B737 /* DashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4A20A06491009646CC /* DashBoardViewController.swift */; };
+		2F9FAA3821FE43FE0076B737 /* Extension_CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4020A06490009646CC /* Extension_CGRect.swift */; };
+		2F9FAA3921FE43FE0076B737 /* Extension_NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */; };
+		2F9FAA3A21FE43FE0076B737 /* Extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4B20A06491009646CC /* Extension_String.swift */; };
+		2F9FAA3B21FE43FE0076B737 /* Extension_UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3D20A06490009646CC /* Extension_UIColor.swift */; };
+		2F9FAA3C21FE43FE0076B737 /* Extension_UILayoutPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4D20A06491009646CC /* Extension_UILayoutPriority.swift */; };
+		2F9FAA3E21FE43FE0076B737 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3A20A06490009646CC /* Matrix.swift */; };
+		2F9FAA3F21FE43FE0076B737 /* Swoosh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3F20A06490009646CC /* Swoosh.swift */; };
+		2F9FAA4021FE43FE0076B737 /* UIStackView_DashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */; };
+		2F9FAA4121FE43FE0076B737 /* UIView_DashBoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */; };
+		2F9FAA4221FE43FE0076B737 /* ViewController_Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4120A06490009646CC /* ViewController_Base.swift */; };
+		2F9FAA4321FE43FE0076B737 /* Extension_CBUUID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */; };
+		2F9FAAAC21FE45900076B737 /* Extension_Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4420A06491009646CC /* Extension_Data.swift */; };
+		2F9FAAB021FE47190076B737 /* Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAAAD21FE46490076B737 /* Ext.swift */; };
+		2F9FAAB121FE471D0076B737 /* LogNotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4F20A06491009646CC /* LogNotify.swift */; };
+		2F9FAAB421FE48080076B737 /* Macros.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAAB321FE48080076B737 /* Macros.swift */; };
+		2F9FAAB721FE49A50076B737 /* ProgramBuildResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */; };
+		2F9FAAB921FE4A430076B737 /* ValueLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE507AF219D925B008686F4 /* ValueLocalizer.swift */; };
+		2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* Encodings.swift */; };
+		2F9FAACC21FF4CB40076B737 /* ApiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */; };
 		2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133C21C3E25F00500EC1 /* MatrixView.swift */; };
 		2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */; };
 		2FDC68D721C5650D001163D3 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68DA21C5650D001163D3 /* MatrixConnectionViewController.xib */; };
@@ -22,7 +84,8 @@
 		2FDC68F021C6C0FE001163D3 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68EF21C6C0FD001163D3 /* icon.png */; };
 		2FDC68F121C6EA64001163D3 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68ED21C6C050001163D3 /* bg.png */; };
 		2FDC68F221C6EA66001163D3 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68EF21C6C0FD001163D3 /* icon.png */; };
-		2FE507B0219D925B008686F4 /* ValueLocalizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FE507AF219D925B008686F4 /* ValueLocalizer.swift */; };
+		2FEB5D9A21EB641300FCBF7D /* NotificationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEB5D9921EB641300FCBF7D /* NotificationTest.swift */; };
+		2FEB5D9C21EB79E900FCBF7D /* BluetoothApiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEB5D9B21EB79E900FCBF7D /* BluetoothApiTest.swift */; };
 		2FEC8C6221A1ACCF004C27B8 /* BookSourcesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEC8C6121A1ACCF004C27B8 /* BookSourcesTests.swift */; };
 		2FEC8C6421A1ACCF004C27B8 /* libBook_Sources.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EF2F9AB2054BBF300191409 /* libBook_Sources.a */; };
 		2FEC8C6B21A1AD57004C27B8 /* ValueLocalizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FEC8C6A21A1AD57004C27B8 /* ValueLocalizerTests.swift */; };
@@ -36,61 +99,6 @@
 		5EBEC2F0205B399300975D3F /* LiveViewHost.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5EBEC2EF205B396500975D3F /* LiveViewHost.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5EF2F9B72054E6FB00191409 /* Chapters in Copy Book Contents */ = {isa = PBXBuildFile; fileRef = 5EF2F9B62054E6F900191409 /* Chapters */; };
 		5EF2F9B82054E6FE00191409 /* Sources in Copy Book Contents */ = {isa = PBXBuildFile; fileRef = 5EF2F9A52054BBB200191409 /* Sources */; };
-		8855BA5420A06492009646CC /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3920A06490009646CC /* Async.swift */; };
-		8855BA5520A06492009646CC /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3A20A06490009646CC /* Matrix.swift */; };
-		8855BA5620A06492009646CC /* CalliopeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* CalliopeImage.swift */; };
-		8855BA5720A06492009646CC /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3C20A06490009646CC /* ActivityView.swift */; };
-		8855BA5820A06492009646CC /* Extension_UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3D20A06490009646CC /* Extension_UIColor.swift */; };
-		8855BA5920A06492009646CC /* UIStackView_DashBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */; };
-		8855BA5A20A06492009646CC /* Swoosh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3F20A06490009646CC /* Swoosh.swift */; };
-		8855BA5B20A06492009646CC /* Extension_CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4020A06490009646CC /* Extension_CGRect.swift */; };
-		8855BA5C20A06492009646CC /* ViewController_Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4120A06490009646CC /* ViewController_Base.swift */; };
-		8855BA5D20A06492009646CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4320A06491009646CC /* Constants.swift */; };
-		8855BA5E20A06492009646CC /* Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4420A06491009646CC /* Ext.swift */; };
-		8855BA5F20A06492009646CC /* PlayGroundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4520A06491009646CC /* PlayGroundManager.swift */; };
-		8855BA6020A06492009646CC /* UIView_DashBoardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */; };
-		8855BA6120A06492009646CC /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4720A06491009646CC /* API.swift */; };
-		8855BA6220A06492009646CC /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4820A06491009646CC /* ActionButton.swift */; };
-		8855BA6320A06492009646CC /* Extension_NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */; };
-		8855BA6420A06492009646CC /* DashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4A20A06491009646CC /* DashBoardViewController.swift */; };
-		8855BA6520A06492009646CC /* Extension_String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4B20A06491009646CC /* Extension_String.swift */; };
-		8855BA6720A06492009646CC /* Extension_UILayoutPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4D20A06491009646CC /* Extension_UILayoutPriority.swift */; };
-		8855BA6820A06492009646CC /* Extractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4E20A06491009646CC /* Extractor.swift */; };
-		8855BA6920A06492009646CC /* LogNotify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA4F20A06491009646CC /* LogNotify.swift */; };
-		8855BA9A20A064C4009646CC /* BookProgramCommandClear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6D20A064C4009646CC /* BookProgramCommandClear.swift */; };
-		8855BA9B20A064C4009646CC /* BookProgramCommandCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6E20A064C4009646CC /* BookProgramCommandCombination.swift */; };
-		8855BA9C20A064C4009646CC /* BookProgramCommandConditionals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA6F20A064C4009646CC /* BookProgramCommandConditionals.swift */; };
-		8855BA9D20A064C4009646CC /* BookProgramCommandForever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7020A064C4009646CC /* BookProgramCommandForever.swift */; };
-		8855BA9E20A064C4009646CC /* BookProgramCommandLoops.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7120A064C4009646CC /* BookProgramCommandLoops.swift */; };
-		8855BA9F20A064C4009646CC /* BookProgramCommandRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7220A064C4009646CC /* BookProgramCommandRandom.swift */; };
-		8855BAA020A064C4009646CC /* BookProgramCommandSleep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7320A064C4009646CC /* BookProgramCommandSleep.swift */; };
-		8855BAA120A064C4009646CC /* BookProgramCommandStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7420A064C4009646CC /* BookProgramCommandStart.swift */; };
-		8855BAA220A064C4009646CC /* BookProgramCommandVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7520A064C4009646CC /* BookProgramCommandVariables.swift */; };
-		8855BAA320A064C4009646CC /* BookProgramInputButtonA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7620A064C4009646CC /* BookProgramInputButtonA.swift */; };
-		8855BAA420A064C4009646CC /* BookProgramInputButtonAB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7720A064C4009646CC /* BookProgramInputButtonAB.swift */; };
-		8855BAA520A064C4009646CC /* BookProgramInputButtonB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7820A064C4009646CC /* BookProgramInputButtonB.swift */; };
-		8855BAA620A064C4009646CC /* BookProgramInputCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7920A064C4009646CC /* BookProgramInputCombination.swift */; };
-		8855BAA720A064C4009646CC /* BookProgramInputPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7A20A064C4009646CC /* BookProgramInputPin.swift */; };
-		8855BAA820A064C4009646CC /* BookProgramInputShake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7B20A064C4009646CC /* BookProgramInputShake.swift */; };
-		8855BAA920A064C4009646CC /* BookProgramOutputCombination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7C20A064C4009646CC /* BookProgramOutputCombination.swift */; };
-		8855BAAA20A064C4009646CC /* BookProgramOutputGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7D20A064C4009646CC /* BookProgramOutputGrid.swift */; };
-		8855BAAB20A064C4009646CC /* BookProgramOutputImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7E20A064C4009646CC /* BookProgramOutputImage.swift */; };
-		8855BAAC20A064C4009646CC /* BookProgramOutputNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA7F20A064C4009646CC /* BookProgramOutputNumber.swift */; };
-		8855BAAD20A064C4009646CC /* BookProgramOutputRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8020A064C4009646CC /* BookProgramOutputRGB.swift */; };
-		8855BAAE20A064C4009646CC /* BookProgramOutputSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8120A064C4009646CC /* BookProgramOutputSound.swift */; };
-		8855BAAF20A064C4009646CC /* BookProgramOutputString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8220A064C4009646CC /* BookProgramOutputString.swift */; };
-		8855BAB020A064C4009646CC /* BookProgramProjectClap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8320A064C4009646CC /* BookProgramProjectClap.swift */; };
-		8855BAB120A064C4009646CC /* BookProgramProjectDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8420A064C4009646CC /* BookProgramProjectDice.swift */; };
-		8855BAB220A064C4009646CC /* BookProgramProjectPiano.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8520A064C4009646CC /* BookProgramProjectPiano.swift */; };
-		8855BAB320A064C4009646CC /* BookProgramProjectRockPaperScissors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8620A064C4009646CC /* BookProgramProjectRockPaperScissors.swift */; };
-		8855BAB420A064C4009646CC /* BookProgramProjectTheremin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8720A064C4009646CC /* BookProgramProjectTheremin.swift */; };
-		8855BAB520A064C4009646CC /* BookProgramProjectThermometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8820A064C4009646CC /* BookProgramProjectThermometer.swift */; };
-		8855BAB620A064C4009646CC /* ProgramBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8920A064C4009646CC /* ProgramBase.swift */; };
-		8855BAB720A064C4009646CC /* ProgramBaseInstructions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8A20A064C4009646CC /* ProgramBaseInstructions.swift */; };
-		8855BAB820A064C4009646CC /* ProgramBlink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8B20A064C4009646CC /* ProgramBlink.swift */; };
-		8855BAB920A064C4009646CC /* ProgramBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8C20A064C4009646CC /* ProgramBuilder.swift */; };
-		8855BABA20A064C4009646CC /* ProgramNotifyPing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8D20A064C4009646CC /* ProgramNotifyPing.swift */; };
-		8855BABB20A064C4009646CC /* ProgramParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA8E20A064C4009646CC /* ProgramParser.swift */; };
 		8855BABC20A064C4009646CC /* Dashboard_BrightnessAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA9020A064C4009646CC /* Dashboard_BrightnessAnimation.swift */; };
 		8855BABD20A064C4009646CC /* Dashboard_ButtonAAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA9120A064C4009646CC /* Dashboard_ButtonAAnimation.swift */; };
 		8855BABE20A064C4009646CC /* Dashboard_ButtonBAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA9220A064C4009646CC /* Dashboard_ButtonBAnimation.swift */; };
@@ -197,11 +205,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2F09855C220711550075A5DB /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
+		2F098560220718310075A5DB /* Runtime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Runtime.swift; sourceTree = "<group>"; };
 		2F157B2121BBE96400E6EB68 /* CalliopeBLEDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscovery.swift; sourceTree = "<group>"; };
 		2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDiscoveryTest.swift; sourceTree = "<group>"; };
 		2F157B2521BC41A600E6EB68 /* CalliopeBLEDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalliopeBLEDevice.swift; sourceTree = "<group>"; };
+		2F27131021FC8B80007A1584 /* DataExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTest.swift; sourceTree = "<group>"; };
+		2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_CBUUID.swift; sourceTree = "<group>"; };
 		2F3874B521CFD07F0011A85A /* CollapseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollapseButton.swift; sourceTree = "<group>"; };
 		2F44603E21CEA403002D15DF /* ConnectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionButton.swift; sourceTree = "<group>"; };
+		2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundValueKeys.swift; sourceTree = "<group>"; };
+		2F9FAAAD21FE46490076B737 /* Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ext.swift; sourceTree = "<group>"; };
+		2F9FAAB321FE48080076B737 /* Macros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Macros.swift; sourceTree = "<group>"; };
+		2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBuildResult.swift; sourceTree = "<group>"; };
+		2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCalls.swift; sourceTree = "<group>"; };
 		2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixConnectionViewController.swift; sourceTree = "<group>"; };
 		2FCB133C21C3E25F00500EC1 /* MatrixView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatrixView.swift; sourceTree = "<group>"; };
 		2FDC68DC21C56513001163D3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MatrixConnectionViewController.strings; sourceTree = "<group>"; };
@@ -211,6 +228,8 @@
 		2FDC68ED21C6C050001163D3 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		2FDC68EF21C6C0FD001163D3 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		2FE507AF219D925B008686F4 /* ValueLocalizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueLocalizer.swift; sourceTree = "<group>"; };
+		2FEB5D9921EB641300FCBF7D /* NotificationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTest.swift; sourceTree = "<group>"; };
+		2FEB5D9B21EB79E900FCBF7D /* BluetoothApiTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothApiTest.swift; sourceTree = "<group>"; };
 		2FEC8C5F21A1ACCF004C27B8 /* BookSourcesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BookSourcesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FEC8C6121A1ACCF004C27B8 /* BookSourcesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSourcesTests.swift; sourceTree = "<group>"; };
 		2FEC8C6321A1ACCF004C27B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -233,10 +252,9 @@
 		5EF2F9A52054BBB200191409 /* Sources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sources; sourceTree = "<group>"; };
 		5EF2F9AB2054BBF300191409 /* libBook_Sources.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBook_Sources.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EF2F9B62054E6F900191409 /* Chapters */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Chapters; sourceTree = "<group>"; };
-		8855BA3720A0648F009646CC /* Book_Sources-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Book_Sources-Bridging-Header.h"; sourceTree = "<group>"; };
 		8855BA3920A06490009646CC /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
 		8855BA3A20A06490009646CC /* Matrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
-		8855BA3B20A06490009646CC /* CalliopeImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalliopeImage.swift; sourceTree = "<group>"; };
+		8855BA3B20A06490009646CC /* Encodings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encodings.swift; sourceTree = "<group>"; };
 		8855BA3C20A06490009646CC /* ActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		8855BA3D20A06490009646CC /* Extension_UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_UIColor.swift; sourceTree = "<group>"; };
 		8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStackView_DashBoard.swift; sourceTree = "<group>"; };
@@ -244,11 +262,9 @@
 		8855BA4020A06490009646CC /* Extension_CGRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_CGRect.swift; sourceTree = "<group>"; };
 		8855BA4120A06490009646CC /* ViewController_Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController_Base.swift; sourceTree = "<group>"; };
 		8855BA4320A06491009646CC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		8855BA4420A06491009646CC /* Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ext.swift; sourceTree = "<group>"; };
+		8855BA4420A06491009646CC /* Extension_Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_Data.swift; sourceTree = "<group>"; };
 		8855BA4520A06491009646CC /* PlayGroundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayGroundManager.swift; sourceTree = "<group>"; };
 		8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView_DashBoardItem.swift; sourceTree = "<group>"; };
-		8855BA4720A06491009646CC /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		8855BA4820A06491009646CC /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_NotificationCenter.swift; sourceTree = "<group>"; };
 		8855BA4A20A06491009646CC /* DashBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardViewController.swift; sourceTree = "<group>"; };
 		8855BA4B20A06491009646CC /* Extension_String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension_String.swift; sourceTree = "<group>"; };
@@ -288,7 +304,6 @@
 		8855BA8B20A064C4009646CC /* ProgramBlink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramBlink.swift; sourceTree = "<group>"; };
 		8855BA8C20A064C4009646CC /* ProgramBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramBuilder.swift; sourceTree = "<group>"; };
 		8855BA8D20A064C4009646CC /* ProgramNotifyPing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramNotifyPing.swift; sourceTree = "<group>"; };
-		8855BA8E20A064C4009646CC /* ProgramParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgramParser.swift; sourceTree = "<group>"; };
 		8855BA9020A064C4009646CC /* Dashboard_BrightnessAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard_BrightnessAnimation.swift; sourceTree = "<group>"; };
 		8855BA9120A064C4009646CC /* Dashboard_ButtonAAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard_ButtonAAnimation.swift; sourceTree = "<group>"; };
 		8855BA9220A064C4009646CC /* Dashboard_ButtonBAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard_ButtonBAnimation.swift; sourceTree = "<group>"; };
@@ -334,36 +349,94 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2F3874B121CFCD830011A85A /* LiveView */ = {
+		2F9FAA1121FE41340076B737 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				2F9FAAB621FE49A50076B737 /* ProgramBuildResult.swift */,
+				2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */,
+				2F09855C220711550075A5DB /* DataTypes.swift */,
+				2F098560220718310075A5DB /* Runtime.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		2F9FAA7721FE44B00076B737 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2F9FAAB221FE47280076B737 /* PlaygroundLiveViewShared */ = {
+			isa = PBXGroup;
+			children = (
+				2FE507AF219D925B008686F4 /* ValueLocalizer.swift */,
+				8855BA4F20A06491009646CC /* LogNotify.swift */,
+				2F9FAAAD21FE46490076B737 /* Ext.swift */,
+			);
+			path = PlaygroundLiveViewShared;
+			sourceTree = "<group>";
+		};
+		2F9FAAB521FE497A0076B737 /* PlaygroundLiveViewCommunication */ = {
+			isa = PBXGroup;
+			children = (
+				8855BA3B20A06490009646CC /* Encodings.swift */,
+				2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */,
+			);
+			path = PlaygroundLiveViewCommunication;
+			sourceTree = "<group>";
+		};
+		2F9FAAC421FE56B80076B737 /* Playground */ = {
+			isa = PBXGroup;
+			children = (
+				8855BA4E20A06491009646CC /* Extractor.swift */,
+				8855BA4520A06491009646CC /* PlayGroundManager.swift */,
+				2F9FAA1121FE41340076B737 /* API */,
+				8855BA6C20A064C4009646CC /* BookPrograms */,
+			);
+			path = Playground;
+			sourceTree = "<group>";
+		};
+		2F9FAAC521FE56F90076B737 /* LiveView */ = {
+			isa = PBXGroup;
+			children = (
+				8855BA4A20A06491009646CC /* DashBoardViewController.swift */,
+				8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */,
+				8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */,
+				8855BA4120A06490009646CC /* ViewController_Base.swift */,
 				9DA7FD3A20A1B1140080A6FF /* Connectivity */,
 				8855BA8F20A064C4009646CC /* DashboardAnimation */,
-				8855BA4820A06491009646CC /* ActionButton.swift */,
-				8855BA3C20A06490009646CC /* ActivityView.swift */,
-				8855BA4720A06491009646CC /* API.swift */,
+				2F9FAAC721FE57660076B737 /* View */,
+				2F9FAAC621FE574F0076B737 /* Auxiliary */,
+			);
+			path = LiveView;
+			sourceTree = "<group>";
+		};
+		2F9FAAC621FE574F0076B737 /* Auxiliary */ = {
+			isa = PBXGroup;
+			children = (
 				8855BA3920A06490009646CC /* Async.swift */,
 				8855BA4320A06491009646CC /* Constants.swift */,
-				8855BA4A20A06491009646CC /* DashBoardViewController.swift */,
-				8855BA4420A06491009646CC /* Ext.swift */,
-				8855BA3B20A06490009646CC /* CalliopeImage.swift */,
 				8855BA4020A06490009646CC /* Extension_CGRect.swift */,
+				8855BA4420A06491009646CC /* Extension_Data.swift */,
 				8855BA4920A06491009646CC /* Extension_NotificationCenter.swift */,
 				8855BA4B20A06491009646CC /* Extension_String.swift */,
 				8855BA3D20A06490009646CC /* Extension_UIColor.swift */,
 				8855BA4D20A06491009646CC /* Extension_UILayoutPriority.swift */,
-				8855BA4E20A06491009646CC /* Extractor.swift */,
-				8855BA4F20A06491009646CC /* LogNotify.swift */,
-				8855BA3A20A06490009646CC /* Matrix.swift */,
-				8855BA4520A06491009646CC /* PlayGroundManager.swift */,
-				8855BA3F20A06490009646CC /* Swoosh.swift */,
-				8855BA3E20A06490009646CC /* UIStackView_DashBoard.swift */,
-				8855BA4620A06491009646CC /* UIView_DashBoardItem.swift */,
-				8855BA4120A06490009646CC /* ViewController_Base.swift */,
-				8855BA3720A0648F009646CC /* Book_Sources-Bridging-Header.h */,
-				2FE507AF219D925B008686F4 /* ValueLocalizer.swift */,
+				2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */,
+				2F9FAAB321FE48080076B737 /* Macros.swift */,
 			);
-			path = LiveView;
+			path = Auxiliary;
+			sourceTree = "<group>";
+		};
+		2F9FAAC721FE57660076B737 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8855BA3C20A06490009646CC /* ActivityView.swift */,
+				8855BA3A20A06490009646CC /* Matrix.swift */,
+				8855BA3F20A06490009646CC /* Swoosh.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		2FEC8C6021A1ACCF004C27B8 /* BookSourcesTests */ = {
@@ -374,6 +447,9 @@
 				2FEC8C6A21A1AD57004C27B8 /* ValueLocalizerTests.swift */,
 				2F157B2321BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift */,
 				2FF83D9421BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift */,
+				2FEB5D9921EB641300FCBF7D /* NotificationTest.swift */,
+				2FEB5D9B21EB79E900FCBF7D /* BluetoothApiTest.swift */,
+				2F27131021FC8B80007A1584 /* DataExtensionTest.swift */,
 			);
 			path = BookSourcesTests;
 			sourceTree = "<group>";
@@ -436,6 +512,7 @@
 				5EA2E3D52056F83400416A35 /* Supporting Content */,
 				2FEC8C6021A1ACCF004C27B8 /* BookSourcesTests */,
 				5E086DA4204F706E004D8D25 /* Products */,
+				2F9FAA7721FE44B00076B737 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -501,8 +578,10 @@
 		5EF2F9A22054BB3E00191409 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8855BA6C20A064C4009646CC /* BookPrograms */,
-				2F3874B121CFCD830011A85A /* LiveView */,
+				2F9FAAC521FE56F90076B737 /* LiveView */,
+				2F9FAAB521FE497A0076B737 /* PlaygroundLiveViewCommunication */,
+				2F9FAAB221FE47280076B737 /* PlaygroundLiveViewShared */,
+				2F9FAAC421FE56B80076B737 /* Playground */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -518,8 +597,8 @@
 		8855BA6C20A064C4009646CC /* BookPrograms */ = {
 			isa = PBXGroup;
 			children = (
-				9D351EDC20A1CFC900EBFA84 /* Raw */,
 				9D351EDB20A1CF9400EBFA84 /* Base */,
+				9D351EDC20A1CFC900EBFA84 /* Raw */,
 				9D351EDE20A1D76B00EBFA84 /* Chapter1 */,
 				9D351EDF20A1D7A800EBFA84 /* Chapter2 */,
 				9D351EE020A1DAB900EBFA84 /* Chapter3 */,
@@ -551,7 +630,6 @@
 				8855BA8C20A064C4009646CC /* ProgramBuilder.swift */,
 				8855BA8A20A064C4009646CC /* ProgramBaseInstructions.swift */,
 				8855BA8920A064C4009646CC /* ProgramBase.swift */,
-				8855BA8E20A064C4009646CC /* ProgramParser.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -858,9 +936,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FEC8C6221A1ACCF004C27B8 /* BookSourcesTests.swift in Sources */,
+				2FEB5D9C21EB79E900FCBF7D /* BluetoothApiTest.swift in Sources */,
 				2FEC8C6B21A1AD57004C27B8 /* ValueLocalizerTests.swift in Sources */,
 				2FF83D9521BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift in Sources */,
 				2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */,
+				2FEB5D9A21EB641300FCBF7D /* NotificationTest.swift in Sources */,
+				2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -876,78 +957,83 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8855BA5620A06492009646CC /* CalliopeImage.swift in Sources */,
-				8855BA5D20A06492009646CC /* Constants.swift in Sources */,
-				8855BA5820A06492009646CC /* Extension_UIColor.swift in Sources */,
+				2F09853622070FE00075A5DB /* Extractor.swift in Sources */,
+				2F09855D220711550075A5DB /* DataTypes.swift in Sources */,
 				2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */,
-				8855BA9A20A064C4009646CC /* BookProgramCommandClear.swift in Sources */,
-				8855BA6520A06492009646CC /* Extension_String.swift in Sources */,
+				2F9FAAB121FE471D0076B737 /* LogNotify.swift in Sources */,
+				2F09854D220710330075A5DB /* BookProgramInputPin.swift in Sources */,
+				2F098554220710370075A5DB /* BookProgramOutputRGB.swift in Sources */,
+				2F9FAA3621FE43FE0076B737 /* Constants.swift in Sources */,
 				8855BAC520A064C4009646CC /* Dashboard_ThermometerAnimation.swift in Sources */,
-				8855BAAF20A064C4009646CC /* BookProgramOutputString.swift in Sources */,
-				8855BA5A20A06492009646CC /* Swoosh.swift in Sources */,
+				2F098544220710300075A5DB /* BookProgramCommandForever.swift in Sources */,
 				2F3874B621CFD07F0011A85A /* CollapseButton.swift in Sources */,
 				8855BAC220A064C4009646CC /* Dashboard_RGBAnimation.swift in Sources */,
-				8855BAAA20A064C4009646CC /* BookProgramOutputGrid.swift in Sources */,
-				8855BA6920A06492009646CC /* LogNotify.swift in Sources */,
+				2F098548220710300075A5DB /* BookProgramCommandConditionals.swift in Sources */,
+				2F9FAA3F21FE43FE0076B737 /* Swoosh.swift in Sources */,
+				2F9FAA3A21FE43FE0076B737 /* Extension_String.swift in Sources */,
+				2F9FAA3521FE43FE0076B737 /* Async.swift in Sources */,
+				2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */,
+				2F9FAA4321FE43FE0076B737 /* Extension_CBUUID.swift in Sources */,
+				2F09853F2207102D0075A5DB /* BookProgramProjectTheremin.swift in Sources */,
 				8855BABC20A064C4009646CC /* Dashboard_BrightnessAnimation.swift in Sources */,
-				8855BA9F20A064C4009646CC /* BookProgramCommandRandom.swift in Sources */,
-				8855BA6120A06492009646CC /* API.swift in Sources */,
-				8855BABB20A064C4009646CC /* ProgramParser.swift in Sources */,
+				2F09854A220710330075A5DB /* BookProgramInputButtonA.swift in Sources */,
+				2F9FAAB921FE4A430076B737 /* ValueLocalizer.swift in Sources */,
+				2F09854F220710330075A5DB /* BookProgramInputCombination.swift in Sources */,
+				2F9FAA4121FE43FE0076B737 /* UIView_DashBoardItem.swift in Sources */,
+				2F9FAACC21FF4CB40076B737 /* ApiCalls.swift in Sources */,
+				2F9FAA4021FE43FE0076B737 /* UIStackView_DashBoard.swift in Sources */,
 				8855BAC120A064C4009646CC /* Dashboard_PinAnimation.swift in Sources */,
-				8855BA5420A06492009646CC /* Async.swift in Sources */,
-				8855BAA420A064C4009646CC /* BookProgramInputButtonAB.swift in Sources */,
-				8855BA5E20A06492009646CC /* Ext.swift in Sources */,
-				8855BA6220A06492009646CC /* ActionButton.swift in Sources */,
+				2F098547220710300075A5DB /* BookProgramCommandRandom.swift in Sources */,
+				2F098555220710370075A5DB /* BookProgramOutputSound.swift in Sources */,
+				2F9FAAB721FE49A50076B737 /* ProgramBuildResult.swift in Sources */,
+				2F098556220710370075A5DB /* BookProgramOutputCombination.swift in Sources */,
+				2F0985402207102D0075A5DB /* BookProgramProjectThermometer.swift in Sources */,
 				2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */,
 				8855BAC420A064C4009646CC /* Dashboard_SoundAnimation.swift in Sources */,
-				8855BA6020A06492009646CC /* UIView_DashBoardItem.swift in Sources */,
-				8855BAA720A064C4009646CC /* BookProgramInputPin.swift in Sources */,
-				8855BA6820A06492009646CC /* Extractor.swift in Sources */,
-				8855BA6420A06492009646CC /* DashBoardViewController.swift in Sources */,
-				8855BA5B20A06492009646CC /* Extension_CGRect.swift in Sources */,
 				8855BABE20A064C4009646CC /* Dashboard_ButtonBAnimation.swift in Sources */,
-				8855BAB920A064C4009646CC /* ProgramBuilder.swift in Sources */,
-				8855BAA520A064C4009646CC /* BookProgramInputButtonB.swift in Sources */,
-				8855BAAD20A064C4009646CC /* BookProgramOutputRGB.swift in Sources */,
-				8855BAA820A064C4009646CC /* BookProgramInputShake.swift in Sources */,
-				8855BAB720A064C4009646CC /* ProgramBaseInstructions.swift in Sources */,
-				8855BAB420A064C4009646CC /* BookProgramProjectTheremin.swift in Sources */,
-				8855BAB620A064C4009646CC /* ProgramBase.swift in Sources */,
+				2F0985572207103A0075A5DB /* ProgramBlink.swift in Sources */,
+				2F098546220710300075A5DB /* BookProgramCommandLoops.swift in Sources */,
+				2F9FAA3421FE43FE0076B737 /* ActivityView.swift in Sources */,
+				2F098541220710300075A5DB /* BookProgramCommandStart.swift in Sources */,
+				2F9FAAB021FE47190076B737 /* Ext.swift in Sources */,
+				2F09853D2207102D0075A5DB /* BookProgramProjectPiano.swift in Sources */,
+				2F09853B2207102D0075A5DB /* BookProgramProjectDice.swift in Sources */,
 				8855BABF20A064C4009646CC /* Dashboard_DisplayAnimation.swift in Sources */,
-				8855BAA020A064C4009646CC /* BookProgramCommandSleep.swift in Sources */,
-				8855BAB320A064C4009646CC /* BookProgramProjectRockPaperScissors.swift in Sources */,
-				8855BAB120A064C4009646CC /* BookProgramProjectDice.swift in Sources */,
-				8855BAA220A064C4009646CC /* BookProgramCommandVariables.swift in Sources */,
-				8855BABA20A064C4009646CC /* ProgramNotifyPing.swift in Sources */,
-				8855BAAE20A064C4009646CC /* BookProgramOutputSound.swift in Sources */,
-				8855BA9E20A064C4009646CC /* BookProgramCommandLoops.swift in Sources */,
-				8855BA5720A06492009646CC /* ActivityView.swift in Sources */,
+				2F09854B220710330075A5DB /* BookProgramInputButtonB.swift in Sources */,
+				2F098553220710370075A5DB /* BookProgramOutputGrid.swift in Sources */,
+				2F9FAA3921FE43FE0076B737 /* Extension_NotificationCenter.swift in Sources */,
+				2F9FAA3821FE43FE0076B737 /* Extension_CGRect.swift in Sources */,
 				2F157B2221BBE96400E6EB68 /* CalliopeBLEDiscovery.swift in Sources */,
-				8855BAB820A064C4009646CC /* ProgramBlink.swift in Sources */,
+				2F098542220710300075A5DB /* BookProgramCommandSleep.swift in Sources */,
+				2F0985592207103D0075A5DB /* ProgramBuilder.swift in Sources */,
+				2F9FAAAC21FE45900076B737 /* Extension_Data.swift in Sources */,
+				2F09854C220710330075A5DB /* BookProgramInputButtonAB.swift in Sources */,
+				2F09855A2207103D0075A5DB /* ProgramBaseInstructions.swift in Sources */,
+				2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */,
+				2F0985582207103A0075A5DB /* ProgramNotifyPing.swift in Sources */,
+				2F098549220710300075A5DB /* BookProgramCommandCombination.swift in Sources */,
+				2F9FAA4221FE43FE0076B737 /* ViewController_Base.swift in Sources */,
 				8855BABD20A064C4009646CC /* Dashboard_ButtonAAnimation.swift in Sources */,
-				8855BA9C20A064C4009646CC /* BookProgramCommandConditionals.swift in Sources */,
+				2F9FAA3721FE43FE0076B737 /* DashBoardViewController.swift in Sources */,
+				2F9FAA3E21FE43FE0076B737 /* Matrix.swift in Sources */,
+				2F09854E220710330075A5DB /* BookProgramInputShake.swift in Sources */,
+				2F9FAA3B21FE43FE0076B737 /* Extension_UIColor.swift in Sources */,
 				2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */,
-				8855BAB020A064C4009646CC /* BookProgramProjectClap.swift in Sources */,
-				8855BA5C20A06492009646CC /* ViewController_Base.swift in Sources */,
-				8855BAA120A064C4009646CC /* BookProgramCommandStart.swift in Sources */,
+				2F098545220710300075A5DB /* BookProgramCommandVariables.swift in Sources */,
+				2F098552220710370075A5DB /* BookProgramOutputImage.swift in Sources */,
+				2F9FAAB421FE48080076B737 /* Macros.swift in Sources */,
+				2F09853E2207102D0075A5DB /* BookProgramProjectClap.swift in Sources */,
+				2F9FAA3C21FE43FE0076B737 /* Extension_UILayoutPriority.swift in Sources */,
+				2F09855B2207103D0075A5DB /* ProgramBase.swift in Sources */,
+				2F09853722070FE00075A5DB /* PlayGroundManager.swift in Sources */,
 				2F157B2621BC41A600E6EB68 /* CalliopeBLEDevice.swift in Sources */,
-				8855BAAB20A064C4009646CC /* BookProgramOutputImage.swift in Sources */,
-				8855BAAC20A064C4009646CC /* BookProgramOutputNumber.swift in Sources */,
-				8855BA6320A06492009646CC /* Extension_NotificationCenter.swift in Sources */,
-				8855BAA620A064C4009646CC /* BookProgramInputCombination.swift in Sources */,
-				8855BAB220A064C4009646CC /* BookProgramProjectPiano.swift in Sources */,
-				8855BA5F20A06492009646CC /* PlayGroundManager.swift in Sources */,
-				8855BAA320A064C4009646CC /* BookProgramInputButtonA.swift in Sources */,
-				8855BA5520A06492009646CC /* Matrix.swift in Sources */,
-				8855BA9D20A064C4009646CC /* BookProgramCommandForever.swift in Sources */,
-				8855BAA920A064C4009646CC /* BookProgramOutputCombination.swift in Sources */,
-				8855BA9B20A064C4009646CC /* BookProgramCommandCombination.swift in Sources */,
+				2F098550220710370075A5DB /* BookProgramOutputString.swift in Sources */,
+				2F098551220710370075A5DB /* BookProgramOutputNumber.swift in Sources */,
+				2F098561220718310075A5DB /* Runtime.swift in Sources */,
 				8855BAC320A064C4009646CC /* Dashboard_ShakeAnimation.swift in Sources */,
-				8855BA5920A06492009646CC /* UIStackView_DashBoard.swift in Sources */,
-				8855BA6720A06492009646CC /* Extension_UILayoutPriority.swift in Sources */,
+				2F098543220710300075A5DB /* BookProgramCommandClear.swift in Sources */,
+				2F09853C2207102D0075A5DB /* BookProgramProjectRockPaperScissors.swift in Sources */,
 				8855BAC020A064C4009646CC /* Dashboard_NoiseAnimation.swift in Sources */,
-				8855BAB520A064C4009646CC /* BookProgramProjectThermometer.swift in Sources */,
-				2FE507B0219D925B008686F4 /* ValueLocalizer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

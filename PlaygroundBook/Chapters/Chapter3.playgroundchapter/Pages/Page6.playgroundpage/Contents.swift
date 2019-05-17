@@ -26,5 +26,5 @@ func start() {
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramCommandLoops.assessment )
 //#-end-hidden-code

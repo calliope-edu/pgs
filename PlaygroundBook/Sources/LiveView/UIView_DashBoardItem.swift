@@ -134,33 +134,37 @@ public class UIView_DashboardItem: UIView {
         
         // ping notification
         observer_animation = NotificationCenter.default.observe(name: UIView_DashboardItem.Ping, object: nil, queue: .main, using: { [weak self] (note) in
-            guard let userInfo = note.userInfo, let type = userInfo["type"] as? DashboardItemType else {
+            guard let this = self,
+				let userInfo = note.userInfo,
+				let typeValue = userInfo["type"] as? UInt16,
+				let type = DashboardItemType(rawValue: typeValue),
+				this.type == type,
+				let ani = this.container
+			else {
                 //LogNotify.log("No userInfo found in notification")
                 return
             }
-            
-            if let this = self {
-                guard this.type == type else { return }
-                
-                // LogNotify.log("before ani: \(this.type!) : isAnimating: \(this.isAnimating)")
-                
-                if let ani = this.container {
-                    
-                    if let value = userInfo["value"] as? UInt8 {
-                        ani.updateLabel(value: value)
-                    }
-                    
-                    guard !this.isAnimating else { return }
-                    
-                    this.isAnimating = true
-                    ani.run({ (finished) in
-                        DispatchQueue.main.async {
-                            this.isAnimating = false
-                            //LogNotify.log("after ani: \(this.type!)")
-                        }
-                    })
-                }
-            }
+
+			// LogNotify.log("before ani: \(this.type!) : isAnimating: \(this.isAnimating)")
+			
+			if let value = userInfo["value"] as? Int8 {
+				LogNotify.log("update label of \(self!.type!) to \(value)")
+				DispatchQueue.main.async {
+					ani.updateLabel(value: value)
+				}
+			} else {
+				LogNotify.log("cannot read value for dashboard item label of \(self!.type!)")
+			}
+
+			guard !this.isAnimating else { return }
+
+			this.isAnimating = true
+			ani.run({ (finished) in
+				DispatchQueue.main.async {
+					this.isAnimating = false
+					//LogNotify.log("after ani: \(this.type!)")
+				}
+			})
             
         })
     }
@@ -185,7 +189,7 @@ public class UIView_DashboardItem: UIView {
 
 protocol UIView_DashboardItemAnimation_Animator {
     func run(_ completionBlock:  @escaping ((_ finished: Bool) -> Void))
-    func updateLabel(value: UInt8)
+    func updateLabel(value: Int8)
 }
 
 public class UIView_DashboardItemAnimation: UIView, UIView_DashboardItemAnimation_Animator {
@@ -262,7 +266,7 @@ public class UIView_DashboardItemAnimation: UIView, UIView_DashboardItemAnimatio
     func run(_ completionBlock:  @escaping ((_ finished: Bool) -> Void)) {
     }
     
-    func updateLabel(value: UInt8) {
+    func updateLabel(value: Int8) {
         guard let lbl = textLabel else { return }
         guard canUpdateLabel else { return }
         

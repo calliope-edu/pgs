@@ -18,5 +18,5 @@ display.show(text: "/*#-editable-code*/<#T##string##String#>/*#-end-editable-cod
 //#-end-hidden-code
 
 //#-hidden-code
-playgroundEpilogue( assessment() )
+playgroundEpilogue( BookProgramOutputString.assessment )
 //#-end-hidden-code
