@@ -19,7 +19,10 @@ Nachdem der Calliope mini geschüttelt wurde, erscheint das individuelle Muster.
 
 ![chapter_1_intro](chapter_1_pairing_c)
 
-Deinen Calliope mini verbindest du mit dem Swift Playground, indem du das angezeigte Muster in der App auswählst. Dazu brauchst du nur auf den roten Button rechts oben drücken und das passende Muster auszuwählen.
+Deinen Calliope mini verbindest du mit dem Swift Playground, indem du auf den roten Button rechts oben drückst und das angezeigte Muster von deinem Calliope mini auf das 5x5 Raster im Playground überträgst. Sobald dein Calliope mini gefunden wurde, erscheint ein grünes Häkchen. Bestätige die Verbindung indem du auf das Häkchen tippst. Super, jetzt bist du verbunden und kannst dein Programm aus dem Playground auf den Calliope mini übertragen.
+
+* callout(Tipp):
+Merke dir dein Muster, indem du eine Skizze machst.
 
 ![hapter_1_intro](chapter_1_intro_b)
 

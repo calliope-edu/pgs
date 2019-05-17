@@ -16,3 +16,14 @@
 
 "page.hint.time" = "Die Pause ist zu klein";
 "page.solution.time" = "Der Wert sollte über 100 sein.";
+
+"connect.startSearch" = "Suchen";
+"connect.waitForBluetooth" = "Bluetooth muss an sein!";
+"connect.searching" = "Suche...";
+"connect.connecting" = "Verbinde...";
+"connect.notFoundRetry" = "Nicht gefunden. Nochmal suchen";
+"connect.connect" = "Verbinden";
+"connect.connected" = "Verbunden!";
+"connect.testMode" = "Prüfe Calliope...";
+"connect.readyToPlay" = "Bereit zu spielen!";
+"connect.wrongProgram" = "Calliope muss in Modus 5 sein!";

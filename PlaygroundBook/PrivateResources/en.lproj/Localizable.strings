@@ -16,3 +16,14 @@
 
 "page.hint.time" = "The delay is too short";
 "page.solution.time" = "The value should exceed 100.";
+
+"connect.startSearch" = "Search";
+"connect.waitForBluetooth" = "Bluetooth must be on!";
+"connect.searching" = "Searching...";
+"connect.connecting" = "Connecting...";
+"connect.notFoundRetry" = "Not found. Search again";
+"connect.connect" = "Connect";
+"connect.connected" = "Connected!";
+"connect.testMode" = "Examining Calliope...";
+"connect.readyToPlay" = "Ready to play!";
+"connect.wrongProgram" = "Calliope must be in mode 5!";

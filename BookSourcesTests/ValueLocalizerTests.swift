@@ -21,14 +21,17 @@ class ValueLocalizerTests: XCTestCase {
     }
 
     func testLocalizeValue() {
+		//NEEDS IPAD TEMPERATURE UNIT SET TO FAHRENHEIT
 		XCTAssertEqual(localizer.localizeTemperature(unlocalized: 20.0), 68.0, accuracy: 0.5)
     }
 
 	func testDelocalizeValue() {
+		//NEEDS IPAD TEMPERATURE UNIT SET TO FAHRENHEIT
 		XCTAssertEqual(localizer.delocalizeTemperature(localized: 68.0), 20.0, accuracy: 0.5)
 	}
 
 	func testLocalizedValueString() {
+		//NEEDS IPAD TEMPERATURE UNIT SET TO FAHRENHEIT
 		XCTAssertEqual(localizer.localizedTemperatureString(unlocalizedValue: 20.0), "68°F")
 	}
 
