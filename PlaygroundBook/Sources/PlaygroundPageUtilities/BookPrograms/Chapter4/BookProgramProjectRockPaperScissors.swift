@@ -53,7 +53,7 @@ public final class BookProgramProjectRockPaperScissors: ProgramBase, Program {
             button(.r0),
             beq(21 + 3),
 
-            movi16(NotificationAddress.buttonA.rawValue, .r4),
+            movi16(DashboardItemType.ButtonA.rawValue, .r4),
             notify(address: .r4, value: .r4),
 
             movi16(Button.a.rawValue, .r0),
@@ -67,7 +67,7 @@ public final class BookProgramProjectRockPaperScissors: ProgramBase, Program {
     public func build() -> ProgramBuildResult {
 
         let notify_display: [UInt8] = [
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
         ].flatMap { $0 }
 

@@ -126,7 +126,7 @@ extension ProgrammableCalliope {
 
 	func updateSensorReading(_ value: Data) {
 
-		if let type = DashboardItemType(value: UInt16(value[1])) {
+		if let type = DashboardItemType(value: Int16(value[1])) {
 			LogNotify.log("received value \(value.subdata(in: 2..<value.count).hexEncodedString()) for \(type)")
 			let value = int8(Int(value[3]))
 

@@ -26,10 +26,10 @@ public final class BookProgramInputButtonB: ProgramBase, Program {
 			cmpi16(Button.b.rawValue, .r0),
 			rne(),
 			
-			movi16(NotificationAddress.buttonB.rawValue, .r4),
+			movi16(DashboardItemType.ButtonB.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			
-			movi16(NotificationAddress.display.rawValue, .r4),
+			movi16(DashboardItemType.Display.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			
 			movi16(image.rawValue, .r0),

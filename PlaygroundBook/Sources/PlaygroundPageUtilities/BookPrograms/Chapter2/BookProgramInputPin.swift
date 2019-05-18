@@ -23,16 +23,16 @@ public final class BookProgramInputPin: ProgramBase, Program {
 
 		let code: [UInt8] = [
 
-			movi16(NotificationAddress.pin.rawValue, .r4),
+			movi16(DashboardItemType.Pin.rawValue, .r4),
 			notify(address: .r4, value: .r0),
 
-			movi16(NotificationAddress.display.rawValue, .r4),
+			movi16(DashboardItemType.Display.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 
 			showNumber(.r0),
 			mov(.r0, .r2),
 
-			movi16(NotificationAddress.rgb.rawValue, .r4),
+			movi16(DashboardItemType.RGB.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			rgb_on(color: color),
 			mov(.r0, .r1),

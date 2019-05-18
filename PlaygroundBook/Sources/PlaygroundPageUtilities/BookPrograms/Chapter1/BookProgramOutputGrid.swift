@@ -34,7 +34,7 @@ public final class BookProgramOutputGrid: ProgramBase, Program {
 		
 		let code: [UInt8] = [
 			
-			movi16(NotificationAddress.display.rawValue, .r4),
+			movi16(DashboardItemType.Display.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			showGrid(image)
 			

@@ -84,11 +84,11 @@ public final class BookProgramProjectPiano: ProgramBase, Program {
 			check(pin: 3, color: color3, frequency: frequency3, offset: 1),
 			ret(),
 
-			movi16(NotificationAddress.pin.rawValue, .r4),
+			movi16(DashboardItemType.Pin.rawValue, .r4),
 			notify(address: .r4, value: .r1),
-			movi16(NotificationAddress.rgb.rawValue, .r4),
+			movi16(DashboardItemType.RGB.rawValue, .r4),
 			notify(address: .r4, value: .r4),
-			movi16(NotificationAddress.sound.rawValue, .r4),
+			movi16(DashboardItemType.Sound.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 
 			sound_on(.r2),

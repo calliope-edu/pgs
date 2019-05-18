@@ -36,7 +36,7 @@ public final class BookProgramCommandClear: ProgramBase, Program {
 
         let code: [UInt8] = [
 
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
 
             movi16(image.rawValue, .r0),

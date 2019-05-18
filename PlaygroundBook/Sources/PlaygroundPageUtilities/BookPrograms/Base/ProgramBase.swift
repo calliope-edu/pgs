@@ -9,25 +9,11 @@ public enum Register: UInt8 {
 }
 
 public enum Button: Int16 {
-    case a = 1, b, ab
+    case a = 1, b = 2, ab = 3
 }
 
 public enum Gesture: Int16 {
     case shake = 0x001b
-}
-
-public enum NotificationAddress: Int16 {
-    case display = 0x0000
-    case buttonA = 0x0001
-    case buttonB = 0x0002
-    case buttonAB = 0x0003
-    case rgb = 0x004
-    case sound = 0x005
-    case pin = 0x006
-    case shake = 0x007
-    case temperature = 0x008
-    case noise = 0x009
-    case light = 0x00a
 }
 
 public class ProgramBase {

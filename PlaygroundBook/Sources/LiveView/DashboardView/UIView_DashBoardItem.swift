@@ -2,7 +2,7 @@ import UIKit
 
 public struct DashboardItemType: Hashable {
 
-	let rawValue: UInt16
+	let rawValue: Int16
 
 	var intrinsicContentSize: CGSize {
 		switch self {
@@ -38,27 +38,27 @@ public struct DashboardItemType: Hashable {
 		return types[index]
 	}
 
-	private init(rawValue: UInt16) {
+	private init(rawValue: Int16) {
 		self.rawValue = rawValue
 	}
 
-	init?(value: UInt16) {
+	init?(value: Int16) {
 		guard (DashboardItemType.types.map { $0.rawValue }).contains(value) else { return nil }
 		self.init(rawValue: value)
 	}
 
-	public enum Output: UInt16, CaseIterable {
+	public enum Output: Int16, CaseIterable {
 		case Display = 0x0000
 		case RGB = 0x004
 		case Sound = 0x005
 	}
-	public enum Input: UInt16, CaseIterable {
+	public enum Input: Int16, CaseIterable {
 		case ButtonA = 0x0001
 		case ButtonB = 0x0002
 		case Pin = 0x006
 		case Shake = 0x007
 	}
-	public enum Sensor: UInt16, CaseIterable {
+	public enum Sensor: Int16, CaseIterable {
 		case Thermometer = 0x008
 		case Noise = 0x009
 		case Brightness = 0x00a
@@ -180,7 +180,7 @@ public class UIView_DashboardItem: UIView {
 		{ [weak self] (note) in
 			guard let this = self,
 				let userInfo = note.userInfo,
-				let typeValue = userInfo["type"] as? UInt16,
+				let typeValue = userInfo["type"] as? Int16,
 				let type = DashboardItemType(value: typeValue),
 				this.type == type,
 				let ani = this.container

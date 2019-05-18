@@ -26,7 +26,7 @@ public final class BookProgramOutputSound: ProgramBase, Program {
 			movi16(delay, .r0),
 			sleep(.r0),
 			
-			movi16(NotificationAddress.sound.rawValue, .r4),
+			movi16(DashboardItemType.Sound.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			
 			movi16(frequency, .r0),

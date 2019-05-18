@@ -96,9 +96,9 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 		return [
 			movi16(address, .r4),
 			notify(address: .r4, value: .r4),
-			movi16(NotificationAddress.display.rawValue, .r4),
+			movi16(DashboardItemType.Display.rawValue, .r4),
 			notify(address: .r4, value: .r4),
-			movi16(NotificationAddress.rgb.rawValue, .r4),
+			movi16(DashboardItemType.RGB.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			
 			rgb_on(color: color),
@@ -110,19 +110,19 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 	public func build() -> ProgramBuildResult {
 		
 		let buttonA: [UInt8] = gen_button(
-			address: NotificationAddress.buttonA.rawValue,
+			address: DashboardItemType.ButtonA.rawValue,
 			color: colorA,
 			image: imageA
 		)
 		
 		let buttonB: [UInt8] = gen_button(
-			address: NotificationAddress.buttonB.rawValue,
+			address: DashboardItemType.ButtonB.rawValue,
 			color: colorB,
 			image: imageB
 		)
 		
 		let buttonAB: [UInt8] = gen_button(
-			address: NotificationAddress.buttonAB.rawValue,
+			address: DashboardItemType.ButtonAB.rawValue,
 			color: colorAB,
 			image: imageAB
 		)
@@ -140,9 +140,9 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 			].flatMap { $0 }
 		
 		let onPin: [UInt8] = [
-			movi16(NotificationAddress.pin.rawValue, .r4),
+			movi16(DashboardItemType.Pin.rawValue, .r4),
 			notify(address: .r4, value: .r4),
-			movi16(NotificationAddress.display.rawValue, .r4),
+			movi16(DashboardItemType.Display.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			showNumber(.r0),
 			ret(),
@@ -152,9 +152,9 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 		let onShake: [UInt8] = [
 			cmpi16(Gesture.shake.rawValue, .r0),
 			rne(),
-			movi16(NotificationAddress.shake.rawValue, .r4),
+			movi16(DashboardItemType.Shake.rawValue, .r4),
 			notify(address: .r4, value: .r4),
-			movi16(NotificationAddress.sound.rawValue, .r4),
+			movi16(DashboardItemType.Sound.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			movi16(frequency, .r0),
 			sound_on(.r0),

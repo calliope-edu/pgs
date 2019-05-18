@@ -66,7 +66,7 @@ public final class BookProgramCommandLoops: ProgramBase, Program {
             movi16(stop, .r2),
             movi16(1, .r3),
 
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
             showNumber(.r1),
             sleep(.r0),

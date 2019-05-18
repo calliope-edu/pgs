@@ -43,7 +43,7 @@ public final class BookProgramCommandSleep: ProgramBase, Program {
     public func build() -> ProgramBuildResult {
 
         let notify_display: [UInt8] = [
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
         ].flatMap { $0 }
 

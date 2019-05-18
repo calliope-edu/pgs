@@ -37,7 +37,7 @@ public final class BookProgramProjectClap: ProgramBase, Program {
     func read() -> [UInt8] {
         return [
             noise(.r2),
-            movi16(NotificationAddress.noise.rawValue, .r4),
+            movi16(DashboardItemType.Noise.rawValue, .r4),
             notify(address: .r4, value: .r2),
         ].flatMap { $0 }
     }
@@ -81,14 +81,14 @@ public final class BookProgramProjectClap: ProgramBase, Program {
         let block: [UInt8] = [
             wait_for_clap,
 
-            movi16(NotificationAddress.rgb.rawValue, .r4),
+            movi16(DashboardItemType.RGB.rawValue, .r4),
             notify(address: .r4, value: .r4),
             rgb_on(color: color),
             d,
 
             wait_for_clap,
 
-            movi16(NotificationAddress.rgb.rawValue, .r4),
+            movi16(DashboardItemType.RGB.rawValue, .r4),
             notify(address: .r4, value: .r4),
             rgb_off(),
             d,

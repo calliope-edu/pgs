@@ -58,7 +58,7 @@ public final class BookProgramProjectDice: ProgramBase, Program {
 
             cmpi16(Gesture.shake.rawValue, .r0),
             rne(),
-            movi16(NotificationAddress.shake.rawValue, .r4),
+            movi16(DashboardItemType.Shake.rawValue, .r4),
             notify(address: .r4, value: .r4),
 
             movi16(start, .r1),
@@ -67,7 +67,7 @@ public final class BookProgramProjectDice: ProgramBase, Program {
             random(.r2),
             add(.r1, .r2),
 
-            movi16(NotificationAddress.sound.rawValue, .r4),
+            movi16(DashboardItemType.Sound.rawValue, .r4),
             notify(address: .r4, value: .r4),
 
             movi16(frequency, .r0),
@@ -76,7 +76,7 @@ public final class BookProgramProjectDice: ProgramBase, Program {
             sleep(.r0),
             sound_off(),
 
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
             showNumber(.r2),
 

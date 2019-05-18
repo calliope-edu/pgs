@@ -59,7 +59,7 @@ public final class BookProgramCommandForever: ProgramBase, Program {
 		].flatMap { $0 }
 
         let code: [UInt8] = [
-            movi16(NotificationAddress.rgb.rawValue, .r4),
+            movi16(DashboardItemType.RGB.rawValue, .r4),
             notify(address: .r4, value: .r4),
             rgb_on(color: color),
             wait,

@@ -92,7 +92,7 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
 
     func show(color: UIColor) -> [UInt8] {
         return [
-            movi16(NotificationAddress.rgb.rawValue, .r4),
+            movi16(DashboardItemType.RGB.rawValue, .r4),
             notify(address: .r4, value: .r4),
             rgb_on(color: color),
         ].flatMap { $0 }
@@ -100,7 +100,7 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
 
     func show(image: miniImage) -> [UInt8] {
         return [
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
             movi16(image.rawValue, .r0),
             showImage(.r0),
@@ -112,7 +112,7 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
     func read() -> [UInt8] {
         return [
             temperature(.r1),
-            movi16(NotificationAddress.temperature.rawValue, .r4),
+            movi16(DashboardItemType.Thermometer.rawValue, .r4),
             notify(address: .r4, value: .r1),
         ].flatMap { $0 }
     }

@@ -81,10 +81,10 @@ public final class BookProgramCommandConditionals: ProgramBase, Program {
 
             cmpi16(Gesture.shake.rawValue, .r0),
             rne(),
-            movi16(NotificationAddress.shake.rawValue, .r4),
+            movi16(DashboardItemType.Shake.rawValue, .r4),
             notify(address: .r4, value: .r4),
 
-			movi16(NotificationAddress.display.rawValue, .r4),
+			movi16(DashboardItemType.Display.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 
 			movi16(start, .r1),

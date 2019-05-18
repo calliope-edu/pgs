@@ -50,12 +50,12 @@ public final class BookProgramOutputCombination: ProgramBase, Program {
 	func show(frequency: Int16, color: UIColor) -> [UInt8] {
 		return [
 
-			movi16(NotificationAddress.rgb.rawValue, .r4),
+			movi16(DashboardItemType.RGB.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 
 			rgb_on(color: color),
 
-			movi16(NotificationAddress.sound.rawValue, .r4),
+			movi16(DashboardItemType.Sound.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 
 			movi16(frequency, .r0),
@@ -80,11 +80,11 @@ public final class BookProgramOutputCombination: ProgramBase, Program {
 
 			rgb_off(),
 
-			movi16(NotificationAddress.display.rawValue, .r4),
+			movi16(DashboardItemType.Display.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			showText(s),
 
-			movi16(NotificationAddress.display.rawValue, .r4),
+			movi16(DashboardItemType.Display.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			movi16(image.rawValue, .r0),
 			showImage(.r0),
