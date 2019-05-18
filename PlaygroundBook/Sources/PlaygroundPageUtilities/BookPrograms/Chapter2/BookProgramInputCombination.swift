@@ -129,15 +129,14 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 		
 		let onButton: [UInt8] = [
 			cmpi16(Button.a.rawValue, .r0),
-			beq(13),
-			cmpi16(Button.b.rawValue, .r0),
-			beq(Int8(7 + buttonA.count)),
-			cmpi16(Button.ab.rawValue, .r0),
-			beq(Int8(1 + buttonA.count + buttonB.count)),
-			ret(),
-			buttonA,
-			buttonB,
-			buttonAB,
+			beq(onTrue: buttonA,
+				onFalse: [cmpi16(Button.b.rawValue, .r0),
+						  beq(onTrue: buttonB,
+							  onFalse: [cmpi16(Button.ab.rawValue, .r0),
+										beq(onTrue: buttonAB,
+											onFalse: ret())]
+								.flatMap { $0 })]
+					.flatMap { $0 })
 			].flatMap { $0 }
 		
 		let onPin: [UInt8] = [

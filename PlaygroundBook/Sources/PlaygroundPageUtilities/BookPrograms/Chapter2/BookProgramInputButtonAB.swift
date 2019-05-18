@@ -19,7 +19,7 @@ public final class BookProgramInputButtonAB: ProgramBase, Program {
     public var image: miniImage = .smiley
 
     public func build() -> ProgramBuildResult {
-        let delay: Int16 = 200
+        let delay: Int16 = 500
 
         let code: [UInt8] = [
 

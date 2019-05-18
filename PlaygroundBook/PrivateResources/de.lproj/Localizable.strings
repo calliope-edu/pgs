@@ -100,6 +100,7 @@
 "bookProgramCommandConditionals.startNotLowerStop" = "Der Start muss niedriger als das Ende sein";
 "bookProgramCommandConditionals.hintNoAsciiTextTrue" = "Benutzt du Emojis, äöü oder Sonderzeichen?";
 "bookProgramProjectDice.startNotOneFirstHint" = "Was ist die kleinste Zahl auf einem Spielwürfel?";
+"bookProgramCommandLoops.hintTooHighStop" = "Zu hoher Maximalwert";
 "bookProgramProjectDice.hintTooShortSleep" = "Kannst du etwas sehen, das schneller als eine Zehntelsekunde dauert?";
 "bookProgramProjectRockPaperScissors.hintTooShortSleep" = "Kannst du etwas sehen, das schneller als eine Zehntelsekunde dauert?";
 "bookProgramProjectClap.hintTooLowClapThreshold" = "Stille ist kein Klatschen";

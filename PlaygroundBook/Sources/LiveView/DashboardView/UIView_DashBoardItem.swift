@@ -31,7 +31,7 @@ public struct DashboardItemType: Hashable {
 	static let Noise = DashboardItemType(rawValue: Sensor.Noise.rawValue)
 	static let Brightness = DashboardItemType(rawValue: Sensor.Brightness.rawValue)
 
-	static let types: [DashboardItemType] = [.Display, .RGB, .Sound, .ButtonA, .ButtonB, .Pin, .Shake, .Noise, .Brightness, .Thermometer]
+	static let types: [DashboardItemType] = [.Display, .RGB, .Sound, .ButtonA, .ButtonB, .ButtonAB, .Pin, .Shake, .Thermometer, .Noise, .Brightness]
 
 	static func random() -> DashboardItemType {
 		let index = Int(arc4random_uniform(UInt32(types.count)))

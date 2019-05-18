@@ -18,6 +18,10 @@ public final class BookProgramProjectDice: ProgramBase, Program {
 			return (.fail(hints: [], solution: ""), nil)
 		}
 
+		guard stop < Int16.max else {
+			return (.fail(hints: ["bookProgramProjectDice.hintTooHighStop"], solution: solution), nil)
+		}
+
 		guard let freq = miniSound(from: values[2]) else {
 			return (.fail(hints: [], solution: ""), nil)
 		}

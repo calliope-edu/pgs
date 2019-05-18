@@ -23,15 +23,28 @@ public final class BookProgramCommandForever: ProgramBase, Program {
 			return (.fail(hints: ["bookProgramCommandForever.hintTooLongSleep"], solution: solution), nil)
 		}
 
+		guard let delayOff = UInt16(values[2]) else {
+			return (.fail(hints: [], solution: solution), nil)
+		}
+
+		guard delay > 100 else {
+			return (.fail(hints: ["bookProgramCommandForever.hintTooShortSleep"], solution: solution), nil)
+		}
+		guard delay < 30000 else {
+			return (.fail(hints: ["bookProgramCommandForever.hintTooLongSleep"], solution: solution), nil)
+		}
+
 		let p = BookProgramCommandForever()
 		p.color = mColor.color
 		p.delay = Int16(delay)
+		p.delayOff = Int16(delayOff)
 
 		return (.pass(message: success), p)
 	}
 
 	public var color: UIColor = .red
     public var delay: Int16 = 200
+	public var delayOff: Int16 = 200
 
     public func build() -> ProgramBuildResult {
 
@@ -40,13 +53,18 @@ public final class BookProgramCommandForever: ProgramBase, Program {
             sleep(.r0),
         ].flatMap { $0 }
 
+		let waitOff: [UInt8] = [
+			movi16(delayOff, .r0),
+			sleep(.r0),
+		].flatMap { $0 }
+
         let code: [UInt8] = [
             movi16(NotificationAddress.rgb.rawValue, .r4),
             notify(address: .r4, value: .r4),
             rgb_on(color: color),
             wait,
             rgb_off(),
-            wait,
+            waitOff,
         ].flatMap { $0 }
 
         let methods: [UInt16] = [

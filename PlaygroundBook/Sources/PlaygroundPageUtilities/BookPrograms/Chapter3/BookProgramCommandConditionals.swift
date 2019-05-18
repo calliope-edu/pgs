@@ -44,7 +44,7 @@ public final class BookProgramCommandConditionals: ProgramBase, Program {
 			return (.fail(hints: ["bookProgramCommandConditionals.hintNoAsciiTextTrue".localized], solution: solution), nil)
 		}
 
-		let s2 = values[3]
+		let s2 = values[4]
 		guard s2.unicodeScalars.reduce(true, { (isAscii, char) in isAscii && char.isASCII }) else {
 			//user can accidentially input characters that cannot be displayed
 			return (.fail(hints: ["bookProgramCommandConditionals.hintNoAsciiTextFalse".localized], solution: solution), nil)
@@ -84,19 +84,17 @@ public final class BookProgramCommandConditionals: ProgramBase, Program {
             movi16(NotificationAddress.shake.rawValue, .r4),
             notify(address: .r4, value: .r4),
 
-            movi16(start, .r1),
-            movi16(stop + 1, .r2),
-            sub(.r1, .r2),
-            random(.r2),
-            add(.r1, .r2),
+			movi16(NotificationAddress.display.rawValue, .r4),
+			notify(address: .r4, value: .r4),
 
-            movi16(NotificationAddress.display.rawValue, .r4),
-            notify(address: .r4, value: .r4),
+			movi16(start, .r1),
+			movi16(stop + 1, .r2),
+			sub(.r1, .r2),
+			random(.r2),
+			add(.r1, .r2),
 
-            cmpi16(r, .r2),
-            bne(Int8(printTrue.count)),
-            printTrue +
-            printFalse
+			cmpi16(r, .r2),
+			beq(onTrue: printTrue, onFalse: printFalse)
 
         ].flatMap { $0 }
 
