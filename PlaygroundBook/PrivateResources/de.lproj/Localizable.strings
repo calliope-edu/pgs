@@ -80,7 +80,7 @@
 "bookProgramOutputGrid.tooManyOrFewEntries" = "Zähl mal die LEDs auf deinem Calliope, und prüfe die Zahl der Einträge in deiner Eingabe";
 "bookProgramOutputCombination.hintNoAscii" = "Benutzt du Emojis, äöü oder Sonderzeichen?";
 "bookProgramInputShake.hintNoAscii" = "Benutzt du Emojis, äöü oder Sonderzeichen?";
-"bookProgramInputCombination.tooManyOrFewEntriesImage1" = "bookProgramOutputGrid.otherThanZeroOrOne";
+"bookProgramInputCombination.tooManyOrFewEntriesImage1" = "1 schaltet die LED an, 0 schaltet sie aus. Es gibt nichts anderes was eine LED machen kann!";
 "bookProgramInputCombination.tooManyOrFewEntriesImage2" = "Zähl mal die LEDs auf deinem Calliope, und prüfe die Zahl der Einträge in deiner Eingabe";
 "bookProgramInputCombination.tooManyOrFewEntriesImage3" = "Zähl mal die LEDs auf deinem Calliope, und prüfe die Zahl der Einträge in deiner Eingabe";
 "bookProgramCommandStart.hintNoAscii" = "Benutzt du Emojis, äöü oder Sonderzeichen?";
