@@ -203,6 +203,21 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			guard let gesture = action else { return }
 			self.gestureNotification(gesture)
 		}
+
+		calliope.temperatureUpdateFrequency = 10000
+		calliope.temperatureNotification = {_ in }
+		updateBrightness(calliope)
+		updateNoise(calliope)
+	}
+
+	func updateNoise(_ calliope: ApiCalliope) {
+		_ = calliope.noiseLevel
+		delay(time: 2) { self.updateNoise(calliope) }
+	}
+
+	func updateBrightness(_ calliope: ApiCalliope) {
+		_ = calliope.brightness
+		delay(time: 10) { self.updateBrightness(calliope) }
 	}
 
 	func convertGrid(_ grid: [UInt8]) -> [[Bool]] {
