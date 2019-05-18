@@ -6,7 +6,7 @@
 	<string>1.0</string>
 	<key>Name</key>
 	<string>Calliope mini free programming</string>
-	<key>InitialUserPages</key>
+	<key>Pages</key>
 	<array>
 		<string>Page1.playgroundpage</string>
 	</array>
