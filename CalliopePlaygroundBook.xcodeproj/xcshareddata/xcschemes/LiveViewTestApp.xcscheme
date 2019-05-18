@@ -17,7 +17,7 @@
                BlueprintIdentifier = "5EA2E3BC2056F35A00416A35"
                BuildableName = "LiveViewTestApp.app"
                BlueprintName = "LiveViewTestApp"
-               ReferencedContainer = "container:PlaygroundBook.xcodeproj">
+               ReferencedContainer = "container:CalliopePlaygroundBook.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "2FEC8C5E21A1ACCF004C27B8"
                BuildableName = "BookSourcesTests.xctest"
                BlueprintName = "BookSourcesTests"
-               ReferencedContainer = "container:PlaygroundBook.xcodeproj">
+               ReferencedContainer = "container:CalliopePlaygroundBook.xcodeproj">
             </BuildableReference>
             <SkippedTests>
                <Test
@@ -53,7 +53,7 @@
             BlueprintIdentifier = "5EA2E3BC2056F35A00416A35"
             BuildableName = "LiveViewTestApp.app"
             BlueprintName = "LiveViewTestApp"
-            ReferencedContainer = "container:PlaygroundBook.xcodeproj">
+            ReferencedContainer = "container:CalliopePlaygroundBook.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -76,7 +76,7 @@
             BlueprintIdentifier = "5EA2E3BC2056F35A00416A35"
             BuildableName = "LiveViewTestApp.app"
             BlueprintName = "LiveViewTestApp"
-            ReferencedContainer = "container:PlaygroundBook.xcodeproj">
+            ReferencedContainer = "container:CalliopePlaygroundBook.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -95,7 +95,7 @@
             BlueprintIdentifier = "5EA2E3BC2056F35A00416A35"
             BuildableName = "LiveViewTestApp.app"
             BlueprintName = "LiveViewTestApp"
-            ReferencedContainer = "container:PlaygroundBook.xcodeproj">
+            ReferencedContainer = "container:CalliopePlaygroundBook.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
