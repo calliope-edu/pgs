@@ -15,23 +15,23 @@ public final class BookProgramCommandConditionals: ProgramBase, Program {
 		}
 
 		guard start > Int16.min else {
-			return (.fail(hints: ["bookProgramCommandConditionals.hintTooLowStart"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandConditionals.hintTooLowStart".localized], solution: solution), nil)
 		}
 
 		guard start < Int16.max - 1 else {
-			return (.fail(hints: ["bookProgramCommandConditionals.hintTooHighStart"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandConditionals.hintTooHighStart".localized], solution: solution), nil)
 		}
 
 		guard stop > Int16.min + 1 else {
-			return (.fail(hints: ["bookProgramCommandConditionals.hintTooLowStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandConditionals.hintTooLowStop".localized], solution: solution), nil)
 		}
 
 		guard stop < Int16.max else {
-			return (.fail(hints: ["bookProgramCommandConditionals.hintTooHighStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandConditionals.hintTooHighStop".localized], solution: solution), nil)
 		}
 
 		guard start < stop else {
-			return (.fail(hints: ["bookProgramCommandConditionals.startNotLowerStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandConditionals.startNotLowerStop".localized], solution: solution), nil)
 		}
 
 		guard let r = Int(values[2]) else {

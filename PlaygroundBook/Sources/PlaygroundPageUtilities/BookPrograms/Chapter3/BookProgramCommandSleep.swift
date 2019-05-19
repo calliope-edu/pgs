@@ -17,10 +17,10 @@ public final class BookProgramCommandSleep: ProgramBase, Program {
 		}
 
 		guard delay > 100 else {
-			return (.fail(hints: ["bookProgramCommandSleep.hintTooShortSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandSleep.hintTooShortSleep".localized], solution: solution), nil)
 		}
 		guard delay < 30000 else {
-			return (.fail(hints: ["bookProgramCommandSleep.hintTooLongSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandSleep.hintTooLongSleep".localized], solution: solution), nil)
 		}
 
 		guard let img2 = miniImage(from: values[2]) else {

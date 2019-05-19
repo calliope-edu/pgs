@@ -47,11 +47,11 @@ public final class BookProgramProjectThermometer: ProgramBase, Program {
 
 		guard temp_cold_converted >= 0 && temp_cold_converted <= 100,
 			temp_normal_converted >= 0 && temp_normal_converted <= 100 else {
-				return (.fail(hints: ["bookProgramProjectThermometer.hintTemperatureNotBetween0And100"], solution: solution), nil)
+				return (.fail(hints: ["bookProgramProjectThermometer.hintTemperatureNotBetween0And100".localized], solution: solution), nil)
 		}
 
 		guard temp_cold < temp_normal else {
-			return (.fail(hints: ["bookProgramProjectThermometer.hintColdNotLowerNormalTemp"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectThermometer.hintColdNotLowerNormalTemp".localized], solution: solution), nil)
 		}
 
 		let p = BookProgramProjectThermometer()

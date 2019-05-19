@@ -17,7 +17,7 @@ public final class BookProgramCommandVariables: ProgramBase, Program {
 		}
 
 		guard age < 200 else {
-			return (.fail(hints: ["bookProgramCommandVariables.hintTooOld"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandVariables.hintTooOld".localized], solution: solution), nil)
 		}
 
 		let p = BookProgramCommandVariables()

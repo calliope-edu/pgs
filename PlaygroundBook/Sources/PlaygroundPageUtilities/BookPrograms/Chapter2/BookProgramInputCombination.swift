@@ -12,11 +12,11 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 		
 		let image1:[UInt8] = values[o+0...o+24].compactMap{ UInt8($0) }
 		guard image1.count == 25 else {
-			return (.fail(hints: ["bookProgramInputCombination.tooManyOrFewEntriesImage1"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramInputCombination.tooManyOrFewEntriesImage1".localized], solution: solution), nil)
 		}
 
 		guard image1.reduce(true, { (isGrid, entry) in isGrid && entry < 2 }) else {
-			return (.fail(hints: ["bookProgramInputCombination.otherThanZeroOrOneImage1"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramInputCombination.otherThanZeroOrOneImage1".localized], solution: solution), nil)
 		}
 		guard let mColor1 = miniColor(from: values[o+25]) else {
 			return (.fail(hints: [], solution: ""), nil)
@@ -25,11 +25,11 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 		
 		let image2:[UInt8] = values[o+0...o+24].compactMap{ UInt8($0) }
 		guard image2.count == 25 else {
-			return (.fail(hints: ["bookProgramInputCombination.tooManyOrFewEntriesImage2"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramInputCombination.tooManyOrFewEntriesImage2".localized], solution: solution), nil)
 		}
 
 		guard image2.reduce(true, { (isGrid, entry) in isGrid && entry < 2 }) else {
-			return (.fail(hints: ["bookProgramInputCombination.otherThanZeroOrOneImage2"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramInputCombination.otherThanZeroOrOneImage2".localized], solution: solution), nil)
 		}
 		guard let mColor2 = miniColor(from: values[o+25]) else {
 			return (.fail(hints: [], solution: ""), nil)
@@ -38,11 +38,11 @@ public final class BookProgramInputCombination: ProgramBase, Program {
 		
 		let image3:[UInt8] = values[o+0...o+24].compactMap{ UInt8($0) }
 		guard image3.count == 25 else {
-			return (.fail(hints: ["bookProgramInputCombination.tooManyOrFewEntriesImage3"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramInputCombination.tooManyOrFewEntriesImage3".localized], solution: solution), nil)
 		}
 
 		guard image3.reduce(true, { (isGrid, entry) in isGrid && entry < 2 }) else {
-			return (.fail(hints: ["bookProgramInputCombination.otherThanZeroOrOneImage3"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramInputCombination.otherThanZeroOrOneImage3".localized], solution: solution), nil)
 		}
 		guard let mColor3 = miniColor(from: values[o+25]) else {
 			return (.fail(hints: [], solution: ""), nil)

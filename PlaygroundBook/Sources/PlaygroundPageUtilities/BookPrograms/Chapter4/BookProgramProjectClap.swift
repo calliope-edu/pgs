@@ -13,10 +13,10 @@ public final class BookProgramProjectClap: ProgramBase, Program {
 		}
 
 		guard threshold > 0 else {
-			return (.fail(hints: ["bookProgramProjectClap.hintTooLowClapThreshold"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectClap.hintTooLowClapThreshold".localized], solution: solution), nil)
 		}
 		guard threshold < 30000 else {
-			return (.fail(hints: ["bookProgramProjectClap.hintTooHighClapThreshold"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectClap.hintTooHighClapThreshold".localized], solution: solution), nil)
 		}
 
 		guard let mColor = miniColor(from: values[1]) else {

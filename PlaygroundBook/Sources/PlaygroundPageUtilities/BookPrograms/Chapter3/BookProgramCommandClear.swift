@@ -16,10 +16,10 @@ public final class BookProgramCommandClear: ProgramBase, Program {
 		}
 
 		guard delay > 100 else {
-			return (.fail(hints: ["bookProgramCommandClear.hintTooShortSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandClear.hintTooShortSleep".localized], solution: solution), nil)
 		}
 		guard delay < 30000 else {
-			return (.fail(hints: ["bookProgramCommandClear.hintTooLongSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandClear.hintTooLongSleep".localized], solution: solution), nil)
 		}
 
 		let p = BookProgramCommandClear()

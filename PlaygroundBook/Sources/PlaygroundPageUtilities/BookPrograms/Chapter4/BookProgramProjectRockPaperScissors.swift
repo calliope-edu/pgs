@@ -11,10 +11,10 @@ public final class BookProgramProjectRockPaperScissors: ProgramBase, Program {
 		}
 
 		guard delay > 100 else {
-			return (.fail(hints: ["bookProgramProjectRockPaperScissors.hintTooShortSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectRockPaperScissors.hintTooShortSleep".localized], solution: solution), nil)
 		}
 		guard delay < 30000 else {
-			return (.fail(hints: ["bookProgramProjectRockPaperScissors.hintTooLongSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectRockPaperScissors.hintTooLongSleep".localized], solution: solution), nil)
 		}
 
 		guard let img1 = miniImage(from: values[1]) else {

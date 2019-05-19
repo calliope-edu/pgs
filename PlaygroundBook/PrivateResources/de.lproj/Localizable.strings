@@ -5,7 +5,7 @@
 "result.upload.success" = "Das Programm wurde erfolgreich übertragen.";
 
 "alert.notconnected.title" = "Dein Calliope mini ist nicht verbunden.";
-"alert.notconnected.button" = "Hmmm, OK";
+"alert.notconnected.button" = "Alles klar!";
 "ble.name.unknown" = "Unbekannt";
 
 "page.hint1" = "Tip 1";

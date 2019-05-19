@@ -11,7 +11,7 @@ public final class BookProgramProjectDice: ProgramBase, Program {
 		}
 
 		guard start == 1 else {
-			return (.fail(hints: ["bookProgramProjectDice.startNotOneFirstHint", "bookProgramProjectDice.startNotOneSecondHint"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectDice.startNotOneFirstHint".localized, "bookProgramProjectDice.startNotOneSecondHint".localized], solution: solution), nil)
 		}
 
 		guard let stop = Int(values[1]) else {
@@ -19,7 +19,7 @@ public final class BookProgramProjectDice: ProgramBase, Program {
 		}
 
 		guard stop < Int16.max else {
-			return (.fail(hints: ["bookProgramProjectDice.hintTooHighStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectDice.hintTooHighStop".localized], solution: solution), nil)
 		}
 
 		guard let freq = miniSound(from: values[2]) else {
@@ -31,10 +31,10 @@ public final class BookProgramProjectDice: ProgramBase, Program {
 		}
 
 		guard delay > 100 else {
-			return (.fail(hints: ["bookProgramProjectDice.hintTooShortSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectDice.hintTooShortSleep".localized], solution: solution), nil)
 		}
 		guard delay < 30000 else {
-			return (.fail(hints: ["bookProgramProjectDice.hintTooLongSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectDice.hintTooLongSleep".localized], solution: solution), nil)
 		}
 
 		let p = BookProgramProjectDice()

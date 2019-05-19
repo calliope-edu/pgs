@@ -15,23 +15,23 @@ public final class BookProgramCommandRandom: ProgramBase, Program {
 		}
 
 		guard start > Int16.min else {
-			return (.fail(hints: ["bookProgramCommandRandom.hintTooLowStart"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandRandom.hintTooLowStart".localized], solution: solution), nil)
 		}
 
 		guard start < Int16.max - 1 else {
-			return (.fail(hints: ["bookProgramCommandRandom.hintTooHighStart"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandRandom.hintTooHighStart".localized], solution: solution), nil)
 		}
 
 		guard stop > Int16.min + 1 else {
-			return (.fail(hints: ["bookProgramCommandRandom.hintTooLowStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandRandom.hintTooLowStop".localized], solution: solution), nil)
 		}
 
 		guard stop < Int16.max else {
-			return (.fail(hints: ["bookProgramCommandRandom.hintTooHighStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandRandom.hintTooHighStop".localized], solution: solution), nil)
 		}
 
 		guard start < stop else {
-			return (.fail(hints: ["bookProgramCommandRandom.startNotLowerStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandRandom.startNotLowerStop".localized], solution: solution), nil)
 		}
 
 

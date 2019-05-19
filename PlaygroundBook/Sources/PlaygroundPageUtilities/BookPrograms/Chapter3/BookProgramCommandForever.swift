@@ -17,10 +17,10 @@ public final class BookProgramCommandForever: ProgramBase, Program {
 		}
 
 		guard delay > 100 else {
-			return (.fail(hints: ["bookProgramCommandForever.hintTooShortSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandForever.hintTooShortSleep".localized], solution: solution), nil)
 		}
 		guard delay < 30000 else {
-			return (.fail(hints: ["bookProgramCommandForever.hintTooLongSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandForever.hintTooLongSleep".localized], solution: solution), nil)
 		}
 
 		guard let delayOff = UInt16(values[2]) else {
@@ -28,10 +28,10 @@ public final class BookProgramCommandForever: ProgramBase, Program {
 		}
 
 		guard delay > 100 else {
-			return (.fail(hints: ["bookProgramCommandForever.hintTooShortSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandForever.hintTooShortSleep".localized], solution: solution), nil)
 		}
 		guard delay < 30000 else {
-			return (.fail(hints: ["bookProgramCommandForever.hintTooLongSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandForever.hintTooLongSleep".localized], solution: solution), nil)
 		}
 
 		let p = BookProgramCommandForever()
