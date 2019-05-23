@@ -9,11 +9,11 @@ public final class BookProgramOutputGrid: ProgramBase, Program {
 		let grid:[UInt8] = values.compactMap { UInt8($0) }
 		
 		guard grid.count == 25 else {
-			return (.fail(hints: ["bookProgramOutputGrid.tooManyOrFewEntries"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramOutputGrid.tooManyOrFewEntries".localized], solution: solution), nil)
 		}
 
 		guard grid.reduce(true, { (isGrid, entry) in isGrid && entry < 2 }) else {
-			return (.fail(hints: ["bookProgramOutputGrid.otherThanZeroOrOne"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramOutputGrid.otherThanZeroOrOne".localized], solution: solution), nil)
 		}
 		
 		let p = BookProgramOutputGrid()
@@ -34,7 +34,7 @@ public final class BookProgramOutputGrid: ProgramBase, Program {
 		
 		let code: [UInt8] = [
 			
-			movi16(NotificationAddress.display.rawValue, .r4),
+			movi16(DashboardItemType.Display.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			showGrid(image)
 			

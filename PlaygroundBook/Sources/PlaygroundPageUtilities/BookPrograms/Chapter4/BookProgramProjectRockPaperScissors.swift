@@ -11,10 +11,10 @@ public final class BookProgramProjectRockPaperScissors: ProgramBase, Program {
 		}
 
 		guard delay > 100 else {
-			return (.fail(hints: ["bookProgramProjectRockPaperScissors.hintTooShortSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectRockPaperScissors.hintTooShortSleep".localized], solution: solution), nil)
 		}
 		guard delay < 30000 else {
-			return (.fail(hints: ["bookProgramProjectRockPaperScissors.hintTooLongSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectRockPaperScissors.hintTooLongSleep".localized], solution: solution), nil)
 		}
 
 		guard let img1 = miniImage(from: values[1]) else {
@@ -53,7 +53,7 @@ public final class BookProgramProjectRockPaperScissors: ProgramBase, Program {
             button(.r0),
             beq(21 + 3),
 
-            movi16(NotificationAddress.buttonA.rawValue, .r4),
+            movi16(DashboardItemType.ButtonA.rawValue, .r4),
             notify(address: .r4, value: .r4),
 
             movi16(Button.a.rawValue, .r0),
@@ -67,7 +67,7 @@ public final class BookProgramProjectRockPaperScissors: ProgramBase, Program {
     public func build() -> ProgramBuildResult {
 
         let notify_display: [UInt8] = [
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
         ].flatMap { $0 }
 

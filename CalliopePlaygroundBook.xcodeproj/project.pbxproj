@@ -58,6 +58,7 @@
 		2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27131021FC8B80007A1584 /* DataExtensionTest.swift */; };
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
 		2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */; };
+		2F5597D6229163C2008E9D94 /* LocalizationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5597D5229163C2008E9D94 /* LocalizationTest.swift */; };
 		2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
 		2F666BFA222149BE00533040 /* ApiCallEncodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666BF9222149BE00533040 /* ApiCallEncodings.swift */; };
 		2F666BFC22214B0F00533040 /* BluetoothConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F666BFB22214B0F00533040 /* BluetoothConstants.swift */; };
@@ -91,7 +92,7 @@
 		2F9FAACA21FF49240076B737 /* Encodings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8855BA3B20A06490009646CC /* Encodings.swift */; };
 		2F9FAACC21FF4CB40076B737 /* ApiCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FAACB21FF4CB40076B737 /* ApiCalls.swift */; };
 		2FCB133D21C3E25F00500EC1 /* MatrixView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133C21C3E25F00500EC1 /* MatrixView.swift */; };
-		2FCEEBE42275A40600F22146 /* Calliope mini.playgroundbook in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */; };
+		2FCEEBE42275A40600F22146 /* Calliope mini.playgroundbook in Copy Playgroundbook to iCloud Drive */ = {isa = PBXBuildFile; fileRef = 5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */; };
 		2FDC68D521C463D8001163D3 /* MatrixConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCB133921C3DC8300500EC1 /* MatrixConnectionViewController.swift */; };
 		2FDC68E921C6B426001163D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68E821C6B426001163D3 /* Assets.xcassets */; };
 		2FDC68EA21C6B436001163D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2FDC68E821C6B426001163D3 /* Assets.xcassets */; };
@@ -190,14 +191,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		2FCEEBE22275A13200F22146 /* CopyFiles */ = {
+		2FCEEBE22275A13200F22146 /* Copy Playgroundbook to iCloud Drive */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "$HOME/Library/Mobile Documents/iCloud~com~apple~Playgrounds/Documents";
 			dstSubfolderSpec = 0;
 			files = (
-				2FCEEBE42275A40600F22146 /* Calliope mini.playgroundbook in CopyFiles */,
+				2FCEEBE42275A40600F22146 /* Calliope mini.playgroundbook in Copy Playgroundbook to iCloud Drive */,
 			);
+			name = "Copy Playgroundbook to iCloud Drive";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5E086DD22051E35D004D8D25 /* Copy Book Contents */ = {
@@ -250,6 +252,7 @@
 		2F27131021FC8B80007A1584 /* DataExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTest.swift; sourceTree = "<group>"; };
 		2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_CBUUID.swift; sourceTree = "<group>"; };
 		2F44603E21CEA403002D15DF /* ConnectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionButton.swift; sourceTree = "<group>"; };
+		2F5597D5229163C2008E9D94 /* LocalizationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTest.swift; sourceTree = "<group>"; };
 		2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundValueKeys.swift; sourceTree = "<group>"; };
 		2F666BF9222149BE00533040 /* ApiCallEncodings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCallEncodings.swift; sourceTree = "<group>"; };
 		2F666BFB22214B0F00533040 /* BluetoothConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothConstants.swift; sourceTree = "<group>"; };
@@ -536,6 +539,7 @@
 				2FEB5D9921EB641300FCBF7D /* ProgrammableCalliopeTest.swift */,
 				2FEB5D9B21EB79E900FCBF7D /* ApiCalliopeTest.swift */,
 				2F27131021FC8B80007A1584 /* DataExtensionTest.swift */,
+				2F5597D5229163C2008E9D94 /* LocalizationTest.swift */,
 			);
 			path = BookSourcesTests;
 			sourceTree = "<group>";
@@ -849,13 +853,13 @@
 			productReference = 2FEC8C5F21A1ACCF004C27B8 /* BookSourcesTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		5E086DBF2051C5A7004D8D25 /* PlaygroundBook */ = {
+		5E086DBF2051C5A7004D8D25 /* CalliopePlaygroundBook */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5E086DC52051C5A7004D8D25 /* Build configuration list for PBXNativeTarget "PlaygroundBook" */;
+			buildConfigurationList = 5E086DC52051C5A7004D8D25 /* Build configuration list for PBXNativeTarget "CalliopePlaygroundBook" */;
 			buildPhases = (
 				5E086DD22051E35D004D8D25 /* Copy Book Contents */,
 				5E086DC62051DB17004D8D25 /* Resources */,
-				2FCEEBE22275A13200F22146 /* CopyFiles */,
+				2FCEEBE22275A13200F22146 /* Copy Playgroundbook to iCloud Drive */,
 			);
 			buildRules = (
 				5E086DD42051E415004D8D25 /* PBXBuildRule */,
@@ -863,7 +867,7 @@
 			dependencies = (
 				5EF2F9B52054BDD100191409 /* PBXTargetDependency */,
 			);
-			name = PlaygroundBook;
+			name = CalliopePlaygroundBook;
 			productName = PlaygroundBook;
 			productReference = 5E086DC02051C5A7004D8D25 /* Calliope mini.playgroundbook */;
 			productType = "com.apple.product-type.bundle";
@@ -931,7 +935,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5E2A7AE0204F611300F4E17A /* Build configuration list for PBXProject "PlaygroundBook" */;
+			buildConfigurationList = 5E2A7AE0204F611300F4E17A /* Build configuration list for PBXProject "CalliopePlaygroundBook" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = de;
 			hasScannedForEncodings = 0;
@@ -945,7 +949,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5E086DBF2051C5A7004D8D25 /* PlaygroundBook */,
+				5E086DBF2051C5A7004D8D25 /* CalliopePlaygroundBook */,
 				5EF2F9AA2054BBF300191409 /* Book_Sources */,
 				5EA2E3BC2056F35A00416A35 /* LiveViewTestApp */,
 				2FEC8C5E21A1ACCF004C27B8 /* BookSourcesTests */,
@@ -1024,6 +1028,7 @@
 			files = (
 				2FEC8C6221A1ACCF004C27B8 /* BookSourcesTests.swift in Sources */,
 				2FEB5D9C21EB79E900FCBF7D /* ApiCalliopeTest.swift in Sources */,
+				2F5597D6229163C2008E9D94 /* LocalizationTest.swift in Sources */,
 				2FEC8C6B21A1AD57004C27B8 /* ValueLocalizerTests.swift in Sources */,
 				2FF83D9521BDBC33007BC9D8 /* CalliopeBLEDeviceTest.swift in Sources */,
 				2F157B2421BBED9B00E6EB68 /* CalliopeBLEDiscoveryTest.swift in Sources */,
@@ -1152,7 +1157,7 @@
 		};
 		5EA2E3D02056F36100416A35 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5E086DBF2051C5A7004D8D25 /* PlaygroundBook */;
+			target = 5E086DBF2051C5A7004D8D25 /* CalliopePlaygroundBook */;
 			targetProxy = 5EA2E3CF2056F36100416A35 /* PBXContainerItemProxy */;
 		};
 		5EA2E3D22056F36300416A35 /* PBXTargetDependency */ = {
@@ -1531,7 +1536,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5E086DC52051C5A7004D8D25 /* Build configuration list for PBXNativeTarget "PlaygroundBook" */ = {
+		5E086DC52051C5A7004D8D25 /* Build configuration list for PBXNativeTarget "CalliopePlaygroundBook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5E086DC32051C5A7004D8D25 /* Debug */,
@@ -1540,7 +1545,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5E2A7AE0204F611300F4E17A /* Build configuration list for PBXProject "PlaygroundBook" */ = {
+		5E2A7AE0204F611300F4E17A /* Build configuration list for PBXProject "CalliopePlaygroundBook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5E2A7AE1204F611300F4E17A /* Debug */,

@@ -17,7 +17,7 @@ public final class BookProgramCommandVariables: ProgramBase, Program {
 		}
 
 		guard age < 200 else {
-			return (.fail(hints: ["bookProgramCommandVariables.hintTooOld"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandVariables.hintTooOld".localized], solution: solution), nil)
 		}
 
 		let p = BookProgramCommandVariables()
@@ -33,7 +33,7 @@ public final class BookProgramCommandVariables: ProgramBase, Program {
     public func build() -> ProgramBuildResult {
 
         let notify_display: [UInt8] = [
-            movi16(NotificationAddress.display.rawValue, .r4) +
+            movi16(DashboardItemType.Display.rawValue, .r4) +
             notify(address: .r4, value: .r4)
         ].flatMap { $0 }
 

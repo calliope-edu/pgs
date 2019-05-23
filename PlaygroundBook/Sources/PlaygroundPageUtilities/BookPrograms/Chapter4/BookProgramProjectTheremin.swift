@@ -32,7 +32,7 @@ public final class BookProgramProjectTheremin: ProgramBase, Program {
             // f = brightness * freq + off
             brightness(.r2),
 
-			movi16(NotificationAddress.light.rawValue, .r4),
+			movi16(DashboardItemType.Brightness.rawValue, .r4),
 			notify(address: .r4, value: .r2),
 
 			mov(.r2, .r0),
@@ -42,7 +42,7 @@ public final class BookProgramProjectTheremin: ProgramBase, Program {
 				[mul(.r3, .r2),
 				add(.r1, .r2),
 				sound_on(.r2),
-				movi16(NotificationAddress.sound.rawValue, .r4),
+				movi16(DashboardItemType.Sound.rawValue, .r4),
 				notify(address: .r4, value: .r4)]
 					.flatMap {$0 },
 				onFalse:

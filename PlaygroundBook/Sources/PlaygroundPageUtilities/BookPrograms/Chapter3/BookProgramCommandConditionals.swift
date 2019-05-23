@@ -15,23 +15,23 @@ public final class BookProgramCommandConditionals: ProgramBase, Program {
 		}
 
 		guard start > Int16.min else {
-			return (.fail(hints: ["bookProgramCommandConditionals.hintTooLowStart"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandConditionals.hintTooLowStart".localized], solution: solution), nil)
 		}
 
 		guard start < Int16.max - 1 else {
-			return (.fail(hints: ["bookProgramCommandConditionals.hintTooHighStart"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandConditionals.hintTooHighStart".localized], solution: solution), nil)
 		}
 
 		guard stop > Int16.min + 1 else {
-			return (.fail(hints: ["bookProgramCommandConditionals.hintTooLowStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandConditionals.hintTooLowStop".localized], solution: solution), nil)
 		}
 
 		guard stop < Int16.max else {
-			return (.fail(hints: ["bookProgramCommandConditionals.hintTooHighStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandConditionals.hintTooHighStop".localized], solution: solution), nil)
 		}
 
 		guard start < stop else {
-			return (.fail(hints: ["bookProgramCommandConditionals.startNotLowerStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandConditionals.startNotLowerStop".localized], solution: solution), nil)
 		}
 
 		guard let r = Int(values[2]) else {
@@ -44,7 +44,7 @@ public final class BookProgramCommandConditionals: ProgramBase, Program {
 			return (.fail(hints: ["bookProgramCommandConditionals.hintNoAsciiTextTrue".localized], solution: solution), nil)
 		}
 
-		let s2 = values[3]
+		let s2 = values[4]
 		guard s2.unicodeScalars.reduce(true, { (isAscii, char) in isAscii && char.isASCII }) else {
 			//user can accidentially input characters that cannot be displayed
 			return (.fail(hints: ["bookProgramCommandConditionals.hintNoAsciiTextFalse".localized], solution: solution), nil)
@@ -81,22 +81,20 @@ public final class BookProgramCommandConditionals: ProgramBase, Program {
 
             cmpi16(Gesture.shake.rawValue, .r0),
             rne(),
-            movi16(NotificationAddress.shake.rawValue, .r4),
+            movi16(DashboardItemType.Shake.rawValue, .r4),
             notify(address: .r4, value: .r4),
 
-            movi16(start, .r1),
-            movi16(stop + 1, .r2),
-            sub(.r1, .r2),
-            random(.r2),
-            add(.r1, .r2),
+			movi16(DashboardItemType.Display.rawValue, .r4),
+			notify(address: .r4, value: .r4),
 
-            movi16(NotificationAddress.display.rawValue, .r4),
-            notify(address: .r4, value: .r4),
+			movi16(start, .r1),
+			movi16(stop + 1, .r2),
+			sub(.r1, .r2),
+			random(.r2),
+			add(.r1, .r2),
 
-            cmpi16(r, .r2),
-            bne(Int8(printTrue.count)),
-            printTrue +
-            printFalse
+			cmpi16(r, .r2),
+			beq(onTrue: printTrue, onFalse: printFalse)
 
         ].flatMap { $0 }
 

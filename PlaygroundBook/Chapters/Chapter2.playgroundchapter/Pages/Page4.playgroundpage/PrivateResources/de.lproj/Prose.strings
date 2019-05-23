@@ -18,8 +18,8 @@ Die  Funktion `onPin`, beschreibt das Touch-Pin-Ereignis, wenn ein Pin berührt 
 
 Lies dir die Code-Zeilen durch und versuche, die einzelnen Befehle zu verstehen.
 
-1. Tap `miniColor` to change the color.
-2. Use the other options in the suggestion bar to select a color.
-3. Tap Run My Code.
+1. Tippe auf `miniColor` um die Farbe zu ändern.
+2. Nutze zum Auswählen der Farbe die Vorschläge in der Leiste über der Tastatur.
+3. Tippe auf \"Meinen Code ausführen\".
 
 ";

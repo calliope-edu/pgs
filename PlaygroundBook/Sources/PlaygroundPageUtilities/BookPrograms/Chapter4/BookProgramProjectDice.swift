@@ -11,11 +11,15 @@ public final class BookProgramProjectDice: ProgramBase, Program {
 		}
 
 		guard start == 1 else {
-			return (.fail(hints: ["bookProgramProjectDice.startNotOneFirstHint", "bookProgramProjectDice.startNotOneSecondHint"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectDice.startNotOneFirstHint".localized, "bookProgramProjectDice.startNotOneSecondHint".localized], solution: solution), nil)
 		}
 
 		guard let stop = Int(values[1]) else {
 			return (.fail(hints: [], solution: ""), nil)
+		}
+
+		guard stop < Int16.max else {
+			return (.fail(hints: ["bookProgramProjectDice.hintTooHighStop".localized], solution: solution), nil)
 		}
 
 		guard let freq = miniSound(from: values[2]) else {
@@ -27,10 +31,10 @@ public final class BookProgramProjectDice: ProgramBase, Program {
 		}
 
 		guard delay > 100 else {
-			return (.fail(hints: ["bookProgramProjectDice.hintTooShortSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectDice.hintTooShortSleep".localized], solution: solution), nil)
 		}
 		guard delay < 30000 else {
-			return (.fail(hints: ["bookProgramProjectDice.hintTooLongSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramProjectDice.hintTooLongSleep".localized], solution: solution), nil)
 		}
 
 		let p = BookProgramProjectDice()
@@ -54,7 +58,7 @@ public final class BookProgramProjectDice: ProgramBase, Program {
 
             cmpi16(Gesture.shake.rawValue, .r0),
             rne(),
-            movi16(NotificationAddress.shake.rawValue, .r4),
+            movi16(DashboardItemType.Shake.rawValue, .r4),
             notify(address: .r4, value: .r4),
 
             movi16(start, .r1),
@@ -63,7 +67,7 @@ public final class BookProgramProjectDice: ProgramBase, Program {
             random(.r2),
             add(.r1, .r2),
 
-            movi16(NotificationAddress.sound.rawValue, .r4),
+            movi16(DashboardItemType.Sound.rawValue, .r4),
             notify(address: .r4, value: .r4),
 
             movi16(frequency, .r0),
@@ -72,7 +76,7 @@ public final class BookProgramProjectDice: ProgramBase, Program {
             sleep(.r0),
             sound_off(),
 
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
             showNumber(.r2),
 

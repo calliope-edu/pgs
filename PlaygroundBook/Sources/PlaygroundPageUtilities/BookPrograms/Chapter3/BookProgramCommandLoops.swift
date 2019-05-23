@@ -11,11 +11,11 @@ public final class BookProgramCommandLoops: ProgramBase, Program {
 		}
 
 		guard start > Int16.min else {
-			return (.fail(hints: ["bookProgramCommandLoops.hintTooLowStart"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandLoops.hintTooLowStart".localized], solution: solution), nil)
 		}
 
 		guard start < Int16.max - 1 else {
-			return (.fail(hints: ["bookProgramCommandLoops.hintTooHighStart"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandLoops.hintTooHighStart".localized], solution: solution), nil)
 		}
 
 		guard let stop = Int(values[1]) else {
@@ -23,15 +23,15 @@ public final class BookProgramCommandLoops: ProgramBase, Program {
 		}
 
 		guard stop > Int16.min + 1 else {
-			return (.fail(hints: ["bookProgramCommandLoops.hintTooLowStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandLoops.hintTooLowStop".localized], solution: solution), nil)
 		}
 
 		guard stop < Int16.max else {
-			return (.fail(hints: ["bookProgramCommandLoops.hintTooHighStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandLoops.hintTooHighStop".localized], solution: solution), nil)
 		}
 
 		guard start < stop else {
-			return (.fail(hints: ["bookProgramCommandLoops.startNotLowerStop"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandLoops.startNotLowerStop".localized], solution: solution), nil)
 		}
 
 		guard let delay = UInt16(values[2]) else {
@@ -39,10 +39,10 @@ public final class BookProgramCommandLoops: ProgramBase, Program {
 		}
 
 		guard delay > 100 else {
-			return (.fail(hints: ["bookProgramCommandLoops.hintTooShortSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandLoops.hintTooShortSleep".localized], solution: solution), nil)
 		}
 		guard delay < 30000 else {
-			return (.fail(hints: ["bookProgramCommandLoops.hintTooLongSleep"], solution: solution), nil)
+			return (.fail(hints: ["bookProgramCommandLoops.hintTooLongSleep".localized], solution: solution), nil)
 		}
 
 		let p = BookProgramCommandLoops()
@@ -66,7 +66,7 @@ public final class BookProgramCommandLoops: ProgramBase, Program {
             movi16(stop, .r2),
             movi16(1, .r3),
 
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
             showNumber(.r1),
             sleep(.r0),

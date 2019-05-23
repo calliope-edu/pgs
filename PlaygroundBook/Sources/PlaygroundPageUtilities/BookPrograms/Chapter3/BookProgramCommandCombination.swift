@@ -58,7 +58,7 @@ public final class BookProgramCommandCombination: ProgramBase, Program {
         let code: [UInt8] = [
 
             // show arrow
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
             movi16(arrow.rawValue, .r0),
             showImage(.r0),
@@ -68,7 +68,7 @@ public final class BookProgramCommandCombination: ProgramBase, Program {
             mov(.r1, .r0),
             button(.r0),
             beq(-7),
-            movi16(NotificationAddress.buttonA.rawValue, .r4),
+            movi16(DashboardItemType.ButtonA.rawValue, .r4),
             notify(address: .r4, value: .r4),
             mov(.r1, .r0),
             button(.r0),
@@ -92,7 +92,7 @@ public final class BookProgramCommandCombination: ProgramBase, Program {
             jsr(116),
 
             // show question
-            movi16(NotificationAddress.display.rawValue, .r4),
+            movi16(DashboardItemType.Display.rawValue, .r4),
             notify(address: .r4, value: .r4),
             showText("?"),
 
@@ -140,7 +140,7 @@ public final class BookProgramCommandCombination: ProgramBase, Program {
             pin(.r0),
             bne(2),
             bra(-46),
-            movi16(NotificationAddress.pin.rawValue, .r0),
+            movi16(DashboardItemType.Pin.rawValue, .r0),
             notify(address: .r0, value: .r4),
             // wait for pin up
             mov(.r4, .r0),
@@ -165,7 +165,7 @@ public final class BookProgramCommandCombination: ProgramBase, Program {
             rgb_on(color: color2),
             bra(5),
             rgb_on(color: color3),
-            movi16(NotificationAddress.rgb.rawValue, .r4),
+            movi16(DashboardItemType.RGB.rawValue, .r4),
             notify(address: .r4, value: .r4),
             movi16(delay1, .r4),
             sleep(.r4),

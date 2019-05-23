@@ -24,7 +24,7 @@ public final class BookProgramOutputRGB: ProgramBase, Program {
 
 		let code: [UInt8] = [
 
-			movi16(NotificationAddress.rgb.rawValue, .r4),
+			movi16(DashboardItemType.RGB.rawValue, .r4),
 			notify(address: .r4, value: .r4),
 			rgb_on(color: color),
 

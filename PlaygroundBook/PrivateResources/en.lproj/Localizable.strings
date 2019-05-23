@@ -5,7 +5,7 @@
 "result.upload.success" = "Program uploaded.";
 
 "alert.notconnected.title" = "Your Calliope mini is not connected.";
-"alert.notconnected.button" = "Hmmm, OK";
+"alert.notconnected.button" = "Got it!";
 "ble.name.unknown" = "Unknown";
 
 "page.hint1" = "Hint 1";
@@ -101,6 +101,7 @@
 "bookProgramCommandConditionals.hintNoAsciiTextTrue" = "Are you using Emojis, non-english letters or special symbols?";
 "bookProgramProjectDice.startNotOneFirstHint" = "What is the smallest number on a standard dice?";
 "bookProgramProjectDice.hintTooShortSleep" = "Can you see anything faster than a tenth of a second?";
+"bookProgramCommandLoops.hintTooHighStop" = "Too high maximum";
 "bookProgramProjectRockPaperScissors.hintTooShortSleep" = "Can you see anything faster than a tenth of a second?";
 "bookProgramProjectClap.hintTooLowClapThreshold" = "Silence is no clapping";
 "bookProgramProjectThermometer.hintTemperatureNotBetween0And100" = "You should neither freeze nor boil your Calliope!";
