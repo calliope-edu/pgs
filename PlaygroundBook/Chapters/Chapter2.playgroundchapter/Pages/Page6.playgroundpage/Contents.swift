@@ -52,6 +52,10 @@ func onShake() {
     sound.on(note: /*#-editable-code*/.<#T##miniSound##miniSound#>/*#-end-editable-code*/)
 }
 
+func onPin(pin: UInt16) {
+	display.show(number: pin)
+}
+
 //#-hidden-code
 //#-editable-code Tap to write your code
 //#-end-editable-code
