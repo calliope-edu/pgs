@@ -27,17 +27,6 @@ extension NotificationCenter {
     }
 }
 
-extension Array where Element: Equatable {
-    
-    // Remove first collection element that is equal to the given `object`:
-    mutating func remove(object: Element) -> Element? {
-        if let index = index(of: object) {
-            return remove(at: index)
-        }
-        return nil
-    }
-}
-
 //MARK: observe all
 class NotificationCenterCatchAll {
     private static var catchAllTocken:NotificationToken?

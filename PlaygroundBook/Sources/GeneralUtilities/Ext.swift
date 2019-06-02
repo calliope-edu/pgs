@@ -7,6 +7,17 @@
 
 import UIKit
 
+extension Array where Element: Equatable {
+
+	// Remove first collection element that is equal to the given `object`:
+	mutating func remove(object: Element) -> Element? {
+		if let index = index(of: object) {
+			return remove(at: index)
+		}
+		return nil
+	}
+}
+
 extension Character {
 	var ascii: UInt8 {
 		return UInt8(String(self).unicodeScalars.first!.value)
