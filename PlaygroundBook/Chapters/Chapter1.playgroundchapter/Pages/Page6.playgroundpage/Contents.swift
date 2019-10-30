@@ -15,10 +15,5 @@ playgroundPrologue()
 sound.on(note: /*#-editable-code*/.<#T##miniSound##miniSound#>/*#-end-editable-code*/)
 
 //#-hidden-code
-//#-editable-code Tap to write your code
-//#-end-editable-code
-//#-end-hidden-code
-
-//#-hidden-code
 playgroundEpilogue( BookProgramOutputSound.assessment )
 //#-end-hidden-code

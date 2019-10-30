@@ -57,10 +57,5 @@ func onPin(pin: UInt16) {
 }
 
 //#-hidden-code
-//#-editable-code Tap to write your code
-//#-end-editable-code
-//#-end-hidden-code
-
-//#-hidden-code
 playgroundEpilogue( BookProgramInputCombination.assessment )
 //#-end-hidden-code

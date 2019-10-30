@@ -13,10 +13,5 @@ playgroundPrologue()
 display.show(text: "/*#-editable-code*/<#T##string##String#>/*#-end-editable-code*/")
 
 //#-hidden-code
-//#-editable-code Tap to write your code
-//#-end-editable-code
-//#-end-hidden-code
-
-//#-hidden-code
 playgroundEpilogue( BookProgramOutputString.assessment )
 //#-end-hidden-code

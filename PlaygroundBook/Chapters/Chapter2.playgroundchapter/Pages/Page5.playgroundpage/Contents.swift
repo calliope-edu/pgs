@@ -15,10 +15,5 @@ func onShake() {
 }
 
 //#-hidden-code
-//#-editable-code Tap to write your code
-//#-end-editable-code
-//#-end-hidden-code
-
-//#-hidden-code
 playgroundEpilogue( BookProgramInputShake.assessment )
 //#-end-hidden-code

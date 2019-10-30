@@ -16,11 +16,6 @@ playgroundPrologue()
 display.show(image: /*#-editable-code*/.<#T##miniImage##miniImage#>/*#-end-editable-code*/)
 
 //#-hidden-code
-//#-editable-code Tap to write your code
-//#-end-editable-code
-//#-end-hidden-code
-
-//#-hidden-code
 playgroundEpilogue( BookProgramOutputImage.assessment )
 //#-end-hidden-code
 

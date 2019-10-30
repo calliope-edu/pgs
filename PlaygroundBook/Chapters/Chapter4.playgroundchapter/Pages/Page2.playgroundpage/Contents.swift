@@ -30,10 +30,5 @@ func forever() {
 }
 
 //#-hidden-code
-//#-editable-code Tap to write your code
-//#-end-editable-code
-//#-end-hidden-code
-
-//#-hidden-code
 playgroundEpilogue( BookProgramProjectRockPaperScissors.assessment )
 //#-end-hidden-code
