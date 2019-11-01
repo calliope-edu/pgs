@@ -213,11 +213,13 @@
             </subviews>
             <constraints>
                 <constraint firstItem="8Mg-uQ-ymC" firstAttribute="top" secondItem="Jtp-F2-msj" secondAttribute="top" id="0xa-tW-6uh"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="8Mg-uQ-ymC" secondAttribute="trailing" id="3ZA-gc-shh"/>
                 <constraint firstAttribute="bottom" secondItem="PqA-Zc-6Vr" secondAttribute="bottom" priority="999" id="3aq-Jl-3qV"/>
                 <constraint firstAttribute="leading" secondItem="8Mg-uQ-ymC" secondAttribute="leading" id="EHw-Xa-gNm"/>
                 <constraint firstItem="PqA-Zc-6Vr" firstAttribute="leading" secondItem="Jtp-F2-msj" secondAttribute="leading" id="PYM-Ap-fPZ"/>
                 <constraint firstAttribute="trailing" secondItem="PqA-Zc-6Vr" secondAttribute="trailing" priority="999" id="QFu-Ko-Jon"/>
                 <constraint firstItem="8Mg-uQ-ymC" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Ded-2l-SCP" secondAttribute="leading" priority="754" constant="-8" id="Zae-LS-GGR"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="8Mg-uQ-ymC" secondAttribute="bottom" id="ryY-JU-sHf"/>
                 <constraint firstItem="PqA-Zc-6Vr" firstAttribute="top" secondItem="Jtp-F2-msj" secondAttribute="top" id="x4t-Ms-cbg"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>

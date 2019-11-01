@@ -108,11 +108,13 @@
             </subviews>
             <constraints>
                 <constraint firstItem="gsw-XM-54G" firstAttribute="top" secondItem="zs4-zm-gk9" secondAttribute="top" id="7rf-1A-RoD"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="zs4-zm-gk9" secondAttribute="bottom" id="AOm-rV-gPJ"/>
                 <constraint firstItem="zs4-zm-gk9" firstAttribute="trailing" secondItem="gsw-XM-54G" secondAttribute="trailing" id="ND3-X5-obv"/>
                 <constraint firstItem="zs4-zm-gk9" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="PAp-vc-EJH"/>
                 <constraint firstAttribute="bottom" secondItem="gsw-XM-54G" secondAttribute="bottom" priority="999" id="PbS-RY-Jrc"/>
                 <constraint firstItem="gsw-XM-54G" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" priority="999" id="QsD-an-4u5"/>
                 <constraint firstItem="zs4-zm-gk9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NBD-O3-ICc" secondAttribute="trailing" priority="755" constant="8" id="UPF-6s-f2d"/>
+                <constraint firstItem="zs4-zm-gk9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="nAC-AS-hBZ"/>
                 <constraint firstAttribute="trailing" secondItem="zs4-zm-gk9" secondAttribute="trailing" id="qcz-nd-m3k"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>

@@ -18,10 +18,5 @@ func onButtonA() {
 }
 
 //#-hidden-code
-//#-editable-code Tap to write your code
-//#-end-editable-code
-//#-end-hidden-code
-
-//#-hidden-code
 playgroundEpilogue( BookProgramInputButtonA.assessment )
 //#-end-hidden-code

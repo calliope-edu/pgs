@@ -15,10 +15,5 @@ playgroundPrologue()
 rgb.on(color: /*#-editable-code*/.<#T##miniColor##miniColor#>/*#-end-editable-code*/)
 
 //#-hidden-code
-//#-editable-code Tap to write your code
-//#-end-editable-code
-//#-end-hidden-code
-
-//#-hidden-code
 playgroundEpilogue( BookProgramOutputRGB.assessment )
 //#-end-hidden-code
