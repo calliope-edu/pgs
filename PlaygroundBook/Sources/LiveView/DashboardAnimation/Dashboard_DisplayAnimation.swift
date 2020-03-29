@@ -78,19 +78,18 @@ class Dashboard_DisplayAnimation: UIView_DashboardItemAnimation, CAAnimationDele
             let xdelay = delayTime * Double(x)
             for y in 0...len {
                 let ydelay = xdelay + (delayTime * Double(y))
-                delay(time: ydelay, { [weak self] in
+                delay(time: ydelay) { [weak self] in
                     self?.matrix[x][y] = true
                     self?.setNeedsDisplay()
                     // reset
-                    delay(time: resetTime, { [weak self] in
+                    delay(time: resetTime) { [weak self] in
                         self?.matrix[x][y] = false
                         self?.setNeedsDisplay()
                         if (x == 4 && y == 4) {
                             completionBlock(true)
                         }
-                    })
-                    
-                })
+                    }
+                }
             }
         }
 	}

@@ -13,6 +13,8 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 	static let instance = TeachingApiImplementation()
 
 	private static let scrollingDelay = 100 //TODO: make constant in some config file
+    
+    public var connectionOpen = false
 
 	//MARK: Variables mirroring calliope state
 
@@ -55,6 +57,27 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 								   [false, false, false, false, false],
 								   [false, false, false, false, false]]
 
+    
+    //MARK: responding to playground page
+    
+    func send(apiCall: ApiResponse) {
+        LogNotify.log("sendig \(apiCall) to page")
+        let data = apiCall.data
+        let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiResponseKey: .data(data)])
+        if connectionOpen {
+            self.send(message)
+        }
+    }
+    
+    func send(apiCall: ApiCallback) {
+        LogNotify.log("sendig \(apiCall) to page")
+        let data = apiCall.data
+        let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiCallbackKey: .data(data)])
+        if connectionOpen {
+            self.send(message)
+        }
+    }
+    
 
 	//MARK: handling commandas and requests from playground page
 
@@ -105,11 +128,11 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 			soundFreq = freq
 			calliope?.setSound(frequency: freq)
 		case .sleep(let time):
-			t = Double(time) / 1000.0
+            t = Double(time) / 1000
 		}
 
 		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + t) {
-			self.send(apiCall: .finished())
+            self.send(apiCall: .finished())
 		}
 	}
 
@@ -154,22 +177,6 @@ class TeachingApiImplementation: PlaygroundLiveViewMessageHandler {
 		DispatchQueue.main.async {
 			self.send(apiCall: response)
 		}
-	}
-
-	//MARK: communicating with playground page
-
-	func send(apiCall: ApiResponse) {
-		LogNotify.log("sendig \(apiCall) to page")
-		let data = apiCall.data
-		let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiResponseKey: .data(data)])
-		self.send(message)
-	}
-
-	func send(apiCall: ApiCallback) {
-		LogNotify.log("sendig \(apiCall) to page")
-		let data = apiCall.data
-		let message: PlaygroundValue = .dictionary([PlaygroundValueKeys.apiCallbackKey: .data(data)])
-		self.send(message)
 	}
 
 

@@ -20,7 +20,7 @@ func applySemaphore<T>(_ semaphore: DispatchSemaphore, _ block: () -> T) -> T {
 	return result
 }
 
-func asyncAndWait<T>(on queue: DispatchQueue, after deadline: DispatchTime? = nil, _ block: @escaping () -> T) -> T {
+func waitForAsyncExecution<T>(on queue: DispatchQueue, after deadline: DispatchTime? = nil, _ block: @escaping () -> T) -> T {
 	var didFinish = false
 	var result: T?
 	let runLoop = CFRunLoopGetCurrent()

@@ -94,14 +94,19 @@ class CalliopeBLEDiscovery<C: CalliopeBLEDevice>: NSObject, CBCentralManagerDele
 				store[BluetoothConstants.lastConnectedKey] = nil
 				return
 			}
-			store[BluetoothConstants.lastConnectedKey] = .dictionary([BluetoothConstants.lastConnectedNameKey: .string(newName),
-													   BluetoothConstants.lastConnectedUUIDKey: .string(newUUIDString)])
+            store[BluetoothConstants.lastConnectedKey] =
+                .dictionary([BluetoothConstants.lastConnectedNameKey: .string(newName),
+                             BluetoothConstants.lastConnectedUUIDKey: .string(newUUIDString)])
 		}
 	}
 
 	override init() {
 		super.init()
 		centralManager.delegate = self
+        //in case the delegate callback for poweredOn was missed, we do the reconnect attempt here
+        if centralManager.state == .poweredOn {
+            attemptReconnect()
+        }
 	}
 
 	private func redetermineState() {

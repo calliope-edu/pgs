@@ -194,11 +194,13 @@ extension ApiCalliopeDashboardViewController: UIGestureRecognizerDelegate {
 extension ApiCalliopeDashboardViewController: PlaygroundLiveViewMessageHandler {
 
 	public func liveViewMessageConnectionOpened() {
+        TeachingApiImplementation.instance.connectionOpen = true
 		// We don't need to do anything in particular when the connection opens.
 		LogNotify.log("live view connection openend")
 	}
 
 	public func liveViewMessageConnectionClosed() {
+        TeachingApiImplementation.instance.connectionOpen = false
 		// We don't need to do anything in particular when the connection closes.
 		LogNotify.log("live view connection closed")
 	}
@@ -211,11 +213,15 @@ extension ApiCalliopeDashboardViewController: PlaygroundLiveViewMessageHandler {
 			if case let .data(callData)? = dict[PlaygroundValueKeys.apiCommandKey],
 				let call = ApiCommand(data: callData) {
 				LogNotify.log("live view received api command \(call)")
-				TeachingApiImplementation.instance.handleApiCommand(call, calliope: connectionView.usageReadyCalliope)
+                DispatchQueue.global(qos: .userInitiated).async {
+                    TeachingApiImplementation.instance.handleApiCommand(call, calliope: self.connectionView.usageReadyCalliope)
+                }
 			} else if case let .data(callData)? = dict[PlaygroundValueKeys.apiRequestKey],
 				let call = ApiRequest(data: callData) {
 				LogNotify.log("live view received api request \(call)")
-				TeachingApiImplementation.instance.handleApiRequest(call, calliope: connectionView.usageReadyCalliope)
+                DispatchQueue.global(qos: .userInitiated).async {
+                    TeachingApiImplementation.instance.handleApiRequest(call, calliope: self.connectionView.usageReadyCalliope)
+                }
 			} else if case let .dictionary(msg) = message,
 				case let .dictionary(notificationInfo)? = msg[DebugConstants.logNotifyName],
 				case let .string(text)? = notificationInfo["message"] {

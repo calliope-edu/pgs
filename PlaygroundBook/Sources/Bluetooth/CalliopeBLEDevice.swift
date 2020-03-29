@@ -200,7 +200,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		try applySemaphore(readWriteSem) {
 			writingCharacteristic = characteristic
 
-			asyncAndWait(on: readWriteQueue) {
+			waitForAsyncExecution(on: readWriteQueue) {
 				//write value and wait for delegate call (or error)
 				self.readWriteGroup = DispatchGroup()
 				self.readWriteGroup!.enter()
@@ -219,6 +219,7 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 				writeError = nil
 				throw error
 			}
+            
 			LogNotify.log("wrote \(characteristic)")
 		}
 	}
@@ -235,11 +236,12 @@ class CalliopeBLEDevice: NSObject, CBPeripheralDelegate {
 		return try applySemaphore(readWriteSem) {
 			readingCharacteristic = characteristic
 
-			asyncAndWait(on: readWriteQueue) {
+			waitForAsyncExecution(on: readWriteQueue) {
 				//read value and wait for delegate call (or error)
 				self.readWriteGroup = DispatchGroup();
 				self.readWriteGroup!.enter()
 				self.peripheral.readValue(for: characteristic)
+                
 				if self.readWriteGroup!.wait(timeout: DispatchTime.now() + BluetoothConstants.readTimeout) == .timedOut {
 					LogNotify.log("read from \(characteristic) timed out")
 					self.readError = CBError(.connectionTimeout)

@@ -129,18 +129,18 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 	private let semaphore = DispatchSemaphore(value: 1)
 	private let deparallelizationGroup = DispatchGroup()
 	private var apiResponse: ApiResponse?
-
-	public func sendCommand(apiCall: ApiCommand) {
-		applySemaphore(semaphore) {
-			sendRequestOrCommandAndWait(.dictionary([PlaygroundValueKeys.apiCommandKey: .data(apiCall.data)]))
-			let value: Bool? = extractApiResponseValue()
-			if value == nil || value! == false {
-				LogNotify.log("api command \(apiCall) failed")
-			}
-		}
-	}
-
-	public func sendRequest<T>(apiCall: ApiRequest) -> T? {
+    
+    public func sendCommand(apiCall: ApiCommand) {
+        applySemaphore(semaphore) {
+            sendRequestOrCommandAndWait(.dictionary([PlaygroundValueKeys.apiCommandKey: .data(apiCall.data)]))
+            let value: Bool? = extractApiResponseValue()
+            if value == nil || value! == false {
+                LogNotify.log("api command \(apiCall) failed")
+            }
+        }
+    }
+    
+    public func sendRequest<T>(apiCall: ApiRequest) -> T? {
 		return applySemaphore(semaphore) {
 			sendRequestOrCommandAndWait(.dictionary([PlaygroundValueKeys.apiRequestKey: .data(apiCall.data)]))
 			let value: T? = extractApiResponseValue()
@@ -155,7 +155,7 @@ final class PlayGroundManager : PlaygroundRemoteLiveViewProxyDelegate {
 			LogNotify.log("cannot send \(message) because there is no liveview")
 			return
 		}
-		asyncAndWait(on: messagingQueue) {
+		waitForAsyncExecution(on: messagingQueue) {
 			self.deparallelizationGroup.enter()
 			proxy.send(message)
 			self.deparallelizationGroup.wait()
