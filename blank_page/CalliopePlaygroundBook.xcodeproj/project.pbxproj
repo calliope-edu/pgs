@@ -790,8 +790,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F47E6DC2469680E0068FD27 /* ManifestPlist.strings in Resources */,
-				2F102766227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib in Resources */,
 				2F47E6BB24695F3D0068FD27 /* Localizable.strings in Resources */,
+				2F47E6BA24695F3A0068FD27 /* EditableFields.strings in Resources */,
+				2F102766227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib in Resources */,
 				2F47E6B724695B730068FD27 /* icon.png in Resources */,
 				2FDC68EE21C6C050001163D3 /* bg.png in Resources */,
 				2F47E6D0246960940068FD27 /* ManifestPlist.strings in Resources */,
@@ -799,7 +800,6 @@
 				9DFC63B4214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				9DFC63B2214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				2FDC68E921C6B426001163D3 /* Assets.xcassets in Resources */,
-				2F47E6BA24695F3A0068FD27 /* EditableFields.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -59,6 +59,7 @@
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
 		2F47E6D6246961940068FD27 /* ManifestPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F47E6D4246961940068FD27 /* ManifestPlist.strings */; };
 		2F47E6D7246961940068FD27 /* ManifestPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F47E6D4246961940068FD27 /* ManifestPlist.strings */; };
+		2F47FA4F247BAFF100846F9B /* ManifestPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F47E6D82469619A0068FD27 /* ManifestPlist.strings */; };
 		2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */; };
 		2F5597D6229163C2008E9D94 /* LocalizationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5597D5229163C2008E9D94 /* LocalizationTest.swift */; };
 		2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
@@ -142,6 +143,8 @@
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*/Manifest.plist";
 			fileType = pattern.proxy;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_NAME)",
@@ -656,7 +659,8 @@
 			children = (
 				2F102768227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib */,
 				2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */,
-				9DFC63B9214F9DAA002FCB75 /* localizations */,
+				9DFC639F214F9CFC002FCB75 /* de.lproj */,
+				9DFC6396214F9CFC002FCB75 /* en.lproj */,
 				2FDC68ED21C6C050001163D3 /* bg.png */,
 				2FDC68EF21C6C0FD001163D3 /* icon.png */,
 				2FDC68E821C6B426001163D3 /* Assets.xcassets */,
@@ -820,15 +824,6 @@
 			path = de.lproj;
 			sourceTree = "<group>";
 		};
-		9DFC63B9214F9DAA002FCB75 /* localizations */ = {
-			isa = PBXGroup;
-			children = (
-				9DFC639F214F9CFC002FCB75 /* de.lproj */,
-				9DFC6396214F9CFC002FCB75 /* en.lproj */,
-			);
-			name = localizations;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -967,14 +962,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F102766227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib in Resources */,
-				2FDC68EE21C6C050001163D3 /* bg.png in Resources */,
-				2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewController.xib in Resources */,
-				9DFC63AA214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				2F47E6D6246961940068FD27 /* ManifestPlist.strings in Resources */,
-				9DFC63B4214F9CFC002FCB75 /* EditableFields.strings in Resources */,
+				9DFC63AA214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				9DFC63AC214F9CFC002FCB75 /* EditableFields.strings in Resources */,
+				2F102766227E2A2A004B8BA1 /* DashBoardConfigurationViewController.xib in Resources */,
 				2FDC68F021C6C0FE001163D3 /* icon.png in Resources */,
+				2FDC68EE21C6C050001163D3 /* bg.png in Resources */,
+				2F47FA4F247BAFF100846F9B /* ManifestPlist.strings in Resources */,
+				2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewController.xib in Resources */,
+				9DFC63B4214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				9DFC63B2214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				2FDC68E921C6B426001163D3 /* Assets.xcassets in Resources */,
 			);
