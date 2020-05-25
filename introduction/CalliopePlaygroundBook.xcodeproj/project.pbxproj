@@ -57,6 +57,8 @@
 		2F1C9A9F220F3A8800E05DD1 /* TeachingApiImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1C9A9E220F3A8800E05DD1 /* TeachingApiImplementation.swift */; };
 		2F27131121FC8B80007A1584 /* DataExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27131021FC8B80007A1584 /* DataExtensionTest.swift */; };
 		2F3874B421CFD0010011A85A /* ConnectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F44603E21CEA403002D15DF /* ConnectionButton.swift */; };
+		2F47E6D6246961940068FD27 /* ManifestPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F47E6D4246961940068FD27 /* ManifestPlist.strings */; };
+		2F47E6D7246961940068FD27 /* ManifestPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F47E6D4246961940068FD27 /* ManifestPlist.strings */; };
 		2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */; };
 		2F5597D6229163C2008E9D94 /* LocalizationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5597D5229163C2008E9D94 /* LocalizationTest.swift */; };
 		2F5A210A2205BE64005E9248 /* PlaygroundValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */; };
@@ -128,14 +130,10 @@
 		9DFC63AB214F9CFC002FCB75 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC6399214F9CFC002FCB75 /* Localizable.strings */; };
 		9DFC63AC214F9CFC002FCB75 /* EditableFields.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC639B214F9CFC002FCB75 /* EditableFields.strings */; };
 		9DFC63AD214F9CFC002FCB75 /* EditableFields.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC639B214F9CFC002FCB75 /* EditableFields.strings */; };
-		9DFC63AE214F9CFC002FCB75 /* ManifestPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC639D214F9CFC002FCB75 /* ManifestPlist.strings */; };
-		9DFC63AF214F9CFC002FCB75 /* ManifestPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC639D214F9CFC002FCB75 /* ManifestPlist.strings */; };
 		9DFC63B2214F9CFC002FCB75 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC63A2214F9CFC002FCB75 /* Localizable.strings */; };
 		9DFC63B3214F9CFC002FCB75 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC63A2214F9CFC002FCB75 /* Localizable.strings */; };
 		9DFC63B4214F9CFC002FCB75 /* EditableFields.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC63A4214F9CFC002FCB75 /* EditableFields.strings */; };
 		9DFC63B5214F9CFC002FCB75 /* EditableFields.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC63A4214F9CFC002FCB75 /* EditableFields.strings */; };
-		9DFC63B6214F9CFC002FCB75 /* ManifestPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC63A6214F9CFC002FCB75 /* ManifestPlist.strings */; };
-		9DFC63B7214F9CFC002FCB75 /* ManifestPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DFC63A6214F9CFC002FCB75 /* ManifestPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -252,6 +250,8 @@
 		2F27131021FC8B80007A1584 /* DataExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTest.swift; sourceTree = "<group>"; };
 		2F288D9321E0230000713CB2 /* Extension_CBUUID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension_CBUUID.swift; sourceTree = "<group>"; };
 		2F44603E21CEA403002D15DF /* ConnectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionButton.swift; sourceTree = "<group>"; };
+		2F47E6D5246961940068FD27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ManifestPlist.strings; sourceTree = "<group>"; };
+		2F47E6D92469619A0068FD27 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ManifestPlist.strings; sourceTree = "<group>"; };
 		2F5597D5229163C2008E9D94 /* LocalizationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTest.swift; sourceTree = "<group>"; };
 		2F5A21092205BE64005E9248 /* PlaygroundValueKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundValueKeys.swift; sourceTree = "<group>"; };
 		2F666BF9222149BE00533040 /* ApiCallEncodings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiCallEncodings.swift; sourceTree = "<group>"; };
@@ -359,10 +359,8 @@
 		8855BA9920A064C4009646CC /* Dashboard_ThermometerAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard_ThermometerAnimation.swift; sourceTree = "<group>"; };
 		9DFC639A214F9CFC002FCB75 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		9DFC639C214F9CFC002FCB75 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = EditableFields.strings; sourceTree = "<group>"; };
-		9DFC639E214F9CFC002FCB75 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ManifestPlist.strings; sourceTree = "<group>"; };
 		9DFC63A3214F9CFC002FCB75 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Localizable.strings; sourceTree = "<group>"; };
 		9DFC63A5214F9CFC002FCB75 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = EditableFields.strings; sourceTree = "<group>"; };
-		9DFC63A7214F9CFC002FCB75 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = ManifestPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -805,9 +803,9 @@
 		9DFC6396214F9CFC002FCB75 /* en.lproj */ = {
 			isa = PBXGroup;
 			children = (
+				2F47E6D4246961940068FD27 /* ManifestPlist.strings */,
 				9DFC6399214F9CFC002FCB75 /* Localizable.strings */,
 				9DFC639B214F9CFC002FCB75 /* EditableFields.strings */,
-				9DFC639D214F9CFC002FCB75 /* ManifestPlist.strings */,
 			);
 			path = en.lproj;
 			sourceTree = "<group>";
@@ -815,9 +813,9 @@
 		9DFC639F214F9CFC002FCB75 /* de.lproj */ = {
 			isa = PBXGroup;
 			children = (
+				2F47E6D82469619A0068FD27 /* ManifestPlist.strings */,
 				9DFC63A2214F9CFC002FCB75 /* Localizable.strings */,
 				9DFC63A4214F9CFC002FCB75 /* EditableFields.strings */,
-				9DFC63A6214F9CFC002FCB75 /* ManifestPlist.strings */,
 			);
 			path = de.lproj;
 			sourceTree = "<group>";
@@ -973,13 +971,12 @@
 				2FDC68EE21C6C050001163D3 /* bg.png in Resources */,
 				2F4DE3C52247E06C00ED3B01 /* MatrixConnectionViewController.xib in Resources */,
 				9DFC63AA214F9CFC002FCB75 /* Localizable.strings in Resources */,
+				2F47E6D6246961940068FD27 /* ManifestPlist.strings in Resources */,
 				9DFC63B4214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				9DFC63AC214F9CFC002FCB75 /* EditableFields.strings in Resources */,
-				9DFC63AE214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 				2FDC68F021C6C0FE001163D3 /* icon.png in Resources */,
 				9DFC63B2214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				2FDC68E921C6B426001163D3 /* Assets.xcassets in Resources */,
-				9DFC63B6214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -988,12 +985,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FDC68F121C6EA64001163D3 /* bg.png in Resources */,
-				9DFC63B7214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
+				2F47E6D7246961940068FD27 /* ManifestPlist.strings in Resources */,
 				9DFC63AB214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				9DFC63B3214F9CFC002FCB75 /* Localizable.strings in Resources */,
 				9DFC63AD214F9CFC002FCB75 /* EditableFields.strings in Resources */,
 				2FDC68F221C6EA66001163D3 /* icon.png in Resources */,
-				9DFC63AF214F9CFC002FCB75 /* ManifestPlist.strings in Resources */,
 				2F102774227E2EC1004B8BA1 /* LiveViewTestAppLaunchScreen.storyboard in Resources */,
 				2FDC68EA21C6B436001163D3 /* Assets.xcassets in Resources */,
 				9DFC63B5214F9CFC002FCB75 /* EditableFields.strings in Resources */,
@@ -1191,6 +1187,22 @@
 			name = LiveViewTestAppLaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		2F47E6D4246961940068FD27 /* ManifestPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F47E6D5246961940068FD27 /* en */,
+			);
+			name = ManifestPlist.strings;
+			sourceTree = "<group>";
+		};
+		2F47E6D82469619A0068FD27 /* ManifestPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F47E6D92469619A0068FD27 /* en */,
+			);
+			name = ManifestPlist.strings;
+			sourceTree = "<group>";
+		};
 		2F4DE3C32247E06C00ED3B01 /* MatrixConnectionViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1217,14 +1229,6 @@
 			name = EditableFields.strings;
 			sourceTree = "<group>";
 		};
-		9DFC639D214F9CFC002FCB75 /* ManifestPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9DFC639E214F9CFC002FCB75 /* en */,
-			);
-			name = ManifestPlist.strings;
-			sourceTree = "<group>";
-		};
 		9DFC63A2214F9CFC002FCB75 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1239,14 +1243,6 @@
 				9DFC63A5214F9CFC002FCB75 /* de */,
 			);
 			name = EditableFields.strings;
-			sourceTree = "<group>";
-		};
-		9DFC63A6214F9CFC002FCB75 /* ManifestPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9DFC63A7214F9CFC002FCB75 /* de */,
-			);
-			name = ManifestPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

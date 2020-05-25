@@ -9,7 +9,7 @@
 	<key>Version</key>
 	<string>4.0</string>
 	<key>ContentVersion</key>
-	<string>2.2</string>
+	<string>2.3</string>
 	<key>ContentIdentifier</key>
 	<string>io.github.calliope-edu.playground.mini</string>
 	<key>DeploymentTarget</key>
