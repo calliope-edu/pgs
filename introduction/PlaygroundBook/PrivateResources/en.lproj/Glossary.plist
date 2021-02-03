@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Terms</key>
+	<dict>
+		<key>Int</key>
+		<dict>
+			<key>Definition</key>
+			<string>ENGLISH A type that stores an integer—a number that has no decimal, such as `10` or `-42`. </string>
+			<key>Title</key>
+			<string>Int</string>
+		</dict>
+		<key>command</key>
+		<dict>
+			<key>Title</key>
+			<string>command</string>
+			<key>Definition</key>
+			<string>ENGLISH Code that tells an application to perform a specific action.</string>
+			<key>FirstUse</key>
+			<dict>
+				<key>PageReference</key>
+				<string>Document1.playgroundchapter/01.playgroundpage</string>
+				<key>Title</key>
+				<string>Example</string>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>

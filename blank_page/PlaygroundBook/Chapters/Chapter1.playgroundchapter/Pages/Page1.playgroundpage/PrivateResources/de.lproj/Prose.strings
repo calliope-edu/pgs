@@ -1,0 +1,10 @@
+/* Localizable Playground Markup */
+/* Prose.strings */
+
+"cc.calliope.miniplaygroundbook.Advanced.FreeProgramming" ="Schreibe ein Programm mit allem was du gelernt hast!
+
+In diesem Kapitel kannst du deinen eigenen Calliope implementieren. Dazu kannst du alle Funktionen aus dem ersten Buch (\"Calliope mini\") verwenden.
+
+Tipp: Versuche mal \"Schrittweise ausführen\" bei dem kleinen Tachosymbol links unten und schau was passiert!
+
+";
